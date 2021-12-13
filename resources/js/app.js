@@ -6,10 +6,35 @@
 
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import { createApp } from 'vue'
+import VueRouter from 'vue-router';
+import ExampleComponent from './components/ExampleComponent'
+import HeaderComponent from './components/HeaderComponent';
+import TaskListComponent from "./components/TaskListComponent";
 
 require('./bootstrap');
 
 window.Vue = require('vue').default;
+
+createApp({
+    components: {
+        ExampleComponent,
+        HeaderComponent,
+    }
+}).mount('#app')
+
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path: '/tasks',
+            name: 'task.list',
+            component: TaskListComponent
+        },
+    ]
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -23,6 +48,7 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('header-component', HeaderComponent);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -32,4 +58,5 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    router
 });

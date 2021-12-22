@@ -64,5 +64,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    console.log("tasklist mounted.");
+  },
+};
 </script>

@@ -4,7 +4,7 @@
       <nav class="navbar navbar-dark">
         <span class="navbar-brand mb-0 h1">Vue Laravel SPA</span>
         <div>
-          <router-link v-bind:to="{ name: 'task.list' }">
+          <router-link to="/tasks">
             <button class="btn btn-success">List</button>
           </router-link>
           <button class="btn btn-success">ADD</button>
@@ -15,5 +15,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    console.log("header mounted.");
+  },
+};
 </script>

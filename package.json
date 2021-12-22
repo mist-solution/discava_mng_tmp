@@ -25,7 +25,7 @@
     },
     "dependencies": {
         "material-design-icons-iconfont": "^6.1.1",
-        "vue-router": "^3.5.3",
+        "vue-router": "^4.0.12",
         "vuetify": "^2.6.1"
     }
 }

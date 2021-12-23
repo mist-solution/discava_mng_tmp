@@ -20,7 +20,7 @@
               class="col-sm-9 form-control-plaintext"
               readonly
               id="title"
-              value="title title"
+              v-bind:value="title"
             />
           </div>
           <div class="form-group row border-bottom">
@@ -30,7 +30,7 @@
               class="col-sm-9 form-control-plaintext"
               readonly
               id="content"
-              value="content content"
+              v-bind:value="Content"
             />
           </div>
           <div class="form-group row border-bottom">
@@ -42,7 +42,7 @@
               class="col-sm-9 form-control-plaintext"
               readonly
               id="person-in-charge"
-              value="Ichiro"
+              v-bind:value="PIC"
             />
           </div>
         </form>
@@ -55,6 +55,15 @@
 export default {
   props: {
     taskId: String,
+    title: String,
+    Content: String,
+    PIC: String,
+  },
+  mounted() {
+    console.log(this.$route.params.taskId);
+    console.log(this.$route.params.title);
+    console.log(this.$route.params.Content);
+    console.log(this.$route.params.PIC);
   },
 };
 </script>

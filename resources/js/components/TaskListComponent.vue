@@ -15,14 +15,30 @@
       <tbody>
         <tr>
           <th scope="row">1</th>
-          <td>Title1</td>
+          <td id="title">Title1</td>
           <td>Content1</td>
           <td>Ichiro</td>
           <td>
-            <button class="btn btn-primary">Show</button>
+            <router-link
+              v-bind:to="{
+                name: 'task.show',
+                params: {
+                  taskId: 1,
+                  title: 'Title1',
+                  Content: 'Content1',
+                  PIC: 'Ichiro',
+                },
+              }"
+            >
+              <button class="btn btn-primary">Show</button>
+            </router-link>
           </td>
           <td>
-            <button class="btn btn-success">Edit</button>
+            <router-link
+              v-bind:to="{ name: 'task.edit', params: { taskId: 1 } }"
+            >
+              <button class="btn btn-success">Edit</button>
+            </router-link>
           </td>
           <td>
             <button class="btn btn-danger">Delete</button>
@@ -30,14 +46,30 @@
         </tr>
         <tr>
           <th scope="row">2</th>
-          <td>Title2</td>
+          <td id="title">Title2</td>
           <td>Content2</td>
           <td>Jiro</td>
           <td>
-            <button class="btn btn-primary">Show</button>
+            <router-link
+              v-bind:to="{
+                name: 'task.show',
+                params: {
+                  taskId: 2,
+                  title: 'Title2',
+                  Content: 'Content2',
+                  PIC: 'Jiro',
+                },
+              }"
+            >
+              <button class="btn btn-primary">Show</button>
+            </router-link>
           </td>
           <td>
-            <button class="btn btn-success">Edit</button>
+            <router-link
+              v-bind:to="{ name: 'task.edit', params: { taskId: 2 } }"
+            >
+              <button class="btn btn-success">Edit</button>
+            </router-link>
           </td>
           <td>
             <button class="btn btn-danger">Delete</button>
@@ -45,14 +77,30 @@
         </tr>
         <tr>
           <th scope="row">3</th>
-          <td>Title3</td>
+          <td id="title">Title3</td>
           <td>Content3</td>
           <td>Saburo</td>
           <td>
-            <button class="btn btn-primary">Show</button>
+            <router-link
+              v-bind:to="{
+                name: 'task.show',
+                params: {
+                  taskId: 3,
+                  title: 'Title3',
+                  Content: 'Content3',
+                  PIC: 'Saburo',
+                },
+              }"
+            >
+              <button class="btn btn-primary">Show</button>
+            </router-link>
           </td>
           <td>
-            <button class="btn btn-success">Edit</button>
+            <router-link
+              v-bind:to="{ name: 'task.edit', params: { taskId: 3 } }"
+            >
+              <button class="btn btn-success">Edit</button>
+            </router-link>
           </td>
           <td>
             <button class="btn btn-danger">Delete</button>
@@ -66,7 +114,7 @@
 <script>
 export default {
   mounted() {
-    console.log("tasklist mounted.");
+    console.log("taskList mounted.");
   },
 };
 </script>

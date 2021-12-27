@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-sm-6">
@@ -20,7 +20,7 @@
               class="col-sm-9 form-control-plaintext"
               readonly
               id="title"
-              v-bind:value="title"
+              value="title title"
             />
           </div>
           <div class="form-group row border-bottom">
@@ -30,7 +30,7 @@
               class="col-sm-9 form-control-plaintext"
               readonly
               id="content"
-              v-bind:value="Content"
+              value="content content"
             />
           </div>
           <div class="form-group row border-bottom">
@@ -42,7 +42,7 @@
               class="col-sm-9 form-control-plaintext"
               readonly
               id="person-in-charge"
-              v-bind:value="PIC"
+              value="Ichiro"
             />
           </div>
         </form>
@@ -55,15 +55,6 @@
 export default {
   props: {
     taskId: String,
-    title: String,
-    Content: String,
-    PIC: String,
-  },
-  mounted() {
-    console.log(this.$route.params.taskId);
-    console.log(this.$route.params.title);
-    console.log(this.$route.params.Content);
-    console.log(this.$route.params.PIC);
   },
 };
 </script>

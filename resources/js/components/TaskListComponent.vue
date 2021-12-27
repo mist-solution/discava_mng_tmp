@@ -24,9 +24,6 @@
                 name: 'task.show',
                 params: {
                   taskId: 1,
-                  title: 'Title1',
-                  Content: 'Content1',
-                  PIC: 'Ichiro',
                 },
               }"
             >
@@ -55,9 +52,6 @@
                 name: 'task.show',
                 params: {
                   taskId: 2,
-                  title: 'Title2',
-                  Content: 'Content2',
-                  PIC: 'Jiro',
                 },
               }"
             >
@@ -86,9 +80,6 @@
                 name: 'task.show',
                 params: {
                   taskId: 3,
-                  title: 'Title3',
-                  Content: 'Content3',
-                  PIC: 'Saburo',
                 },
               }"
             >

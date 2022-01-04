@@ -20,6 +20,10 @@ Route::get('/{any}', function () {
     return view('app');
 })->where('any', '.*');
 
+Route::any('{all}', [HomeController::class, 'index'])
+    ->where('all', '^(?!api).*$')
+    ->where('all', '^(?!storage).*$');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

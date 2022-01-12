@@ -9,6 +9,7 @@ const TaskListComponent = () => import('./components/TaskListComponent')
 const TaskShowComponent = () => import('./components/TaskShowComponent')
 const TaskCreateComponent = () => import('./components/TaskCreateComponent')
 const TaskEditComponent = () => import('./components/TaskEditComponent')
+const QuillEditorComponent = () => import('./components/QuillEditor')
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -49,6 +50,14 @@ const routes = [
         path: '/tasks/:taskId/edit',
         name: 'task.edit',
         component: TaskEditComponent,
+        props: true
+    },
+
+    // QuillEditor
+    {
+        path: '/quilleditor',
+        name: 'quilleditor',
+        component: QuillEditorComponent,
         props: true
     },
 ]

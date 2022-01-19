@@ -3,11 +3,26 @@
   <p>お知らせ管理</p>
   <div>
     <p>ツールバー：FULLタイプ</p>
-    <QuillEditor toolbar="full" />
+    <quill-editor
+      toolbar="full"
+      class="ql-editor"
+      v-model="content"
+      ref="myQuillEditor"
+      :options="editorOption"
+      @blur="onEditorBlur($event)"
+      @focus="onEditorFocus($event)"
+      @change="onEditorChange($event)"
+    >
+    </quill-editor>
+    <div>
+      <button @click="getQuillEditorContent" color="primary">
+        click here to output
+      </button>
+    </div>
   </div>
 
   <div class="ql-editor">
-    <p>ツールバー：カスタマータイプ</p>
+    <!-- <p>ツールバー：カスタマータイプ</p>
     <QuillEditor
       toolbar="#my-toolbar"
       class="ql-editor"
@@ -20,7 +35,6 @@
     >
       <template #toolbar>
         <div id="my-toolbar">
-          <!-- Add buttons as you would before -->
           <button class="ql-bold"></button>
           <button class="ql-italic"></button>
           <button class="ql-underline"></button>
@@ -67,16 +81,14 @@
       <button @click="getQuillEditorContent" color="primary">
         click here to output
       </button>
-    </div>
+    </div> -->
   </div>
 
   <div>
     <div style="height: 500px; width: 700px">
-      <div class="quill-editor">
-        <div class="ql-container">
-          <p>---OUTPUT AREA---</p>
-          <div class="ql-editor" v-html="content"></div>
-        </div>
+      <div class="ql-container">
+        <p>---OUTPUT AREA---</p>
+        <div class="ql-editor" v-html="this.contentHtml"></div>
       </div>
     </div>
   </div>
@@ -85,16 +97,18 @@
 <script>
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
 export default {
   components: {
     QuillEditor,
   },
   data() {
     return {
-      content: "",
-      options: {
-        placeholder: "入力エリア",
-      },
+      content: "<h2>I am Example</h2>",
+      editorOption: {},
+      contentHtml: this.contentHtml,
     };
   },
   methods: {
@@ -104,12 +118,15 @@ export default {
     onEditorChange() {},
     getQuillEditorContent() {
       // console.log(this.content);
-      console.log(this.$refs.myQuillEditor.getContents());
+      // console.log(this.$refs.myQuillEditor.getHTML());
+      const contentHtml = this.$refs.myQuillEditor.getHTML();
+      console.log(contentHtml);
+      return contentHtml;
     },
   },
   computed: {
     editor() {
-      return this.$refs.myQuillEditor;
+      return this.$refs.myQuillEditor.quill;
     },
   },
 };
@@ -121,6 +138,6 @@ export default {
 }
 
 .ql-container {
-  height: 400px;
+  height: 200px;
 }
 </style>

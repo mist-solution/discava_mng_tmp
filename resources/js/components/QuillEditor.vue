@@ -3,7 +3,7 @@
   <p>お知らせ管理</p>
   <div>
     <p>ツールバー：FULLタイプ</p>
-    <quill-editor
+    <QuillEditor
       toolbar="full"
       class="ql-editor"
       v-model="content"
@@ -13,16 +13,16 @@
       @focus="onEditorFocus($event)"
       @change="onEditorChange($event)"
     >
-    </quill-editor>
+    </QuillEditor>
     <div>
-      <button @click="getQuillEditorContent" color="primary">
-        click here to output
+      <button class="btn btn-primary" @click="getQuillEditorContent()">
+        クリックしてアウトプットする
       </button>
     </div>
   </div>
 
-  <div class="ql-editor">
-    <!-- <p>ツールバー：カスタマータイプ</p>
+  <!-- <div class="ql-editor">
+    <p>ツールバー：カスタマータイプ</p>
     <QuillEditor
       toolbar="#my-toolbar"
       class="ql-editor"
@@ -39,8 +39,6 @@
           <button class="ql-italic"></button>
           <button class="ql-underline"></button>
           <button class="ql-strike"></button>
-          <button class="ql-blockquote"></button>
-          <button class="ql-code-block"></button>
           <button class="ql-link"></button>
           <button class="ql-video"></button>
           <button class="ql-image"></button>
@@ -77,20 +75,15 @@
         </div>
       </template>
     </QuillEditor>
-    <div>
-      <button @click="getQuillEditorContent" color="primary">
-        click here to output
-      </button>
-    </div> -->
-  </div>
+  </div> -->
 
-  <div>
-    <div style="height: 500px; width: 700px">
-      <div class="ql-container">
-        <p>---OUTPUT AREA---</p>
-        <div class="ql-editor" v-html="this.contentHtml"></div>
-      </div>
-    </div>
+  <div class="ql-container">
+    <p>---お知らせ詳細---</p>
+    <div
+      class="ql-editor"
+      v-html="content"
+      @change="getQuillEditorContent()"
+    ></div>
   </div>
 </template>
 
@@ -104,22 +97,31 @@ export default {
   },
   data() {
     return {
-      content: "<h2>I am Example</h2>",
+      content: "表示エリア",
       editorOption: {},
-      contentHtml: this.contentHtml,
     };
   },
   methods: {
-    onEditorReady(editor) {},
-    onEditorBlur() {},
-    onEditorFocus() {},
+    onEditorBlur(editor) {
+      console.log("editor blur!", editor);
+    },
+    onEditorFocus(editor) {
+      console.log("editor focus!", editor);
+    },
+    onEditorReady(editor) {
+      console.log("editor ready!", editor);
+    },
     onEditorChange() {},
-    getQuillEditorContent() {
-      // console.log(this.content);
-      // console.log(this.$refs.myQuillEditor.getHTML());
-      const contentHtml = this.$refs.myQuillEditor.getHTML();
-      console.log(contentHtml);
-      return contentHtml;
+
+    // リッチテキストのhtmlを取得
+    getQuillEditorContent(content) {
+      const getQuillEditorContent = this.$refs.myQuillEditor.getHTML();
+      console.log(getQuillEditorContent);
+      if (content) {
+        null;
+      } else {
+        this.content = getQuillEditorContent;
+      }
     },
   },
   computed: {
@@ -132,10 +134,14 @@ export default {
 
 <style lang="scss">
 .edit_container {
-  width: 800px;
+  width: auto;
 }
 
 .ql-container {
   height: 200px;
+}
+
+.ql-editor h2 {
+  border: none;
 }
 </style>

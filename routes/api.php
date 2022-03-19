@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +17,8 @@ use App\Http\Controllers\TaskController;
 //     return $request->user();
 // });
 
-Route::get('/tasks', 'App\Http\Controllers\TaskController@index');
-Route::post('/tasks', 'App\Http\Controllers\TaskController@store');
-Route::get('/tasks/{task}', 'App\Http\Controllers\TaskController@show');
-Route::put('/tasks/{task}', 'App\Http\Controllers\TaskController@update');
-Route::delete('/tasks/{task}', 'App\Http\Controllers\TaskController@destroy');
+Route::get('/tasks', 'TaskController@index');
+Route::post('/tasks', 'TaskController@store');
+Route::get('/tasks/{task}', 'TaskController@show');
+Route::put('/tasks/{task}', 'TaskController@update');
+Route::delete('/tasks/{task}', 'TaskController@destroy');

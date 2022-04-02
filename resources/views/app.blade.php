@@ -18,6 +18,7 @@
     <div id="app">
         <header-component></header-component>
         <!-- <example-component></example-component> -->
+        <vuetify-test></vuetify-test>
         <router-view></router-view>
     </div>
     <!-- Scripts -->

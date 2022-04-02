@@ -1,8 +1,10 @@
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import vuetify from './vuetify'
 import { createApp } from 'vue'
 import HeaderComponent from './components/HeaderComponent';
 import ExampleComponent from './components/ExampleComponent'
+import VuetifyTest from './components/VuetifyTest'
 
 import router from "./router";
 
@@ -20,7 +22,9 @@ const app = createApp({
     components: {
         ExampleComponent,
         HeaderComponent,
+        VuetifyTest
     }
 });
 app.use(router);
-app.mount('#app')
+app.use(vuetify)
+app.mount('#app');

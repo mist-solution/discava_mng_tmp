@@ -16,10 +16,7 @@
 
 <body>
     <div id="app">
-        <header-component></header-component>
-        <!-- <example-component></example-component> -->
-        <vuetify-test></vuetify-test>
-        <router-view></router-view>
+        <app></app>
     </div>
     <!-- Scripts -->
     <script src="{{ mix('/js/app.js') }}" defer>

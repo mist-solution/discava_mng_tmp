@@ -1,12 +1,25 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-const TaskListComponent = () => import('./components/TaskListComponent')
-const TaskShowComponent = () => import('./components/TaskShowComponent')
-const TaskCreateComponent = () => import('./components/TaskCreateComponent')
-const TaskEditComponent = () => import('./components/TaskEditComponent')
-const QuillEditorComponent = () => import('./components/QuillEditor')
+const TaskListComponent = () =>
+    import ('./components/TaskListComponent')
+const TaskShowComponent = () =>
+    import ('./components/TaskShowComponent')
+const TaskCreateComponent = () =>
+    import ('./components/TaskCreateComponent')
+const TaskEditComponent = () =>
+    import ('./components/TaskEditComponent')
+const QuillEditorComponent = () =>
+    import ('./components/QuillEditor')
+const NewsListComponent = () =>
+    import ('./components/pages/news_list/NewsListPageComponent')
 
 const routes = [
+    // 一覧画面
+    {
+        path: '/',
+        name: 'news.list',
+        component: NewsListComponent
+    },
     // 一覧画面
     {
         path: '/tasks',

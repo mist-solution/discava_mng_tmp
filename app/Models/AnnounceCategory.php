@@ -10,5 +10,6 @@ class AnnounceCategory extends Model
     public function index()
     {
         return Announce::all();
+        
     }
 }

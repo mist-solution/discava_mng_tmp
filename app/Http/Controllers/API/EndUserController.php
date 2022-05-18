@@ -24,7 +24,7 @@ class EndUserController extends Controller
             $userArray = array();
             $userArray['name'] = $value->name;
             $userArray['email'] = $value->email;
-            $userArray['customer_code'] = $value->end_user->customer->code;
+            $userArray['customer_code'] = $value->end_user ? $value->end_user->customer->code : null;
             $userArray['created_at'] = $value->created_at;
             $userArray['updated_at'] = $value->updated_at;
             $userArrays[] = $userArray;

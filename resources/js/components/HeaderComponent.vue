@@ -50,7 +50,8 @@ export default {
             .then(response => {
                 console.log(response);
                 localStorage.removeItem("auth");
-                this.$router.push("/login");
+                window.location.href = "/login"
+                
             })
             .catch(error => {
                 console.log(error);

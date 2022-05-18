@@ -1,22 +1,25 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-const TaskListComponent = () =>
-    import ('./components/TaskListComponent')
-const TaskShowComponent = () =>
-    import ('./components/TaskShowComponent')
-const TaskCreateComponent = () =>
-    import ('./components/TaskCreateComponent')
-const TaskEditComponent = () =>
-    import ('./components/TaskEditComponent')
-const QuillEditorComponent = () =>
-    import ('./components/QuillEditor')
-const NewsListComponent = () =>
-    import ('./components/pages/news_list/NewsListPageComponent')
+const Home = () => import ('./components/Home')
+const TaskListComponent = () => import ('./components/TaskListComponent')
+const TaskShowComponent = () => import ('./components/TaskShowComponent')
+const TaskCreateComponent = () => import ('./components/TaskCreateComponent')
+const TaskEditComponent = () => import ('./components/TaskEditComponent')
+const QuillEditorComponent = () => import ('./components/QuillEditor')
+const NewsListComponent = () => import ('./components/pages/news_list/NewsListPageComponent')
+const EndUserRegistComponent = () => import ('./components/pages/end_user/EndUserRegistComponent')
+const EndUserListComponent = () => import ('./components/pages/end_user/EndUserListComponent')
 
 const routes = [
     // 一覧画面
     {
         path: '/',
+        name: 'home',
+        component: Home
+    },
+    // 一覧画面
+    {
+        path: '/news',
         name: 'news.list',
         component: NewsListComponent
     },
@@ -56,6 +59,18 @@ const routes = [
         name: 'quilleditor',
         component: QuillEditorComponent,
         props: true
+    },
+    // 一覧画面
+    {
+        path: '/enduser/register',
+        name: 'enduser.register',
+        component: EndUserRegistComponent
+    },
+    // ユーザ一覧画面
+    {
+        path: '/enduser',
+        name: 'enduser.list',
+        component: EndUserListComponent
     },
 ]
 

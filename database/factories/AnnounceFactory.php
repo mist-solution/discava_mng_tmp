@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Announce;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use DB;
 
 class AnnounceFactory extends Factory
 {
@@ -15,6 +16,7 @@ class AnnounceFactory extends Factory
      */
     public function definition()
     {
+        $user = DB::table('users')->where('name', 'mistuser')->first();
         return [
             'title' => 'Announce ' . $this->faker->name(),
             'start_date' => $this->faker->dateTime(),
@@ -25,8 +27,8 @@ class AnnounceFactory extends Factory
             'approval_account' => $this->faker->text(),
             'approval_datetime' => $this->faker->dateTime(),
             'del_flg' => false,
-            'add_account' => 1,
-            'upd_account' => 1,
+            'add_account' => $user->id,
+            'upd_account' => $user->id,
         ];
     }
 }

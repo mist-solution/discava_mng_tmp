@@ -4,9 +4,13 @@ import vuetify from './vuetify'
 import vuex from './store/index'
 import { createApp } from 'vue'
 import App from './components/app'
-
 import router from "./router";
-import store from './store'
+import dayjs from 'dayjs'
+import 'dayjs/locale/ja'
+import AxiosPlugin from './plugins/axios';
+
+// ロケール設定
+dayjs.locale('ja')
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -26,4 +30,6 @@ const app = createApp({
 app.use(router);
 app.use(vuex);
 app.use(vuetify)
+app.use(AxiosPlugin)
+app.provide('dayjs', dayjs)
 app.mount('#app');

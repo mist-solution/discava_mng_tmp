@@ -9,9 +9,8 @@
 
             <!-- アプリケーションに適切なgutterを提供 -->
             <v-container fluid>
-
-            <!-- vue-routerを使用する場合 -->
-            <router-view></router-view>
+                <!-- vue-routerを使用する場合 -->
+                <router-view></router-view>
             </v-container>
         </v-main>
 
@@ -35,7 +34,7 @@ export default {
       }
     },
    components: {
-       SideBar, 
+       SideBar,
        HeaderComponent,
    }
 };

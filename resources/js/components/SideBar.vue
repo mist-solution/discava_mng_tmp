@@ -23,6 +23,7 @@ export default {
           linkTo: "news.list",
         },
         { id: 2, title: "ギャラリー管理", icon: "mdi-folder", linkTo: "" },
+        { id: 3, title: "ユーザ一覧", icon: "mdi-folder", linkTo: "enduser.list" },
       ],
       right: null,
     };

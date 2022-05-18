@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\EndUserController;
+use App\Http\Controllers\API\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +24,6 @@ Route::post('/tasks', 'TaskController@store');
 Route::get('/tasks/{task}', 'TaskController@show');
 Route::put('/tasks/{task}', 'TaskController@update');
 Route::delete('/tasks/{task}', 'TaskController@destroy');
-
 Route::get('/announce', 'AnnounceController@getAnnounce');
+Route::get('/enduser', [EndUserController::class, 'index']);
+Route::get('/customer', [CustomerController::class, 'index']);

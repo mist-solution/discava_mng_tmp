@@ -1,6 +1,19 @@
 <template>
   <v-card>
-    <v-card-title class="ml-2" width="80%">お知らせ一覧</v-card-title>
+    <v-card-title class="ml-2" width="80%">
+      <h3 class="h4">お知らせ一覧</h3>
+      <div class="btn-group ml-auto">
+        <router-link v-bind:to="{ name: 'task.list' }">
+          <button class="btn btn-success mr-2">List</button>
+        </router-link>
+        <router-link v-bind:to="{ name: 'task.create' }">
+          <button class="btn btn-success mr-2">ADD</button>
+        </router-link>
+        <router-link v-bind:to="{ name: 'quilleditor' }">
+          <button class="btn btn-success">News</button>
+        </router-link>
+      </div>
+    </v-card-title>
     <v-divider />
     <v-tabs v-model="tab" fixed-tabs class="mx-auto" dark>
       <v-tab value="one">承認済み記事</v-tab>

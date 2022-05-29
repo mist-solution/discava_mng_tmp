@@ -6,11 +6,11 @@
         </v-app-bar>
         <side-bar />
         <v-main>
-
             <!-- アプリケーションに適切なgutterを提供 -->
             <v-container fluid>
                 <!-- vue-routerを使用する場合 -->
                 <router-view></router-view>
+                <snackbar />
             </v-container>
         </v-main>
 
@@ -22,20 +22,12 @@
 <script>
 import SideBar from "./SideBar.vue"
 import HeaderComponent from "./HeaderComponent.vue"
+import Snackbar from './Snackbar.vue'
 export default {
-    data () {
-      return {
-        items: [
-          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-          { title: 'Photos', icon: 'mdi-image' },
-          { title: 'About', icon: 'mdi-help-box' },
-        ],
-        right: null,
-      }
-    },
    components: {
        SideBar,
        HeaderComponent,
+       Snackbar,
    }
 };
 </script>

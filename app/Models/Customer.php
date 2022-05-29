@@ -20,8 +20,8 @@ class Customer extends Model
         'mail',
     ];
 
-    public function end_user()
+    public function users()
     {
-        return $this->hasMany(EndUser::class);
+        return $this->belongsToMany(User::class);
     }
 }

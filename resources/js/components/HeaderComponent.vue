@@ -51,7 +51,6 @@ export default {
                 console.log(response);
                 localStorage.removeItem("auth");
                 window.location.href = "/login"
-                
             })
             .catch(error => {
                 console.log(error);

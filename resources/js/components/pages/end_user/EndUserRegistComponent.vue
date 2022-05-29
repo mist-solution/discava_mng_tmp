@@ -6,23 +6,21 @@
                     <div class="card-header">{{ ('ユーザ登録') }}</div>
 
                     <div class="card-body">
-                        <v-form
-                            ref="form"
-                            v-model="valid"
-                        >
+                        <v-form ref="form" v-model="valid">
                             <v-text-field
-                                v-model="forms.user_id"
+                                dense
+                                v-model="forms.name"
                                 label="ユーザID"
                                 :rules="[rules.required, rules.max_16]"
                             />
-
                             <v-text-field
+                                dense
                                 v-model="forms.email"
                                 label="メールアドレス"
                                 :rules="[rules.required, rules.email]"
                             />
-
                             <v-text-field
+                                dense
                                 v-model="forms.password"
                                 v-bind:type="toggle.type"
                                 @click:append="showPassword = !showPassword"
@@ -30,8 +28,8 @@
                                 label="パスワード"
                                 :rules="[rules.required, rules.password]"
                             />
-
                             <v-text-field
+                                dense
                                 v-model="forms.password_confirmation"
                                 v-bind:type="toggle.confType"
                                 @click:append="showPwdConfirm = !showPwdConfirm"
@@ -39,21 +37,27 @@
                                 label="パスワード確認"
                                 :rules="[rules.required, rules.password]"
                             />
-
                             <v-select
+                                dense
                                 v-model="forms.customer"
+                                :items="customers"
                                 label="顧客"
-                                :items="constant.SELECTS"
-                                item-text=company_name
-                                item-value=code
                                 :rules="[rules.required]"
-                            ></v-select>
-
-                            <v-btn
-                                :disabled="!valid"
-                                color="success"
-                                @click="submit"
-                            >送信</v-btn>
+                            />
+                            <div class="btn-group mr-auto">
+                              <v-btn
+                                  color="info"
+                                  @click="submit"
+                              >送信</v-btn>
+                              <v-btn
+                                  class="ml-1"
+                                  color="secondary"
+                                  @click="reset"
+                              >クリア</v-btn>
+                              <router-link v-bind:to="{ name: 'enduser.list' }">
+                                <button class="btn btn-success ml-1">一覧に戻る</button>
+                              </router-link>
+                            </div>
                         </v-form>
                     </div>
                 </div>
@@ -63,21 +67,20 @@
 </template>
 
 <script>
+  import { mapActions } from "vuex";
   export default {
     data() {
       return {
         valid: true,
         showPassword : false,
         showPwdConfirm : false,
-        constant: {
-          SELECTS: [],
-        },
+        customers: [],
         forms: {
-          user_id: '',
+          name: '',
           email: '',
           password: '',
           password_confirmation:'',
-          customer: '',
+          customer: null,
         },
         rules: {
           required: value => !!value || '必須です。',
@@ -95,19 +98,41 @@
       }
     },
     methods: {
+      ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
       submit() {
-        console.log("submit!")
-        console.log(JSON.stringify(this.forms, null, 2))
-      },
-      getCustomers: function() {
-          this.$axios.get('api/customer')
+        const validateRes = this.$refs.form.validate();
+        validateRes.then(res => {
+          if (!res.valid) {
+            console.log("invalid!");
+            return;
+          }
+          this.$axios.post('api/enduser', this.forms)
               .then(response => {
-                  console.log(JSON.stringify(response.data, null, 2));
-                  this.options = response.data.customers;
+                  this.reset();
+                  this.openSuccess('登録しました');
               })
               .catch(error => {
                   console.log(error);
               });
+        });
+      },
+      getCustomers: function() {
+          this.$axios.get('api/customer')
+              .then(response => {
+                  if (response.data && response.data.customers) {
+                      this.customers = response.data.customers.map(c => {
+                        return c.code;
+                      });
+                  }
+              })
+              .catch(error => {
+                  console.log(error);
+              });
+      },
+      // 入力内容と検証エラーをリセットするメソッド
+      reset() {
+        this.$refs.form.reset();
+        this.forms.customer = null;
       },
     },
     computed: {

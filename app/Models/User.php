@@ -41,8 +41,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function end_user()
+    public function customers()
     {
-        return $this->hasOne(EndUser::class);
+        return $this->belongsToMany(Customer::class);
     }
 }

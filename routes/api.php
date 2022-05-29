@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\EndUserController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +26,6 @@ Route::get('/tasks/{task}', 'TaskController@show');
 Route::put('/tasks/{task}', 'TaskController@update');
 Route::delete('/tasks/{task}', 'TaskController@destroy');
 Route::get('/announce', 'AnnounceController@getAnnounce');
-Route::get('/enduser', [EndUserController::class, 'index']);
+Route::get('/enduser', [UserController::class, 'index']);
 Route::get('/customer', [CustomerController::class, 'index']);
+Route::post('/enduser', [RegisterController::class, 'register']);

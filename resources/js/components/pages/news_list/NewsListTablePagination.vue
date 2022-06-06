@@ -1,5 +1,10 @@
 <template>
-  <v-pagination v-model="page" :length="length"></v-pagination>
+  <v-pagination
+    v-model="page"
+    :length="length"
+    :total-visible="5"
+    border="1px"
+  ></v-pagination>
 </template>
 <script>
 export default {
@@ -15,8 +20,7 @@ export default {
       );
     },
   },
-  metohds: {
-  },
+  methods: {},
   watch: {
     page(value) {
       this.$store.dispatch("news/setDisplayPage", value);

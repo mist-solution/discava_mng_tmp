@@ -4,14 +4,17 @@
       <h3 class="h4">お知らせ一覧</h3>
       <div class="btn-group ml-auto">
         <router-link v-bind:to="{ name: 'task.list' }">
-          <button class="btn btn-success mr-2">List</button>
+          <button class="btn btn-success mr-2">投稿</button>
         </router-link>
-        <router-link v-bind:to="{ name: 'task.create' }">
+        <router-link v-bind:to="{ name: 'task.list' }">
+          <button class="btn btn-success mr-2">TASK List</button>
+        </router-link>
+        <!-- <router-link v-bind:to="{ name: 'task.create' }">
           <button class="btn btn-success mr-2">ADD</button>
         </router-link>
         <router-link v-bind:to="{ name: 'quilleditor' }">
           <button class="btn btn-success">News</button>
-        </router-link>
+        </router-link> -->
       </div>
     </v-card-title>
     <v-divider />
@@ -22,7 +25,7 @@
     </v-tabs>
 
     <v-card-actions>
-        <news-list-action-bar-conponent class="ml-3" />
+      <news-list-action-bar-conponent class="ml-3" />
     </v-card-actions>
 
     <v-card-text>

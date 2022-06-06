@@ -26,6 +26,7 @@ Route::get('/tasks/{task}', 'TaskController@show');
 Route::put('/tasks/{task}', 'TaskController@update');
 Route::delete('/tasks/{task}', 'TaskController@destroy');
 Route::get('/announce', 'AnnounceController@getAnnounce');
+Route::get('/announceSort', 'AnnounceController@getAnnounceSort');
 Route::get('/enduser', [UserController::class, 'index']);
 Route::get('/customer', [CustomerController::class, 'index']);
 Route::post('/enduser', [RegisterController::class, 'register']);

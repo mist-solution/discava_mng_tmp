@@ -22,3 +22,7 @@ Route::get('/', function () {
 })->middleware('auth');
 
 Auth::routes();
+
+Route::get('{any}', function () {
+    return view('app');
+})->where('any', '.*');

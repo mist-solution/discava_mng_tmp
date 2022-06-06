@@ -1,4 +1,7 @@
 <template>
+  <back-to-top-component />
+  {{ displayCheckLength }}
+  {{ this.selected }}
   <v-row v-show="loading">
     <v-col>
       <v-progress-linear
@@ -21,6 +24,10 @@
       <v-card>
         <v-row>
           <v-col :cols="1">
+            <v-checkbox v-model="selected" :value="item.id"></v-checkbox>
+            {{ item.id }}
+          </v-col>
+          <v-col :cols="1">
             <v-img
               :src="item.imageUrl"
               height="125"
@@ -28,13 +35,35 @@
               class="bg-grey-lighten-2"
             ></v-img>
           </v-col>
-          <v-col :cols="11">
+          <v-col :cols="10">
             <v-row>
               <v-col class="mt-3">
-                <v-card-subtitle class="ml-2">{{
-                  item.approval_status
-                }}</v-card-subtitle>
+                <v-card-subtitle class="ml-2">
+                  {{ approvalStatus[item.approval_status]["status"] }}
+                </v-card-subtitle>
                 <v-card-title class="ml-2">{{ item.title }}</v-card-title>
+              </v-col>
+              <v-col :cols="2">
+                <v-menu>
+                  <template v-slot:activator="{ props: menu }">
+                    <v-tooltip location="top">
+                      <template v-slot:activator="{ props: tooltip }">
+                        <v-btn
+                          color="primary"
+                          v-bind="mergeProps(menu, tooltip)"
+                          icon="mdi-dots-horizontal"
+                        >
+                        </v-btn>
+                      </template>
+                      <span>I'm A Tooltip</span>
+                    </v-tooltip>
+                  </template>
+                  <v-list>
+                    <v-list-item v-for="(item, index) in items" :key="index">
+                      <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
               </v-col>
             </v-row>
             <v-row>
@@ -62,46 +91,88 @@
 
 <script>
 import NewsListTablePagination from "./NewsListTablePagination.vue";
+import BackToTopComponent from "../../BackToTopComponent.vue";
+import { mergeProps } from "vue";
 export default {
   components: {
     NewsListTablePagination,
+    BackToTopComponent,
   },
   data() {
     return {
       test: [],
       news: null,
       loading: false,
+      approvalStatus: [
+        { value: "0", status: "未承認" },
+        { value: "1", status: "承認" },
+        { value: "2", status: "差戻し" },
+        { value: "3", status: "否認" },
+      ],
+      items: [
+        { title: "詳細を確認" },
+        { title: "承認する" },
+        { title: "差し戻す" },
+        { title: "削除" },
+      ],
+      selected: [],
     };
   },
   computed: {
     displayLimit() {
       return this.$store.state.news.displayLimit;
     },
+    displaySort() {
+      return this.$store.state.news.displaySort;
+    },
     displayPage() {
       return this.$store.state.news.displayPage;
+    },
+    displayCheckLength: function () {
+      return this.selected.length;
     },
   },
   watch: {
     displayLimit() {
       this.getNewsList();
     },
+    displaySort() {
+      this.getNewsSort();
+    },
     displayPage() {
       this.getNewsList();
     },
   },
   methods: {
+    mergeProps,
     getNewsList() {
       this.loading = true;
       axios
         .get("/api/announce", {
           params: {
             limit: this.$store.state.news.displayLimit,
-            offset: this.$store.state.news.displayLimit * (this.$store.state.news.displayPage - 1),
+            offset:
+              this.$store.state.news.displayLimit *
+              (this.$store.state.news.displayPage - 1),
           },
         })
         .then((res) => {
           this.news = res.data.anounce;
-          this.$store.dispatch('news/setTotalCount', res.data.count)
+          this.$store.dispatch("news/setTotalCount", res.data.count);
+          this.loading = false;
+        });
+    },
+    getNewsSort() {
+      this.loading = true;
+      axios
+        .get("/api/announceSort", {
+          params: {
+            sort: this.$store.state.news.displaySort,
+          },
+        })
+        .then((res) => {
+          this.news = res.data.anounce;
+          this.$store.dispatch("news/setDisplaySort", res.data.sort);
           this.loading = false;
         });
     },

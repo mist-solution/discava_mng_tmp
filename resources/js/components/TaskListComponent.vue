@@ -12,6 +12,9 @@
           <th scope="col">Delete</th>
         </tr>
       </thead>
+      <v-btn @click.stop="display = true" fab dark color="grey"
+        ><v-icon class="mr-2">mdi-magnify</v-icon>検索</v-btn
+      >
       <tbody>
         <tr v-for="(task, index) in tasks" :key="index">
           <th scope="row">{{ task.id }}</th>
@@ -45,6 +48,8 @@
 
 
 <script>
+import "vuetify/styles";
+
 export default {
   props: {
     taskId: String,

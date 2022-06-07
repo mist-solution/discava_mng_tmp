@@ -26,11 +26,16 @@ class Announce extends Model
         return $this->belongsTo(User::class, 'upd_account');
     }
 
-    public static function getAnnounce($offset, $limit)
+    public static function getAnnounce($offset, $limit, $sort)
     {
         $announceModel = Announce::with('upd_account')
-            ->where('del_flg', false)
-            ->orderBy('id');
+            ->where('del_flg', false);
+        
+        if($sort) {
+            $announceModel = $announceModel->orderBy($sort);
+        } else {
+            $announceModel = $announceModel->orderBy('id');
+        }
 
         $announce['count'] = $announceModel
             ->count();
@@ -39,21 +44,7 @@ class Announce extends Model
             ->limit($limit)
             ->offset($offset)
             ->get();
-        return $announce;
-    }
 
-    public static function getAnnounceSort($sort)
-    {
-        $announceModel = Announce::with('upd_account')
-            ->where('del_flg', false)
-            ->orderBy('id');
-        log::info("selected  " . $sort);
-        // $announce['sort'] = $announceModel
-        //     ->sort();
-
-        $announce['anounce'] = $announceModel
-            ->orderBy($sort)
-            ->get();
         return $announce;
     }
 }

@@ -137,7 +137,7 @@ export default {
       this.getNewsList();
     },
     displaySort() {
-      this.getNewsSort();
+      this.getNewsList();
     },
     displayPage() {
       this.getNewsList();
@@ -154,25 +154,12 @@ export default {
             offset:
               this.$store.state.news.displayLimit *
               (this.$store.state.news.displayPage - 1),
-          },
-        })
-        .then((res) => {
-          this.news = res.data.anounce;
-          this.$store.dispatch("news/setTotalCount", res.data.count);
-          this.loading = false;
-        });
-    },
-    getNewsSort() {
-      this.loading = true;
-      axios
-        .get("/api/announceSort", {
-          params: {
             sort: this.$store.state.news.displaySort,
           },
         })
         .then((res) => {
           this.news = res.data.anounce;
-          this.$store.dispatch("news/setDisplaySort", res.data.sort);
+          this.$store.dispatch("news/setTotalCount", res.data.count);
           this.loading = false;
         });
     },

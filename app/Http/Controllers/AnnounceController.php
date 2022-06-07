@@ -13,15 +13,8 @@ class AnnounceController extends Controller
     {
         $limit = $request->input('limit');
         $offset = $request->input('offset');
-        $announce = Announce::getAnnounce($offset, $limit);
-        return $announce;
-    }
-
-    // 並び順
-    public function getAnnounceSort(Request $request)
-    {
         $sort = $request->input('sort');
-        $announce = Announce::getAnnounceSort($sort);
+        $announce = Announce::getAnnounce($offset, $limit, $sort);
         return $announce;
     }
 }

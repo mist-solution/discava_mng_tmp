@@ -39,18 +39,14 @@ class Announce extends Model
 
         if ($newsStatus != "") {
             $announceModel = $announceModel->where('approval_status', $newsStatus);
-            log::info("newsStatus  " . $newsStatus);
         } else {
             $announceModel = $announceModel->orderBy('id');
-            log::info("newsStatus::EMPTY::" . $newsStatus);
         }
 
         if ($newsAddAccount != "") {
             $announceModel = $announceModel->where('add_account', $newsAddAccount);
-            log::info("newsAddAccount  " . $newsAddAccount);
         } else {
             $announceModel = $announceModel->orderBy('id');
-            log::info("newsAddAccount::EMPTY::" . $newsAddAccount);
         }
 
         $announce['count'] = $announceModel

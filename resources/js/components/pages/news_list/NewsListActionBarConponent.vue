@@ -105,7 +105,7 @@ export default {
       this.displaySort = false;
       this.displayLimit = false;
       this.displayCheckAll = false;
-      this.reload();
+      window.location.reload();
     },
   },
   mounted() {},

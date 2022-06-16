@@ -84,14 +84,12 @@ export default {
     // お知らせの承認ステータス
     newsStatus(newsStatus) {
       this.$store.dispatch("news/setDisplayNewsStatus", newsStatus);
-      console.log("newsStatus::  " + newsStatus);
     },
 
     // 自分のアカウントID
     // 仮実装ID：2
     newsAddAccount(newsAddAccount) {
       this.$store.dispatch("news/setDisplayNewsAddAccount", newsAddAccount);
-      console.log("newsAddAccount::  " + newsAddAccount);
     },
   },
 };

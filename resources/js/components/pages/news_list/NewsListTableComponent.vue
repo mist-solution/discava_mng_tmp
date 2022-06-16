@@ -1,9 +1,5 @@
 <template>
   <back-to-top-component />
-  件数：{{ $store.state.news.displayCheckedItems.length }}
-  {{ $store.state.news.displayCheckedItems }}　//　thisの件数：{{
-    this.select.length
-  }}{{ this.select }}
   <v-row v-show="loading">
     <v-col>
       <v-progress-linear

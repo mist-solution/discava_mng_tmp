@@ -14,11 +14,6 @@
       </v-container>
     </v-main>
 
-    <!-- reload -->
-    <div id="app">
-      <router-view v-if="isRouterAlive" />
-    </div>
-
     <v-footer app>
       <!-- -->
     </v-footer>
@@ -29,26 +24,6 @@ import SideBar from "./SideBar.vue";
 import HeaderComponent from "./HeaderComponent.vue";
 import Snackbar from "./Snackbar.vue";
 export default {
-  name: "app",
-  provide() {
-    return {
-      reload: this.reload,
-    };
-  },
-  data() {
-    return {
-      isRouterAlive: true,
-    };
-  },
-  methods: {
-    reload() {
-      console.log("reload occure");
-      this.isRouterAlive = false;
-      this.$nextTick(() => {
-        this.isRouterAlive = true;
-      });
-    },
-  },
   components: {
     SideBar,
     HeaderComponent,

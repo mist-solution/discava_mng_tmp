@@ -8,7 +8,6 @@
       <v-card-actions>
         <v-card-text> 承認するお知らせ </v-card-text>
         <v-card-text>
-          {{ $store.state.news.displayCheckedItems }} ///
           {{ $store.state.news.displayCheckedItems.length }}
         </v-card-text>
         <v-card-text> 件 </v-card-text>
@@ -37,7 +36,7 @@ export default {
         });
 
         axios.put("/api/announce/" + NewsId, this.announce).then((res) => {
-          this.$router.push({ name: "news.list" });
+          console.log(this.$router);
         });
       }
       this.closeAction();

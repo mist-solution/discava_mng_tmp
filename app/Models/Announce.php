@@ -26,15 +26,31 @@ class Announce extends Model
         return $this->belongsTo(User::class, 'upd_account');
     }
 
-    public static function getAnnounce($offset, $limit, $sort)
+    public static function getAnnounce($offset, $limit, $sort, $newsStatus, $newsAddAccount)
     {
         $announceModel = Announce::with('upd_account')
             ->where('del_flg', false);
-        
-        if($sort) {
+
+        if ($sort) {
             $announceModel = $announceModel->orderBy($sort);
         } else {
             $announceModel = $announceModel->orderBy('id');
+        }
+
+        if ($newsStatus != "") {
+            $announceModel = $announceModel->where('approval_status', $newsStatus);
+            log::info("newsStatus  " . $newsStatus);
+        } else {
+            $announceModel = $announceModel->orderBy('id');
+            log::info("newsStatus::EMPTY::" . $newsStatus);
+        }
+
+        if ($newsAddAccount != "") {
+            $announceModel = $announceModel->where('add_account', $newsAddAccount);
+            log::info("newsAddAccount  " . $newsAddAccount);
+        } else {
+            $announceModel = $announceModel->orderBy('id');
+            log::info("newsAddAccount::EMPTY::" . $newsAddAccount);
         }
 
         $announce['count'] = $announceModel

@@ -9,6 +9,19 @@
       <v-container>
         <v-row>
           <v-col cols="12" md="6">
+            <Datepicker
+              v-model="dateBegin"
+              :time-picker-component="timePickerBegin"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <Datepicker
+              v-model="dateEnd"
+              :time-picker-component="timePickerEnd"
+            />
+          </v-col>
+
+          <v-col cols="12" md="6">
             <v-select
               v-model="select"
               :items="items"
@@ -48,12 +61,19 @@
 </template>
 
 <script>
+import Datepicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+import { computed, ref, defineAsyncComponent } from "vue";
+const TimePicker = defineAsyncComponent(() =>
+  import("../../TimePickerComponent.vue")
+);
 export default {
   props: ["display", "closeAction"],
+  components: { Datepicker },
   data() {
     return {
-      select: null,
-      items: [10, 20, 30, 40, 50],
+      dateBegin: null,
+      dateEnd: null,
     };
   },
   methods: {

@@ -6,7 +6,12 @@
         選択したきじの一括承認を行います。内容を確認して「承認」ボタンを押下してください。
       </v-card-text>
       <v-card-actions>
-        <v-card-text> {{ this.selected.length }}件</v-card-text>
+        <v-card-text> 承認するお知らせ </v-card-text>
+        <v-card-text>
+          {{ $store.state.news.displayCheckedItems }} ///
+          {{ $store.state.news.displayCheckedItems.length }}
+        </v-card-text>
+        <v-card-text> 件 </v-card-text>
       </v-card-actions>
       <v-card-actions>
         <v-btn @click="closeAction()">閉じる</v-btn>
@@ -20,16 +25,22 @@
 export default {
   props: ["display", "closeAction"],
   data() {
-    return {
-      selected: [],
-    };
+    return {};
   },
   methods: {
     submitAction() {
-      if (this.select) {
-        this.$store.dispatch("news/setDisplayLimit", this.select);
-        this.closeAction();
+      let getSelectItems = this.$store.state.news.displayCheckedItems;
+      for (var i = 0; i < getSelectItems.length; i++) {
+        const NewsId = getSelectItems[i];
+        axios.get("/api/announce/" + NewsId).then((res) => {
+          this.announce = res.data;
+        });
+
+        axios.put("/api/announce/" + NewsId, this.announce).then((res) => {
+          this.$router.push({ name: "news.list" });
+        });
       }
+      this.closeAction();
     },
   },
   mounted() {},

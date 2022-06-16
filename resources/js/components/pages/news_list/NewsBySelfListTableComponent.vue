@@ -1,9 +1,7 @@
 <template>
   <back-to-top-component />
-  件数：{{ $store.state.news.displayCheckedItems.length }}
-  {{ $store.state.news.displayCheckedItems }}　//　thisの件数：{{
-    this.select.length
-  }}{{ this.select }}
+  {{ displayCheckLength }}
+  {{ this.selected }}
   <v-row v-show="loading">
     <v-col>
       <v-progress-linear
@@ -14,7 +12,7 @@
     </v-col>
   </v-row>
   <v-row v-show="!loading && getNewsLength() == 0">
-    <v-col> お知らせがありません。 </v-col>
+    <v-col> 自分の投稿記事がありません。 </v-col>
   </v-row>
   <v-row
     v-for="item in news"
@@ -26,12 +24,7 @@
       <v-card>
         <v-row>
           <v-col :cols="1">
-            <v-checkbox
-              v-model="select"
-              :value="item.id"
-              @change="setSelectItems"
-              v-if="item.approval_status != 1"
-            ></v-checkbox>
+            <v-checkbox v-model="selected" :value="item.id"></v-checkbox>
             {{ item.id }}
           </v-col>
           <v-col :cols="1">
@@ -46,8 +39,7 @@
             <v-row>
               <v-col class="mt-3">
                 <v-card-subtitle class="ml-2">
-                  {{ approvalStatus[item.approval_status]["status"] }} ///
-                  {{ item.approval_status }}
+                  {{ approvalStatus[item.approval_status]["status"] }}
                 </v-card-subtitle>
                 <v-card-title class="ml-2">{{ item.title }}</v-card-title>
               </v-col>
@@ -105,7 +97,6 @@
 import NewsListTablePagination from "./NewsListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { mergeProps } from "vue";
-
 export default {
   components: {
     NewsListTablePagination,
@@ -128,7 +119,7 @@ export default {
         { title: "差し戻す" },
         { title: "削除" },
       ],
-      select: [],
+      selected: [],
     };
   },
   computed: {
@@ -138,14 +129,14 @@ export default {
     displaySort() {
       return this.$store.state.news.displaySort;
     },
-    displayNewsStatus() {
-      return this.$store.state.news.displayNewsStatus;
-    },
-    displayNewsAddAccount() {
-      return this.$store.state.news.displayNewsAddAccount;
-    },
     displayPage() {
       return this.$store.state.news.displayPage;
+    },
+    displayNewsAddUser() {
+      return this.$store.state.news.displayNewsAddUser;
+    },
+    displayCheckLength: function () {
+      return this.selected.length;
     },
   },
   watch: {
@@ -155,10 +146,7 @@ export default {
     displaySort() {
       this.getNewsList();
     },
-    displayNewsStatus() {
-      this.getNewsList();
-    },
-    displayNewsAddAccount() {
+    displayNewsAddUser() {
       this.getNewsList();
     },
     displayPage() {
@@ -177,8 +165,7 @@ export default {
               this.$store.state.news.displayLimit *
               (this.$store.state.news.displayPage - 1),
             sort: this.$store.state.news.displaySort,
-            newsStatus: this.$store.state.news.displayNewsStatus,
-            newsAddAccount: this.$store.state.news.displayNewsAddAccount,
+            newsAddUser: this.$store.state.news.displayNewsAddUser,
           },
         })
         .then((res) => {
@@ -193,12 +180,6 @@ export default {
       }
       return this.news.length;
     },
-
-    // 選択した記事をstoreに設定
-    setSelectItems() {
-      this.$store.dispatch("news/setDisplayCheckedItems", this.select);
-    },
-
     timestampFormat(timestamp) {
       const date = new Date(timestamp);
       return (
@@ -212,7 +193,6 @@ export default {
   },
   mounted() {
     this.getNewsList();
-    this.setSelectItems();
   },
 };
 </script>

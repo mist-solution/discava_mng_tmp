@@ -84,6 +84,7 @@ import NewsDisplaySortModalComponent from "./NewsDisplaySortModalComponent.vue";
 import NewsDisplayCheckAllModalComponent from "./NewsDisplayCheckAllModalComponent.vue";
 
 export default {
+  inject: ["reload"],
   components: {
     NewsDisplaySearchModalComponent,
     NewsDisplayLimitModalComponent,
@@ -104,6 +105,7 @@ export default {
       this.displaySort = false;
       this.displayLimit = false;
       this.displayCheckAll = false;
+      this.reload();
     },
   },
   mounted() {},

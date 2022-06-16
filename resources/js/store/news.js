@@ -2,14 +2,21 @@ const state = {
     displayLimit: 10,
     displaySort: "id",
     displayPage: 1,
+    displayNewsStatus: 1,
+    displayNewsAddAccount: "",
+    displayCheckedItems: [],
     totalCount: 0,
 }
 const getters = {
     displayLimit: (state) => state.displayLimit,
     displaySort: (state) => state.displaySort,
     displayPage: (state) => state.displayPage,
+    displayNewsStatus: (state) => state.displayNewsStatus,
+    displayNewsAddAccount: (state) => state.displayNewsAddAccount,
+    displayCheckedItems: (state) => state.displayCheckedItems,
     totalCount: (state) => state.totalCount,
 }
+
 const mutations = {
     setDisplayLimit(state, count) {
         state.displayLimit = count;
@@ -19,6 +26,15 @@ const mutations = {
     },
     setDisplayPage(state, page) {
         state.displayPage = page;
+    },
+    setDisplayNewsStatus(state, newsStatus) {
+        state.displayNewsStatus = newsStatus;
+    },
+    setDisplayNewsAddAccount(state, newsAddAccount) {
+        state.displayNewsAddAccount = newsAddAccount;
+    },
+    setDisplayCheckedItems(state, checkedItems) {
+        state.displayCheckedItems = checkedItems;
     },
     setTotalCount(state, count) {
         state.totalCount = count;
@@ -33,6 +49,15 @@ const actions = {
     },
     setDisplayPage(context, page) {
         context.commit('setDisplayPage', page);
+    },
+    setDisplayNewsStatus(context, newsStatus) {
+        context.commit('setDisplayNewsStatus', newsStatus);
+    },
+    setDisplayNewsAddAccount(context, newsAddAccount) {
+        context.commit('setDisplayNewsAddAccount', newsAddAccount);
+    },
+    setDisplayCheckedItems(context, checkedItems) {
+        context.commit('setDisplayCheckedItems', checkedItems);
     },
     setTotalCount(context, count) {
         context.commit('setTotalCount', count)

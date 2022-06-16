@@ -69,6 +69,7 @@ export default {
       axios.put("/api/tasks/" + this.taskId, this.task).then((res) => {
         this.$router.push({ name: "task.list" });
       });
+      console.log(this.task);
     },
   },
   mounted() {

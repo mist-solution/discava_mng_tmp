@@ -15,11 +15,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-   {
+    {
         $response = array();
         $users = User::all();
         $userArrays = array();
-        foreach($users as $key => $value) {
+        foreach ($users as $key => $value) {
             $customer = $value->customers()->first();
             $userArray = array();
             $userArray['name'] = $value->name;
@@ -32,7 +32,7 @@ class UserController extends Controller
         $response['users'] = $userArrays;
         $response['message'] = 'success';
         return new JsonResponse($response);
-   }
+    }
 
     /**
      * Store a newly created resource in storage.

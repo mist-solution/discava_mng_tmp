@@ -9,19 +9,40 @@
         <router-link v-bind:to="{ name: 'task.list' }">
           <button class="btn btn-success mr-2">TASK List</button>
         </router-link>
-        <!-- <router-link v-bind:to="{ name: 'task.create' }">
+        <router-link v-bind:to="{ name: 'task.create' }">
           <button class="btn btn-success mr-2">ADD</button>
         </router-link>
         <router-link v-bind:to="{ name: 'quilleditor' }">
           <button class="btn btn-success">News</button>
-        </router-link> -->
+        </router-link>
       </div>
     </v-card-title>
     <v-divider />
     <v-tabs v-model="tab" fixed-tabs class="mx-auto" dark>
-      <v-tab value="one">承認済み記事</v-tab>
-      <v-tab value="two">自分の投稿記事</v-tab>
-      <v-tab value="three">承認待ち記事</v-tab>
+      <v-tab
+        value="one"
+        @click="
+          newsStatus(1);
+          newsAddAccount();
+        "
+        >承認済み記事</v-tab
+      >
+      <v-tab
+        value="two"
+        @click="
+          newsAddAccount(2);
+          newsStatus();
+        "
+        >自分の投稿記事</v-tab
+      >
+      <v-tab
+        value="three"
+        @click="
+          newsStatus(0);
+          newsAddAccount();
+        "
+        >承認待ち記事</v-tab
+      >
     </v-tabs>
 
     <v-card-actions>
@@ -58,6 +79,20 @@ export default {
     return {
       tab: null,
     };
+  },
+  methods: {
+    // お知らせの承認ステータス
+    newsStatus(newsStatus) {
+      this.$store.dispatch("news/setDisplayNewsStatus", newsStatus);
+      console.log("newsStatus::  " + newsStatus);
+    },
+
+    // 自分のアカウントID
+    // 仮実装ID：2
+    newsAddAccount(newsAddAccount) {
+      this.$store.dispatch("news/setDisplayNewsAddAccount", newsAddAccount);
+      console.log("newsAddAccount::  " + newsAddAccount);
+    },
   },
 };
 </script>

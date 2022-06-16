@@ -17,7 +17,6 @@
           required
         ></v-select>
       </v-card-actions>
-      {{ this.select }}
       <v-card-actions>
         <v-btn @click="closeAction()">閉じる</v-btn>
         <v-btn color="primary" @click="submitAction()">並べ替える</v-btn>
@@ -37,19 +36,20 @@ export default {
   },
   methods: {
     submitAction() {
+      let sort = null;
       if (this.select) {
         switch (this.select) {
           case "ID":
-            this.select = "id";
+            sort = "id";
             break;
           case "ステータス":
-            this.select = "approval_status";
+            sort = "approval_status";
             break;
           default:
-            this.select = "id";
+            sort = "id";
             break;
         }
-        this.$store.dispatch("news/setDisplaySort", this.select);
+        this.$store.dispatch("news/setDisplaySort", sort);
         this.closeAction();
       }
     },

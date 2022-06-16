@@ -1,9 +1,7 @@
 <template>
   <back-to-top-component />
-  件数：{{ $store.state.news.displayCheckedItems.length }}
-  {{ $store.state.news.displayCheckedItems }}　//　thisの件数：{{
-    this.select.length
-  }}{{ this.select }}
+  {{ displayCheckLength }}
+  {{ this.selected }}
   <v-row v-show="loading">
     <v-col>
       <v-progress-linear
@@ -14,7 +12,7 @@
     </v-col>
   </v-row>
   <v-row v-show="!loading && getNewsLength() == 0">
-    <v-col> お知らせがありません。 </v-col>
+    <v-col> 承認済み記事がありません。 </v-col>
   </v-row>
   <v-row
     v-for="item in news"
@@ -26,12 +24,7 @@
       <v-card>
         <v-row>
           <v-col :cols="1">
-            <v-checkbox
-              v-model="select"
-              :value="item.id"
-              @change="setSelectItems"
-              v-if="item.approval_status != 1"
-            ></v-checkbox>
+            <v-checkbox v-model="selected" :value="item.id"></v-checkbox>
             {{ item.id }}
           </v-col>
           <v-col :cols="1">
@@ -128,7 +121,7 @@ export default {
         { title: "差し戻す" },
         { title: "削除" },
       ],
-      select: [],
+      selected: [],
     };
   },
   computed: {
@@ -141,11 +134,11 @@ export default {
     displayNewsStatus() {
       return this.$store.state.news.displayNewsStatus;
     },
-    displayNewsAddAccount() {
-      return this.$store.state.news.displayNewsAddAccount;
-    },
     displayPage() {
       return this.$store.state.news.displayPage;
+    },
+    displayCheckLength: function () {
+      return this.selected.length;
     },
   },
   watch: {
@@ -156,9 +149,6 @@ export default {
       this.getNewsList();
     },
     displayNewsStatus() {
-      this.getNewsList();
-    },
-    displayNewsAddAccount() {
       this.getNewsList();
     },
     displayPage() {
@@ -178,7 +168,6 @@ export default {
               (this.$store.state.news.displayPage - 1),
             sort: this.$store.state.news.displaySort,
             newsStatus: this.$store.state.news.displayNewsStatus,
-            newsAddAccount: this.$store.state.news.displayNewsAddAccount,
           },
         })
         .then((res) => {
@@ -193,12 +182,6 @@ export default {
       }
       return this.news.length;
     },
-
-    // 選択した記事をstoreに設定
-    setSelectItems() {
-      this.$store.dispatch("news/setDisplayCheckedItems", this.select);
-    },
-
     timestampFormat(timestamp) {
       const date = new Date(timestamp);
       return (
@@ -212,7 +195,6 @@ export default {
   },
   mounted() {
     this.getNewsList();
-    this.setSelectItems();
   },
 };
 </script>

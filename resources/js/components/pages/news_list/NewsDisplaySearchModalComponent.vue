@@ -7,28 +7,48 @@
       </v-card-text>
       <v-container>
         <v-row>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="6">
             <Datepicker
               v-model="searchAddDateBegin"
               label="登録日時：開始"
               locale="ja"
               selectText="確認"
               cancelText="キャンセル"
+              :openMenuOnFocus="false"
             />
           </v-col>
 
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="6">
             <Datepicker
               v-model="searchAddDateEnd"
               label="登録日時：終了"
               locale="ja"
               selectText="確認"
               cancelText="キャンセル"
+              :openMenuOnFocus="false"
             />
           </v-col>
 
-          <v-col cols="12" md="4">
-            <Datepicker :v-model="date" label="更新日時" locale="ja" range />
+          <v-col cols="12" md="6">
+            <Datepicker
+              v-model="searchUpdDateBegin"
+              label="更新日時：開始"
+              locale="ja"
+              selectText="確認"
+              cancelText="キャンセル"
+              :openMenuOnFocus="false"
+            />
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <Datepicker
+              v-model="searchUpdDateEnd"
+              label="更新日時：終了"
+              locale="ja"
+              selectText="確認"
+              cancelText="キャンセル"
+              :openMenuOnFocus="false"
+            />
           </v-col>
 
           <v-col cols="12" md="6">
@@ -37,8 +57,6 @@
               :items="AddUsers"
               :rules="[(v) => !!v || 'Item is required']"
               label="登録者名"
-              @update:modelValue="setSearchCol"
-              :open-on-clear="clearable"
             ></v-select>
           </v-col>
 
@@ -48,15 +66,13 @@
               :items="UpdUsers"
               :rules="[(v) => !!v || 'Item is required']"
               label="更新者名"
-              @update:modelValue="setSearchCol"
-              open-on-clear
             ></v-select>
           </v-col>
 
           <v-col cols="12" md="6">
             <v-select
               v-model="searchCategory"
-              :items="items"
+              :items="AnnounceCategory"
               :rules="[(v) => !!v || 'Item is required']"
               label="カテゴリー"
             ></v-select>
@@ -74,7 +90,6 @@
 <script>
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { ref, onMounted } from "vue";
 
 export default {
   props: ["display", "closeAction"],
@@ -83,29 +98,18 @@ export default {
     return {
       searchAddDateBegin: null,
       searchAddDateEnd: null,
+      searchUpdDateBegin: null,
+      searchUpdDateEnd: null,
       searchAddUser: "",
       searchUpdUser: "",
       searchCategory: "",
       AddUsers: [],
       UpdUsers: [],
+      AnnounceCategory: [],
       clearable: false,
     };
   },
-  setup() {
-    const date = ref();
-    // For demo purposes assign range from the current date
-    onMounted(() => {
-      const startDate = new Date();
-      const endDate = new Date();
-      date.value = [startDate, endDate];
-      console.log(startDate);
-      console.log(endDate);
-    });
 
-    return {
-      date,
-    };
-  },
   methods: {
     getUsers: function () {
       this.$axios.get("api/enduser").then((res) => {
@@ -118,17 +122,16 @@ export default {
       });
     },
 
-    setSearchCol(colName) {
-      let searchCol = [];
-      if (colName) {
-        if (this.AddUsers) {
-          searchCol.push("add_account");
-        } else if (this.UpdUsers) {
-          searchCol.push("upd_account");
-        }
-        console.log(searchCol);
-      }
+    getAnnounceCategory: function () {
+      this.$axios.get("api/announceCategory").then((res) => {
+        this.AnnounceCategory = res.data.announceCategorys.map(
+          (AnnounceCategory) => {
+            return AnnounceCategory.category;
+          }
+        );
+      });
     },
+
     timestampConvert(timestamp) {
       const date = new Date(timestamp);
       return (
@@ -148,15 +151,12 @@ export default {
 
     submitAction() {
       // 登録日時検索処理
+      let searchAddDateBegin = this.timestampConvert(this.searchAddDateBegin);
+      let searchAddDateEnd = this.timestampConvert(this.searchAddDateEnd);
+      let searchUpdDateBegin = this.timestampConvert(this.searchUpdDateBegin);
+      let searchUpdDateEnd = this.timestampConvert(this.searchUpdDateEnd);
       if (this.searchAddDateBegin && this.searchAddDateEnd) {
         if (this.searchAddDateEnd > this.searchAddDateBegin) {
-          console.log("OKOKOK::: END > BEGIN");
-          let searchAddDateBegin = this.timestampConvert(
-            this.searchAddDateBegin
-          );
-          let searchAddDateEnd = this.timestampConvert(this.searchAddDateEnd);
-          console.log(searchAddDateBegin);
-          console.log(searchAddDateEnd);
           this.$store.dispatch(
             "news/setDisplaySearchAddDateBegin",
             searchAddDateBegin
@@ -168,17 +168,37 @@ export default {
         } else {
           console.log("NGNGNG::: END < BEGIN");
         }
+      } else if (this.searchAddDateBegin) {
+        this.$store.dispatch(
+          "news/setDisplaySearchAddDateBegin",
+          searchAddDateBegin
+        );
+        // 更新日時検索処理
+      } else if (this.searchUpdDateBegin && this.searchUpdDateEnd) {
+        if (this.searchUpdDateEnd > this.searchUpdDateBegin) {
+          this.$store.dispatch(
+            "news/setDisplaySearchUpdDateBegin",
+            searchUpdDateBegin
+          );
+          this.$store.dispatch(
+            "news/setDisplaySearchUpdDateEnd",
+            searchUpdDateEnd
+          );
+        } else {
+          console.log("NGNGNG::: END < BEGIN");
+        }
+      } else if (this.searchUpdDateBegin) {
+        this.$store.dispatch(
+          "news/setDisplaySearchUpdDateBegin",
+          searchUpdDateBegin
+        );
 
         // 登録者検索処理
       } else if (this.searchAddUser) {
         let setAddUserId = null;
         setAddUserId = this.AddUsers.indexOf(this.searchAddUser) + 1;
-        console.log("107::::" + this.$store.state.news.displaySearchNewsCol);
-        console.log("107::::" + this.$store.state.news.displaySearchNews);
         this.$store.dispatch("news/setDisplaySearchNewsCol", "add_account");
         this.$store.dispatch("news/setDisplaySearchNews", setAddUserId);
-        console.log("109::::" + this.$store.state.news.displaySearchNewsCol);
-        console.log("109::::" + this.$store.state.news.displaySearchNews);
 
         // 更新者検索処理
       } else if (this.searchUpdUser) {
@@ -189,7 +209,11 @@ export default {
       }
 
       // カテゴリ検索処理
-      else {
+      else if (this.searchCategory) {
+        let searchCategoryId = null;
+        searchCategoryId =
+          this.AnnounceCategory.indexOf(this.searchCategory) + 1;
+        this.$store.dispatch("news/setDisplaySearchCategory", searchCategoryId);
       }
 
       this.closeAction("displaySearch");
@@ -199,9 +223,13 @@ export default {
     displayUsers() {
       this.getUsers();
     },
+    displayAnnounceCategory() {
+      this.getAnnounceCategory();
+    },
   },
   mounted() {
     this.getUsers();
+    this.getAnnounceCategory();
   },
 };
 </script>

@@ -5,6 +5,13 @@ const state = {
     displayNewsStatus: 1,
     displayNewsAddAccount: "",
     displayCheckedItems: [],
+    displaySearchAddDateBegin: "",
+    displaySearchAddDateEnd: "",
+    displaySearchUpdDateBegin: "",
+    displaySearchUpdDateEnd: "",
+    displaySearchNewsCol: "",
+    displaySearchNews: "",
+    displaySearchCategory: "",
     totalCount: 0,
 }
 const getters = {
@@ -14,6 +21,13 @@ const getters = {
     displayNewsStatus: (state) => state.displayNewsStatus,
     displayNewsAddAccount: (state) => state.displayNewsAddAccount,
     displayCheckedItems: (state) => state.displayCheckedItems,
+    displaySearchAddDateBegin: (state) => state.displaySearchAddDateBegin,
+    displaySearchAddDateEnd: (state) => state.displaySearchAddDateEnd,
+    displaySearchUpdDateBegin: (state) => state.displaySearchUpdDateBegin,
+    displaySearchUpdDateEnd: (state) => state.displaySearchUpdDateEnd,
+    displaySearchNewsCol: (state) => state.displaySearchNewsCol,
+    displaySearchNews: (state) => state.displaySearchNews,
+    displaySearchCategory: (state) => state.displaySearchCategory,
     totalCount: (state) => state.totalCount,
 }
 
@@ -35,6 +49,27 @@ const mutations = {
     },
     setDisplayCheckedItems(state, checkedItems) {
         state.displayCheckedItems = checkedItems;
+    },
+    setDisplaySearchAddDateBegin(state, searchAddDateBegin) {
+        state.displaySearchAddDateBegin = searchAddDateBegin;
+    },
+    setDisplaySearchAddDateEnd(state, searchAddDateEnd) {
+        state.displaySearchAddDateEnd = searchAddDateEnd;
+    },
+    setDisplaySearchUpdDateBegin(state, searchUpddDateBegin) {
+        state.displaySearchUpdDateBegin = searchUpddDateBegin;
+    },
+    setDisplaySearchUpdDateEnd(state, searchUpdDateEnd) {
+        state.displaySearchUpdDateEnd = searchUpdDateEnd;
+    },
+    setDisplaySearchNewsCol(state, searchNewsCol) {
+        state.displaySearchNewsCol = searchNewsCol;
+    },
+    setDisplaySearchNews(state, searchNews) {
+        state.displaySearchNews = searchNews;
+    },
+    setDisplaySearchCategory(state, searchCategory) {
+        state.displaySearchCategory = searchCategory;
     },
     setTotalCount(state, count) {
         state.totalCount = count;
@@ -58,6 +93,27 @@ const actions = {
     },
     setDisplayCheckedItems(context, checkedItems) {
         context.commit('setDisplayCheckedItems', checkedItems);
+    },
+    setDisplaySearchAddDateBegin(context, searchAddDateBegin) {
+        context.commit('setDisplaySearchAddDateBegin', searchAddDateBegin);
+    },
+    setDisplaySearchAddDateEnd(context, searchAddDateEnd) {
+        context.commit('setDisplaySearchAddDateEnd', searchAddDateEnd);
+    },
+    setDisplaySearchUpdDateBegin(context, searchUpdDateBegin) {
+        context.commit('setDisplaySearchUpdDateBegin', searchUpdDateBegin);
+    },
+    setDisplaySearchUpdDateEnd(context, searchUpdDateEnd) {
+        context.commit('setDisplaySearchUpdDateEnd', searchUpdDateEnd);
+    },
+    setDisplaySearchNewsCol(context, searchNewsCol) {
+        context.commit('setDisplaySearchNewsCol', searchNewsCol);
+    },
+    setDisplaySearchNews(context, searchNews) {
+        context.commit('setDisplaySearchNews', searchNews);
+    },
+    setDisplaySearchCategory(context, searchCategory) {
+        context.commit('setDisplaySearchCategory', searchCategory);
     },
     setTotalCount(context, count) {
         context.commit('setTotalCount', count)

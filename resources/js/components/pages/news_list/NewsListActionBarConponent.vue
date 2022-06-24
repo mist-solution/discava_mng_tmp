@@ -100,12 +100,15 @@ export default {
     };
   },
   methods: {
-    closeAction() {
-      this.displaySearch = false;
-      this.displaySort = false;
-      this.displayLimit = false;
-      this.displayCheckAll = false;
-      window.location.reload();
+    closeAction(key) {
+      if (key == "displaySearch") {
+        this.displaySearch = false;
+      } else {
+        this.displaySort = false;
+        this.displayLimit = false;
+        this.displayCheckAll = false;
+        window.location.reload();
+      }
     },
   },
   mounted() {},

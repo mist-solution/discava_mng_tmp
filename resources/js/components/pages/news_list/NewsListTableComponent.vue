@@ -28,7 +28,7 @@
               @change="setSelectItems"
               v-if="item.approval_status != 1"
             ></v-checkbox>
-            {{ item.id }}
+            ID:{{ item.id }}
           </v-col>
           <v-col :cols="1">
             <v-img
@@ -43,9 +43,13 @@
               <v-col class="mt-3">
                 <v-card-subtitle class="ml-2">
                   {{ approvalStatus[item.approval_status]["status"] }} ///
-                  {{ item.approval_status }}
+                  {{ item.approval_status }} ///
                 </v-card-subtitle>
                 <v-card-title class="ml-2">{{ item.title }}</v-card-title>
+                <v-card-subtitle class="ml-2">
+                  {{ item.announce_category.category }} ///
+                  {{ item.announce_category.id }} ///
+                </v-card-subtitle>
               </v-col>
               <v-col :cols="2">
                 <v-menu>
@@ -59,7 +63,6 @@
                         >
                         </v-btn>
                       </template>
-                      <span>I'm A Tooltip</span>
                     </v-tooltip>
                   </template>
                   <v-list>
@@ -140,6 +143,27 @@ export default {
     displayNewsAddAccount() {
       return this.$store.state.news.displayNewsAddAccount;
     },
+    displaySearchAddDateBegin() {
+      return this.$store.state.news.displaySearchAddDateBegin;
+    },
+    displaySearchAddDateEnd() {
+      return this.$store.state.news.displaySearchAddDateEnd;
+    },
+    displaySearchUpdDateBegin() {
+      return this.$store.state.news.displaySearchUpdDateBegin;
+    },
+    displaySearchUpdDateEnd() {
+      return this.$store.state.news.displaySearchUpdDateEnd;
+    },
+    displaySearchNewsCol() {
+      return this.$store.state.news.displaySearchNewsCol;
+    },
+    displaySearchNews() {
+      return this.$store.state.news.displaySearchNews;
+    },
+    displaySearchCategory() {
+      return this.$store.state.news.displaySearchCategory;
+    },
     displayPage() {
       return this.$store.state.news.displayPage;
     },
@@ -155,6 +179,27 @@ export default {
       this.getNewsList();
     },
     displayNewsAddAccount() {
+      this.getNewsList();
+    },
+    displaySearchAddDateBegin() {
+      this.getNewsList();
+    },
+    displaySearchAddDateEnd() {
+      this.getNewsList();
+    },
+    displaySearchUpdDateBegin() {
+      this.getNewsList();
+    },
+    displaySearchUpdDateEnd() {
+      this.getNewsList();
+    },
+    displaySearchNewsCol() {
+      this.getNewsList();
+    },
+    displaySearchNews() {
+      this.getNewsList();
+    },
+    displaySearchCategory() {
       this.getNewsList();
     },
     displayPage() {
@@ -175,6 +220,15 @@ export default {
             sort: this.$store.state.news.displaySort,
             newsStatus: this.$store.state.news.displayNewsStatus,
             newsAddAccount: this.$store.state.news.displayNewsAddAccount,
+            searchAddDateBegin:
+              this.$store.state.news.displaySearchAddDateBegin,
+            searchAddDateEnd: this.$store.state.news.displaySearchAddDateEnd,
+            searchUpdDateBegin:
+              this.$store.state.news.displaySearchUpdDateBegin,
+            searchUpdDateEnd: this.$store.state.news.displaySearchUpdDateEnd,
+            searchNewsCol: this.$store.state.news.displaySearchNewsCol,
+            searchNews: this.$store.state.news.displaySearchNews,
+            searchCategory: this.$store.state.news.displaySearchCategory,
           },
         })
         .then((res) => {

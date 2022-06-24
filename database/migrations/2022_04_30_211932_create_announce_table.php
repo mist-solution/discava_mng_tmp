@@ -19,6 +19,7 @@ class CreateAnnounceTable extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->text('contents');
+            $table->unsignedBigInteger('announce_category_id');
             $table->boolean('approval_status');
             $table->text('approval_comment');
             $table->text('approval_account');
@@ -28,9 +29,9 @@ class CreateAnnounceTable extends Migration
             $table->unsignedBigInteger('upd_account');
             $table->timestamps();
 
+            $table->foreign('announce_category_id')->references('id')->on('announce_category');
             $table->foreign('add_account')->references('id')->on('users');
             $table->foreign('upd_account')->references('id')->on('users');
-
         });
     }
 

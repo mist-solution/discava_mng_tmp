@@ -16,7 +16,14 @@ class AnnounceController extends Controller
         $sort = $request->input('sort');
         $newsStatus = $request->input('newsStatus');
         $newsAddAccount = $request->input('newsAddAccount');
-        $announce = Announce::getAnnounce($offset, $limit, $sort, $newsStatus, $newsAddAccount);
+        $searchAddDateBegin = $request->input('searchAddDateBegin');
+        $searchAddDateEnd = $request->input('searchAddDateEnd');
+        $searchUpdDateBegin = $request->input('searchUpdDateBegin');
+        $searchUpdDateEnd = $request->input('searchUpdDateEnd');
+        $searchNewsCol = $request->input('searchNewsCol');
+        $searchNews = $request->input('searchNews');
+        $searchCategory = $request->input('searchCategory');
+        $announce = Announce::getAnnounce($offset, $limit, $sort, $newsStatus, $newsAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchNewsCol, $searchNews, $searchCategory);
         return $announce;
     }
 

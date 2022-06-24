@@ -31,3 +31,4 @@ Route::put('/announce/{announce}', 'AnnounceController@acceptAllAnnounce');
 Route::get('/enduser', [UserController::class, 'index']);
 Route::get('/customer', [CustomerController::class, 'index']);
 Route::post('/enduser', [RegisterController::class, 'register']);
+Route::get('/announceCategory', 'AnnounceCategoryController@index');

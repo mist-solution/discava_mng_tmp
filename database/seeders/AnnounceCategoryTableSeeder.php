@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\AnnounceCategory;
 use Illuminate\Database\Seeder;
+use App\Models\AnnounceCategory;
 
 class AnnounceCategoryTableSeeder extends Seeder
 {

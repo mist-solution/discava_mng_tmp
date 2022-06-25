@@ -27,19 +27,27 @@ export default {
     return {};
   },
   methods: {
-    submitAction() {
-      let getSelectItems = this.$store.state.news.displayCheckedItems;
-      for (var i = 0; i < getSelectItems.length; i++) {
-        const NewsId = getSelectItems[i];
-        axios.get("/api/announce/" + NewsId).then((res) => {
-          this.announce = res.data;
-        });
-
-        axios.put("/api/announce/" + NewsId, this.announce).then((res) => {
-          console.log(this.$router);
-        });
+    closeChecked(checkUpdated) {
+      if (checkUpdated == this.$store.state.news.displayCheckedItems.length) {
       }
       this.closeAction();
+    },
+
+    submitAction() {
+      let getSelectItems = this.$store.state.news.displayCheckedItems;
+      let step = getSelectItems.length;
+      let checkUpdated = 0;
+      for (var i = 0; i < step; i++) {
+        const newsId = getSelectItems[i];
+        axios.get("/api/announce/" + newsId).then((res) => {
+          this.announce = res.data;
+        });
+        axios.put("/api/announce/" + newsId, this.announce).then((res) => {
+          console.log(this.$router);
+          checkUpdated = checkUpdated + 1;
+          this.closeChecked(checkUpdated);
+        });
+      }
     },
   },
   mounted() {},

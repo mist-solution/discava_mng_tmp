@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Announce;
 
 class AnnounceCategory extends Model
 {
-    public function index()
-    {
-        return Announce::all();
-        
-    }
+    use HasFactory;
+    protected $table = 'announce_category';
+    protected $fillable = [
+        'code',
+        'contract_id',
+        'category',
+        'description',
+    ];
 }

@@ -32,4 +32,5 @@ Route::get('/enduser', [UserController::class, 'index']);
 Route::get('/customer', [CustomerController::class, 'index']);
 Route::post('/enduser', [RegisterController::class, 'register']);
 Route::put('/enduser/{id}', [UserController::class, 'update']);
+Route::post('/enduser/delete', [UserController::class, 'deleteAll']);
 Route::get('/announceCategory', 'AnnounceCategoryController@index');

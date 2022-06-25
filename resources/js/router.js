@@ -8,6 +8,7 @@ const TaskEditComponent = () => import ('./components/TaskEditComponent')
 const QuillEditorComponent = () => import ('./components/QuillEditor')
 const NewsListComponent = () => import ('./components/pages/news_list/NewsListPageComponent')
 const EndUserRegistComponent = () => import ('./components/pages/end_user/EndUserRegistComponent')
+const EndUserUpdateComponent = () => import ('./components/pages/end_user/EndUserUpdateComponent')
 const EndUserListComponent = () => import ('./components/pages/end_user/EndUserListComponent')
 
 const routes = [
@@ -60,11 +61,18 @@ const routes = [
         component: QuillEditorComponent,
         props: true
     },
-    // 一覧画面
+    // ユーザ登録画面
     {
         path: '/enduser/register',
         name: 'enduser.register',
         component: EndUserRegistComponent
+    },
+    // ユーザ更新画面
+    {
+        path: '/enduser/:user_id',
+        name: 'enduser.update',
+        component: EndUserUpdateComponent,
+        props: true
     },
     // ユーザ一覧画面
     {

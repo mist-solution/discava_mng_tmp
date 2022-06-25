@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use App\Models\User;
+use DB;
 
 class UserController extends Controller
 {
@@ -22,6 +24,7 @@ class UserController extends Controller
         foreach ($users as $key => $value) {
             $customer = $value->customers()->first();
             $userArray = array();
+            $userArray['id'] = $value->id;
             $userArray['name'] = $value->name;
             $userArray['email'] = $value->email;
             $userArray['customer_code'] = $customer ? $customer->code : null;
@@ -65,7 +68,18 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $update = [
+            'name' => $request->name,
+            'email' => $request->email,
+        ];
+        $customer = DB::table('customers')->where('code', $request->customer)->first();
+        $user = User::find($id);
+        $user->update($update);
+        $user->customers()->sync($customer->id);
+
+        Log::info('ユーザ更新');
+        Log::debug(print_r($update, true));
+        Log::debug($customer->id);
     }
 
     /**

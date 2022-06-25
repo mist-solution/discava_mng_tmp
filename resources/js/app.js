@@ -7,7 +7,7 @@ import App from './components/app'
 import router from "./router";
 import dayjs from 'dayjs'
 import 'dayjs/locale/ja'
-import AxiosPlugin from './plugins/axios';
+import AxiosPlugin from './plugins/axios_plugin';
 
 // ロケール設定
 dayjs.locale('ja')

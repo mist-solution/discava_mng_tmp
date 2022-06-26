@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-snackbar v-model="$store.state.snackbar.snackbar" :timeout="timeout" :color="$store.state.snackbar.color">
+    <v-snackbar v-model="$store.state.snackbar.snackbar" :timeout="timeout" :color="$store.state.snackbar.color" :top="true">
       {{ $store.state.snackbar.text }}
     </v-snackbar>
   </div>

@@ -97,7 +97,6 @@ class Announce extends Model
             $announceModel = $announceModel->orderBy('id');
         }
 
-
         $announce['count'] = $announceModel
             ->count();
 

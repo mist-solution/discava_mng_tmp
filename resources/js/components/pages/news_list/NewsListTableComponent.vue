@@ -52,24 +52,51 @@
                 </v-card-subtitle>
               </v-col>
               <v-col :cols="2">
-                <v-menu>
-                  <template v-slot:activator="{ props: menu }">
-                    <v-tooltip location="top">
-                      <template v-slot:activator="{ props: tooltip }">
-                        <v-btn
-                          color="primary"
-                          v-bind="mergeProps(menu, tooltip)"
-                          icon="mdi-dots-horizontal"
-                        >
-                        </v-btn>
-                      </template>
-                    </v-tooltip>
+                <v-menu :close-on-content-click="true">
+                  <template v-slot:activator="{ props }">
+                    <v-btn
+                      color="primary"
+                      v-bind="props"
+                      icon="mdi-dots-horizontal"
+                    >
+                    </v-btn>
                   </template>
-                  <v-list>
-                    <v-list-item v-for="(item, index) in items" :key="index">
-                      <v-list-item-title>{{ item.title }}</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
+
+                  <v-card>
+                    <v-list>
+                      <v-list-item
+                        v-for="(listItems, index) in listItems"
+                        :key="index"
+                        v-bind:to="{
+                          name: listItems.link,
+                          params: { announceId: item.id },
+                        }"
+                      >
+                        <v-list-item-title>{{
+                          listItems.title
+                        }}</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+
+                    <v-divider></v-divider>
+                    <v-list>
+                      <v-list-item
+                        color="red"
+                        v-for="(
+                          menuDeleteAnnounce, index
+                        ) in menuDeleteAnnounce"
+                        :key="index"
+                        @click.stop="
+                          (displayNewsDeleteConfirm = true),
+                            setDeleteAnnounceId(item.id)
+                        "
+                      >
+                        <v-list-item-title>
+                          {{ menuDeleteAnnounce.title }}
+                        </v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-card>
                 </v-menu>
               </v-col>
             </v-row>
@@ -97,6 +124,12 @@
       </v-card>
     </v-col>
   </v-row>
+  <!-- 削除モーダル -->
+  <news-delete-confirm-modal-component
+    :display="displayNewsDeleteConfirm"
+    :closeAction="closeAction"
+    :deleteAnnounce="deleteAnnounce"
+  />
   <v-row class="mt-3"> <news-list-table-pagination /></v-row>
 </template>
 
@@ -104,29 +137,28 @@
 import NewsListTablePagination from "./NewsListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { mergeProps } from "vue";
+import NewsDeleteConfirmModalComponent from "./NewsDeleteConfirmModalComponent.vue";
 
 export default {
   components: {
     NewsListTablePagination,
     BackToTopComponent,
+    NewsDeleteConfirmModalComponent,
   },
   data() {
     return {
       test: [],
       news: null,
       loading: false,
+      displayNewsDeleteConfirm: false,
       approvalStatus: [
         { value: "0", status: "未承認" },
         { value: "1", status: "承認" },
         { value: "2", status: "差戻し" },
         { value: "3", status: "否認" },
       ],
-      items: [
-        { title: "詳細を確認" },
-        { title: "承認する" },
-        { title: "差し戻す" },
-        { title: "削除" },
-      ],
+      listItems: [],
+      menuDeleteAnnounce: [],
       select: [],
     };
   },
@@ -208,6 +240,12 @@ export default {
   },
   methods: {
     mergeProps,
+
+    closeAction() {
+      this.displayNewsDeleteConfirm = false;
+      window.location.reload();
+    },
+
     getNewsList() {
       this.loading = true;
       axios
@@ -237,6 +275,7 @@ export default {
           this.loading = false;
         });
     },
+
     getNewsLength() {
       if (!this.news) {
         return 0;
@@ -244,9 +283,62 @@ export default {
       return this.news.length;
     },
 
+    getListItems() {
+      let listsItemKey = this.$store.state.news.displayListsItemKey;
+      // 承認済み記事タブ
+      if (listsItemKey == "checkedLists") {
+        this.listItems = [
+          {
+            title: "1詳細を確認",
+            link: "news.detail",
+          },
+          { title: "共有リンクをコピー" },
+          { title: "公開停止" },
+        ];
+        this.menuDeleteAnnounce = [{ title: "削除" }];
+
+        // 自分の投稿記事タブ
+      } else if (listsItemKey == "selfLists") {
+        this.listItems = [
+          {
+            title: "2詳細を確認",
+            link: "news.detail",
+          },
+          { title: "共有リンクをコピー" },
+          { title: "公開停止" },
+        ];
+        this.menuDeleteAnnounce = [{ title: "削除" }];
+
+        // 承認待ち記事タブ
+      } else if (listsItemKey == "notCheckLists") {
+        this.listItems = [
+          {
+            title: "3詳細を確認",
+            link: "news.detail",
+          },
+          { title: "承認する" },
+          { title: "差し戻す" },
+        ];
+        this.menuDeleteAnnounce = [{ title: "削除" }];
+      }
+    },
+
     // 選択した記事をstoreに設定
     setSelectItems() {
       this.$store.dispatch("news/setDisplayCheckedItems", this.select);
+    },
+
+    // 削除確認ダイアログに渡せるため、IDをstoreに設定
+    setDeleteAnnounceId(id) {
+      let announceId = id;
+      this.$store.dispatch("news/setDeleteNewsId", announceId);
+    },
+
+    // 削除処理
+    deleteAnnounce(announceId) {
+      console.log(`ID:${announceId} が削除しました。`);
+      axios.delete("/api/announce/" + announceId).then((res) => {});
+      window.location.reload();
     },
 
     timestampFormat(timestamp) {
@@ -263,6 +355,7 @@ export default {
   mounted() {
     this.getNewsList();
     this.setSelectItems();
+    this.getListItems();
   },
 };
 </script>

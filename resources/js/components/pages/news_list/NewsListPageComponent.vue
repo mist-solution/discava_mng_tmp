@@ -24,6 +24,7 @@
         @click="
           newsStatus(1);
           newsAddAccount();
+          setSelectTab(1);
         "
         >承認済み記事</v-tab
       >
@@ -32,6 +33,7 @@
         @click="
           newsAddAccount(2);
           newsStatus();
+          setSelectTab(2);
         "
         >自分の投稿記事</v-tab
       >
@@ -40,6 +42,7 @@
         @click="
           newsStatus(0);
           newsAddAccount();
+          setSelectTab(3);
         "
         >承認待ち記事</v-tab
       >
@@ -90,6 +93,19 @@ export default {
     // 仮実装ID：2
     newsAddAccount(newsAddAccount) {
       this.$store.dispatch("news/setDisplayNewsAddAccount", newsAddAccount);
+    },
+
+    // 選択したタブをstoreに設定
+    setSelectTab(key) {
+      let tabName = "";
+      if (key == 1) {
+        tabName = "checkedLists"; // 承認済み記事
+      } else if (key == 2) {
+        tabName = "selfLists"; // 自分の投稿記事
+      } else if (key == 3) {
+        tabName = "notCheckLists"; // 承認待ち記事
+      }
+      this.$store.dispatch("news/setDisplayListsItemKey", tabName);
     },
   },
 };

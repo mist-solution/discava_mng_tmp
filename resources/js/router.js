@@ -1,15 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-const Home = () => import ('./components/Home')
-const TaskListComponent = () => import ('./components/TaskListComponent')
-const TaskShowComponent = () => import ('./components/TaskShowComponent')
-const TaskCreateComponent = () => import ('./components/TaskCreateComponent')
-const TaskEditComponent = () => import ('./components/TaskEditComponent')
-const QuillEditorComponent = () => import ('./components/QuillEditor')
-const NewsListComponent = () => import ('./components/pages/news_list/NewsListPageComponent')
-const EndUserRegistComponent = () => import ('./components/pages/end_user/EndUserRegistComponent')
-const EndUserUpdateComponent = () => import ('./components/pages/end_user/EndUserUpdateComponent')
-const EndUserListComponent = () => import ('./components/pages/end_user/EndUserListComponent')
+const Home = () => import('./components/Home')
+const TaskListComponent = () => import('./components/TaskListComponent')
+const TaskShowComponent = () => import('./components/TaskShowComponent')
+const TaskCreateComponent = () => import('./components/TaskCreateComponent')
+const TaskEditComponent = () => import('./components/TaskEditComponent')
+const QuillEditorComponent = () => import('./components/QuillEditor')
+const NewsListComponent = () => import('./components/pages/news_list/NewsListPageComponent')
+const EndUserRegistComponent = () => import('./components/pages/end_user/EndUserRegistComponent')
+const EndUserUpdateComponent = () => import('./components/pages/end_user/EndUserUpdateComponent')
+const EndUserListComponent = () => import('./components/pages/end_user/EndUserListComponent')
+const NewsDetailComponent = () => import('./components/pages/news_list/NewsDetailComponent')
 
 const routes = [
     // 一覧画面
@@ -18,12 +19,21 @@ const routes = [
         name: 'home',
         component: Home
     },
-    // 一覧画面
+    // お知らせ一覧画面
     {
         path: '/news',
         name: 'news.list',
         component: NewsListComponent
     },
+
+    // お知らせ詳細・削除画面
+    {
+        path: '/news/:announceId',
+        name: 'news.detail',
+        component: NewsDetailComponent,
+        props: true
+    },
+
     // 一覧画面
     {
         path: '/tasks',

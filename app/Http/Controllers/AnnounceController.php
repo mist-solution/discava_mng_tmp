@@ -30,6 +30,10 @@ class AnnounceController extends Controller
     // 詳細取得
     public function showAnnounce(Announce $announce)
     {
+        // 有効フラグ判断
+        if ($announce->del_flg == 1) {
+            return 1;
+        }
         return $announce;
     }
 
@@ -37,6 +41,13 @@ class AnnounceController extends Controller
     public function acceptAllAnnounce(Request $request, Announce $announce)
     {
         $announce->update(['approval_status' => 1]);
+        return $announce;
+    }
+
+    // お知らせ論理削除
+    public function deleteAnnounce(Announce $announce)
+    {
+        $announce->update(['del_flg' => 1]);
         return $announce;
     }
 }

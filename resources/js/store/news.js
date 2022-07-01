@@ -12,6 +12,8 @@ const state = {
     displaySearchNewsCol: "",
     displaySearchNews: "",
     displaySearchCategory: "",
+    displayListsItemKey: "checkedLists",
+    deleteNewsId: "",
     totalCount: 0,
 }
 const getters = {
@@ -28,6 +30,8 @@ const getters = {
     displaySearchNewsCol: (state) => state.displaySearchNewsCol,
     displaySearchNews: (state) => state.displaySearchNews,
     displaySearchCategory: (state) => state.displaySearchCategory,
+    displayListsItemKey: (state) => state.displayListsItemKey,
+    deleteNewsId: (state) => state.deleteNewsId,
     totalCount: (state) => state.totalCount,
 }
 
@@ -70,6 +74,12 @@ const mutations = {
     },
     setDisplaySearchCategory(state, searchCategory) {
         state.displaySearchCategory = searchCategory;
+    },
+    setDisplayListsItemKey(state, listsItemKey) {
+        state.displayListsItemKey = listsItemKey;
+    },
+    setDeleteNewsId(state, deleteNewsId) {
+        state.deleteNewsId = deleteNewsId;
     },
     setTotalCount(state, count) {
         state.totalCount = count;
@@ -114,6 +124,12 @@ const actions = {
     },
     setDisplaySearchCategory(context, searchCategory) {
         context.commit('setDisplaySearchCategory', searchCategory);
+    },
+    setDisplayListsItemKey(context, listsItemKey) {
+        context.commit('setDisplayListsItemKey', listsItemKey);
+    },
+    setDeleteNewsId(context, deleteNewsId) {
+        context.commit('setDeleteNewsId', deleteNewsId);
     },
     setTotalCount(context, count) {
         context.commit('setTotalCount', count)

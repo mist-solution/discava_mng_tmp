@@ -14,6 +14,10 @@ const state = {
     displaySearchCategory: "",
     displayListsItemKey: "checkedLists",
     deleteNewsId: "",
+    approvalProcessKey: "",
+    approvalNewsId: "",
+    approvalNewsStatus: "",
+    approvalReturnComment: "",
     totalCount: 0,
 }
 const getters = {
@@ -32,6 +36,10 @@ const getters = {
     displaySearchCategory: (state) => state.displaySearchCategory,
     displayListsItemKey: (state) => state.displayListsItemKey,
     deleteNewsId: (state) => state.deleteNewsId,
+    approvalProcessKey: (state) => state.approvalProcessKey,
+    approvalNewsId: (state) => state.approvalNewsId,
+    approvalNewsStatus: (state) => state.approvalNewsStatus,
+    approvalReturnComment: (state) => state.approvalReturnComment,
     totalCount: (state) => state.totalCount,
 }
 
@@ -80,6 +88,18 @@ const mutations = {
     },
     setDeleteNewsId(state, deleteNewsId) {
         state.deleteNewsId = deleteNewsId;
+    },
+    setApprovalProcessKey(state, approvalProcessKey) {
+        state.approvalProcessKey = approvalProcessKey;
+    },
+    setApprovalNewsId(state, approvalNewsId) {
+        state.approvalNewsId = approvalNewsId;
+    },
+    setApprovalNewsStatus(state, approvalNewsStatus) {
+        state.approvalNewsStatus = approvalNewsStatus;
+    },
+    setApprovalReturnComment(state, approvalReturnComment) {
+        state.approvalReturnComment = approvalReturnComment;
     },
     setTotalCount(state, count) {
         state.totalCount = count;
@@ -130,6 +150,18 @@ const actions = {
     },
     setDeleteNewsId(context, deleteNewsId) {
         context.commit('setDeleteNewsId', deleteNewsId);
+    },
+    setApprovalProcessKey(context, approvalProcessKey) {
+        context.commit('setApprovalProcessKey', approvalProcessKey);
+    },
+    setApprovalNewsId(context, approvalNewsId) {
+        context.commit('setApprovalNewsId', approvalNewsId);
+    },
+    setApprovalNewsStatus(context, approvalNewsStatus) {
+        context.commit('setApprovalNewsStatus', approvalNewsStatus);
+    },
+    setApprovalReturnComment(context, approvalReturnComment) {
+        context.commit('setApprovalReturnComment', approvalReturnComment);
     },
     setTotalCount(context, count) {
         context.commit('setTotalCount', count)

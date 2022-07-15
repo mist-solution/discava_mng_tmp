@@ -33,14 +33,61 @@ class AnnounceController extends Controller
         // 有効フラグ判断
         if ($announce->del_flg == 1) {
             return 1;
+
+            // 否認されたお知らせ判断
+        } else if ($announce->approval_status == 9) {
+            return 9;
         }
         return $announce;
     }
 
-    // 一括承認
-    public function acceptAllAnnounce(Request $request, Announce $announce)
+    // 承認機能（一括承認）
+    public function approvalAllAnnounce(Request $request, Announce $announce)
     {
         $announce->update(['approval_status' => 1]);
+        return $announce;
+    }
+    // 承認機能（承認）
+    public function approvalAnnounce(Request $request, Announce $announce)
+    {
+        // 未承認 → 承認
+        if ($announce['approval_status'] == 0) {
+            $announce->update(['approval_status' => 1]);
+            log::info("ID:  " . $announce['id'] . ":::未承認 → 承認:::  " . $announce['approval_status']);
+
+            // 差戻し → 承認
+        } else if (($announce['approval_status'] == 2)) {
+            $announce->update(['approval_status' => 1]);
+            log::info("ID:  " . $announce['id'] . ":::差戻し → 承認:::  " . $announce['approval_status']);
+        }
+        return $announce;
+    }
+
+    // 承認機能（差戻し）
+    public function approvalAnnounceReturn(Request $request, Announce $announce)
+    {
+        $approvalReturnComment = $request->input('approvalReturnComment');
+        // 未承認 → 差戻し
+        if ($announce['approval_status'] == 0) {
+            $announce->update(['approval_status' => 2]);
+            $announce->update(['remand_comment' => $approvalReturnComment]);
+            log::info("ID:  " . $announce['id'] . ":::未承認 → 再差戻し:::  " . $announce['approval_status'] . "  comment:: " . $announce['remand_comment']);
+
+            // 差戻し → 再差戻し
+        } else if ($announce['approval_status'] == 2) {
+            $announce->update(['remand_comment' => $approvalReturnComment]);
+            $announce->update(['approval_status' => 2]);
+            log::info("ID:  " . $announce['id'] . ":::差戻し → 再差戻し:::  " . $announce['approval_status'] . "  comment:: " . $announce['remand_comment']);
+        }
+        return $announce;
+    }
+
+    // 承認機能（否認）
+    public function approvalAnnounceReject(Request $request, Announce $announce)
+    {
+        // 未承認 → 承認
+        $announce->update(['approval_status' => 9]);
+        log::info("ID:  " . $announce['id'] . ":::否認されました:::  " . $announce['approval_status']);
         return $announce;
     }
 

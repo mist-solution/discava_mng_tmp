@@ -2,7 +2,7 @@
   <v-pagination
     v-model="page"
     :length="length"
-    :total-visible="5"
+    :total-visible="6"
     border="1px"
   ></v-pagination>
 </template>

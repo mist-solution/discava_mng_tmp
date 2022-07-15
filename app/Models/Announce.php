@@ -18,6 +18,7 @@ class Announce extends Model
         'approval_comment',
         'approval_account',
         'approval_datetime',
+        'remand_comment',
         'del_flg',
     ];
 
@@ -38,14 +39,23 @@ class Announce extends Model
 
         // 並び順処理
         if ($sort) {
-            $announceModel = $announceModel->orderBy($sort);
-        } else {
-            $announceModel = $announceModel->orderBy('id');
+            if (strpos($sort, "_desc") == false) {
+                $announceModel = $announceModel->orderBy($sort);
+            } else {
+                $sort =  str_replace("_desc", "", $sort);
+                $announceModel = $announceModel->orderBy($sort, 'desc');
+            }
         }
 
-        // 承認済み/承認待ち記事取得
+        // 承認済み/承認待ち記事取得(表示条件：未承認、差戻し)
         if ($newsStatus != "") {
-            $announceModel = $announceModel->where('approval_status', $newsStatus);
+            if ($newsStatus == 1) {
+                $announceModel = $announceModel->where('approval_status', $newsStatus);
+            } else if ($newsStatus == 0) {
+                $announceModel = $announceModel
+                    ->where('approval_status', '=', '0')
+                    ->orWhere('approval_status', '=', '2');
+            }
         } else {
             $announceModel = $announceModel->orderBy('id');
         }

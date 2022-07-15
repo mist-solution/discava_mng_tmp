@@ -28,6 +28,7 @@ class AnnounceFactory extends Factory
             'approval_comment' => $this->faker->text(),
             'approval_account' => $this->faker->text(),
             'approval_datetime' => $this->faker->dateTime(),
+            'remand_comment' => false,
             'del_flg' => false,
             'add_account' => $user->id,
             'upd_account' => $user->id,

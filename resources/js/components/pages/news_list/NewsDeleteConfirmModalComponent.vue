@@ -25,7 +25,6 @@ export default {
   },
   methods: {
     submitAction() {
-      console.log(this.$store.state.news.deleteNewsId);
       this.deleteAnnounce(this.$store.state.news.deleteNewsId);
       this.closeAction();
     },

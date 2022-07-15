@@ -83,7 +83,6 @@ export default {
     getAnnounceDetail() {
       axios.get("/api/announce/" + this.announceId).then((res) => {
         this.AnnounceDetail = res.data;
-        console.log(this.AnnounceDetail);
         if (this.AnnounceDetail == 1) {
           this.openError("対象が削除しました。");
           this.$router.push({ name: "news.list" });

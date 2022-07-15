@@ -43,7 +43,6 @@ export default {
           this.announce = res.data;
         });
         axios.put("/api/announce/" + newsId, this.announce).then((res) => {
-          console.log(this.$router);
           checkUpdated = checkUpdated + 1;
           this.closeChecked(checkUpdated);
         });

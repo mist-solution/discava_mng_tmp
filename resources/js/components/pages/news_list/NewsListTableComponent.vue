@@ -26,7 +26,7 @@
               v-model="select"
               :value="item.id"
               @change="setSelectItems"
-              v-if="item.approval_status != 1"
+              v-if="item.approval_status != 1 && item.approval_status != 9"
             ></v-checkbox>
             ID:{{ item.id }}
           </v-col>
@@ -41,14 +41,15 @@
           <v-col :cols="10">
             <v-row>
               <v-col class="mt-3">
-                <v-card-subtitle class="ml-2">
-                  {{ approvalStatus[item.approval_status]["status"] }} ///
-                  {{ item.approval_status }} ///
+                <v-card-subtitle class="ml-3">
+                  {{
+                    (approvalStatusFormat(item.approval_status),
+                    this.approvalStatus)
+                  }}
                 </v-card-subtitle>
                 <v-card-title class="ml-2">{{ item.title }}</v-card-title>
                 <v-card-subtitle class="ml-2">
-                  {{ item.announce_category.category }} ///
-                  {{ item.announce_category.id }} ///
+                  {{ item.announce_category.category }}
                 </v-card-subtitle>
               </v-col>
               <v-col :cols="2">
@@ -65,6 +66,7 @@
                   <v-card>
                     <v-list>
                       <v-list-item
+                        color="black"
                         v-for="(listItems, index) in listItems"
                         :key="index"
                         v-bind:to="{
@@ -77,7 +79,6 @@
                         }}</v-list-item-title>
                       </v-list-item>
                     </v-list>
-
                     <v-divider></v-divider>
                     <v-list>
                       <v-list-item
@@ -151,11 +152,12 @@ export default {
       news: null,
       loading: false,
       displayNewsDeleteConfirm: false,
-      approvalStatus: [
+      approvalStatus: "",
+      approvalStatusArray: [
         { value: "0", status: "未承認" },
         { value: "1", status: "承認" },
         { value: "2", status: "差戻し" },
-        { value: "3", status: "否認" },
+        { value: "9", status: "否認" },
       ],
       listItems: [],
       menuDeleteAnnounce: [],
@@ -240,7 +242,6 @@ export default {
   },
   methods: {
     mergeProps,
-
     closeAction() {
       this.displayNewsDeleteConfirm = false;
       window.location.reload();
@@ -283,13 +284,25 @@ export default {
       return this.news.length;
     },
 
+    // 承認ステータスフォーマット
+    approvalStatusFormat(newsApprovalStatus) {
+      let step = this.approvalStatusArray.length;
+      for (var i = 0; i < step; i++) {
+        const approvalStatusValue = this.approvalStatusArray[i].value;
+        if (approvalStatusValue == newsApprovalStatus) {
+          this.approvalStatus = this.approvalStatusArray[i].status;
+        }
+      }
+      return this.approvalStatus;
+    },
+
     getListItems() {
       let listsItemKey = this.$store.state.news.displayListsItemKey;
       // 承認済み記事タブ
       if (listsItemKey == "checkedLists") {
         this.listItems = [
           {
-            title: "1詳細を確認",
+            title: "詳細を確認",
             link: "news.detail",
           },
           { title: "共有リンクをコピー" },
@@ -301,7 +314,7 @@ export default {
       } else if (listsItemKey == "selfLists") {
         this.listItems = [
           {
-            title: "2詳細を確認",
+            title: "詳細を確認",
             link: "news.detail",
           },
           { title: "共有リンクをコピー" },
@@ -313,11 +326,11 @@ export default {
       } else if (listsItemKey == "notCheckLists") {
         this.listItems = [
           {
-            title: "3詳細を確認",
+            title: "詳細を確認",
             link: "news.detail",
           },
-          { title: "承認する" },
-          { title: "差し戻す" },
+          { title: "承認する", link: "news.approval" },
+          { title: "差し戻す", link: "news.approval" },
         ];
         this.menuDeleteAnnounce = [{ title: "削除" }];
       }

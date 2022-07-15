@@ -11,6 +11,7 @@ const EndUserRegistComponent = () => import('./components/pages/end_user/EndUser
 const EndUserUpdateComponent = () => import('./components/pages/end_user/EndUserUpdateComponent')
 const EndUserListComponent = () => import('./components/pages/end_user/EndUserListComponent')
 const NewsDetailComponent = () => import('./components/pages/news_list/NewsDetailComponent')
+const NewsApprovalConfirmComponent = () => import('./components/pages/news_list/NewsApprovalComponent')
 
 const routes = [
     // 一覧画面
@@ -31,6 +32,14 @@ const routes = [
         path: '/news/:announceId',
         name: 'news.detail',
         component: NewsDetailComponent,
+        props: true
+    },
+
+    // お知らせ承認画面
+    {
+        path: '/news/:announceId/approvalProcess',
+        name: 'news.approval',
+        component: NewsApprovalConfirmComponent,
         props: true
     },
 

@@ -31,7 +31,14 @@ export default {
   data() {
     return {
       select: null,
-      sorts: ["ID", "ステータス"],
+      sorts: [
+        "登録日の昇順",
+        "登録日の降順",
+        "更新日の昇順",
+        "更新日の降順",
+        "タイトルの昇順",
+        "タイトルの降順",
+      ],
     };
   },
   methods: {
@@ -39,11 +46,23 @@ export default {
       let sort = null;
       if (this.select) {
         switch (this.select) {
-          case "ID":
-            sort = "id";
+          case "登録日の昇順":
+            sort = "created_at";
             break;
-          case "ステータス":
-            sort = "approval_status";
+          case "登録日の降順":
+            sort = "created_at_desc";
+            break;
+          case "更新日の昇順":
+            sort = "updated_at";
+            break;
+          case "更新日の降順":
+            sort = "updated_at_desc";
+            break;
+          case "タイトルの昇順":
+            sort = "title";
+            break;
+          case "タイトルの降順":
+            sort = "title_desc";
             break;
           default:
             sort = "id";

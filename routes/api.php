@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\AnnounceController;
+use App\Http\Controllers\AnnounceCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +34,10 @@ Route::put('/announce/{announce}/approval', 'AnnounceController@approvalAnnounce
 Route::put('/announce/{announce}/return', 'AnnounceController@approvalAnnounceReturn');
 Route::put('/announce/{announce}/reject', 'AnnounceController@approvalAnnounceReject');
 Route::delete('/announce/{announce}', 'AnnounceController@deleteAnnounce');
+Route::post('/announce', [AnnounceController::class, 'register']);
 Route::get('/enduser', [UserController::class, 'index']);
 Route::get('/customer', [CustomerController::class, 'index']);
 Route::post('/enduser', [RegisterController::class, 'register']);
 Route::put('/enduser/{id}', [UserController::class, 'update']);
 Route::post('/enduser/delete', [UserController::class, 'deleteAll']);
-Route::get('/announceCategory', 'AnnounceCategoryController@index');
+Route::get('/announceCategory', [AnnounceCategoryController::class, 'index']);

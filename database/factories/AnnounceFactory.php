@@ -16,7 +16,7 @@ class AnnounceFactory extends Factory
      */
     public function definition()
     {
-        $announce_category = DB::table('announce_category')->where('id', '1')->first();
+        $announce_category = DB::table('announce_categories')->where('id', '1')->first();
         $user = DB::table('users')->where('name', 'mistuser')->first();
         return [
             'title' => 'Announce ' . $this->faker->name(),
@@ -24,7 +24,7 @@ class AnnounceFactory extends Factory
             'end_date' => $this->faker->dateTime(),
             'contents' => $this->faker->text(),
             'announce_category_id' => $announce_category->id,
-            'approval_status' => false,
+            'approval_status' => 0,
             'approval_comment' => $this->faker->text(),
             'approval_account' => $this->faker->text(),
             'approval_datetime' => $this->faker->dateTime(),

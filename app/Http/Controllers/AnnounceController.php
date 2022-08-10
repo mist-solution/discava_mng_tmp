@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Announce;
+use DateTime;
 use Illuminate\Support\Facades\Log;
 
 class AnnounceController extends Controller
@@ -95,6 +96,27 @@ class AnnounceController extends Controller
     public function deleteAnnounce(Announce $announce)
     {
         $announce->update(['del_flg' => 1]);
+        return $announce;
+    }
+
+    // 新規
+    public function register(Request $request)
+    {
+        Log::info($request->all());
+        $announce = new Announce();
+        $announce['add_account'] = 1;
+        $announce['upd_account'] = 1;
+        $announce['created_at'] = new DateTime();
+        $announce['updated_at'] = new DateTime();
+
+        $data = $request->all();
+        $announce['title'] = $data['title'];
+        $announce['announce_category_id'] = $data['announce_category_id'];
+        $announce['start_date'] = $data['start_date'];
+        $announce['end_date'] = $data['end_date'];
+        $announce['contents'] = $data['contents'];
+
+        $announce->save();
         return $announce;
     }
 }

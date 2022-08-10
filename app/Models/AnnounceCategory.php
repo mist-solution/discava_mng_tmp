@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AnnounceCategory extends Model
 {
     use HasFactory;
-    protected $table = 'announce_category';
+    protected $table = 'announce_categories';
     protected $fillable = [
         'code',
         'contract_id',

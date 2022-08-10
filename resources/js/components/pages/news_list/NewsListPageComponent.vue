@@ -3,7 +3,7 @@
     <v-card-title class="ml-2" width="80%">
       <h3 class="h4">お知らせ一覧</h3>
       <div class="btn-group ml-auto">
-        <router-link v-bind:to="{ name: 'task.list' }">
+        <router-link v-bind:to="{ name: 'announce.register' }">
           <button class="btn btn-success mr-2">投稿</button>
         </router-link>
         <router-link v-bind:to="{ name: 'task.list' }">

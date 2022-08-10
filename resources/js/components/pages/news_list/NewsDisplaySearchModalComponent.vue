@@ -124,7 +124,7 @@ export default {
 
     getAnnounceCategory: function () {
       this.$axios.get("api/announceCategory").then((res) => {
-        this.AnnounceCategory = res.data.announceCategorys.map(
+        this.AnnounceCategory = res.data.announceCategories.map(
           (AnnounceCategory) => {
             return AnnounceCategory.category;
           }

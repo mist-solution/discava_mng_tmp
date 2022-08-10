@@ -13,10 +13,11 @@ class AnnounceCategoryController extends Controller
     public function index(Request $request)
     {
         $response = array();
-        $announceCategorys = AnnounceCategory::all();
+        $announceCategories = AnnounceCategory::all();
         $announceCategoryArrays = array();
-        foreach ($announceCategorys as $key => $value) {
+        foreach ($announceCategories as $key => $value) {
             $announceCategoryArray = array();
+            $announceCategoryArray['id'] = $value->id;
             $announceCategoryArray['code'] = $value->code;
             $announceCategoryArray['contract_id'] = $value->contract_id;
             $announceCategoryArray['category'] = $value->category;
@@ -24,7 +25,7 @@ class AnnounceCategoryController extends Controller
             $announceCategoryArray['icon'] = $value->icon;
             $announceCategoryArrays[] = $announceCategoryArray;
         }
-        $response['announceCategorys'] = $announceCategoryArrays;
+        $response['announceCategories'] = $announceCategoryArrays;
         $response['message'] = 'success';
         return new JsonResponse($response);
     }

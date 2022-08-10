@@ -3,6 +3,28 @@
   <p>お知らせ管理</p>
   <div>
     <p>ツールバー：FULLタイプ</p>
+    <v-row>
+      <v-col cols="12" md="4">
+    <DatePicker
+      v-model="start"
+      label="start"
+      locale="ja"
+      selectText="確認"
+      cancelText="キャンセル"
+    />
+    {{start}}
+      </v-col>
+      <v-col cols="12" md="4">
+    <DatePicker
+      v-model="end"
+      label="end"
+      locale="ja"
+      selectText="確認"
+      cancelText="キャンセル"
+    />
+      </v-col>
+    </v-row>
+    <p>a</p>
     <QuillEditor
       toolbar="full"
       class="ql-editor"
@@ -90,14 +112,19 @@
 <script>
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import DatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 export default {
   components: {
     QuillEditor,
+    DatePicker,
   },
   data() {
     return {
       content: "表示エリア",
+      start: null,
+      end: null,
       editorOption: {},
     };
   },

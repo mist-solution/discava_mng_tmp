@@ -102,7 +102,6 @@ class AnnounceController extends Controller
     // 新規
     public function register(Request $request)
     {
-        Log::info($request->all());
         $announce = new Announce();
         $announce['add_account'] = 1;
         $announce['upd_account'] = 1;

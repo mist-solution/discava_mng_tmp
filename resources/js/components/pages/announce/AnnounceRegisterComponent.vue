@@ -146,7 +146,8 @@ export default {
         this.$axios.post('api/announce', postData)
           .then(response => {
             this.openSuccess('登録しました');
-            // お知らせ詳細画面または一覧画面に遷移
+            // お知らせ一覧画面に遷移
+            this.$router.push({ name: 'news.list' })
           })
           .catch(error => {
             console.log(error);
@@ -182,9 +183,6 @@ export default {
     },
     categories: {
       get() {
-        const values = this.getCategories;
-        console.log('categories')
-        console.log(values)
         return this.getCategories;
       }
     },

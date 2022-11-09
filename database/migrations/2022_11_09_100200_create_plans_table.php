@@ -14,7 +14,7 @@ class CreatePlansTable extends Migration
     public function up()
     {
         Schema::create('plans', function (Blueprint $table) {
-            $table->comment('プラン');
+            //$table->comment('プラン');  // Laravel 9.14 以降
 
             $table->id()->comment('ID');
             $table->string('name', 128)->comment('プラン名');
@@ -25,6 +25,9 @@ class CreatePlansTable extends Migration
             $table->boolean('del_flg')->default(0);
             $table->timestamps();  //created_at, updated_at
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `plans` comment 'プラン'");
     }
 
     /**

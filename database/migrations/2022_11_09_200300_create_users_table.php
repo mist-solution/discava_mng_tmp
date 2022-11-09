@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->comment('ユーザ');
+            //$table->comment('ユーザ');  // Laravel 9.14 以降
 
             $table->id()->comment('ID');
             $table->unsignedBigInteger('customer_id')->comment('顧客ID');
@@ -38,6 +38,9 @@ class CreateUsersTable extends Migration
             // 外部キー情報
             $table->foreign('customer_id')->references('id')->on('customers');
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `users` comment 'ユーザ'");
     }
 
     /**

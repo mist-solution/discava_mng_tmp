@@ -14,7 +14,7 @@ class CreateFunctionsTable extends Migration
     public function up()
     {
         Schema::create('functions', function (Blueprint $table) {
-            $table->comment('機能');
+            //$table->comment('機能');  // Laravel 9.14 以降
 
             $table->id()->comment('ID');
             $table->string('name', 128)->comment('機能名');
@@ -25,6 +25,9 @@ class CreateFunctionsTable extends Migration
             $table->boolean('del_flg')->default(0);
             $table->timestamps();  //created_at, updated_at
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `functions` comment '機能'");
     }
 
     /**

@@ -14,7 +14,7 @@ class CreateAuthoritySetsTable extends Migration
     public function up()
     {
         Schema::create('authority_sets', function (Blueprint $table) {
-            $table->comment('権限セット');
+            //$table->comment('権限セット');  // Laravel 9.14 以降
 
             $table->id()->comment('ID');
             $table->unsignedBigInteger('authority_id')->comment('セットID');
@@ -36,6 +36,9 @@ class CreateAuthoritySetsTable extends Migration
             // 外部キー情報
             $table->foreign('function_id')->references('id')->on('functions');
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `authority_sets` comment '権限セット'");
     }
 
     /**

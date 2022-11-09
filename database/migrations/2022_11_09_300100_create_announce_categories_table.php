@@ -14,7 +14,7 @@ class CreateAnnounceCategoriesTable extends Migration
     public function up()
     {
         Schema::create('announce_categories', function (Blueprint $table) {
-            $table->comment('お知らせカテゴリ');
+            //$table->comment('お知らせカテゴリ');  // Laravel 9.14 以降
 
             $table->id()->comment('ID');
             $table->unsignedBigInteger('shop_id')->comment('店舗ID');
@@ -31,6 +31,9 @@ class CreateAnnounceCategoriesTable extends Migration
             // 外部キー情報
             $table->foreign('shop_id')->references('id')->on('shops');
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `announce_categories` comment 'お知らせカテゴリ'");
     }
 
     /**

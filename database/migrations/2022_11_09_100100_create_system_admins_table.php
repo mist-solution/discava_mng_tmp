@@ -14,7 +14,7 @@ class CreateSystemAdminsTable extends Migration
     public function up()
     {
         Schema::create('system_admins', function (Blueprint $table) {
-            $table->comment('システム管理者');
+            //$table->comment('システム管理者');  // Laravel 9.14 以降
             
             $table->id()->comment('ID');
             $table->string('login_user_id', 256)->comment('ログインユーザID');
@@ -30,6 +30,9 @@ class CreateSystemAdminsTable extends Migration
             // インデックス情報
             $table->unique('login_user_id');
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `system_admins` comment 'システム管理者'");
     }
 
     /**

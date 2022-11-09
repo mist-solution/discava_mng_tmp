@@ -14,7 +14,7 @@ class CreateShopUsersTable extends Migration
     public function up()
     {
         Schema::create('shop_users', function (Blueprint $table) {
-            $table->comment('店舗ユーザ');
+            //$table->comment('店舗ユーザ');  // Laravel 9.14 以降
             
             $table->id()->comment('ID');
             $table->unsignedBigInteger('shop_id')->comment('店舗ID');
@@ -32,6 +32,9 @@ class CreateShopUsersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('authorityset_id')->references('id')->on('authority_sets');
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `shop_users` comment '店舗ユーザ'");
     }
 
     /**

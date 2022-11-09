@@ -14,7 +14,7 @@ class CreateCustomersTable extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->comment('顧客');
+            //$table->comment('顧客');  // Laravel 9.14 以降
 
             $table->id()->comment('ID');
             $table->string('company_name', 256)->comment('会社名');
@@ -31,6 +31,9 @@ class CreateCustomersTable extends Migration
             $table->boolean('del_flg')->default(0);
             $table->timestamps();  //created_at, updated_at
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `customers` comment '顧客'");
     }
 
     /**

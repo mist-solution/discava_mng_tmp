@@ -14,7 +14,7 @@ class CreatePlanFunctionTable extends Migration
     public function up()
     {
         Schema::create('plan_function', function (Blueprint $table) {
-            $table->comment('プラン機能');
+            //$table->comment('プラン機能');  // Laravel 9.14 以降
 
             $table->unsignedBigInteger('plan_id')->comment('プランID');
             $table->unsignedBigInteger('function_id')->comment('機能ID');
@@ -27,6 +27,9 @@ class CreatePlanFunctionTable extends Migration
             $table->foreign('plan_id')->references('id')->on('plans');
             $table->foreign('function_id')->references('id')->on('functions');
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `plan_function` comment 'プラン機能'");
     }
 
     /**

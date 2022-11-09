@@ -14,7 +14,7 @@ class CreateAnnouncesTable extends Migration
     public function up()
     {
         Schema::create('announces', function (Blueprint $table) {
-            $table->comment('お知らせ');
+            //$table->comment('お知らせ');  // Laravel 9.14 以降
 
             $table->id()->comment('ID');
             $table->unsignedBigInteger('shop_id')->comment('店舗ID');
@@ -40,6 +40,9 @@ class CreateAnnouncesTable extends Migration
             $table->foreign('announce_category_id')->references('id')->on('announce_categories');
             $table->foreign('shop_id')->references('id')->on('shops');
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `announces` comment 'お知らせ'");
     }
 
     /**

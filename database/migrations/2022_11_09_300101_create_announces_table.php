@@ -36,6 +36,7 @@ class CreateAnnouncesTable extends Migration
             $table->index('shop_id');
             // 外部キー情報
             $table->foreign('announce_category_id')->references('id')->on('announce_categories');
+            $table->foreign('shop_id')->references('id')->on('shops');
         });
     }
 

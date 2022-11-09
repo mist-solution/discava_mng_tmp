@@ -14,6 +14,8 @@ class CreateAuthoritySetsTable extends Migration
     public function up()
     {
         Schema::create('authority_sets', function (Blueprint $table) {
+            $table->comment('権限セット');
+
             $table->id()->comment('ID');
             $table->unsignedBigInteger('authority_id')->comment('セットID');
             $table->unsignedBigInteger('function_id')->comment('機能ID');

@@ -14,6 +14,8 @@ class CreateAnnouncesTable extends Migration
     public function up()
     {
         Schema::create('announces', function (Blueprint $table) {
+            $table->comment('お知らせ');
+
             $table->id()->comment('ID');
             $table->unsignedBigInteger('shop_id')->comment('店舗ID');
             $table->unsignedBigInteger('announce_category_id')->comment('お知らせカテゴリID');

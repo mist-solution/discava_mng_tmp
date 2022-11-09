@@ -14,6 +14,8 @@ class CreateShopUsersTable extends Migration
     public function up()
     {
         Schema::create('shop_users', function (Blueprint $table) {
+            $table->comment('店舗ユーザ');
+            
             $table->id()->comment('ID');
             $table->unsignedBigInteger('shop_id')->comment('店舗ID');
             $table->unsignedBigInteger('user_id')->comment('ユーザID');

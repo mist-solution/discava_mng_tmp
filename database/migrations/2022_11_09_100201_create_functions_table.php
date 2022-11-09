@@ -14,6 +14,8 @@ class CreateFunctionsTable extends Migration
     public function up()
     {
         Schema::create('functions', function (Blueprint $table) {
+            $table->comment('機能');
+
             $table->id()->comment('ID');
             $table->string('name', 128)->comment('機能名');
             $table->string('description', 1024)->nullable()->comment('機能説明');

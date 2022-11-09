@@ -14,6 +14,8 @@ class CreateSystemAdminsTable extends Migration
     public function up()
     {
         Schema::create('system_admins', function (Blueprint $table) {
+            $table->comment('システム管理者');
+            
             $table->id()->comment('ID');
             $table->string('login_user_id', 256)->comment('ログインユーザID');
             $table->string('mail', 256)->comment('メールアドレス');

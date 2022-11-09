@@ -14,6 +14,8 @@ class CreatePlanFunctionTable extends Migration
     public function up()
     {
         Schema::create('plan_function', function (Blueprint $table) {
+            $table->comment('プラン機能');
+
             $table->unsignedBigInteger('plan_id')->comment('プランID');
             $table->unsignedBigInteger('function_id')->comment('機能ID');
             // レコード更新情報

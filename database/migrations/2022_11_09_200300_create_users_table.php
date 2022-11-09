@@ -14,6 +14,8 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
+            $table->comment('ユーザ');
+
             $table->id()->comment('ID');
             $table->unsignedBigInteger('customer_id')->comment('顧客ID');
             $table->string('login_user_id', 256)->comment('ログインユーザID');

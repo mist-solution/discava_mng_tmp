@@ -15,23 +15,27 @@ class CreateAnnouncesTable extends Migration
     {
         Schema::create('announces', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
+            $table->unsignedBigInteger('shop_id');
             $table->unsignedBigInteger('announce_category_id');
             $table->dateTime('start_date');
             $table->dateTime('end_date')->nullable();
+            $table->string('title', 256);
+            $table->string('thumbnail_img_path', 128);
             $table->text('contents');
+            // 承認ステータス情報
             $table->unsignedTinyInteger('approval_status')->default(0);
-            $table->text('approval_comment')->nullable();
             $table->text('approval_account')->nullable();
             $table->dateTime('approval_datetime')->nullable();
-            $table->boolean('del_flg')->default(false);
+            $table->string('remand_comment', 512)->nullable();
+            // レコード更新情報
             $table->unsignedBigInteger('add_account');
             $table->unsignedBigInteger('upd_account');
-            $table->timestamps();
-
+            $table->boolean('del_flg')->default(0);
+            $table->timestamps();  //created_at, updated_at
+            // インデックス情報
+            $table->index('shop_id');
+            // 外部キー情報
             $table->foreign('announce_category_id')->references('id')->on('announce_categories');
-            $table->foreign('add_account')->references('id')->on('users');
-            $table->foreign('upd_account')->references('id')->on('users');
         });
     }
 

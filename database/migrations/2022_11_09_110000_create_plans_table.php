@@ -16,8 +16,12 @@ class CreatePlansTable extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('name', 128);
-            $table->string('description', 1024);
-            $table->timestamps();
+            $table->string('description', 1024)->nullable();
+            // レコード更新情報
+            $table->unsignedBigInteger('add_account');
+            $table->unsignedBigInteger('upd_account');
+            $table->boolean('del_flg')->default(0);
+            $table->timestamps();  //created_at, updated_at
         });
     }
 

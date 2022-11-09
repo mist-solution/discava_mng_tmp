@@ -15,10 +15,19 @@ class CreateShopUsersTable extends Migration
     {
         Schema::create('shop_users', function (Blueprint $table) {
             $table->id();
-	    $table->unsignedBigInteger('shop_id');
-	    $table->unsignedBigInteger('user_id');
-	    $table->unsignedBigInteger('authorityset_id');
-            $table->timestamps();
+            $table->unsignedBigInteger('shop_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('authorityset_id');
+            // レコード更新情報
+            $table->unsignedBigInteger('add_account');
+            $table->unsignedBigInteger('upd_account');
+            $table->boolean('del_flg')->default(0);
+            $table->timestamps();  //created_at, updated_at
+            // インデックス情報
+            $table->unique(['shop_id', 'user_id']);
+            // 外部キー情報
+            $table->foreign('shop_id')->references('id')->on('shops');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

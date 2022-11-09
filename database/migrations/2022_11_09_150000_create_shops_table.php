@@ -15,10 +15,17 @@ class CreateShopsTable extends Migration
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
-	    $table->unsignedBigInteger('customer_id');
-	    $table->string('shop_name', 256);
-	    $table->unsignedBigInteger('plan_id');
-            $table->timestamps();
+            $table->unsignedBigInteger('customer_id');
+            $table->string('shop_name', 256);
+            $table->unsignedBigInteger('plan_id');
+            // レコード更新情報
+            $table->unsignedBigInteger('add_account');
+            $table->unsignedBigInteger('upd_account');
+            $table->boolean('del_flg')->default(0);
+            $table->timestamps();  //created_at, updated_at
+            // 外部キー情報
+            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('plan_id')->references('id')->on('plans');
         });
     }
 

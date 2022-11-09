@@ -16,7 +16,14 @@ class CreatePlanFunctionTable extends Migration
         Schema::create('plan_function', function (Blueprint $table) {
             $table->unsignedBigInteger('plan_id');
             $table->unsignedBigInteger('function_id');
-            $table->timestamps();
+            // レコード更新情報
+            $table->unsignedBigInteger('add_account');
+            $table->unsignedBigInteger('upd_account');
+            $table->boolean('del_flg')->default(0);
+            $table->timestamps();  //created_at, updated_at
+            // 外部キー情報
+            $table->foreign('plan_id')->references('id')->on('plans');
+            $table->foreign('function_id')->references('id')->on('functions');
         });
     }
 

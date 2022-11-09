@@ -19,10 +19,15 @@ class CreateAnnounceCategoriesTable extends Migration
             $table->string('category_name',128);
             $table->string('description',1024)->nullable();
             $table->string('icon',128)->nullable();
-            $table->boolean('del_flg')->default(0);
+            // レコード更新情報
             $table->unsignedBigInteger('add_account');
             $table->unsignedBigInteger('upd_account');
-            $table->timestamps();
+            $table->boolean('del_flg')->default(0);
+            $table->timestamps();  //created_at, updated_at
+            // インデックス情報
+            $table->index('shop_id');
+            // 外部キー情報
+            $table->foreign('shop_id')->references('id')->on('shops');
         });
     }
 

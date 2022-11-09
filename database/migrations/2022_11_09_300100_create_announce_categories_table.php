@@ -14,11 +14,11 @@ class CreateAnnounceCategoriesTable extends Migration
     public function up()
     {
         Schema::create('announce_categories', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('shop_id');
-            $table->string('category_name',128);
-            $table->string('description',1024)->nullable();
-            $table->string('icon',128)->nullable();
+            $table->id()->comment('ID');
+            $table->unsignedBigInteger('shop_id')->comment('店舗ID');
+            $table->string('category_name',128)->comment('カテゴリ名');
+            $table->string('description',1024)->nullable()->comment('カテゴリ説明');
+            $table->string('icon',128)->nullable()->comment('お知らせアイコン');
             // レコード更新情報
             $table->unsignedBigInteger('add_account');
             $table->unsignedBigInteger('upd_account');

@@ -14,9 +14,9 @@ class CreatePlansTable extends Migration
     public function up()
     {
         Schema::create('plans', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 128);
-            $table->string('description', 1024)->nullable();
+            $table->id()->comment('ID');
+            $table->string('name', 128)->comment('プラン名');
+            $table->string('description', 1024)->nullable()->comment('プラン説明');
             // レコード更新情報
             $table->unsignedBigInteger('add_account');
             $table->unsignedBigInteger('upd_account');

@@ -14,16 +14,16 @@ class CreateAuthoritySetsTable extends Migration
     public function up()
     {
         Schema::create('authority_sets', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('authority_id');
-            $table->unsignedBigInteger('function_id');
-            $table->unsignedTinyInteger('function_auth_flg');
-            $table->unsignedTinyInteger('create_auth_flg');
-            $table->unsignedTinyInteger('read_auth_flg');
-            $table->unsignedTinyInteger('update_auth_flg');
-            $table->unsignedTinyInteger('delete_auth_flg');
-            $table->unsignedTinyInteger('request_auth_flg');
-            $table->unsignedTinyInteger('approval_auth_flg');
+            $table->id()->comment('ID');
+            $table->unsignedBigInteger('authority_id')->comment('セットID');
+            $table->unsignedBigInteger('function_id')->comment('機能ID');
+            $table->unsignedTinyInteger('function_auth_flg')->comment('機能権限フラグ');
+            $table->unsignedTinyInteger('create_auth_flg')->comment('登録権限フラグ');
+            $table->unsignedTinyInteger('read_auth_flg')->comment('表示権限フラグ');
+            $table->unsignedTinyInteger('update_auth_flg')->comment('編集権限フラグ');
+            $table->unsignedTinyInteger('delete_auth_flg')->comment('削除権限フラグ');
+            $table->unsignedTinyInteger('request_auth_flg')->comment('申請権限フラグ');
+            $table->unsignedTinyInteger('approval_auth_flg')->comment('承認権限フラグ');
             // レコード更新情報
             $table->unsignedBigInteger('add_account');
             $table->unsignedBigInteger('upd_account');

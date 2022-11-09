@@ -14,10 +14,10 @@ class CreateShopUsersTable extends Migration
     public function up()
     {
         Schema::create('shop_users', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('shop_id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('authorityset_id');
+            $table->id()->comment('ID');
+            $table->unsignedBigInteger('shop_id')->comment('店舗ID');
+            $table->unsignedBigInteger('user_id')->comment('ユーザID');
+            $table->unsignedBigInteger('authorityset_id')->comment('権限セットID');
             // レコード更新情報
             $table->unsignedBigInteger('add_account');
             $table->unsignedBigInteger('upd_account');

@@ -14,10 +14,10 @@ class CreateShopsTable extends Migration
     public function up()
     {
         Schema::create('shops', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('customer_id');
-            $table->string('shop_name', 256);
-            $table->unsignedBigInteger('plan_id');
+            $table->id()->comment('ID');
+            $table->unsignedBigInteger('customer_id')->comment('顧客ID');
+            $table->string('shop_name', 256)->comment('店舗名');
+            $table->unsignedBigInteger('plan_id')->comment('プランID');
             // レコード更新情報
             $table->unsignedBigInteger('add_account');
             $table->unsignedBigInteger('upd_account');

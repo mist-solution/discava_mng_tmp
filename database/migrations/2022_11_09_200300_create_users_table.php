@@ -14,15 +14,15 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('customer_id');
-            $table->string('login_user_id', 256);
-            $table->string('mail', 256);
-            $table->string('name', 50);
-            $table->string('initial_password', 128);
-            $table->string('password', 128);
-            $table->unsignedBigInteger('login_fail_count');
-            $table->timestamp('email_verified_at')->nullable();
+            $table->id()->comment('ID');
+            $table->unsignedBigInteger('customer_id')->comment('顧客ID');
+            $table->string('login_user_id', 256)->comment('ログインユーザID');
+            $table->string('mail', 256)->comment('メールアドレス');
+            $table->string('name', 50)->comment('ユーザ名');
+            $table->string('initial_password', 128)->comment('初期パスワード');
+            $table->string('password', 128)->comment('パスワード');
+            $table->unsignedBigInteger('login_fail_count')->comment('ログイン試行回数');
+            $table->timestamp('email_verified_at')->nullable()->comment('メールアドレス変更日時');
             // トークン保持情報
             $table->rememberToken();
             // レコード更新情報

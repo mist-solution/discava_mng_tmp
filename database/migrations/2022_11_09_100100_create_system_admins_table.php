@@ -14,12 +14,12 @@ class CreateSystemAdminsTable extends Migration
     public function up()
     {
         Schema::create('system_admins', function (Blueprint $table) {
-            $table->id();
-            $table->string('login_user_id', 256);
-            $table->string('mail', 256);
-            $table->string('name', 50);
-            $table->string('initial_password', 128);
-            $table->string('password', 128);
+            $table->id()->comment('ID');
+            $table->string('login_user_id', 256)->comment('ログインユーザID');
+            $table->string('mail', 256)->comment('メールアドレス');
+            $table->string('name', 50)->comment('システム管理者名');
+            $table->string('initial_password', 128)->comment('初期パスワード');
+            $table->string('password', 128)->comment('パスワード');
             // レコード更新情報
             $table->unsignedBigInteger('add_account');
             $table->unsignedBigInteger('upd_account');

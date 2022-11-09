@@ -110,8 +110,10 @@ class AnnounceController extends Controller
 
         $data = $request->all();
         $announce['title'] = $data['title'];
-        $announce['announce_category_id'] = $data['announce_category_id'];
-        $announce['start_date'] = $data['start_date'];
+//        $announce['announce_category_id'] = $data['announce_category_id'];
+	$announce['announce_category_id'] = 1;
+	$announce['remand_comment'] = 'remand_comment';
+	$announce['start_date'] = $data['start_date'];
         $announce['end_date'] = $data['end_date'];
         $announce['contents'] = $data['contents'];
 

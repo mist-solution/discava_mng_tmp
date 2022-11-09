@@ -24,12 +24,13 @@
           <v-col cols="12" md="6">
             <v-select
               dense
-              v-model="announce.announce_category_id"
-              :items="categories"
+              v-model="select1"
+              :items="categories1"
               label="カテゴリ"
               item-value="id"
               item-title="category"
               :rules="[rules.required]"
+              return-object
             />
           </v-col>
         </v-row>
@@ -105,11 +106,13 @@ export default {
     return {
       contents: null,
       start_date: null,
-      cate: [
-        {name :"test 1"},
-        "test 2",
-      ],
-      catete: null,
+//      cate: [
+//        {name :"test 1"},
+//        "test 2",
+//      ],
+//      catete: null,
+      select1: { id: '1', category: 'test1'},
+      categories1: [ { id: '1', category: 'test1'}, { id: '2',category: 'test2'}, ],
       announce: {
         title: null,
         announce_category_id: null,
@@ -143,7 +146,7 @@ export default {
           end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
           contents: this.announce.contents,
         }
-        this.$axios.post('api/announce', postData)
+        this.$axios.post('/api/announce', postData)
           .then(response => {
             this.openSuccess('登録しました');
             // お知らせ一覧画面に遷移

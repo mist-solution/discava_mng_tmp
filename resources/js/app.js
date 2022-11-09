@@ -3,7 +3,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import vuetify from './vuetify'
 import vuex from './store/index'
 import { createApp } from 'vue'
-import App from './components/app'
+import App from './components/App'
 import router from "./router";
 import dayjs from 'dayjs'
 import 'dayjs/locale/ja'

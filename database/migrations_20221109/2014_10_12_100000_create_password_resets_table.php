@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRemandCommentToAnnounce extends Migration
+class CreatePasswordResetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddRemandCommentToAnnounce extends Migration
      */
     public function up()
     {
-        Schema::table('announce', function (Blueprint $table) {
-            $table->string('remand_comment', 200)->after('approval_datetime');
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -25,8 +27,6 @@ class AddRemandCommentToAnnounce extends Migration
      */
     public function down()
     {
-        Schema::table('announce', function (Blueprint $table) {
-            $table->dropColumn('remand_comment');
-        });
+        Schema::dropIfExists('password_resets');
     }
 }

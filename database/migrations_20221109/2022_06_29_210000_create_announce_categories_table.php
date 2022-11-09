@@ -15,13 +15,15 @@ class CreateAnnounceCategoriesTable extends Migration
     {
         Schema::create('announce_categories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('shop_id');
-            $table->string('category_name',128);
-            $table->string('description',1024)->nullable();
-            $table->string('icon',128)->nullable();
+            $table->string('code', 8);
+            // contract が曖昧なため
+            $table->unsignedInteger('contract_id')->nullable();
+            $table->string('category',128);
+            $table->text('description')->nullable();
+            $table->text('icon')->nullable();
             $table->boolean('del_flg')->default(0);
-            $table->unsignedBigInteger('add_account');
-            $table->unsignedBigInteger('upd_account');
+            $table->bigInteger('add_account');
+            $table->bigInteger('upd_account');
             $table->timestamps();
         });
     }

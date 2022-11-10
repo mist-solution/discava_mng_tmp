@@ -14,6 +14,8 @@ class CreatePasswordResetsTable extends Migration
     public function up()
     {
         Schema::create('password_resets', function (Blueprint $table) {
+
+            $table->id()->comment('ID');
             $table->string('email')->comment('メールアドレス');
             $table->string('token')->comment('トークン');
             $table->datetime('created_at')->nullable()->comment('登録日時');  // 2038年問題対応 timestamp→datetime

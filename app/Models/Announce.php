@@ -11,14 +11,21 @@ class Announce extends Model
     use HasFactory;
 
     protected $table = 'announces';
+
     protected $fillable = [
+        'shop_id',
+        'announce_category_id',
+        'start_date',
+        'end_date',
         'title',
+        'thumbnail_img_path',
         'contents',
         'approval_status',
-        'approval_comment',
         'approval_account',
         'approval_datetime',
         'remand_comment',
+        'add_account',
+        'upd_account',
         'del_flg',
     ];
 

@@ -2,20 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Log;
 
-class AnnounceCategory extends Model
+class Plan extends Model
 {
     use HasFactory;
 
-    protected $table = 'announce_categories';
-
+    protected $table = 'plans';
     protected $fillable = [
-        'shop_id',
-        'category_name',
+        'name',
         'description',
-        'icon',
         'add_account',
         'upd_account',
         'del_flg',

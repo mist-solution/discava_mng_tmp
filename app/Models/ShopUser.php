@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EndUser extends Model
+class ShopUser extends Model
 {
     use HasFactory;
 
@@ -15,17 +15,11 @@ class EndUser extends Model
      * @var string[]
      */
     protected $fillable = [
-        'customer_id',
+        'shop_id',
         'user_id',
+        'authorityset_id',
+        'add_account',
+        'upd_account',
+        'del_flg',
     ];
-
-    public function customer()
-    {
-        return $this->belongsTo(Customer::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

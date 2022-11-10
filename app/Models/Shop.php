@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Shop extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
     protected $fillable = [
-        'company_name',
-        'business_content',
-        'postal_code',
-        'address',
-        'building_name',
-        'tel',
-        'fax',
-        'mail',
+        'customer_id',
+        'shop_name',
+        'plan_id',
         'add_account',
         'upd_account',
         'del_flg',

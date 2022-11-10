@@ -26,7 +26,7 @@ class CreateFailedJobsTable extends Migration
         });
 
         // テーブルコメント
-        DB::statement("ALTER TABLE `announces` comment 'ジョブ失敗履歴'");
+        DB::statement("ALTER TABLE `failed_jobs` comment 'ジョブ失敗履歴'");
     }
 
     /**

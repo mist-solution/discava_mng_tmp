@@ -23,7 +23,7 @@ class CreateTasksTable extends Migration
         });
 
         // テーブルコメント
-        DB::statement("ALTER TABLE `announces` comment 'タスク'");
+        DB::statement("ALTER TABLE `tasks` comment 'タスク'");
     }
 
     /**

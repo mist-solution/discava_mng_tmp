@@ -27,7 +27,7 @@ class CreatePersonalAccessTokensTable extends Migration
         });
 
         // テーブルコメント
-        DB::statement("ALTER TABLE `announces` comment 'パーソナルアクセストークン'");
+        DB::statement("ALTER TABLE `personal_access_tokens` comment 'パーソナルアクセストークン'");
     }
 
     /**

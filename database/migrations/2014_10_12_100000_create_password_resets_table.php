@@ -22,7 +22,7 @@ class CreatePasswordResetsTable extends Migration
         });
 
         // テーブルコメント
-        DB::statement("ALTER TABLE `announces` comment 'パスワードリセット'");
+        DB::statement("ALTER TABLE `password_resets` comment 'パスワードリセット'");
     }
 
     /**

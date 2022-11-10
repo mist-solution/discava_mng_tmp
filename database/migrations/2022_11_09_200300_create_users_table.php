@@ -24,14 +24,15 @@ class CreateUsersTable extends Migration
             $table->string('initial_password', 128)->comment('初期パスワード');
             $table->string('password', 128)->comment('パスワード');
             $table->unsignedBigInteger('login_fail_count')->comment('ログイン試行回数');
-            $table->timestamp('email_verified_at')->nullable()->comment('メールアドレス変更日時');
+            $table->datetime('email_verified_at')->nullable()->comment('メールアドレス変更日時');
             // トークン保持情報
             $table->rememberToken();
             // レコード更新情報
-            $table->unsignedBigInteger('add_account');
-            $table->unsignedBigInteger('upd_account');
-            $table->boolean('del_flg')->default(0);
-            $table->timestamps();  //created_at, updated_at
+            $table->unsignedBigInteger('add_account')->comment('登録アカウント');
+            $table->unsignedBigInteger('upd_account')->comment('更新アカウント');
+            $table->boolean('del_flg')->default(0)->comment('削除フラグ');
+            $table->datetime('created_at')->nullable()->comment('登録日時');  // 2038年問題対応 timestamp→datetime
+            $table->datetime('updated_at')->nullable()->comment('更新日時');
             // インデックス情報
             $table->unique('login_user_id');
             $table->unique('mail');

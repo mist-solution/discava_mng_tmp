@@ -14,10 +14,15 @@ class CreatePasswordResetsTable extends Migration
     public function up()
     {
         Schema::create('password_resets', function (Blueprint $table) {
-            $table->string('email')->index();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
+            $table->string('email')->comment('メールアドレス');
+            $table->string('token')->comment('トークン');
+            $table->datetime('created_at')->nullable()->comment('登録日時');  // 2038年問題対応 timestamp→datetime
+            // インデックス情報
+            $table->index('email');
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `announces` comment 'パスワードリセット'");
     }
 
     /**

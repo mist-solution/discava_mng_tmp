@@ -26,10 +26,11 @@ class CreateCustomersTable extends Migration
             $table->string('fax', 20)->nullable()->comment('FAX番号');
             $table->string('mail', 256)->nullable()->comment('メールアドレス');
             // レコード更新情報
-            $table->unsignedBigInteger('add_account');
-            $table->unsignedBigInteger('upd_account');
-            $table->boolean('del_flg')->default(0);
-            $table->timestamps();  //created_at, updated_at
+            $table->unsignedBigInteger('add_account')->comment('登録アカウント');
+            $table->unsignedBigInteger('upd_account')->comment('更新アカウント');
+            $table->boolean('del_flg')->default(0)->comment('削除フラグ');
+            $table->datetime('created_at')->nullable()->comment('登録日時');  // 2038年問題対応 timestamp→datetime
+            $table->datetime('updated_at')->nullable()->comment('更新日時');
         });
 
         // テーブルコメント

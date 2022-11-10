@@ -30,10 +30,11 @@ class CreateAnnouncesTable extends Migration
             $table->dateTime('approval_datetime')->nullable()->comment('承認日時');
             $table->string('remand_comment', 512)->nullable()->comment('差戻しコメント');
             // レコード更新情報
-            $table->unsignedBigInteger('add_account');
-            $table->unsignedBigInteger('upd_account');
-            $table->boolean('del_flg')->default(0);
-            $table->timestamps();  //created_at, updated_at
+            $table->unsignedBigInteger('add_account')->comment('登録アカウント');
+            $table->unsignedBigInteger('upd_account')->comment('更新アカウント');
+            $table->boolean('del_flg')->default(0)->comment('削除フラグ');
+            $table->datetime('created_at')->nullable()->comment('登録日時');  // 2038年問題対応 timestamp→datetime
+            $table->datetime('updated_at')->nullable()->comment('更新日時');
             // インデックス情報
             $table->index('shop_id');
             // 外部キー情報

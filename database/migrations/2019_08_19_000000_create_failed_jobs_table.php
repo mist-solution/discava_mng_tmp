@@ -14,14 +14,19 @@ class CreateFailedJobsTable extends Migration
     public function up()
     {
         Schema::create('failed_jobs', function (Blueprint $table) {
-            $table->id();
-            $table->string('uuid')->unique();
-            $table->text('connection');
-            $table->text('queue');
-            $table->longText('payload');
-            $table->longText('exception');
-            $table->timestamp('failed_at')->useCurrent();
+            $table->id()->comment('ID');
+            $table->string('uuid')->comment('UUID');
+            $table->text('connection')->comment('接続情報');
+            $table->text('queue')->comment('キュー');
+            $table->longText('payload')->comment('ペイロード');
+            $table->longText('exception')->comment('例外情報');
+            $table->datetime('failed_at')->useCurrent()->comment('失敗日時');  // 2038年問題対応 timestamp→datetime
+            // インデックス情報
+            $table->unique('uuid');
         });
+
+        // テーブルコメント
+        DB::statement("ALTER TABLE `announces` comment 'ジョブ失敗履歴'");
     }
 
     /**

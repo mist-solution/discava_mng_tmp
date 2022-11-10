@@ -9,11 +9,8 @@ class Shop extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
+    protected $table = 'shops';
+
     protected $fillable = [
         'customer_id',
         'shop_name',

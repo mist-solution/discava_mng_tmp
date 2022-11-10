@@ -9,11 +9,8 @@ class SystemAdmin extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
+    protected $table = 'system_admins';
+
     protected $fillable = [
         'login_user_id',
         'mail',

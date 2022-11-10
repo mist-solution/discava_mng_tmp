@@ -11,6 +11,7 @@ class PlanFunction extends Model
     use HasFactory;
 
     protected $table = 'plan_function';
+    
     protected $fillable = [
         'plan_id',
         'function_id',

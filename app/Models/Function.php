@@ -11,6 +11,7 @@ class Function extends Model
     use HasFactory;
 
     protected $table = 'functions';
+    
     protected $fillable = [
         'name',
         'description',

@@ -11,6 +11,7 @@ class AuthoritySet extends Model
     use HasFactory;
 
     protected $table = 'authority_sets';
+    
     protected $fillable = [
         'authority_id',
         'function_id',

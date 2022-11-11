@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 
-class PlanFunction extends Model
+class PlanMateFunction extends Model
 {
     use HasFactory;
 
-    protected $table = 'plan_functions';
+    protected $table = 'plan_mate_functions';
     
     protected $fillable = [
         'plan_id',

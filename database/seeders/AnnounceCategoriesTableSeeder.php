@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\AnnounceCategory;
-use DB;
 
 class AnnounceCategoriesTableSeeder extends Seeder
 {
@@ -15,14 +14,52 @@ class AnnounceCategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = DB::table('users')->where('name', 'mistuser')->first();
         AnnounceCategory::create([
-            'code' => 'TEST',
-            'contract_id' => null,
-            'category' => 'TEST',
+            'shop_id' => '1',
+            'category_name' => 'お知らせ',
             'description' => null,
-            'add_account' => $user->id,
-            'upd_account' => $user->id,
+            'icon' => null,
+            'add_account' => '1',
+            'upd_account' => '1',
+            'del_flg' => '0',
         ]);
+        AnnounceCategory::create([
+            'shop_id' => '1',
+            'category_name' => '重要なお知らせ',
+            'description' => null,
+            'icon' => null,
+            'add_account' => '1',
+            'upd_account' => '1',
+            'del_flg' => '0',
+        ]);
+        AnnounceCategory::create([
+            'shop_id' => '1',
+            'category_name' => 'イベント',
+            'description' => null,
+            'icon' => null,
+            'add_account' => '1',
+            'upd_account' => '1',
+            'del_flg' => '0',
+        ]);
+
+        AnnounceCategory::create([
+            'shop_id' => '2',
+            'category_name' => 'お知らせ',
+            'description' => null,
+            'icon' => null,
+            'add_account' => '1',
+            'upd_account' => '1',
+            'del_flg' => '0',
+        ]);
+        AnnounceCategory::create([
+            'shop_id' => '2',
+            'category_name' => 'お得情報',
+            'description' => null,
+            'icon' => null,
+            'add_account' => '1',
+            'upd_account' => '1',
+            'del_flg' => '0',
+        ]);
+
     }
 }

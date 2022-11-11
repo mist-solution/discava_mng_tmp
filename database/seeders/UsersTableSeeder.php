@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
         User::create([
             'customer_id' => '1',
             'login_user_id' => 'mist_test001',
-            'mail' => 'integration-test+001@mistnet.co.jp>',
+            'mail' => 'integration-test+001@mistnet.co.jp',
             'name' => 'mist_test001',
             'initial_password' => bcrypt('Passw0rd'),
             'password' => bcrypt('Passw0rd"'),
@@ -49,7 +49,7 @@ class UsersTableSeeder extends Seeder
         User::create([
             'customer_id' => '1',
             'login_user_id' => 'mist_test002',
-            'mail' => 'integration-test+002@mistnet.co.jp>',
+            'mail' => 'integration-test+002@mistnet.co.jp',
             'name' => 'mist_test002',
             'initial_password' => bcrypt('Passw0rd'),
             'password' => bcrypt('Passw0rd"'),

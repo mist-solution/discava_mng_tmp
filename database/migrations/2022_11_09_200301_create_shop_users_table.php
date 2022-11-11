@@ -19,7 +19,7 @@ class CreateShopUsersTable extends Migration
             $table->id()->comment('ID');
             $table->unsignedBigInteger('shop_id')->comment('店舗ID');
             $table->unsignedBigInteger('user_id')->comment('ユーザID');
-            $table->unsignedBigInteger('authorityset_id')->comment('権限セットID');
+            $table->unsignedBigInteger('authority_id')->comment('権限ID');
             // レコード更新情報
             $table->unsignedBigInteger('add_account')->comment('登録アカウント');
             $table->unsignedBigInteger('upd_account')->comment('更新アカウント');
@@ -31,7 +31,6 @@ class CreateShopUsersTable extends Migration
             // 外部キー情報
             $table->foreign('shop_id')->references('id')->on('shops');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('authorityset_id')->references('id')->on('authority_sets');
         });
 
         // テーブルコメント

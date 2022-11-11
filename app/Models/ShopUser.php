@@ -14,7 +14,7 @@ class ShopUser extends Model
     protected $fillable = [
         'shop_id',
         'user_id',
-        'authorityset_id',
+        'authority_id',
         'add_account',
         'upd_account',
         'del_flg',

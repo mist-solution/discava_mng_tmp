@@ -31,8 +31,17 @@ class UsersTableSeeder extends Seeder
         ]);
 
         // 社内検証用ユーザ
-        $array1 = array("mate1111", "mate2222", "mate3333", "mate4444", "mate5555");
-        $array2 = array("mate6666", "mate7777", "mate8888", "mate9999");
+        $array1 = array(
+            "mate1111",
+            "mate2222",
+            "mate3333",
+            "mate4444",
+            "mate5555",
+            "mate6666",
+            "mate7777",
+            "mate8888",
+            "mate9999"
+        );
 
         for($i = 0; $i < count($array1); $i++){
             User::create([
@@ -42,23 +51,6 @@ class UsersTableSeeder extends Seeder
                 'name' => 'mist_' . $array1[$i],
                 'initial_password' => bcrypt($array1[$i]),
                 'password' => bcrypt($array1[$i]),
-                'login_fail_count' => '0',
-                'email_verified_at' => null,
-                'remember_token' => null,
-                'add_account' => '1',
-                'upd_account' => '1',
-                'del_flg' => '0',
-            ]);
-        }
-
-        for($i = 0; $i < count($array2); $i++){
-            User::create([
-                'customer_id' => '2',
-                'login_user_id' => $array2[$i],
-                'mail' => 'integration-test+' . $array2[$i] . '@mistnet.co.jp',
-                'name' => 'mist_' . $array2[$i],
-                'initial_password' => bcrypt($array2[$i]),
-                'password' => bcrypt($array2[$i]),
                 'login_fail_count' => '0',
                 'email_verified_at' => null,
                 'remember_token' => null,

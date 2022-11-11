@@ -33,7 +33,7 @@ class CreateAuthoritySetsTable extends Migration
             $table->datetime('created_at')->nullable()->comment('登録日時');  // 2038年問題対応 timestamp→datetime
             $table->datetime('updated_at')->nullable()->comment('更新日時');
             // インデックス情報
-            $table->unique(['authority_id', 'function_id']);
+            $table->unique(['authority_id', 'mate_function_id']);
             // 外部キー情報
             $table->foreign('mate_function_id')->references('id')->on('mate_functions');
         });

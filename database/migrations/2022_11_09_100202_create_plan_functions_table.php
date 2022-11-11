@@ -13,7 +13,7 @@ class CreatePlanFunctionTable extends Migration
      */
     public function up()
     {
-        Schema::create('plan_function', function (Blueprint $table) {
+        Schema::create('plan_functions', function (Blueprint $table) {
             //$table->comment('プラン機能');  // Laravel 9.14 以降
 
             $table->id()->comment('ID');
@@ -33,7 +33,7 @@ class CreatePlanFunctionTable extends Migration
         });
 
         // テーブルコメント
-        DB::statement("ALTER TABLE `plan_function` comment 'プラン機能'");
+        DB::statement("ALTER TABLE `plan_functions` comment 'プラン機能'");
     }
 
     /**

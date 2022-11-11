@@ -40,17 +40,18 @@ class UsersTableSeeder extends Seeder
             'mate6666',
             'mate7777',
             'mate8888',
-            'mate9999'
+            'mate9999',
         );
 
         for($i = 0; $i < count($array1); $i++){
+            $userid = $array1[$i];
             User::create([
                 'customer_id' => '1',
-                'login_user_id' => $array1[$i],
-                'mail' => 'integration-test+' . $array1[$i] . '@mistnet.co.jp',
-                'name' => 'mist_' . $array1[$i],
-                'initial_password' => bcrypt($array1[$i]),
-                'password' => bcrypt($array1[$i]),
+                'login_user_id' => $userid,
+                'mail' => 'integration-test+' . $userid . '@mistnet.co.jp',
+                'name' => 'mist_' . $userid,
+                'initial_password' => bcrypt($userid),
+                'password' => bcrypt($userid),
                 'login_fail_count' => '0',
                 'email_verified_at' => null,
                 'remember_token' => null,

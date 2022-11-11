@@ -31,6 +31,7 @@ class CreateShopUsersTable extends Migration
             // 外部キー情報
             $table->foreign('shop_id')->references('id')->on('shops');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('authority_id')->references('authority_id')->on('authority_sets');
         });
 
         // テーブルコメント

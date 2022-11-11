@@ -17,7 +17,7 @@ class CreateAuthoritySetsTable extends Migration
             //$table->comment('権限セット');  // Laravel 9.14 以降
 
             $table->id()->comment('ID');
-            $table->unsignedBigInteger('authority_id')->comment('セットID');
+            $table->unsignedBigInteger('authority_id')->comment('権限ID');
             $table->unsignedBigInteger('mate_function_id')->comment('機能ID');
             $table->unsignedTinyInteger('function_auth_flg')->comment('機能権限フラグ');
             $table->unsignedTinyInteger('create_auth_flg')->comment('登録権限フラグ');

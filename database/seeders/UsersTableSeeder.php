@@ -94,11 +94,11 @@ class UsersTableSeeder extends Seeder
             $userid = substr($proper[$i], 0, $pos);
             User::create([
                 'customer_id' => '1',
-                'login_user_id' => $proper[$i],
-                'mail' => 'integration-test+' . $proper[$i] . '@mistnet.co.jp',
-                'name' => 'mist_' . $proper[$i],
-                'initial_password' => bcrypt($proper[$i]),
-                'password' => bcrypt($proper[$i]),
+                'login_user_id' => $userid,
+                'mail' => $proper[$i],
+                'name' => 'mist_' . $userid,
+                'initial_password' => bcrypt($userid),
+                'password' => bcrypt($userid),
                 'login_fail_count' => '0',
                 'email_verified_at' => null,
                 'remember_token' => null,

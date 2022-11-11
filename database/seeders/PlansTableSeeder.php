@@ -17,6 +17,9 @@ class PlansTableSeeder extends Seeder
         Plan::create([
             'name' => 'プラチナプラン',
             'description' => 'DISCaVa MATEを使用するプラン',
+            'add_account' => '1',
+            'upd_account' => '1',
+            'del_flg' => '0',
         ]);
     }
 }

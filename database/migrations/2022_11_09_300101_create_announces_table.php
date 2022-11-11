@@ -22,7 +22,7 @@ class CreateAnnouncesTable extends Migration
             $table->dateTime('start_date')->comment('掲載開始日');
             $table->dateTime('end_date')->nullable()->comment('掲載終了日');
             $table->string('title', 256)->comment('タイトル');
-            $table->string('thumbnail_img_path', 128)->comment('サムネイル画像パス');
+            $table->string('thumbnail_img_path', 128)->nullable()->comment('サムネイル画像パス');
             $table->text('contents')->comment('内容');
             // 承認ステータス情報
             $table->unsignedTinyInteger('approval_status')->default(0)->comment('承認ステータス');

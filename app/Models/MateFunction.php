@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 
-class Function extends Model
+class MateFunction extends Model
 {
     use HasFactory;
 
-    protected $table = 'functions';
+    protected $table = 'mate_functions';
     
     protected $fillable = [
         'name',

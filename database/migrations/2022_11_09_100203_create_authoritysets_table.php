@@ -35,7 +35,7 @@ class CreateAuthoritySetsTable extends Migration
             // インデックス情報
             $table->unique(['authority_id', 'function_id']);
             // 外部キー情報
-            $table->foreign('function_id')->references('id')->on('functions');
+            $table->foreign('function_id')->references('id')->on('mate_functions');
         });
 
         // テーブルコメント

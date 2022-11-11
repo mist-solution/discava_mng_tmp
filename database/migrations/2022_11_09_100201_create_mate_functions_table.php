@@ -13,7 +13,7 @@ class CreateFunctionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('functions', function (Blueprint $table) {
+        Schema::create('mate_functions', function (Blueprint $table) {
             //$table->comment('機能');  // Laravel 9.14 以降
 
             $table->id()->comment('ID');
@@ -28,7 +28,7 @@ class CreateFunctionsTable extends Migration
         });
 
         // テーブルコメント
-        DB::statement("ALTER TABLE `functions` comment '機能'");
+        DB::statement("ALTER TABLE `mate_functions` comment '機能'");
     }
 
     /**
@@ -38,6 +38,6 @@ class CreateFunctionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('functions');
+        Schema::dropIfExists('mate_functions');
     }
 }

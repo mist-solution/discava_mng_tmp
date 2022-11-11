@@ -29,7 +29,7 @@ class CreatePlanFunctionsTable extends Migration
             $table->unique(['plan_id','function_id']);
             // 外部キー情報
             $table->foreign('plan_id')->references('id')->on('plans');
-            $table->foreign('function_id')->references('id')->on('functions');
+            $table->foreign('function_id')->references('id')->on('mate_functions');
         });
 
         // テーブルコメント

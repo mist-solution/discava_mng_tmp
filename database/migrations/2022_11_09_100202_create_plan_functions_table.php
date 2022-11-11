@@ -43,6 +43,6 @@ class CreatePlanFunctionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plan_function');
+        Schema::dropIfExists('plan_functions');
     }
 }

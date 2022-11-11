@@ -16,50 +16,50 @@ class PlanFunctionsTableSeeder extends Seeder
     {
         // プラチナプランで対応する機能
         PlanFunction::create([
-            'plan_id' => '1',      // プラチナプラン
-            'function_id' => '1',  // 投稿管理
+            'plan_id' => '1',           // プラチナプラン
+            'mate_function_id' => '1',  // 投稿管理
             'add_account' => '1',
             'upd_account' => '1',
             'del_flg' => '0',
         ]);
         PlanFunction::create([
-            'plan_id' => '1',      // プラチナプラン
-            'function_id' => '2',  // ギャラリー管理
+            'plan_id' => '1',           // プラチナプラン
+            'mate_function_id' => '2',  // ギャラリー管理
             'add_account' => '1',
             'upd_account' => '1',
             'del_flg' => '0',
         ]);
         PlanFunction::create([
-            'plan_id' => '1',      // プラチナプラン
-            'function_id' => '3',  // アクセス情報
+            'plan_id' => '1',           // プラチナプラン
+            'mate_function_id' => '3',  // アクセス情報
             'add_account' => '1',
             'upd_account' => '1',
             'del_flg' => '0',
         ]);
         PlanFunction::create([
-            'plan_id' => '1',      // プラチナプラン
-            'function_id' => '4',  // アカウント管理
+            'plan_id' => '1',           // プラチナプラン
+            'mate_function_id' => '4',  // アカウント管理
             'add_account' => '1',
             'upd_account' => '1',
             'del_flg' => '0',
         ]);
         PlanFunction::create([
-            'plan_id' => '1',      // プラチナプラン
-            'function_id' => '5',  // 契約情報
+            'plan_id' => '1',           // プラチナプラン
+            'mate_function_id' => '5',  // 契約情報
             'add_account' => '1',
             'upd_account' => '1',
             'del_flg' => '0',
         ]);
         PlanFunction::create([
-            'plan_id' => '1',      // プラチナプラン
-            'function_id' => '6',  // サイト更新依頼
+            'plan_id' => '1',           // プラチナプラン
+            'mate_function_id' => '6',  // サイト更新依頼
             'add_account' => '1',
             'upd_account' => '1',
             'del_flg' => '0',
         ]);
         PlanFunction::create([
-            'plan_id' => '1',      // プラチナプラン
-            'function_id' => '7',  // WEBサイトへ
+            'plan_id' => '1',           // プラチナプラン
+            'mate_function_id' => '7',  // WEBサイトへ
             'add_account' => '1',
             'upd_account' => '1',
             'del_flg' => '0',

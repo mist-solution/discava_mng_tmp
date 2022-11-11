@@ -14,7 +14,7 @@ class AuthoritySet extends Model
     
     protected $fillable = [
         'authority_id',
-        'function_id',
+        'mate_function_id',
         'function_auth_flg',
         'create_auth_flg',
         'read_auth_flg',

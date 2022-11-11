@@ -14,7 +14,7 @@ class PlanFunction extends Model
     
     protected $fillable = [
         'plan_id',
-        'function_id',
+        'mate_function_id',
         'add_account',
         'upd_account',
         'del_flg',

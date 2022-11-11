@@ -32,15 +32,15 @@ class UsersTableSeeder extends Seeder
 
         // 社内検証用ユーザ
         $array1 = array(
-            "mate1111",
-            "mate2222",
-            "mate3333",
-            "mate4444",
-            "mate5555",
-            "mate6666",
-            "mate7777",
-            "mate8888",
-            "mate9999"
+            'mate1111',
+            'mate2222',
+            'mate3333',
+            'mate4444',
+            'mate5555',
+            'mate6666',
+            'mate7777',
+            'mate8888',
+            'mate9999'
         );
 
         for($i = 0; $i < count($array1); $i++){
@@ -61,28 +61,29 @@ class UsersTableSeeder extends Seeder
         }
 
         $proper = array(
-            "yamaki@mistnet.co.jp",
-            "iida_t@mistnet.co.jp",
-            "takahashi_sy@mistnet.co.jp",
-            "hl_sheng@mistnet.co.jp",
-            "saruwatari_e@mistnet.co.jp",
-            "t_tanaka@mistnet.co.jp",
-            "takeuchi@mistnet.co.jp",
-            "nonomiya@mistnet.co.jp",
-            "ny_hashimoto@mistnet.co.jp",
-            "yano_a@discava.net",
-            "hiroki_abe@mistnet.co.jp",
-            "m_yasukawa@mistnet.co.jp",
-            "r_yoshino@mistnet.co.jp",
-            "gaku_ikegami@mistnet.co.jp",
-            "dai_toyoda@mistnet.co.jp",
-            "iimura@mistnet.co.jp",
-            "takao_iida@mistnet.co.jp",
-            "kawasaki_t@mistnet.co.jp",
+            'taka_saito@mistnet.co.jp',
+            'yamaki@mistnet.co.jp',
+            'iida_t@mistnet.co.jp',
+            'takahashi_sy@mistnet.co.jp',
+            'hl_sheng@mistnet.co.jp',
+            'saruwatari_e@mistnet.co.jp',
+            't_tanaka@mistnet.co.jp',
+            'takeuchi@mistnet.co.jp',
+            'nonomiya@mistnet.co.jp',
+            'ny_hashimoto@mistnet.co.jp',
+            'yano_a@discava.net',
+            'hiroki_abe@mistnet.co.jp',
+            'm_yasukawa@mistnet.co.jp',
+            'r_yoshino@mistnet.co.jp',
+            'gaku_ikegami@mistnet.co.jp',
+            'dai_toyoda@mistnet.co.jp',
+            'iimura@mistnet.co.jp',
+            'takao_iida@mistnet.co.jp',
+            'kawasaki_t@mistnet.co.jp',
         );
 
         for($i = 0; $i < count($proper); $i++){
-            $pos = strpos($proper[$i], '@') + 1;
+            $pos = strpos($proper[$i], '@');
             $userid = substr($proper[$i], 0, $pos);
             User::create([
                 'customer_id' => '1',

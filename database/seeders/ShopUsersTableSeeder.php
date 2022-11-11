@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\ShopPlan;
+use App\Models\ShopUser;
 
-class ShopPlansTableSeeder extends Seeder
+class ShopUsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class ShopPlansTableSeeder extends Seeder
     public function run()
     {
         // システムユーザ
-        ShopPlan::create([
+        ShopUser::create([
             'shop_id' => '1',       // MIST solution 本社
             'user_id' => '1',       // administrator
             'authority_id' => '1',  // 管理者
@@ -24,7 +24,7 @@ class ShopPlansTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
 
-        ShopPlan::create([
+        ShopUser::create([
             'shop_id' => '1',       // MIST solution 本社
             'user_id' => '2',       // mist-test001
             'authority_id' => '2',  // 一般
@@ -33,7 +33,7 @@ class ShopPlansTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
 
-        ShopPlan::create([
+        ShopUser::create([
             'shop_id' => '1',       // MIST solution 本社
             'user_id' => '3',       // mist-test002
             'authority_id' => '3',  // 閲覧
@@ -42,7 +42,7 @@ class ShopPlansTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
 
-        ShopPlan::create([
+        ShopUser::create([
             'shop_id' => '2',       // MIST solution 高松支社
             'user_id' => '1',       // administrator
             'authority_id' => '1',  // 管理者
@@ -51,7 +51,7 @@ class ShopPlansTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
 
-        ShopPlan::create([
+        ShopUser::create([
             'shop_id' => '2',       // MIST solution 高松支社
             'user_id' => '2',       // mist-test001
             'authority_id' => '3',  // 閲覧

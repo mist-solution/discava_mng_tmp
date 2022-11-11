@@ -49,7 +49,7 @@ class UsersTableSeeder extends Seeder
                 'customer_id' => '1',
                 'login_user_id' => $userid,
                 'mail' => 'integration-test+' . $userid . '@mistnet.co.jp',
-                'name' => 'mist_' . $userid,
+                'name' => $userid,
                 'initial_password' => bcrypt($userid),
                 'password' => bcrypt($userid),
                 'login_fail_count' => '0',
@@ -61,23 +61,8 @@ class UsersTableSeeder extends Seeder
             ]);
         }
         
-        User::create([
-            'customer_id' => '1',
-            'login_user_id' => 'taka_saito',
-            'mail' => 'taka_saito@mistnet.co.jp',
-            'name' => 'taka_saito',
-            'initial_password' => bcrypt('taka_saito'),
-            'password' => bcrypt('taka_saito'),
-            'login_fail_count' => '0',
-            'email_verified_at' => null,
-            'remember_token' => null,
-            'add_account' => '1',
-            'upd_account' => '1',
-            'del_flg' => '0',
-        ]);
-
         $proper = array(
-//            'taka_saito@mistnet.co.jp',
+            'taka_saito@mistnet.co.jp',
             'yamaki@mistnet.co.jp',
             'iida_t@mistnet.co.jp',
             'takahashi_sy@mistnet.co.jp',
@@ -105,7 +90,7 @@ class UsersTableSeeder extends Seeder
                 'customer_id' => '1',
                 'login_user_id' => $userid,
                 'mail' => $proper[$i],
-                'name' => 'mist_' . $userid,
+                'name' => $userid,
                 'initial_password' => bcrypt($userid),
                 'password' => bcrypt($userid),
                 'login_fail_count' => '0',

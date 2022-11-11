@@ -18,7 +18,7 @@ class CreateAuthoritySetsTable extends Migration
 
             $table->id()->comment('ID');
             $table->unsignedBigInteger('authority_id')->comment('セットID');
-            $table->unsignedBigInteger('function_id')->comment('機能ID');
+            $table->unsignedBigInteger('mate_function_id')->comment('機能ID');
             $table->unsignedTinyInteger('function_auth_flg')->comment('機能権限フラグ');
             $table->unsignedTinyInteger('create_auth_flg')->comment('登録権限フラグ');
             $table->unsignedTinyInteger('read_auth_flg')->comment('表示権限フラグ');
@@ -35,7 +35,7 @@ class CreateAuthoritySetsTable extends Migration
             // インデックス情報
             $table->unique(['authority_id', 'function_id']);
             // 外部キー情報
-            $table->foreign('function_id')->references('id')->on('mate_functions');
+            $table->foreign('mate_function_id')->references('id')->on('mate_functions');
         });
 
         // テーブルコメント

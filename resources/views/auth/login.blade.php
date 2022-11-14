@@ -10,10 +10,10 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('ユーザID') }}</label>
+                            <label for="login_user_id" class="col-md-4 col-form-label text-md-right">{{ __('ユーザID') }}</label>
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-                                @error('name')
+                                <input id="login_user_id" type="text" class="form-control @error('login_user_id') is-invalid @enderror" name="login_user_id" value="{{ old('login_user_id') }}" required autocomplete="login_user_id" autofocus>
+                                @error('login_user_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

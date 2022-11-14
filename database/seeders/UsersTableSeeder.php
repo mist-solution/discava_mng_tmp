@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
         User::create([
             'customer_id' => '1',
             'login_user_id' => 'mist_system_admin',
-            'mail' => 'info@discava.net',
+            'email' => 'info@discava.net',
             'name' => 'administrator',
             'initial_password' => bcrypt('Passw0rd1qazXSW"'),
             'password' => bcrypt('Passw0rd1qazXSW"'),

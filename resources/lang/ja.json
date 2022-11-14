@@ -1,0 +1,8 @@
+{
+    "Hello!": "ご利用ありがとうございます。",
+    "Regards":"よろしくお願いいたします。",
+    "Reset Password Notification": "パスワード再設定のお知らせ",
+    "You are receiving this email because we received a password reset request for your account.": "あなたのアカウントでパスワード再設定のリクエストがありました。",
+    "This password reset link will expire in :count minutes.": "このリンクは、:count 分後に無効となります。",
+    "If you did not request a password reset, no further action is required.": "もしこのメールにお心当たりがない場合は、お手数ですが本メールを破棄して頂きますようお願いいたします。"
+}

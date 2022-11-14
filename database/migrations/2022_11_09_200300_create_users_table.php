@@ -35,7 +35,7 @@ class CreateUsersTable extends Migration
             $table->datetime('updated_at')->nullable()->comment('更新日時');
             // インデックス情報
             $table->unique('login_user_id');
-            $table->unique('mail');
+            $table->unique('email');
             // 外部キー情報
             $table->foreign('customer_id')->references('id')->on('customers');
         });

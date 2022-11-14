@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->id()->comment('ID');
             $table->unsignedBigInteger('customer_id')->comment('顧客ID');
             $table->string('login_user_id', 256)->comment('ログインユーザID');
-            $table->string('mail', 256)->comment('メールアドレス');
+            $table->string('email', 256)->comment('メールアドレス');
             $table->string('name', 50)->comment('ユーザ名');
             $table->string('initial_password', 128)->comment('初期パスワード');
             $table->string('password', 128)->comment('パスワード');

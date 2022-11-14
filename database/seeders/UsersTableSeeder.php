@@ -43,6 +43,9 @@ class UsersTableSeeder extends Seeder
             'mate9999',
         );
 
+        //-----------------------------------------
+        // 社内ユーザ(初期登録用)
+        //-----------------------------------------
         for($i = 0; $i < count($array1); $i++){
             $userid = $array1[$i];
             User::create([
@@ -63,24 +66,33 @@ class UsersTableSeeder extends Seeder
         
         $proper = array(
             'taka_saito@mistnet.co.jp',
+
+            'kanazawa@mistnet.co.jp',
+            'yano_a@discava.net',
+            'ny_hashimoto@mistnet.co.jp',
+            'hl_sheng@mistnet.co.jp',
+            'r_yoshino@mistnet.co.jp',
+            'hiroki_abe@mistnet.co.jp',
+            't_tanaka@mistnet.co.jp',
+            'm_yasukawa@mistnet.co.jp',
+            'gaku_ikegami@mistnet.co.jp',
+            'dai_toyoda@mistnet.co.jp',
+
             'yamaki@mistnet.co.jp',
             'iida_t@mistnet.co.jp',
             'takahashi_sy@mistnet.co.jp',
-            'hl_sheng@mistnet.co.jp',
+            'k_yamatoya@mistnet.co.jp',
+            'kinoshita@mistnet.co.jp',
+            't_itou@mistnet.co.jp',
+
             'saruwatari_e@mistnet.co.jp',
-            't_tanaka@mistnet.co.jp',
+            'tanaka_s@mistnet.co.jp',
+
             'takeuchi@mistnet.co.jp',
             'nonomiya@mistnet.co.jp',
-            'ny_hashimoto@mistnet.co.jp',
-            'yano_a@discava.net',
-            'hiroki_abe@mistnet.co.jp',
-            'm_yasukawa@mistnet.co.jp',
-            'r_yoshino@mistnet.co.jp',
-            'gaku_ikegami@mistnet.co.jp',
-            'dai_toyoda@mistnet.co.jp',
             'iimura@mistnet.co.jp',
-            'takao_iida@mistnet.co.jp',
             'kawasaki_t@mistnet.co.jp',
+            'takao_iida@mistnet.co.jp',
         );
 
         for($i = 0; $i < count($proper); $i++){
@@ -90,7 +102,7 @@ class UsersTableSeeder extends Seeder
                 'customer_id' => '1',
                 'login_user_id' => $userid,
                 'mail' => $proper[$i],
-                'name' => $userid,
+                'name' => 'MIST ' . $userid,
                 'initial_password' => bcrypt($userid),
                 'password' => bcrypt($userid),
                 'login_fail_count' => '0',

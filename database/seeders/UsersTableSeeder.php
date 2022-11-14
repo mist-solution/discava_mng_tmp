@@ -51,7 +51,7 @@ class UsersTableSeeder extends Seeder
             User::create([
                 'customer_id' => '1',
                 'login_user_id' => $userid,
-                'mail' => 'integration-test+' . $userid . '@mistnet.co.jp',
+                'email' => 'integration-test+' . $userid . '@mistnet.co.jp',
                 'name' => $userid,
                 'initial_password' => bcrypt($userid),
                 'password' => bcrypt($userid),
@@ -101,7 +101,7 @@ class UsersTableSeeder extends Seeder
             User::create([
                 'customer_id' => '1',
                 'login_user_id' => $userid,
-                'mail' => $proper[$i],
+                'email' => $proper[$i],
                 'name' => 'MIST ' . $userid,
                 'initial_password' => bcrypt($userid),
                 'password' => bcrypt($userid),

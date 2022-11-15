@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer temporary v-model='this.$store.state.sidebar.open'>
     <v-list v-for="item in items" :key="item.id" nav dense>
-      <v-list-item link v-bind:to="{ name: item.linkTo }" :disabled="item.disabled">
+      <v-list-item link v-bind:to="{ name: item.linkTo }" v-bind:disabled="item.disabled">
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-icon>
@@ -19,7 +19,7 @@ export default {
         { id: 1,  title: "投稿管理",        icon: "mdi-folder",  linkTo: "news.list",   disabled: false, },
         { id: 2,  title: "ギャラリー管理",  icon: "mdi-folder",  linkTo: "",             disabled: true, },
         { id: 3,  title: "アクセス情報",    icon: "mdi-folder",  linkTo: "",             disabled: true, },
-        { id: 4,  title: "アカウント管理",  icon: "mdi-folder",  linkTo: "",             disabled: false, },
+        { id: 4,  title: "アカウント管理",  icon: "mdi-folder",  linkTo: "enduser.list",             disabled: false, },
         { id: 5,  title: "契約情報",        icon: "mdi-folder",  linkTo: "",             disabled: true, },
         { id: 6,  title: "サイト更新依頼",  icon: "mdi-folder",  linkTo: "",             disabled: true, },
         { id: 7,  title: "WEBサイトへ",     icon: "mdi-folder",  linkTo: "",             disabled: true, },

@@ -6,7 +6,7 @@
           <v-btn icon @click="this.$store.dispatch('sidebar/toggleOpen')">
             <v-icon color='dark'>mdi-menu</v-icon>
           </v-btn>
-          <a class="navbar-brand" href="#">Vue Laravel SPA</a>
+          <a class="navbar-brand" href="#">DISCaVa MATE</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -18,7 +18,8 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" @click="logout">ログアウト</a>
               </li>
-              <!-- <li class="nav-item dropend">
+<!--
+              <li class="nav-item dropend">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Dropdown Link
                 </a>
@@ -28,12 +29,15 @@
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
-              </li> -->
+              </li>
+-->
             </ul>
+<!--
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+-->
           </div>
         </div>
       </nav>

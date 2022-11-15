@@ -6,6 +6,7 @@
         <router-link v-bind:to="{ name: 'announce.register' }">
           <button class="btn btn-success mr-2">投稿</button>
         </router-link>
+<!--
         <router-link v-bind:to="{ name: 'task.list' }">
           <button class="btn btn-success mr-2">TASK List</button>
         </router-link>
@@ -15,6 +16,7 @@
         <router-link v-bind:to="{ name: 'quilleditor' }">
           <button class="btn btn-success">News</button>
         </router-link>
+-->
       </div>
     </v-card-title>
     <v-divider />

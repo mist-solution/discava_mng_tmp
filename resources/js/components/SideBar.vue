@@ -7,7 +7,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title>SAMPLE {{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </template>
         <v-list-item v-for="submenu in item.submenus" v-bind:key="submenu.id" v-bind:to="{ name: submenu.linkTo }" v-bind:disabled="submenu.disabled">

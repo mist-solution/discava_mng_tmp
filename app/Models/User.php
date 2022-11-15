@@ -20,7 +20,6 @@ class User extends Authenticatable
         'name',
         'initial_password',
         'password',
-        'login_fail_count',
         'email_verified_at',
         'remember_token',
         'add_account',

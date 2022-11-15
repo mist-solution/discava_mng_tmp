@@ -23,7 +23,6 @@ class CreateUsersTable extends Migration
             $table->string('name', 50)->comment('ユーザ名');
             $table->string('initial_password', 128)->comment('初期パスワード');
             $table->string('password', 128)->comment('パスワード');
-            $table->unsignedBigInteger('login_fail_count')->comment('ログイン試行回数');
             $table->datetime('email_verified_at')->nullable()->comment('メールアドレス変更日時');
             // トークン保持情報
             $table->rememberToken();

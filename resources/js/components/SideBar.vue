@@ -2,12 +2,12 @@
   <v-navigation-drawer temporary v-model='this.$store.state.sidebar.open'>
     <v-list v-for="item in items" :key="item.id" nav dense>
       <div v-if="item.group">
-        <v-list-group v-for="submenu in item.submenus" v-bind:key="submenu.title">
-          <v-list-item link v-bind:to="{ name: submenu.linkTo }" v-bind:disabled="submenu.disabled">
+        <v-list-group v-bind:key="item.title">
+          <v-list-item v-for="submenu in item.submenus" v-bind:key="submenu.id" link v-bind:to="{ name: submenu.linkTo }" v-bind:disabled="submenu.disabled">
             <v-list-item-icon>
               <v-icon>{{ submenu.icon }}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>TRUE:{{ submenu.title }}</v-list-item-title>
+            <v-list-item-title>{{ submenu.title }}</v-list-item-title>
           </v-list-item>
         </v-list-group>
       </div>

@@ -2,7 +2,7 @@
   <v-navigation-drawer temporary v-model='this.$store.state.sidebar.open'>
     <v-list v-for="item in items" :key="item.id" nav dense>
       <div v-if="item.group">
-        <v-list-group value="true">
+        <v-list-group value="true" no-action sub-group>
           <template v-slot:activator>
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>

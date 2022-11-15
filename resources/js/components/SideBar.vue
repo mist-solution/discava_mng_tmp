@@ -32,8 +32,8 @@ export default {
         { id: 3, title: "アクセス情報",   icon: "mdi-folder", linkTo: "",             disabled: true, group: false, },
         { id: 4, title: "アカウント管理", icon: "mdi-folder", linkTo: "",             disabled: false, group: true, 
           submenu: [
-            { id: 401, title: "アカウント一覧", icon: "mdi-folder", linkTo: "enduser.list", disabled: "", },
-            { id: 402, title: "アカウント一覧", icon: "mdi-folder", linkTo: "enduser.register", disabled: "", },
+            { id: 401, title: "アカウント一覧", icon: "mdi-folder", linkTo: "enduser.list", disabled: false, },
+            { id: 402, title: "アカウント登録", icon: "mdi-folder", linkTo: "enduser.register", disabled: false, },
           ],
         },
         { id: 5, title: "契約情報",       icon: "mdi-folder", linkTo: "",             disabled: true, group: false, },

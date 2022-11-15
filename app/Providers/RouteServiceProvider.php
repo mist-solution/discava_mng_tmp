@@ -26,7 +26,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/';
+//    public const HOME = '/';
+    public const HOME = '/news';  // 2022.11.15 初回リリース時は、お知らせ一覧に遷移
 
     /**
      * The controller namespace for the application.

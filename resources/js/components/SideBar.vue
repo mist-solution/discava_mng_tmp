@@ -16,13 +16,13 @@ export default {
     return {
       drawer: true,
       items: [
-        { id: 1,  title: "投稿管理",        icon: "mdi-folder",  linkTo: "news.list",   disabled: "false", },
-        { id: 2,  title: "ギャラリー管理",  icon: "mdi-folder",  linkTo: "",             disabled: "true", },
-        { id: 3,  title: "アクセス情報",    icon: "mdi-folder",  linkTo: "",             disabled: "true", },
-        { id: 4,  title: "アカウント管理",  icon: "mdi-folder",  linkTo: "",             disabled: "false", },
-        { id: 5,  title: "契約情報",        icon: "mdi-folder",  linkTo: "",             disabled: "true", },
-        { id: 6,  title: "サイト更新依頼",  icon: "mdi-folder",  linkTo: "",             disabled: "true", },
-        { id: 7,  title: "WEBサイトへ",     icon: "mdi-folder",  linkTo: "",             disabled: "true", },
+        { id: 1,  title: "投稿管理",        icon: "mdi-folder",  linkTo: "news.list",   disabled: false, },
+        { id: 2,  title: "ギャラリー管理",  icon: "mdi-folder",  linkTo: "",             disabled: true, },
+        { id: 3,  title: "アクセス情報",    icon: "mdi-folder",  linkTo: "",             disabled: true, },
+        { id: 4,  title: "アカウント管理",  icon: "mdi-folder",  linkTo: "",             disabled: false, },
+        { id: 5,  title: "契約情報",        icon: "mdi-folder",  linkTo: "",             disabled: true, },
+        { id: 6,  title: "サイト更新依頼",  icon: "mdi-folder",  linkTo: "",             disabled: true, },
+        { id: 7,  title: "WEBサイトへ",     icon: "mdi-folder",  linkTo: "",             disabled: true, },
       ],
       right: null,
     };

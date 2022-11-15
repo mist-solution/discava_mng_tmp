@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer temporary v-model='this.$store.state.sidebar.open'>
     <v-list v-for="item in items" :key="item.id" nav dense>
-      <div v-if="{ item:group } === true">
+      <div v-if="item.group">
         Now you see me
         <v-list-item link v-bind:to="{ name: item.linkTo }" v-bind:disabled="item.disabled">
           <v-list-item-icon>

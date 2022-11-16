@@ -2,9 +2,8 @@
   <v-navigation-drawer temporary v-model='this.$store.state.sidebar.open'>
     <v-list v-for="item in items" :key="item.id" nav dense>
       <div v-if="item.group">
-        <v-list-group  value="true" no-action sub-group>
+        <v-list-group  :value="true" prepend-icon="{{ item.icon }">
           <template v-slot:activator>
-            <v-icon>{{ item.icon }}</v-icon>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </template>
           <v-list-item v-for="submenu in item.submenus" v-bind:key="submenu.id" v-bind:to="{ name: submenu.linkTo }" v-bind:disabled="submenu.disabled">

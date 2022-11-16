@@ -12,6 +12,7 @@ class ShopUser extends Model
     protected $table = 'shop_users';
 
     protected $fillable = [
+        'customer_id',
         'shop_id',
         'user_id',
         'authority_id',

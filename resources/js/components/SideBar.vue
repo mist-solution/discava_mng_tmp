@@ -9,7 +9,7 @@
             </v-list-item-icon>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </template>
-          <v-list-item v-for="submenu in item.submenus" v-bind:key="{ name: submenu.id }" link v-bind:to="{ name: submenu.linkTo }" v-bind:disabled="{ name: submenu.disabled }">
+          <v-list-item v-for="submenu in item.submenus" v-bind:key="submenu.id" link v-bind:to="{ name: submenu.linkTo }" v-bind:disabled="submenu.disabled">
             <v-list-item-icon>
               <v-icon>{{ submenu.icon }}</v-icon>
             </v-list-item-icon>
@@ -20,7 +20,7 @@
         </v-list-group>
       </div>
       <div v-else>
-        <v-list-item link v-bind:to="{ name: item.linkTo }" v-bind:disabled="{ name: item.disabled }">
+        <v-list-item link v-bind:to="{ name: item.linkTo }" v-bind:disabled="item.disabled">
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>

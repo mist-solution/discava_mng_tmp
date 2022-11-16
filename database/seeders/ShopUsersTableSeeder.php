@@ -50,7 +50,7 @@ class ShopUsersTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
 
-        for($i = 4; i <= 34; i++) {
+        for($i = 4; $i <= 34; $i++) {
             ShopUser::create([
                 'customer_id' => '1',   // MIST solution
                 'shop_id' => '1',       // MIST solution 本社

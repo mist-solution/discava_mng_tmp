@@ -19,15 +19,15 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $response = array();
-        $users = User::all();
+        //ToDo:ログインユーザのCustomerIdを条件にする。
+        $users = User::whereCustomerId('1')->get();
         $userArrays = array();
         foreach ($users as $key => $value) {
-            $customer = $value->customers()->first();
             $userArray = array();
-            $userArray['id'] = $value->id;
+            $userArray['login_user_id'] = $value->login_user_id;
             $userArray['name'] = $value->name;
             $userArray['email'] = $value->email;
-            $userArray['customer_code'] = $customer ? $customer->code : null;
+            $userArray['customer_id'] = $value->customer_id;
             $userArray['created_at'] = $value->created_at;
             $userArray['updated_at'] = $value->updated_at;
             $userArrays[] = $userArray;

@@ -10,11 +10,11 @@
       <tr>
         <th class="text-left">選択</th>
         <th class="text-left">ユーザID</th>
+        <th class="text-left">ユーザ名</th>
         <th class="text-left">メールアドレス</th>
-        <th class="text-left">顧客</th>
         <th class="text-left">登録日時</th>
         <th class="text-left">更新日時</th>
-        <th class="text-left">編集</th>
+        <th class="text-left">編集/削除</th>
       </tr>
     </thead>
     <tbody>
@@ -22,16 +22,13 @@
         <th>
           <input type="checkbox" :value="item.id" v-model="selected">
         </th>
+        <td>{{ item.login_user_id }}</td>
         <td>{{ item.name }}</td>
         <td>{{ item.email }}</td>
-        <td>{{ item.customer_code }}</td>
         <td>{{ timestampFormat(item.created_at) }}</td>
         <td>{{ timestampFormat(item.updated_at) }}</td>
         <td>
-          <v-btn @click="edit(item)"
-          depressed
-          color="primary"
-          >
+          <v-btn @click="edit(item)" depressed color="primary">
             編集
           </v-btn>
         </td>

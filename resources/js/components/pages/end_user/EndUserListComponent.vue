@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="ml-2" width="80%">
-      <h3 class="h4">ユーザ一覧</h3>
+      <h3 class="h4">アカウント一覧</h3>
     </v-card-title>
     <v-divider />
     <v-card-text>

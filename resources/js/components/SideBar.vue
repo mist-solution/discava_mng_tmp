@@ -1,8 +1,9 @@
 <template>
   <v-navigation-drawer temporary v-model='this.$store.state.sidebar.open'>
     <v-list nav dense>
-      <v-list-item v-for="item in items" :key="item.id" link :to="{ name: item.linkTo }" >
-
+      <div v-for="item in items" :key="item.id">
+        <v-list-group v-if="false" :value="true">
+        </v-list-group>
 <!--
         <v-list-group v-if="item.group" :value="true">
           <template v-slot:activator>
@@ -22,15 +23,19 @@
         </v-list-group>
       <div v-else>
 -->
-        <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+        <v-list-item
+          v-else
+          link
+          :to="{ name: item.linkTo }"
+          :title="item.title"
+          :disabled="item.disabled"
+        >
+          <template v-slot:prepend>
+            <v-icon :icon="item.icon"></v-icon>
+          </template>
+        </v-list-item>
+      </div>
     </v-list>
-
 <!--
     <v-list v-for="item in items" :key="item.id" nav dense>
       <div v-if="item.group">

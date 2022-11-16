@@ -17,6 +17,7 @@ class CreateShopUsersTable extends Migration
             //$table->comment('店舗ユーザ');  // Laravel 9.14 以降
             
             $table->id()->comment('ID');
+            $table->unsignedBigInteger('customer_id')->comment('顧客ID');
             $table->unsignedBigInteger('shop_id')->comment('店舗ID');
             $table->unsignedBigInteger('user_id')->comment('ユーザID');
             $table->unsignedBigInteger('authority_id')->comment('権限ID');
@@ -28,10 +29,14 @@ class CreateShopUsersTable extends Migration
             $table->datetime('updated_at')->nullable()->comment('更新日時');
             // インデックス情報
             $table->unique(['shop_id', 'user_id']);
+            $table->index('customer_id');
+            $table->index('shop_id');
+            $table->index('user_id');
+            $table->index('authority_id');
             // 外部キー情報
+            $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('shop_id')->references('id')->on('shops');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('authority_id')->references('authority_id')->on('authority_sets');
         });
 
         // テーブルコメント

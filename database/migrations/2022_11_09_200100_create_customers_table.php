@@ -31,6 +31,8 @@ class CreateCustomersTable extends Migration
             $table->boolean('del_flg')->default(0)->comment('削除フラグ');
             $table->datetime('created_at')->nullable()->comment('登録日時');  // 2038年問題対応 timestamp→datetime
             $table->datetime('updated_at')->nullable()->comment('更新日時');
+            // インデックス情報
+            $table->index('company_name');
         });
 
         // テーブルコメント

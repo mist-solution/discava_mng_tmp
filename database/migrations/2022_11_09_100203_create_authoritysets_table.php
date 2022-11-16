@@ -34,6 +34,7 @@ class CreateAuthoritySetsTable extends Migration
             $table->datetime('updated_at')->nullable()->comment('更新日時');
             // インデックス情報
             $table->unique(['authority_id', 'mate_function_id']);
+            $table->index('authority_id');
             // 外部キー情報
             $table->foreign('mate_function_id')->references('id')->on('mate_functions');
         });

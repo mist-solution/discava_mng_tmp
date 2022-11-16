@@ -31,6 +31,9 @@ class CreateShopsTable extends Migration
             $table->boolean('del_flg')->default(0)->comment('削除フラグ');
             $table->datetime('created_at')->nullable()->comment('登録日時');  // 2038年問題対応 timestamp→datetime
             $table->datetime('updated_at')->nullable()->comment('更新日時');
+            // インデックス情報
+            $table->index('customer_id');
+            $table->index('shop_name');
             // 外部キー情報
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('plan_id')->references('id')->on('plans');

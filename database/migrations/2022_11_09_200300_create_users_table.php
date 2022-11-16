@@ -35,6 +35,8 @@ class CreateUsersTable extends Migration
             // インデックス情報
             $table->unique('login_user_id');
             $table->unique('email');
+            $table->index('customer_id');
+            $table->index('name');
             // 外部キー情報
             $table->foreign('customer_id')->references('id')->on('customers');
         });

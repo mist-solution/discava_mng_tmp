@@ -15,11 +15,16 @@ const NewsDetailComponent = () => import('./components/pages/news_list/NewsDetai
 const NewsApprovalConfirmComponent = () => import('./components/pages/news_list/NewsApprovalComponent')
 
 const routes = [
-    // 一覧画面
+    // ダッシュボード画面
+//    {
+//        path: '/',
+//        name: 'home',
+//        component: Home
+//    },
+    // ※初回リリース時点ではお知らせ一覧に直接遷移します。
     {
         path: '/',
-        name: 'home',
-        component: Home
+        redirect: '/news'
     },
     // お知らせ一覧画面
     {

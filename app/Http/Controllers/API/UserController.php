@@ -24,6 +24,7 @@ class UserController extends Controller
         $userArrays = array();
         foreach ($users as $key => $value) {
             $userArray = array();
+            $userArray['id'] = $value->id;
             $userArray['login_user_id'] = $value->login_user_id;
             $userArray['name'] = $value->name;
             $userArray['email'] = $value->email;

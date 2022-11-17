@@ -71,8 +71,20 @@ class UserController extends Controller
     public function deleteAll(Request $request)
     {
         $user_ids = $request->all();
+
+        // 店舗ユーザの物理削除
         ShopUser::whereIn('user_id', $user_ids)->delete();
-        User::whereIn('id', $user_ids)->delete();
+
+        // 対象ユーザの論理削除
+        for($i = 0; $i < count($user_ids); $i++) {
+            // ユーザ情報を取得
+            $user = User::where('id', $user_ids[$i])->first();
+            // 誤って削除した場合など、同じメールアドレスを再使用することが考えられるため、IDとタイムスタンプで更新する。
+            User::where('id', $user_ids[$i])->update([
+                'del_flg' => 1,
+                'email' => $user->email . '_' . $user->id . '_' . date("YmdHis"),
+            ]);
+        }
 
         Log::info('ユーザ削除');
         Log::debug(print_r($user_ids, true));

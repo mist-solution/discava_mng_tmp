@@ -24,7 +24,7 @@
       <v-tab
         value="one"
         @click="
-          newsStatus(1);
+          newsStatus(2);
           setSelectTab(1);
         "
         >承認済み</v-tab
@@ -32,7 +32,7 @@
       <v-tab
         value="two"
         @click="
-          newsStatus(2);
+          newsStatus(1);
           setSelectTab(2);
         "
         >承認待ち</v-tab

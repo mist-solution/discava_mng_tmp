@@ -100,7 +100,6 @@ class RegisterController extends Controller
 //        $data = $request->all();
 //        $customer = DB::table('customers')->where('code', $data['customer'])->first();
 //        $user->customers()->attach($customer->id);
-//        return new JsonResponse([], 201);
-        return null;  
+        return new JsonResponse([], 201);
     }
 }

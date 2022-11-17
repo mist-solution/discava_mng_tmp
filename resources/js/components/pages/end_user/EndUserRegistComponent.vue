@@ -14,7 +14,6 @@
                                 v-model="forms.customer_id"
                                 label="顧客ID"
                                 :rules="[rules.required]"
-                                :value="1"
                             />
 
                             <v-text-field
@@ -92,7 +91,7 @@
           email: '',
           password: '',
           password_confirmation:'',
-          customer_id: '',
+          customer_id: '1',  //ToDo:ログインユーザの顧客IDにしたい
         },
         rules: {
           required: value => !!value || '必須です。',

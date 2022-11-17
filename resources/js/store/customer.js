@@ -20,7 +20,7 @@ const getters = {
 };
 const actions = {
     fetchCustomers(context) {
-        axios.get('api/customer').then((res) => {
+        axios.get('/api/customer').then((res) => {
             context.commit('setCustomers', res.data.customers);
         })
     },

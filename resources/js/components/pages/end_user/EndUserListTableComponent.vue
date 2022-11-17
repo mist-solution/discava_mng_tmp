@@ -65,7 +65,7 @@ export default {
         this.openError('対象が選択されていません');
         return;
       }
-      this.$axios.post('api/enduser/delete', this.selected)
+      this.$axios.post('/api/enduser/delete', this.selected)
         .then(response => {
             this.openSuccess('削除しました');
             this.fetchUsers();

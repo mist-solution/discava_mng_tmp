@@ -20,7 +20,7 @@ const getters = {
 };
 const actions = {
     fetchCategories(context) {
-        return axios.get('api/announceCategory').then((res) => {
+        return axios.get('/api/announceCategory').then((res) => {
             context.commit('setCategories', res.data.announceCategories);
         })
     },

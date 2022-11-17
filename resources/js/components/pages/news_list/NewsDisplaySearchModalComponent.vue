@@ -112,7 +112,7 @@ export default {
 
   methods: {
     getUsers: function () {
-      this.$axios.get("api/enduser").then((res) => {
+      this.$axios.get("/api/enduser").then((res) => {
         this.AddUsers = res.data.users.map((AddUsers) => {
           return AddUsers.name;
         });
@@ -123,7 +123,7 @@ export default {
     },
 
     getAnnounceCategory: function () {
-      this.$axios.get("api/announceCategory").then((res) => {
+      this.$axios.get("/api/announceCategory").then((res) => {
         this.AnnounceCategory = res.data.announceCategories.map(
           (AnnounceCategory) => {
             return AnnounceCategory.category;

@@ -120,7 +120,7 @@
             console.log("invalid!");
             return;
           }
-          this.$axios.post('api/enduser', this.forms)
+          this.$axios.post('/api/enduser', this.forms)
             .then(response => {
                 this.reset();
                 this.openSuccess('登録しました');

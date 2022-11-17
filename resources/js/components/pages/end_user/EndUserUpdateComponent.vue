@@ -80,7 +80,7 @@
             console.log("invalid!");
             return;
           }
-          this.$axios.put('api/enduser/' + this.forms.id, this.forms)
+          this.$axios.put('/api/enduser/' + this.forms.id, this.forms)
               .then(response => {
                   this.openSuccess('更新しました');
               })

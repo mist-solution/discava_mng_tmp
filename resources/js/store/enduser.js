@@ -20,7 +20,7 @@ const getters = {
 };
 const actions = {
     fetchUsers(context) {
-        axios.get('api/enduser').then((res) => {
+        axios.get('/api/enduser').then((res) => {
             context.commit('setUsers', res.data.users);
         })
     },

@@ -122,7 +122,8 @@
             .then(response => {
                 this.reset();
                 this.openSuccess('登録しました');
-                this.fetchUsers();
+                this.$router.push('/enduser');
+//                this.fetchUsers();
             })
             .catch(error => {
                 console.log(error);
@@ -132,7 +133,7 @@
       // 入力内容と検証エラーをリセットするメソッド
       reset() {
         this.$refs.form.reset();
-        this.forms.customer = null;
+//        this.forms.customer = null;
       },
       getCustomerCodes: function() {
         this.customers = this.getCustomers.map(c => {

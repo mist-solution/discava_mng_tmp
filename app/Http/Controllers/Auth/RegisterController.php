@@ -32,7 +32,8 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+//    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/enduser';  //アカウント一覧に遷移
 
     /**
      * Create a new controller instance.
@@ -99,6 +100,7 @@ class RegisterController extends Controller
 //        $data = $request->all();
 //        $customer = DB::table('customers')->where('code', $data['customer'])->first();
 //        $user->customers()->attach($customer->id);
-        return new JsonResponse([], 201);
+//        return new JsonResponse([], 201);
+        return null;  
     }
 }

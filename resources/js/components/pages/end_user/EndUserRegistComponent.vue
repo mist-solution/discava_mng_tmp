@@ -87,13 +87,12 @@
         valid: true,
         showPassword : false,
         showPwdConfirm : false,
-        customers: [],
         forms: {
           name: '',
           email: '',
           password: '',
           password_confirmation:'',
-          customer: null,
+          customer_id: '',
         },
         rules: {
           required: value => !!value || '必須です。',
@@ -142,6 +141,7 @@
         });
       },
     },
+    // 顧客はログインユーザの顧客IDのため不要、一方で店舗一覧を出して権限(店舗ユーザ)を設定したい。
     computed: {
       ...mapGetters('customer', ['getCustomers']),
       toggle () {

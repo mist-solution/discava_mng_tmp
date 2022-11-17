@@ -27,13 +27,13 @@
                                 dense
                                 v-model="forms.login_user_id"
                                 label="ユーザID"
-                                :rules="[rules.required, rules.max_16]"
+                                :rules="[rules.required, rules.max_100]"
                             />
                             <v-text-field
                                 dense
                                 v-model="forms.name"
                                 label="ユーザ名"
-                                :rules="[rules.required, rules.max_16]"
+                                :rules="[rules.required, rules.max_100]"
                             />
                             <v-text-field
                                 dense

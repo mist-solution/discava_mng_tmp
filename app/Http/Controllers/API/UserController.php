@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\ShopUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -70,6 +71,7 @@ class UserController extends Controller
     public function deleteAll(Request $request)
     {
         $user_ids = $request->all();
+        ShopUser::whereIn('user_id', $user_ids)->delete();
         User::whereIn('id', $user_ids)->delete();
 
         Log::info('ユーザ削除');

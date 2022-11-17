@@ -48,17 +48,18 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $update = [
+            'login_user_id' => $request->login_user_id,
             'name' => $request->name,
             'email' => $request->email,
         ];
-        $customer = DB::table('customers')->where('code', $request->customer)->first();
+//        $customer = DB::table('customers')->where('code', $request->customer)->first();
         $user = User::find($id);
         $user->update($update);
-        $user->customers()->sync($customer->id);
+//        $user->customers()->sync($customer->id);
 
         Log::info('ユーザ更新');
         Log::debug(print_r($update, true));
-        Log::debug($customer->id);
+//        Log::debug($customer->id);
     }
 
     /**

@@ -3,14 +3,36 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ ('ユーザ更新') }}</div>
+                    <div class="card-header">{{ ('アカウント更新') }}</div>
 
                     <div class="card-body">
                         <v-form ref="form" v-model="valid">
+                          <!-- ToDo:IDと顧客IDは変更不可にしたい -->
+                          <!-- ToDo:かつ、hiddenにしたい -->
+                          <v-text-field
+                                dense
+                                v-model="forms.id"
+                                label="ID"
+                                :rules="[rules.required]"
+                                readonly
+                            />
+                          <v-text-field
+                                dense
+                                v-model="forms.customer_id"
+                                label="顧客ID"
+                                :rules="[rules.required]"
+                                readonly
+                            />
+                          <v-text-field
+                                dense
+                                v-model="forms.login_user_id"
+                                label="ユーザID"
+                                :rules="[rules.required, rules.max_16]"
+                            />
                             <v-text-field
                                 dense
                                 v-model="forms.name"
-                                label="ユーザID"
+                                label="ユーザ名"
                                 :rules="[rules.required, rules.max_16]"
                             />
                             <v-text-field
@@ -19,20 +41,14 @@
                                 label="メールアドレス"
                                 :rules="[rules.required, rules.email]"
                             />
-                            <v-select
-                                dense
-                                v-model="forms.customer"
-                                :items="customers"
-                                label="顧客"
-                                :rules="[rules.required]"
-                            />
                             <div class="btn-group mr-auto">
-                              <v-btn
-                                  color="info"
-                                  @click="submit"
-                              >送信</v-btn>
+                              <v-btn color="info" @click="submit">
+                                更新
+                              </v-btn>
                               <router-link v-bind:to="{ name: 'enduser.list' }">
-                                <button class="btn btn-success ml-1">一覧に戻る</button>
+                                <button class="btn btn-success ml-1">
+                                  戻る
+                                </button>
                               </router-link>
                             </div>
                         </v-form>
@@ -52,9 +68,10 @@
         customers: [],
         forms: {
           id: '',
+          customer_id: '',
+          login_user_id: '',
           name: '',
           email: '',
-          customer: null,
         },
         rules: {
           required: value => !!value || '必須です。',
@@ -83,6 +100,7 @@
           this.$axios.put('/api/enduser/' + this.forms.id, this.forms)
               .then(response => {
                   this.openSuccess('更新しました');
+                  this.$router.push('/enduser');
               })
               .catch(error => {
                   console.log(error);
@@ -93,14 +111,10 @@
         const user_id = this.$route.params.user_id;
         const user = this.getUserById(user_id);
         this.forms.id = user.id;
+        this.forms.customer_id = user.customer_id;
+        this.forms.login_user_id = user.login_user_id;
         this.forms.name = user.name;
         this.forms.email = user.email;
-        this.forms.customer = user.customer_code;
-      },
-      getCustomerCodes: function() {
-        this.customers = this.getCustomers.map(c => {
-          return c.code;
-        });
       },
     },
     computed: {
@@ -108,7 +122,6 @@
       ...mapGetters('customer', ['getCustomers']),
     },
     mounted() {
-      this.getCustomerCodes();
       this.getUser();
     },
   }

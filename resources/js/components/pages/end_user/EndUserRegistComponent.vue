@@ -3,14 +3,30 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ ('ユーザ登録') }}</div>
+                    <div class="card-header">{{ ('アカウント登録') }}</div>
 
                     <div class="card-body">
                         <v-form ref="form" v-model="valid">
+                          <!-- ToDo:顧客IDはログインユーザの顧客IDを使用したい -->
+                          <!-- ToDo:かつ、hiddenにしたい -->
+                          <v-text-field
+                                dense
+                                v-model="forms.customer_id"
+                                label="顧客ID"
+                                :rules="[rules.required]"
+                                :value="1"
+                            />
+
+                            <v-text-field
+                                dense
+                                v-model="forms.login_user_id"
+                                label="ユーザID"
+                                :rules="[rules.required, rules.max_16]"
+                            />
                             <v-text-field
                                 dense
                                 v-model="forms.name"
-                                label="ユーザID"
+                                label="ユーザ名"
                                 :rules="[rules.required, rules.max_16]"
                             />
                             <v-text-field
@@ -37,25 +53,22 @@
                                 label="パスワード確認"
                                 :rules="[rules.required, rules.password]"
                             />
-                            <v-select
-                                dense
-                                v-model="forms.customer"
-                                :items="customers"
-                                label="顧客"
-                                :rules="[rules.required]"
-                            />
+
+                            <!-- ToDo:権限は要検討 -->
+
                             <div class="btn-group mr-auto">
-                              <v-btn
-                                  color="info"
-                                  @click="submit"
-                              >送信</v-btn>
-                              <v-btn
-                                  class="ml-1"
-                                  color="secondary"
-                                  @click="reset"
-                              >クリア</v-btn>
+                              <v-btn color="info" @click="submit">
+                                アカウント追加
+                              </v-btn>
+<!--
+                              <v-btn class="ml-1" color="secondary" @click="reset">
+                                クリア
+                              </v-btn>
+-->
                               <router-link v-bind:to="{ name: 'enduser.list' }">
-                                <button class="btn btn-success ml-1">一覧に戻る</button>
+                                <button class="btn btn-success ml-1">
+                                  戻る
+                                </button>
                               </router-link>
                             </div>
                         </v-form>

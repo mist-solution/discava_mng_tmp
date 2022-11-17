@@ -154,10 +154,10 @@ export default {
       displayNewsDeleteConfirm: false,
       approvalStatus: "",
       approvalStatusArray: [
-        { value: "0", status: "未承認" },
-        { value: "1", status: "承認" },
-        { value: "2", status: "差戻し" },
-        { value: "9", status: "否認" },
+        { value: "0", status: "下書き" },
+        { value: "1", status: "承認待ち" },
+        { value: "2", status: "承認済" },
+        { value: "3", status: "差戻し" },
       ],
       listItems: [],
       menuDeleteAnnounce: [],
@@ -252,22 +252,30 @@ export default {
       axios
         .get("/api/announce", {
           params: {
-            limit: this.$store.state.news.displayLimit,
+            limit:
+              this.$store.state.news.displayLimit,
             offset:
-              this.$store.state.news.displayLimit *
-              (this.$store.state.news.displayPage - 1),
-            sort: this.$store.state.news.displaySort,
-            newsStatus: this.$store.state.news.displayNewsStatus,
-            newsAddAccount: this.$store.state.news.displayNewsAddAccount,
+              this.$store.state.news.displayLimit * (this.$store.state.news.displayPage - 1),
+            sort:
+              this.$store.state.news.displaySort,
+            newsStatus:
+              this.$store.state.news.displayNewsStatus,
+            newsAddAccount:
+              this.$store.state.news.displayNewsAddAccount,
             searchAddDateBegin:
               this.$store.state.news.displaySearchAddDateBegin,
-            searchAddDateEnd: this.$store.state.news.displaySearchAddDateEnd,
+            searchAddDateEnd:
+              this.$store.state.news.displaySearchAddDateEnd,
             searchUpdDateBegin:
               this.$store.state.news.displaySearchUpdDateBegin,
-            searchUpdDateEnd: this.$store.state.news.displaySearchUpdDateEnd,
-            searchNewsCol: this.$store.state.news.displaySearchNewsCol,
-            searchNews: this.$store.state.news.displaySearchNews,
-            searchCategory: this.$store.state.news.displaySearchCategory,
+            searchUpdDateEnd:
+              this.$store.state.news.displaySearchUpdDateEnd,
+            searchNewsCol:
+              this.$store.state.news.displaySearchNewsCol,
+            searchNews:
+              this.$store.state.news.displaySearchNews,
+            searchCategory:
+              this.$store.state.news.displaySearchCategory,
           },
         })
         .then((res) => {
@@ -298,7 +306,8 @@ export default {
 
     getListItems() {
       let listsItemKey = this.$store.state.news.displayListsItemKey;
-      // 承認済み記事タブ
+
+      // 承認済みタブ
       if (listsItemKey == "checkedLists") {
         this.listItems = [
           {
@@ -310,19 +319,7 @@ export default {
         ];
         this.menuDeleteAnnounce = [{ title: "削除" }];
 
-        // 自分の投稿記事タブ
-      } else if (listsItemKey == "selfLists") {
-        this.listItems = [
-          {
-            title: "詳細を確認",
-            link: "news.detail",
-          },
-          { title: "共有リンクをコピー" },
-          { title: "公開停止" },
-        ];
-        this.menuDeleteAnnounce = [{ title: "削除" }];
-
-        // 承認待ち記事タブ
+        // 承認待ちタブ
       } else if (listsItemKey == "notCheckLists") {
         this.listItems = [
           {
@@ -333,7 +330,20 @@ export default {
           { title: "差し戻す", link: "news.approval" },
         ];
         this.menuDeleteAnnounce = [{ title: "削除" }];
+
+      // 全ての投稿タブ
+      } else if (listsItemKey == "allLists") {
+        this.listItems = [
+          {
+            title: "詳細を確認",
+            link: "news.detail",
+          },
+          { title: "共有リンクをコピー" },
+          { title: "公開停止" },
+        ];
+        this.menuDeleteAnnounce = [{ title: "削除" }];
       }
+
     },
 
     // 選択した記事をstoreに設定

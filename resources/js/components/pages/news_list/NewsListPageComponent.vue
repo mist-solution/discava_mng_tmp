@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="ml-2" width="80%">
-      <h3 class="h4">お知らせ一覧</h3>
+      <h3 class="h4">投稿記事一覧</h3>
       <div class="btn-group ml-auto">
         <router-link v-bind:to="{ name: 'announce.register' }">
           <button class="btn btn-success mr-2">投稿</button>
@@ -25,28 +25,25 @@
         value="one"
         @click="
           newsStatus(1);
-          newsAddAccount();
           setSelectTab(1);
         "
-        >承認済み記事</v-tab
+        >承認済み</v-tab
       >
       <v-tab
         value="two"
         @click="
-          newsAddAccount(2);
-          newsStatus();
+          newsStatus(2);
           setSelectTab(2);
         "
-        >自分の投稿記事</v-tab
+        >承認待ち</v-tab
       >
       <v-tab
         value="three"
         @click="
-          newsStatus(0);
-          newsAddAccount();
+          newsStatus();
           setSelectTab(3);
         "
-        >承認待ち記事</v-tab
+        >全ての投稿</v-tab
       >
     </v-tabs>
 
@@ -91,21 +88,15 @@ export default {
       this.$store.dispatch("news/setDisplayNewsStatus", newsStatus);
     },
 
-    // 自分のアカウントID
-    // 仮実装ID：2
-    newsAddAccount(newsAddAccount) {
-      this.$store.dispatch("news/setDisplayNewsAddAccount", newsAddAccount);
-    },
-
     // 選択したタブをstoreに設定
     setSelectTab(key) {
       let tabName = "";
       if (key == 1) {
-        tabName = "checkedLists"; // 承認済み記事
+        tabName = "checkedLists"; // 承認済み
       } else if (key == 2) {
-        tabName = "selfLists"; // 自分の投稿記事
+        tabName = "notCheckLists"; // 承認待ち
       } else if (key == 3) {
-        tabName = "notCheckLists"; // 承認待ち記事
+        tabName = "allLists";     // 全ての投稿
       }
       this.$store.dispatch("news/setDisplayListsItemKey", tabName);
     },

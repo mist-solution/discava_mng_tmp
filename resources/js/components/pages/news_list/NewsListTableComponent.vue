@@ -67,15 +67,13 @@
                     <v-list>
                       <v-list-item
                         color="black"
-                        v-for="(listItems, index) in listItems"
-                        :key="index"
                         v-bind:to="{
-                          name: listItems.link,
+                          name: listItems[0].link,
                           params: { announceId: item.id },
                         }"
                       >
                         <v-list-item-title>{{
-                          listItems.title
+                          listItems[0].title
                         }}</v-list-item-title>
                       </v-list-item>
                     </v-list>
@@ -83,17 +81,13 @@
                     <v-list>
                       <v-list-item
                         color="red"
-                        v-for="(
-                          menuDeleteAnnounce, index
-                        ) in menuDeleteAnnounce"
-                        :key="index"
                         @click.stop="
                           (displayNewsDeleteConfirm = true),
                             setDeleteAnnounceId(item.id)
                         "
                       >
                         <v-list-item-title>
-                          {{ menuDeleteAnnounce.title }}
+                          {{ menuDeleteAnnounce[0].title }}
                         </v-list-item-title>
                       </v-list-item>
                     </v-list>

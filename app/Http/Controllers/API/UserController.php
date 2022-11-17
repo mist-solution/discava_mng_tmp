@@ -21,7 +21,7 @@ class UserController extends Controller
     {
         $response = array();
         //ToDo:ログインユーザのCustomerIdを条件にする。
-        $users = User::whereCustomerId('1')->get();
+        $users = User::where('customer_id', '1')->where('del_flg', '0')->get();
         $userArrays = array();
         foreach ($users as $key => $value) {
             $userArray = array();

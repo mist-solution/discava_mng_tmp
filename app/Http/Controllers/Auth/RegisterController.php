@@ -74,11 +74,17 @@ class RegisterController extends Controller
         return User::create([
             'customer_id' => $data['customer_id'],
             'login_user_id' => $data['login_user_id'],
-            'name' => $data['name'],
             'email' => $data['email'],
+            'name' => $data['name'],
             'initial_password' => $password,
             'password' => $password,
+            'email_verified_at' => null,
+            'remember_token' => null,
+            'add_account' => '1',  //ToDo:ログインユーザのIDにしたい
+            'upd_account' => '1',  //ToDo:ログインユーザのIDにしたい
+            'del_flg' => '0',
         ]);
+
     }
 
     /**

@@ -96,9 +96,9 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        $data = $request->all();
-        $customer = DB::table('customers')->where('code', $data['customer'])->first();
-        $user->customers()->attach($customer->id);
+//        $data = $request->all();
+//        $customer = DB::table('customers')->where('code', $data['customer'])->first();
+//        $user->customers()->attach($customer->id);
         return new JsonResponse([], 201);
     }
 }

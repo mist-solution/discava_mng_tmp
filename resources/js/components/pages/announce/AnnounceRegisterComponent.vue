@@ -140,7 +140,7 @@ export default {
           announce_category_id: this.announce.announce_category_id,
           start_date: moment(this.announce.start_date).format("yyyy-MM-DD"),
           end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
-          contents: this.$refs.myQuillEditor.getContents(),
+          contents: this.$refs.myQuillEditor.contents,
         }
         this.$axios.post('/api/announce', postData)
           .then(response => {

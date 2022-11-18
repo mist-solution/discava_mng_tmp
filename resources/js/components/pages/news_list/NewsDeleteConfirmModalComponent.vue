@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="display" persistent>
+  <v-dialog v-show="display" persistent>
     <v-card>
       <v-card-title> 削除 </v-card-title>
       <v-card-text class="text-center">

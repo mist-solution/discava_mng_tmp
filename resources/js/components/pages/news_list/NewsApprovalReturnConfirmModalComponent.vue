@@ -1,5 +1,5 @@
 <template>
-  <v-dialog width="auto" v-model="display" persistent>
+  <v-dialog width="auto" v-show="display" persistent>
     <v-card>
       <v-card-title> 差戻し </v-card-title>
       <v-card-text class="text-center">

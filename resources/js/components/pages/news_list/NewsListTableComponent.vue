@@ -10,7 +10,9 @@
     </v-col>
   </v-row>
   <v-row v-show="!loading && getNewsLength() == 0">
-    <v-col> お知らせがありません。 </v-col>
+    <v-col>
+      お知らせがありません。
+    </v-col>
   </v-row>
   <v-row
     v-for="item in news"
@@ -22,13 +24,13 @@
       <v-card>
         <v-row>
           <v-col :cols="1">
+            ID:{{ item.id }}
             <v-checkbox
               v-model="select"
               :value="item.id"
               @change="setSelectItems"
               v-if="item.approval_status != 1 && item.approval_status != 9"
             ></v-checkbox>
-            ID:{{ item.id }}
           </v-col>
           <v-col :cols="1">
             <v-img
@@ -42,10 +44,7 @@
             <v-row>
               <v-col class="mt-3">
                 <v-card-subtitle class="ml-3">
-                  {{
-                    (approvalStatusFormat(item.approval_status),
-                    this.approvalStatus)
-                  }}
+                  {{ approvalStatusFormat(item.approval_status) }}
                 </v-card-subtitle>
                 <v-card-title class="ml-2">{{ item.title }}</v-card-title>
                 <v-card-subtitle class="ml-2">
@@ -68,26 +67,25 @@
                       <v-list-item
                         color="black"
                         v-bind:to="{
-                          name: listItems[0].link,
+                          name: listItems[index].link,
                           params: { announceId: item.id },
                         }"
                       >
-                        <v-list-item-title>{{
-                          listItems[0].title
-                        }}</v-list-item-title>
+                        <v-list-item-title>
+                          {{ listItems[index].title }}
+                        </v-list-item-title>
                       </v-list-item>
                     </v-list>
+
                     <v-divider></v-divider>
+                    
                     <v-list>
                       <v-list-item
                         color="red"
-                        @click.stop="
-                          (displayNewsDeleteConfirm = true),
-                            setDeleteAnnounceId(item.id)
-                        "
+                        @click.stop="(displayNewsDeleteConfirm = true), setDeleteAnnounceId(item.id)"
                       >
                         <v-list-item-title>
-                          {{ menuDeleteAnnounce[0].title }}
+                          {{ menuDeleteAnnounce[index].title }}
                         </v-list-item-title>
                       </v-list-item>
                     </v-list>
@@ -97,21 +95,16 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-card-text
-                  >登録日：{{ timestampFormat(item.created_at) }}</v-card-text
-                >
+                <v-card-text>
+                  登録日：{{ timestampFormat(item.created_at) }}<br/>
+                  登録者：{{ item.add_account.name }}
+                </v-card-text>
               </v-col>
               <v-col>
-                <v-card-text
-                  >更新日：{{ timestampFormat(item.updated_at) }}</v-card-text
-                >
-              </v-col>
-              <v-col>
-                <v-card-text
-                  >更新者：{{ item.upd_account.name }} /// 登録者：{{
-                    item.add_account
-                  }}</v-card-text
-                >
+                <v-card-text>
+                  更新日：{{ timestampFormat(item.updated_at) }}<br/>
+                  更新者：{{ item.upd_account.name }}
+                </v-card-text>
               </v-col>
             </v-row>
           </v-col>
@@ -125,7 +118,9 @@
     :closeAction="closeAction"
     :deleteAnnounce="deleteAnnounce"
   />
-  <v-row class="mt-3"> <news-list-table-pagination /></v-row>
+  <v-row class="mt-3">
+    <news-list-table-pagination />
+  </v-row>
 </template>
 
 <script>
@@ -288,14 +283,15 @@ export default {
 
     // 承認ステータスフォーマット
     approvalStatusFormat(newsApprovalStatus) {
+      let approvalStatus = '';
       let step = this.approvalStatusArray.length;
       for (var i = 0; i < step; i++) {
         const approvalStatusValue = this.approvalStatusArray[i].value;
         if (approvalStatusValue == newsApprovalStatus) {
-          this.approvalStatus = this.approvalStatusArray[i].status;
+          approvalStatus = this.approvalStatusArray[i].status;
         }
       }
-      return this.approvalStatus;
+      return approvalStatus;
     },
 
     getListItems() {

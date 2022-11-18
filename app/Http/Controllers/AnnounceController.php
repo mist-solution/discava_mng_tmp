@@ -105,15 +105,14 @@ class AnnounceController extends Controller
         $announce = new Announce();
         $announce['add_account'] = 1;
         $announce['upd_account'] = 1;
+        $announce['shop_id'] = 1;
         $announce['created_at'] = new DateTime();
         $announce['updated_at'] = new DateTime();
 
         $data = $request->all();
         $announce['title'] = $data['title'];
-//        $announce['announce_category_id'] = $data['announce_category_id'];
-	$announce['announce_category_id'] = 1;
-	$announce['remand_comment'] = 'remand_comment';
-	$announce['start_date'] = $data['start_date'];
+        $announce['announce_category_id'] = $data['announce_category_id'];
+        $announce['start_date'] = $data['start_date'];
         $announce['end_date'] = $data['end_date'];
         $announce['contents'] = $data['contents'];
 

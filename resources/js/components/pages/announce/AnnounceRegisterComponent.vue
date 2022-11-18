@@ -134,6 +134,9 @@ export default {
       this.announce.contents = html;
 
       const validateRes = this.$refs.form.validate();
+      console.log('localStorage');
+      console.log(localStorage);
+      console.log(localStorage.getItem('auth'));
       validateRes.then(res => {
         if (!res.valid) {
           console.log("invalid!");
@@ -144,7 +147,7 @@ export default {
           announce_category_id: this.announce.announce_category_id,
           start_date: moment(this.announce.start_date).format("yyyy-MM-DD"),
           end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
-          contents: this.announce.contents,
+          contents: this.$refs.myQuillEditor.getContents(),
         }
         this.$axios.post('/api/announce', postData)
           .then(response => {

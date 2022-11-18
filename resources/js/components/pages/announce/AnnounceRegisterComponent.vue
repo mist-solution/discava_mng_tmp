@@ -24,14 +24,14 @@
           <v-col cols="12" md="6">
             <v-select
               dense
-              v-model="select1"
+              v-model="announce.announce_category_id"
               :items="categories"
               label="カテゴリ"
               item-value="id"
-              item-title="category"
+              item-title="category_name"
               :rules="[rules.required]"
-              return-object
             />
+            {{categories}}
           </v-col>
         </v-row>
         <v-row>
@@ -106,13 +106,6 @@ export default {
     return {
       contents: null,
       start_date: null,
-//      cate: [
-//        {name :"test 1"},
-//        "test 2",
-//      ],
-//      catete: null,
-      select1: { id: '1', category: 'test1'},
-      categories1: [ { id: '1', category: 'test1'}, { id: '2',category: 'test2'}, ],
       announce: {
         title: null,
         announce_category_id: null,

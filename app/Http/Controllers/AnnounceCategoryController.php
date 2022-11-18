@@ -19,8 +19,8 @@ class AnnounceCategoryController extends Controller
             $announceCategoryArray = array();
             $announceCategoryArray['id'] = $value->id;
             $announceCategoryArray['code'] = $value->code;
-            $announceCategoryArray['contract_id'] = $value->contract_id;
-            $announceCategoryArray['category'] = $value->category;
+            $announceCategoryArray['shop_id'] = $value->shop_id;
+            $announceCategoryArray['category_name'] = $value->category_name;
             $announceCategoryArray['description'] = $value->description;
             $announceCategoryArray['icon'] = $value->icon;
             $announceCategoryArrays[] = $announceCategoryArray;

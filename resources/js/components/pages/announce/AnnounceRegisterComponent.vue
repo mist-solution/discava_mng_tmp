@@ -31,7 +31,6 @@
               item-title="category_name"
               :rules="[rules.required]"
             />
-            {{categories}}
           </v-col>
         </v-row>
         <v-row>

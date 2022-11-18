@@ -25,7 +25,7 @@
             <v-select
               dense
               v-model="select1"
-              :items="categories1"
+              :items="categories"
               label="カテゴリ"
               item-value="id"
               item-title="category"

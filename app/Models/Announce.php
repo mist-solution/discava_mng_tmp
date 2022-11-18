@@ -29,6 +29,11 @@ class Announce extends Model
         'del_flg',
     ];
 
+    public function add_account()
+    {
+        return $this->belongsTo(User::class, 'add_account');
+    }
+
     public function upd_account()
     {
         return $this->belongsTo(User::class, 'upd_account');
@@ -36,12 +41,12 @@ class Announce extends Model
 
     public function announce_category()
     {
-        return $this->belongsTo(AnnounceCategory::class);
+        return $this->belongsTo(AnnounceCategory::class, 'announce_category_id');
     }
 
     public static function getAnnounce($offset, $limit, $sort, $newsStatus, $newsAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchNewsCol, $searchNews, $searchCategory)
     {
-        $announceModel = Announce::with('upd_account', 'announce_category')->where('del_flg', false);
+        $announceModel = Announce::with('add_account', 'upd_account', 'announce_category')->where('del_flg', false);
 
         // 承認済み/承認待ち記事取得
         if ($newsStatus != "") {

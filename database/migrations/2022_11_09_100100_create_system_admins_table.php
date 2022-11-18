@@ -17,8 +17,8 @@ class CreateSystemAdminsTable extends Migration
             //$table->comment('システム管理者');  // Laravel 9.14 以降
             
             $table->id()->comment('ID');
-            $table->string('login_user_id', 256)->comment('ログインユーザID');
-            $table->string('mail', 256)->comment('メールアドレス');
+            $table->string('login_user_id', 255)->comment('ログインユーザID');
+            $table->string('mail', 255)->comment('メールアドレス');
             $table->string('name', 50)->comment('システム管理者名');
             $table->string('initial_password', 128)->comment('初期パスワード');
             $table->string('password', 128)->comment('パスワード');

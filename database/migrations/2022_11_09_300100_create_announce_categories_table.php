@@ -19,7 +19,7 @@ class CreateAnnounceCategoriesTable extends Migration
             $table->id()->comment('ID');
             $table->unsignedBigInteger('shop_id')->comment('店舗ID');
             $table->string('category_name',128)->comment('カテゴリ名');
-            $table->string('description',1024)->nullable()->comment('カテゴリ説明');
+            $table->string('description',255)->nullable()->comment('カテゴリ説明');
             $table->string('icon',128)->nullable()->comment('お知らせアイコン');
             // レコード更新情報
             $table->unsignedBigInteger('add_account')->comment('登録アカウント');

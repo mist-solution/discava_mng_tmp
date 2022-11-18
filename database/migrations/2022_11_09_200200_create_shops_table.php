@@ -18,11 +18,11 @@ class CreateShopsTable extends Migration
 
             $table->id()->comment('ID');
             $table->unsignedBigInteger('customer_id')->comment('顧客ID');
-            $table->string('shop_name', 256)->comment('店舗名');
+            $table->string('shop_name', 255)->comment('店舗名');
             $table->unsignedBigInteger('plan_id')->comment('プランID');
             $table->string('postal_code', 8)->comment('郵便番号');
             $table->string('address', 512)->comment('所在地');
-            $table->string('building_name', 1024)->nullable()->comment('建物名');
+            $table->string('building_name', 512)->nullable()->comment('建物名');
             $table->string('tel', 20)->comment('電話番号');
             $table->string('fax', 20)->nullable()->comment('FAX番号');
             // レコード更新情報

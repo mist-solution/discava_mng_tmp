@@ -18,14 +18,14 @@ class CreateUsersTable extends Migration
 
             $table->id()->comment('ID');
             $table->unsignedBigInteger('customer_id')->comment('顧客ID');
-            $table->string('login_user_id', 256)->comment('ログインユーザID');
-            $table->string('email', 256)->comment('メールアドレス');
+            $table->string('login_user_id', 255)->comment('ログインユーザID');
+            $table->string('email', 255)->comment('メールアドレス');
             $table->string('name', 50)->comment('ユーザ名');
             $table->string('initial_password', 128)->comment('初期パスワード');
             $table->string('password', 128)->comment('パスワード');
             $table->datetime('email_verified_at')->nullable()->comment('メールアドレス変更日時');
             // トークン保持情報
-            $table->rememberToken();
+            $table->rememberToken()->comment('ログイン持続トークン');
             // レコード更新情報
             $table->unsignedBigInteger('add_account')->comment('登録アカウント');
             $table->unsignedBigInteger('upd_account')->comment('更新アカウント');

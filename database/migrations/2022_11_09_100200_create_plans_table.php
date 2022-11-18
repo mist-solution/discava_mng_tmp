@@ -18,7 +18,7 @@ class CreatePlansTable extends Migration
 
             $table->id()->comment('ID');
             $table->string('name', 128)->comment('プラン名');
-            $table->string('description', 1024)->nullable()->comment('プラン説明');
+            $table->string('description', 255)->nullable()->comment('プラン説明');
             // レコード更新情報
             $table->unsignedBigInteger('add_account')->comment('登録アカウント');
             $table->unsignedBigInteger('upd_account')->comment('更新アカウント');

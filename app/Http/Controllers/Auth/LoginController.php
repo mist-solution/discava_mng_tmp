@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\ShopUser;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -45,6 +46,21 @@ class LoginController extends Controller
     public function username()
     {
       return 'login_user_id';
+    }
+
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+      //------------------------------
+      // ここに追加したい処理を書く
+      //------------------------------
+      // 店舗ユーザの１行目を取得
+      $shopuser = ShopUser::where('user_id', Auth::id())->first();
+
+      // 店舗IDを設定
+      $request->session()->put('shop_id', $shopuser->shop_id);
+
+      // ログイン後のリダイレクト
+      return redirect()->intended($this->redirectPath());
     }
 
     /**

@@ -22,22 +22,27 @@ use App\Http\Controllers\AnnounceCategoryController;
 //     return $request->user();
 // });
 
-Route::get('/api/tasks', 'TaskController@index');
-Route::post('/api/tasks', 'TaskController@store');
-Route::get('/api/tasks/{task}', 'TaskController@show');
-Route::put('/api/tasks/{task}', 'TaskController@update');
-Route::delete('/api/tasks/{task}', 'TaskController@destroy');
-Route::get('/api/announce', 'AnnounceController@getAnnounce');
-Route::get('/api/announce/{announce}', 'AnnounceController@showAnnounce');
-Route::put('/api/announce/{announce}', 'AnnounceController@approvalAllAnnounce');
-Route::put('/api/announce/{announce}/approval', 'AnnounceController@approvalAnnounce');
-Route::put('/api/announce/{announce}/return', 'AnnounceController@approvalAnnounceReturn');
-Route::put('/api/announce/{announce}/reject', 'AnnounceController@approvalAnnounceReject');
-Route::delete('/api/announce/{announce}', 'AnnounceController@deleteAnnounce');
-Route::post('/api/announce', [AnnounceController::class, 'register']);
-Route::get('/api/enduser', [UserController::class, 'index']);
+//Route::get('/api/tasks', 'TaskController@index');
+//Route::post('/api/tasks', 'TaskController@store');
+//Route::get('/api/tasks/{task}', 'TaskController@show');
+//Route::put('/api/tasks/{task}', 'TaskController@update');
+//Route::delete('/api/tasks/{task}', 'TaskController@destroy');
+
 Route::get('/api/customer', [CustomerController::class, 'index']);
+Route::get('/api/enduser', [UserController::class, 'index']);
 Route::post('/api/enduser', [RegisterController::class, 'register']);
 Route::put('/api/enduser/{id}', [UserController::class, 'update']);
 Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
-Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
+
+// ログイン済みの場合のみに使用するAPI
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/api/announce', 'AnnounceController@getAnnounce');
+    Route::get('/api/announce/{announce}', 'AnnounceController@showAnnounce');
+    Route::put('/api/announce/{announce}', 'AnnounceController@approvalAllAnnounce');
+    Route::put('/api/announce/{announce}/approval', 'AnnounceController@approvalAnnounce');
+    Route::put('/api/announce/{announce}/return', 'AnnounceController@approvalAnnounceReturn');
+    Route::put('/api/announce/{announce}/reject', 'AnnounceController@approvalAnnounceReject');
+    Route::delete('/api/announce/{announce}', 'AnnounceController@deleteAnnounce');
+    Route::post('/api/announce', [AnnounceController::class, 'register']);
+    Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
+});

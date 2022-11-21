@@ -35,14 +35,14 @@ Route::put('/api/enduser/{id}', [UserController::class, 'update']);
 Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
 
 // ログイン済みの場合のみに使用するAPI
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/api/announce', 'AnnounceController@getAnnounce');
-    Route::get('/api/announce/{announce}', 'AnnounceController@showAnnounce');
-    Route::put('/api/announce/{announce}', 'AnnounceController@approvalAllAnnounce');
-    Route::put('/api/announce/{announce}/approval', 'AnnounceController@approvalAnnounce');
-    Route::put('/api/announce/{announce}/return', 'AnnounceController@approvalAnnounceReturn');
-    Route::put('/api/announce/{announce}/reject', 'AnnounceController@approvalAnnounceReject');
-    Route::delete('/api/announce/{announce}', 'AnnounceController@deleteAnnounce');
-    Route::post('/api/announce', [AnnounceController::class, 'register']);
-    Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
-});
+//Route::group(['middleware' => 'auth'], function () {
+Route::get('/api/announce', 'AnnounceController@getAnnounce');
+Route::get('/api/announce/{announce}', 'AnnounceController@showAnnounce');
+Route::put('/api/announce/{announce}', 'AnnounceController@approvalAllAnnounce');
+Route::put('/api/announce/{announce}/approval', 'AnnounceController@approvalAnnounce');
+Route::put('/api/announce/{announce}/return', 'AnnounceController@approvalAnnounceReturn');
+Route::put('/api/announce/{announce}/reject', 'AnnounceController@approvalAnnounceReject');
+Route::delete('/api/announce/{announce}', 'AnnounceController@deleteAnnounce');
+Route::post('/api/announce', [AnnounceController::class, 'register']);
+Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
+//});

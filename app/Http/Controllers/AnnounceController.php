@@ -106,7 +106,8 @@ class AnnounceController extends Controller
         $announce = new Announce();
         $announce['add_account'] = Auth::id();
         $announce['upd_account'] = Auth::id();
-        $announce['shop_id'] = $request->session()->get('shop_id');
+        $announce['shop_id'] = 1;
+//        $announce['shop_id'] = $request->session()->get('shop_id');
         $announce['created_at'] = new DateTime();
         $announce['updated_at'] = new DateTime();
 

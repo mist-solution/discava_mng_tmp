@@ -12,8 +12,12 @@ class AnnounceCategoryController extends Controller
     // 一覧取得
     public function index(Request $request)
     {
+        $shopId = $request->session()->get('shop_id');
         $response = array();
-        $announceCategories = AnnounceCategory::all();
+        $announceCategories = AnnounceCategory::where('shop_id', $shopId)
+            ->where('del_flg', '0')
+            ->get();
+
         $announceCategoryArrays = array();
         foreach ($announceCategories as $key => $value) {
             $announceCategoryArray = array();

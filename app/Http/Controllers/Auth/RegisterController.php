@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use DB;
 
 class RegisterController extends Controller
@@ -81,8 +82,8 @@ class RegisterController extends Controller
             'password' => $password,
             'email_verified_at' => null,
             'remember_token' => null,
-            'add_account' => '1',  //ToDo:ログインユーザのIDにしたい
-            'upd_account' => '1',  //ToDo:ログインユーザのIDにしたい
+            'add_account' => Auth::user()->id,
+            'upd_account' => Auth::user()->id,
             'del_flg' => '0',
         ]);
 

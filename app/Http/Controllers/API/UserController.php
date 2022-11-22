@@ -7,6 +7,7 @@ use App\Models\ShopUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use DB;
 
@@ -52,6 +53,7 @@ class UserController extends Controller
             'login_user_id' => $request->login_user_id,
             'name' => $request->name,
             'email' => $request->email,
+            'upd_account' => Auth::user()->id,
         ];
 //        $customer = DB::table('customers')->where('code', $request->customer)->first();
         $user = User::find($id);

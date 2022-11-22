@@ -55,7 +55,6 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'customer_id' => ['required','integer'],
             'login_user_id' => ['required', 'string', 'max:255', 'unique:users'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -74,7 +73,7 @@ class RegisterController extends Controller
         $password = Hash::make($data['password']);
 
         return User::create([
-            'customer_id' => $data['customer_id'],
+            'customer_id' => Auth::user()->customer_id,
             'login_user_id' => $data['login_user_id'],
             'email' => $data['email'],
             'name' => $data['name'],

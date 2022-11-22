@@ -7,21 +7,12 @@
 
                     <div class="card-body">
                         <v-form ref="form" v-model="valid">
-                          <!-- ToDo:IDと顧客IDは変更不可にしたい -->
-                          <!-- ToDo:かつ、hiddenにしたい -->
                           <v-text-field
                                 dense
                                 v-model="forms.id"
                                 label="ID"
                                 :rules="[rules.required]"
-                                readonly
-                            />
-                          <v-text-field
-                                dense
-                                v-model="forms.customer_id"
-                                label="顧客ID"
-                                :rules="[rules.required]"
-                                readonly
+                                v-show="false"
                             />
                           <v-text-field
                                 dense
@@ -65,10 +56,8 @@
     data() {
       return {
         valid: true,
-        customers: [],
         forms: {
           id: '',
-          customer_id: '',
           login_user_id: '',
           name: '',
           email: '',
@@ -111,7 +100,6 @@
         const user_id = this.$route.params.user_id;
         const user = this.getUserById(user_id);
         this.forms.id = user.id;
-        this.forms.customer_id = user.customer_id;
         this.forms.login_user_id = user.login_user_id;
         this.forms.name = user.name;
         this.forms.email = user.email;
@@ -119,7 +107,6 @@
     },
     computed: {
       ...mapGetters('enduser', ['getUserById']),
-      ...mapGetters('customer', ['getCustomers']),
     },
     mounted() {
       this.getUser();

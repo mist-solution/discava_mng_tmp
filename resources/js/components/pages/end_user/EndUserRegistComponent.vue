@@ -7,15 +7,6 @@
 
                     <div class="card-body">
                         <v-form ref="form" v-model="valid">
-                          <!-- ToDo:顧客IDはログインユーザの顧客IDを使用したい -->
-                          <!-- ToDo:かつ、hiddenにしたい -->
-                          <v-text-field
-                                dense
-                                v-model="forms.customer_id"
-                                label="顧客ID"
-                                :rules="[rules.required]"
-                            />
-
                             <v-text-field
                                 dense
                                 v-model="forms.login_user_id"
@@ -91,7 +82,6 @@
           email: '',
           password: '',
           password_confirmation:'',
-          customer_id: '1',  //ToDo:ログインユーザの顧客IDにしたい
         },
         rules: {
           required: value => !!value || '必須です。',

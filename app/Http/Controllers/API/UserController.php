@@ -21,8 +21,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $response = array();
-        //ToDo:ログインユーザのCustomerIdを条件にする。
-        $users = User::where('customer_id', '1')->where('del_flg', '0')->get();
+        $users = User::where('customer_id', Auth::user()->customer_id)
+            ->where('del_flg', '0')
+            ->get();
         $userArrays = array();
         foreach ($users as $key => $value) {
             $userArray = array();

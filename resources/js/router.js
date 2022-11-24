@@ -13,6 +13,7 @@ const EndUserUpdateComponent = () => import('./components/pages/end_user/EndUser
 const EndUserListComponent = () => import('./components/pages/end_user/EndUserListComponent')
 const NewsDetailComponent = () => import('./components/pages/news_list/NewsDetailComponent')
 const NewsApprovalConfirmComponent = () => import('./components/pages/news_list/NewsApprovalComponent')
+const NotFoundComponent = () => import('./components/pages/NotFoundComponent')
 
 const routes = [
     // ダッシュボード画面
@@ -109,7 +110,13 @@ const routes = [
     {
         path: '/enduser',
         name: 'enduser.list',
-        component: EndUserListComponent
+        component: EndUserListComponent,
+    },
+    // 404 NotFound
+    {
+        path: '*',
+        name: 'notfound',
+        component: NotFoundComponent,
     },
 ]
 

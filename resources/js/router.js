@@ -107,7 +107,7 @@ const routes = [
     },
     // 404 NotFound
     {
-        path: '*',
+        path: '/:pathMatch(.*)*',
         name: 'notfound',
         component: NotFoundComponent,
     },

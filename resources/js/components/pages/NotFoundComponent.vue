@@ -12,11 +12,3 @@
     </v-card-title>
   </v-card>
 </template>
-
-<script>
-export default {
-  mounted() {
-    console.log("example mounted.");
-  },
-};
-</script>

@@ -12,6 +12,16 @@
       </v-col>
     </v-row>
 
+    <select v-model="shops">
+      <option
+        v-for="shop in shops"
+        :value="shop.id"
+        :key="shop.id"
+      >
+        {{ shop.label }}
+      </option>
+    </select>
+
     <v-list nav dense>
 
       <div v-for="item in items" :key="item.id">
@@ -71,6 +81,11 @@ export default {
         { id: 7, title: "WEBサイトへ", icon: "mdi-tab", linkTo: "", disabled: true, group: false, },
       ],
       right: null,
+      shops: [
+        { id: 1, label: "本社" },
+        { id: 2, label: "高松支社" },
+      ],
+      shopSelect: 1,
     };
   },
 };

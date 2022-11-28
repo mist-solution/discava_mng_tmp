@@ -13,12 +13,11 @@
     </v-row>
 
     <v-select
+      dense
       v-model="shopSelect"
       :items="shops"
-      item-text="label"
       item-value="id"
-      dense
-      single-line
+      item-title="name"
     ></v-select>
 
     <v-list nav dense>
@@ -81,10 +80,10 @@ export default {
       ],
       right: null,
       shops: [
-        { id: 1, label: "本社" },
-        { id: 2, label: "高松支社" },
+        { id: 1, name: "本社" },
+        { id: 2, name: "高松支社" },
       ],
-      shopSelect: { id:1, label: "本社" },
+      shopSelect: 1,
     };
   },
 };

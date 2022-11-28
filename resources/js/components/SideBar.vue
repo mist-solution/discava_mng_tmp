@@ -12,7 +12,7 @@
       </v-col>
     </v-row>
 
-    <select v-model="shops">
+    <v-select v-model="shopSelect">
       <option
         v-for="shop in shops"
         :value="shop.id"
@@ -20,7 +20,7 @@
       >
         {{ shop.label }}
       </option>
-    </select>
+    </v-select>
 
     <v-list nav dense>
 

@@ -80,18 +80,22 @@ export default {
       ],
       right: null,
       shopSelect: 1,
+      usershops: [
+        { id: 1, shop_name: "本社", },
+        { id: 2, shop_name: "高松支社", },
+      ],
     };
   },
-  computed: {
-    ...mapGetters("shopUser", ["getShopUsers"]),
-    usershops: {
-      get() {
-        return this.getShopUsers;
-      }
-    },
-  },
-  created() {
-    this.fetchShopUsers();
-  },
+  // computed: {
+  //   ...mapGetters("shopUser", ["getShopUsers"]),
+  //   usershops: {
+  //     get() {
+  //       return this.getShopUsers;
+  //     }
+  //   },
+  // },
+  // created() {
+  //   this.fetchShopUsers();
+  // },
 };
 </script>

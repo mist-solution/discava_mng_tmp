@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\API\SelectShopController;
+use App\Http\Controllers\API\ShopUserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AnnounceController;
 use App\Http\Controllers\AnnounceCategoryController;
@@ -28,14 +30,15 @@ use App\Http\Controllers\AnnounceCategoryController;
 //Route::put('/api/tasks/{task}', 'TaskController@update');
 //Route::delete('/api/tasks/{task}', 'TaskController@destroy');
 
+Route::post('/api/changeshop', [SelectShopController::class, 'changeShopId']);
+Route::get('/api/userShops', [ShopUserController::class, 'getLoginUserShopList']);
+
 Route::get('/api/customer', [CustomerController::class, 'index']);
 Route::get('/api/enduser', [UserController::class, 'index']);
 Route::post('/api/enduser', [RegisterController::class, 'register']);
 Route::put('/api/enduser/{id}', [UserController::class, 'update']);
 Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
 
-// ログイン済みの場合のみに使用するAPI
-//Route::group(['middleware' => 'auth'], function () {
 Route::get('/api/announce', 'AnnounceController@getAnnounce');
 Route::get('/api/announce/{announce}', 'AnnounceController@showAnnounce');
 Route::put('/api/announce/{announce}', 'AnnounceController@approvalAllAnnounce');
@@ -45,4 +48,3 @@ Route::put('/api/announce/{announce}/reject', 'AnnounceController@approvalAnnoun
 Route::delete('/api/announce/{announce}', 'AnnounceController@deleteAnnounce');
 Route::post('/api/announce', [AnnounceController::class, 'register']);
 Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
-//});

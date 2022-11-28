@@ -29,7 +29,7 @@ class ShopUserController extends Controller
             $shopUserData['shop_id'] = $value->shop_id;
             $shopUserData['user_id'] = $value->user_id;
             $shopUserData['authority_id'] = $value->authority_id;
-            $shopUserData['shop_name'] = $value->shop_id->shop_name;
+            $shopUserData['shop_name'] = $value->shop->shop_name;
             $shopUserArray[] = $shopUserData;
         }
         $response['shopUsers'] = $shopUserArray;

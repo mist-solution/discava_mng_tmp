@@ -31,7 +31,7 @@ use App\Http\Controllers\AnnounceCategoryController;
 //Route::delete('/api/tasks/{task}', 'TaskController@destroy');
 
 Route::post('/api/changeshop', [SelectShopController::class, 'changeShopId']);
-Route::get('/api/userShops', [ShopUserController::class, 'getLoginUserShopList']);
+Route::get('/api/shopusers', [ShopUserController::class, 'getLoginUserShopList']);
 
 Route::get('/api/customer', [CustomerController::class, 'index']);
 Route::get('/api/enduser', [UserController::class, 'index']);

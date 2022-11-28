@@ -15,9 +15,9 @@
     <v-select
       dense
       v-model="shopSelect"
-      :items="shops"
+      :items="usershops"
       item-value="id"
-      item-title="name"
+      item-title="shop_name"
     ></v-select>
 
     <v-list nav dense>
@@ -79,12 +79,19 @@ export default {
         { id: 7, title: "WEBサイトへ", icon: "mdi-tab", linkTo: "", disabled: true, group: false, },
       ],
       right: null,
-      shops: [
-        { id: 1, name: "本社" },
-        { id: 2, name: "高松支社" },
-      ],
       shopSelect: 1,
     };
+  },
+  computed: {
+    ...mapGetters("shopUser", ["getShopUsers"]),
+    usershops: {
+      get() {
+        return this.getShopUsers;
+      }
+    },
+  },
+  created() {
+    this.fetchShopUsers();
   },
 };
 </script>

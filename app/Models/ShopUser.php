@@ -20,4 +20,20 @@ class ShopUser extends Model
         'upd_account',
         'del_flg',
     ];
+
+    public function customer_id()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    public function shop_id()
+    {
+        return $this->belongsTo(Shop::class, 'shop_id');
+    }
+
+    public function user_id()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

@@ -15,7 +15,9 @@ class ShopUserController extends Controller
     {
         // $shopId = $request->session()->get('shop_id');
         $response = array();
-        $shopUsers = ShopUser::where('user_id', Auth::id())
+
+        $shopUsers = ShopUser::with('customer_id', 'shop_id', 'user_id')
+            ->where('user_id', Auth::id())
             ->where('del_flg', '0')
             ->get();
 
@@ -27,6 +29,7 @@ class ShopUserController extends Controller
             $shopUserData['shop_id'] = $value->shop_id;
             $shopUserData['user_id'] = $value->user_id;
             $shopUserData['authority_id'] = $value->authority_id;
+            $shopUserData['shop_name'] = $value->shop_id->shop_name;
             $shopUserArray[] = $shopUserData;
         }
         $response['shopUsers'] = $shopUserArray;

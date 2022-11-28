@@ -27,8 +27,8 @@ class CustomerController extends Controller
             $customerArrays[] = $customerArray;
         }
         $response['customers'] = $customerArrays;
-        Log::info('取引先取得');
-        Log::debug(print_r($customerArrays, true));
+        // Log::info('取引先取得');
+        // Log::debug(print_r($customerArrays, true));
         $response['message'] = 'success';
         return new JsonResponse($response);
     }

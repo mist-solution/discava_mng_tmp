@@ -85,7 +85,7 @@ export default {
         { id: 1, label: "本社" },
         { id: 2, label: "高松支社" },
       ],
-      shopSelect: 1,
+      shopSelect: "本社",
     };
   },
 };

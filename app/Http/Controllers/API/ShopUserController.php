@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class AnnounceCategoryController extends Controller
+class ShopUserController extends Controller
 {
     // 一覧取得
     public function getLoginUserShopList(Request $request)

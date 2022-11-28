@@ -12,15 +12,14 @@
       </v-col>
     </v-row>
 
-    <v-select v-model="shopSelect">
-      <option
-        v-for="shop in shops"
-        :value="shop.id"
-        :key="shop.id"
-      >
-        {{ shop.label }}
-      </option>
-    </v-select>
+    <v-select
+      v-model="shopSelect"
+      :items="shops"
+      item-text="label"
+      item-value="id"
+      dense
+      single-line
+    ></v-select>
 
     <v-list nav dense>
 
@@ -85,7 +84,7 @@ export default {
         { id: 1, label: "本社" },
         { id: 2, label: "高松支社" },
       ],
-      shopSelect: "本社",
+      shopSelect: { id:1, label: "本社" },
     };
   },
 };

@@ -16,7 +16,7 @@ class ShopUserController extends Controller
         // $shopId = $request->session()->get('shop_id');
         $response = array();
 
-        $shopUsers = ShopUser::with('customer_id', 'shop_id', 'user_id')
+        $shopUsers = ShopUser::with('customer', 'shop', 'user')
             ->where('user_id', Auth::id())
             ->where('del_flg', '0')
             ->get();

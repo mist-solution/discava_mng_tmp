@@ -21,17 +21,17 @@ class ShopUser extends Model
         'del_flg',
     ];
 
-    public function customer_id()
+    public function customer()
     {
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
-    public function shop_id()
+    public function shop()
     {
         return $this->belongsTo(Shop::class, 'shop_id');
     }
 
-    public function user_id()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

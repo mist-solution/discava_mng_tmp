@@ -81,11 +81,7 @@ export default {
         { id: 7, title: "WEBサイトへ", icon: "mdi-tab", linkTo: "", disabled: true, group: false, },
       ],
       right: null,
-      shopSelect: 1,
-//      usershops: [
-//        { id: 1, shop_name: "本社", },
-//        { id: 2, shop_name: "高松支社", },
-//      ],
+      shopSelect: { id: 1, shop_name: "本社", },
     };
   },
   methods: {

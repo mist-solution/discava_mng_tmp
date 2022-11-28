@@ -5,6 +5,7 @@ import enduser from './enduser';
 import customer from './customer';
 import announceCategory from './announceCategory';
 import snackbar from './snackbar';
+import shopUser from './shopUser';
 
 export default new Vuex.Store({
     modules: {
@@ -14,5 +15,6 @@ export default new Vuex.Store({
         customer: customer,
         announceCategory: announceCategory,
         snackbar: snackbar,
+        shopUser: shopUser,
     }
 });

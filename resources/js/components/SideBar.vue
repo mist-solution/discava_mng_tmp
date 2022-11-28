@@ -1,6 +1,19 @@
 <template>
   <v-navigation-drawer temporary v-model='this.$store.state.sidebar.open'>
+
+    <v-row>
+      <v-col align="center">
+        <v-img
+          src="/images/icon_user_beige.png"
+          max-height="96"
+          max-width="96"
+          contain>
+        </v-img>
+      </v-col>
+    </v-row>
+
     <v-list nav dense>
+
       <div v-for="item in items" :key="item.id">
 
         <v-list-group

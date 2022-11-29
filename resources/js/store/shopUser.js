@@ -1,11 +1,15 @@
 import axios from "../axios"
 
 const state = {
-    shopUsers: []
+    shopUsers: [],
+    shopSelect: {},
 }
 const getters = {
     getShopUsers: (state) => {
         return state.shopUsers;
+    },
+    getShopSelect: (state) => {
+        return state.shopSelect;
     },
     getShopUserById: (state) => (id) => {
         const shopUser = state.shopUsers.find((shopUser) => {
@@ -24,10 +28,18 @@ const actions = {
             context.commit('setShopUsers', res.data.shopUsers);
         })
     },
+    fetchShopSelect(context) {
+        return axios.get('/api/shopselect').then((res) => {
+            context.commit('setShopSelect', res.data.shopSelect);
+        })
+    },
 }
 const mutations = {
     setShopUsers(state, shopUsers) {
         state.shopUsers = shopUsers;
+    },
+    setShopSelect(state, shopSelect) {
+        state.shopSelect = shopSelect;
     },
 }
 

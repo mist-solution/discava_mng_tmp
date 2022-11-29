@@ -81,22 +81,29 @@ export default {
         { id: 7, title: "WEBサイトへ", icon: "mdi-tab", linkTo: "", disabled: true, group: false, },
       ],
       right: null,
-      shopSelect: { id: 1, shop_name: "本社", },
     };
   },
   methods: {
     ...mapActions('shopUser', ['fetchShopUsers']),
+    ...mapActions('shopUser', ['fetchShopSelect']),
   },
   computed: {
     ...mapGetters("shopUser", ["getShopUsers"]),
+    ...mapGetters("shopUser", ["getShopSelect"]),
     usershops: {
       get() {
         return this.getShopUsers;
       }
     },
+    shopSelect: {
+      get() {
+        return this.getShopSelect;
+      }
+    },
   },
   created() {
     this.fetchShopUsers();
+    this.fetchShopSelect();
   },
 };
 </script>

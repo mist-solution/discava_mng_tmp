@@ -32,6 +32,7 @@ use App\Http\Controllers\AnnounceCategoryController;
 
 Route::post('/api/changeshop', [SelectShopController::class, 'changeShopId']);
 Route::get('/api/shopusers', [ShopUserController::class, 'getLoginUserShopList']);
+Route::get('/api/shopselect', [ShopUserController::class, 'getLoginUserShopSelect']);
 
 Route::get('/api/customer', [CustomerController::class, 'index']);
 Route::get('/api/enduser', [UserController::class, 'index']);

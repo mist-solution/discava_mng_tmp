@@ -86,20 +86,22 @@ export default {
   methods: {
     ...mapActions('shopUser', ['fetchShopUsers']),
     ...mapActions('shopUser', ['fetchShopSelect']),
+
+    getShopSelect() {
+      this.shopSelect = $store.state.shopSelect;
+    },
+
   },
   computed: {
     ...mapGetters("shopUser", ["getShopUsers"]),
-    ...mapGetters("shopUser", ["getShopSelect"]),
     usershops: {
       get() {
         return this.getShopUsers;
       }
     },
-    shopSelect: {
-      get() {
-        return this.getShopSelect;
-      }
-    },
+  },
+  mounted() {
+    this.getShopSelect();
   },
   created() {
     this.fetchShopUsers();

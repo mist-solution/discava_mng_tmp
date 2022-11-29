@@ -90,7 +90,7 @@ export default {
     getShopSelect() {
       console.log("sidebar mounted.");
 
-      const shopuser = this.getShopSelectData();
+      const shopuser = this.getShopSelectData;
       this.shopSelect = {};
       // 本当は設定したい。
       // this.shopSelect.shop_id = shopuser.shop_id;

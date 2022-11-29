@@ -87,20 +87,17 @@ export default {
     ...mapActions('shopUser', ['fetchShopUsers']),
     ...mapActions('shopUser', ['fetchShopSelect']),
 
-    getShopSelect() {
+    getShopSelect: function() {
       console.log("sidebar mounted.");
 
       const shopuser = this.getShopSelectData;
       this.shopSelect = {};
-      // 本当は設定したい。
-      // this.shopSelect.shop_id = shopuser.shop_id;
-      // this.shopSelect.shop_name = shopuser.shop_name;
-      this.shopSelect.shop_id = 1;
-      this.shopSelect.shop_name = "本社";
-      console.log(this.shopSelect.shop_id);
+      this.shopSelect.id = shopuser.shop_id;
+      this.shopSelect.shop_name = shopuser.shop_name;
+      // this.shopSelect.shop_id = 1;
+      // this.shopSelect.shop_name = "本社";
+      console.log(this.shopSelect.id);
       console.log(this.shopSelect.shop_name);
-
-
     },
 
   },

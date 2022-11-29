@@ -1,15 +1,15 @@
 import axios from "../axios"
 
 const state = {
-    shopUsers: [],
-    shopSelect: {},
+    shopUsers: null,
+    shopSelect: null,
 }
 const getters = {
     shopUsers: (state) => state.shopUsers,
     shopSelect: (state) => state.shopSelect,
 
     getShopSelectData: (state) => {
-        const shopSelect = state.shopSelect;
+        const shopSelect = state.shopSelect.at(0);
         if (shopSelect) {
             return shopSelect;
         } else {

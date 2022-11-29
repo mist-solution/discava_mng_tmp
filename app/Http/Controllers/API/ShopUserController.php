@@ -21,18 +21,18 @@ class ShopUserController extends Controller
             ->where('del_flg', '0')
             ->get();
 
-        $shopSelectArray = array();
+        $shopUserArray = array();
         foreach ($shopUsers as $key => $shopUsers) {
-            $shopSelectData = array();
-            $shopSelectData['id'] = $shopUsers->id;
-            $shopSelectData['customer_id'] = $shopUsers->customer_id;
-            $shopSelectData['shop_id'] = $shopUsers->shop_id;
-            $shopSelectData['user_id'] = $shopUsers->user_id;
-            $shopSelectData['authority_id'] = $shopUsers->authority_id;
-            $shopSelectData['shop_name'] = $shopUsers->shop->shop_name;
-            $shopSelectArray[] = $shopSelectData;
+            $shopUserData = array();
+            $shopUserData['id'] = $shopUsers->id;
+            $shopUserData['customer_id'] = $shopUsers->customer_id;
+            $shopUserData['shop_id'] = $shopUsers->shop_id;
+            $shopUserData['user_id'] = $shopUsers->user_id;
+            $shopUserData['authority_id'] = $shopUsers->authority_id;
+            $shopUserData['shop_name'] = $shopUsers->shop->shop_name;
+            $shopUserArray[] = $shopUserData;
         }
-        $response['shopUsers'] = $shopSelectArray;
+        $response['shopUsers'] = $shopUserArray;
         $response['message'] = 'success';
         return new JsonResponse($response);
     }
@@ -47,17 +47,21 @@ class ShopUserController extends Controller
             ->where('shop_id', $shopId)
             ->where('user_id', Auth::id())
             ->where('del_flg', '0')
-            ->first();
+            ->get();
 
-        $shopSelectData = array();
-        $shopSelectData['id'] = $shopUsers->id;
-        $shopSelectData['customer_id'] = $shopUsers->customer_id;
-        $shopSelectData['shop_id'] = $shopUsers->shop_id;
-        $shopSelectData['user_id'] = $shopUsers->user_id;
-        $shopSelectData['authority_id'] = $shopUsers->authority_id;
-        $shopSelectData['shop_name'] = $shopUsers->shop->shop_name;
+        $shopSelectArray = array();
+        foreach ($shopUsers as $key => $shopUsers) {
+            $shopSelectData = array();
+            $shopSelectData['id'] = $shopUsers->id;
+            $shopSelectData['customer_id'] = $shopUsers->customer_id;
+            $shopSelectData['shop_id'] = $shopUsers->shop_id;
+            $shopSelectData['user_id'] = $shopUsers->user_id;
+            $shopSelectData['authority_id'] = $shopUsers->authority_id;
+            $shopSelectData['shop_name'] = $shopUsers->shop->shop_name;
+            $shopSelectArray[] = $shopSelectData;
+        }
 
-        $response['shopSelect'] = $shopSelectData;
+        $response['shopSelect'] = $shopSelectArray;
         $response['message'] = 'success';
         return new JsonResponse($response);
     }

@@ -92,23 +92,20 @@ export default {
 
       const shopuser = this.getShopSelectData();
       this.shopSelect = {};
-      this.shopSelect.shop_id = shopuser.shop_id;
-      this.shopSelect.shop_name = shopuser.shop_name;
-      // this.shopSelect.shop_id = 1;
-      // this.shopSelect.shop_name = "本社";
+      // 本当は設定したい。
+      // this.shopSelect.shop_id = shopuser.shop_id;
+      // this.shopSelect.shop_name = shopuser.shop_name;
+      this.shopSelect.shop_id = 1;
+      this.shopSelect.shop_name = "本社";
       console.log(this.shopSelect.shop_id);
       console.log(this.shopSelect.shop_name);
 
-// console.log("%o", this.$store.state);
-// console.log("1: %o", this.$store.state.shopUser);
-// console.log(JSON.stringify(this.$store.state.shopUser));
 
     },
 
   },
   computed: {
-    ...mapGetters("shopUser", ["shopUsers"]),
-    ...mapGetters("shopUser", ["getShopSelectData"]),
+    ...mapGetters("shopUser", ["shopUsers", "getShopSelectData"]),
     usershops: {
       get() {
         return this.shopUsers;

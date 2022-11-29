@@ -5,12 +5,9 @@ const state = {
     shopSelect: {},
 }
 const getters = {
-    getShopUsers: (state) => {
-        return state.shopUsers;
-    },
-    getShopSelect: (state) => {
-        return state.shopSelect;
-    },
+    shopUsers: (state) => state.shopUsers,
+    shopSelect: (state) => state.shopSelect,
+
     getShopUserById: (state) => (id) => {
         const shopUser = state.shopUsers.find((shopUser) => {
             return shopUser.id === id
@@ -20,7 +17,7 @@ const getters = {
         } else {
             return null;
         }
-    }
+    },
 };
 const actions = {
     fetchShopUsers(context) {
@@ -38,8 +35,8 @@ const mutations = {
     setShopUsers(state, shopUsers) {
         state.shopUsers = shopUsers;
     },
-    setShopSelect(state, shopSelect) {
-        state.shopSelect = shopSelect;
+    setShopSelect(state, select) {
+        state.shopSelect = select;
     },
 }
 

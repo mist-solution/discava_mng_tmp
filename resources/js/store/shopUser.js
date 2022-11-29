@@ -8,6 +8,9 @@ const getters = {
     shopUsers: (state) => state.shopUsers,
     shopSelect: (state) => state.shopSelect,
 
+    selectedShopId: (state) => state.shopSelect.shop_id,
+    selectedShopName: (state) => state.shopSelect.shop_name,
+
     getShopUserById: (state) => (id) => {
         const shopUser = state.shopUsers.find((shopUser) => {
             return shopUser.id === id

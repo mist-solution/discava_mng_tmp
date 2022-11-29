@@ -88,12 +88,26 @@ export default {
     ...mapActions('shopUser', ['fetchShopSelect']),
 
     getShopSelect() {
-      this.shopSelect = $store.state.shopSelect;
+      console.log("sidebar mounted.");
+
+      const shopuser = this.getShopSelectData();
+      this.shopSelect.shop_id = shopuser.shop_id;
+      this.shopSelect.shop_name = shopuser.shop_name;
+      // this.shopSelect.shop_id = 1;
+      // this.shopSelect.shop_name = "本社";
+      console.log(this.shopSelect.shop_id);
+      console.log(this.shopSelect.shop_name);
+
+// console.log("%o", this.$store.state);
+// console.log("1: %o", this.$store.state.shopUser);
+// console.log(JSON.stringify(this.$store.state.shopUser));
+
     },
 
   },
   computed: {
     ...mapGetters("shopUser", ["getShopUsers"]),
+    ...mapGetters("shopUser", ["getShopSelectData"]),
     usershops: {
       get() {
         return this.getShopUsers;

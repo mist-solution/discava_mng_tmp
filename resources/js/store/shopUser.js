@@ -9,7 +9,7 @@ const getters = {
     shopSelect: (state) => state.shopSelect,
 
     getShopSelectData: (state) => {
-        const shopSelect = state.shopSelect.at(0);
+        const shopSelect = state.shopSelect;
         if (shopSelect) {
             return shopSelect;
         } else {

@@ -91,6 +91,7 @@ export default {
       console.log("sidebar mounted.");
 
       const shopuser = this.getShopSelectData();
+      this.shopSelect = {};
       this.shopSelect.shop_id = shopuser.shop_id;
       this.shopSelect.shop_name = shopuser.shop_name;
       // this.shopSelect.shop_id = 1;
@@ -106,11 +107,11 @@ export default {
 
   },
   computed: {
-    ...mapGetters("shopUser", ["getShopUsers"]),
+    ...mapGetters("shopUser", ["shopUsers"]),
     ...mapGetters("shopUser", ["getShopSelectData"]),
     usershops: {
       get() {
-        return this.getShopUsers;
+        return this.shopUsers;
       }
     },
   },

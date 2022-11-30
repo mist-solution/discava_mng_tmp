@@ -14,7 +14,7 @@
 
     <v-select
       dense
-      v-model="shopSelect"
+      v-model="shopSelection"
       :items="usershops"
       item-value="id"
       item-title="shop_name"
@@ -45,7 +45,7 @@
             :disabled="submenu.disabled"
           ></v-list-item>
         </v-list-group>
-        
+
         <v-list-item
           v-else
           :prepend-icon="item.icon"
@@ -70,7 +70,7 @@ export default {
         { id: 1, title: "投稿管理", icon: "mdi-bullhorn-variant-outline", linkTo: "news.list", disabled: false, group: false, },
         { id: 2, title: "ギャラリー管理", icon: "mdi-image-outline", linkTo: "", disabled: true, group: false, },
         { id: 3, title: "アクセス情報", icon: "mdi-chart-bar", linkTo: "", disabled: true, group: false, },
-        { id: 4, title: "アカウント管理", icon: "mdi-account", linkTo: "enduser.list", disabled: false, group: true, 
+        { id: 4, title: "アカウント管理", icon: "mdi-account", linkTo: "enduser.list", disabled: false, group: true,
           submenus: [
             { id: 401, title: "アカウント一覧", linkTo: "enduser.list", disabled: false, },
             { id: 402, title: "アカウント登録", linkTo: "enduser.register", disabled: false, },
@@ -85,36 +85,32 @@ export default {
   },
   methods: {
     ...mapActions('shopUser', ['fetchShopUsers']),
-    ...mapActions('shopUser', ['fetchShopSelect']),
-
-    getShopSelect: function() {
-      console.log("sidebar mounted.");
-
-      const shopuser = this.getShopSelectData;
-      this.shopSelect = {};
-      this.shopSelect.id = shopuser.shop_id;
-      this.shopSelect.shop_name = shopuser.shop_name;
-      // this.shopSelect.shop_id = 1;
-      // this.shopSelect.shop_name = "本社";
-      console.log(this.shopSelect.id);
-      console.log(this.shopSelect.shop_name);
-    },
-
   },
   computed: {
-    ...mapGetters("shopUser", ["shopUsers", "getShopSelectData"]),
+    ...mapGetters("shopUser", ["shopUsers","shopSelect"]),
     usershops: {
       get() {
         return this.shopUsers;
       }
     },
+    shopSelection: {
+      get() {
+        const shopselect = this.shopSelect;
+
+        if(shopselect !== null) {
+          const shopsel = {};
+          shopsel.id = shopselect[0].shop_id;
+          shopsel.shop_name = shopselect[0].shop_name;
+          return shopsel;
+        }
+      },
+    },
   },
   mounted() {
-    this.getShopSelect();
+    console.log("sidebar mounted.");
   },
   created() {
     this.fetchShopUsers();
-    this.fetchShopSelect();
   },
 };
 </script>

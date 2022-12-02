@@ -46,7 +46,11 @@
                 <v-card-subtitle class="ml-3">
                   {{ approvalStatusFormat(item.approval_status) }}
                 </v-card-subtitle>
-                <v-card-title class="ml-2">{{ item.title }}</v-card-title>
+                <v-card-title class="ml-2">
+                  <router-link :to="{ name: 'announce.edit', params: { announceId: item.id } }">
+                    {{ item.title }}
+                  </router-link>
+                </v-card-title>
                 <v-card-subtitle class="ml-2">
                   {{ item.announce_category.category }}
                 </v-card-subtitle>

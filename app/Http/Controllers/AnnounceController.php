@@ -121,4 +121,22 @@ class AnnounceController extends Controller
         $announce->save();
         return $announce;
     }
+
+    // 更新
+    public function update(Request $request, $id)
+    {
+        $update = [
+            'title' => $request->title,
+            'announce_category_id' => $request->announce_category_id,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'contents' => $request->contents,
+            'upd_account' => Auth::user()->id,
+        ];
+        $announce = Announce::find($id);
+        $announce->update($update);
+
+        Log::info('お知らせ更新');
+        Log::debug(print_r($update, true));
+    }
 }

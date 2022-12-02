@@ -48,4 +48,5 @@ Route::put('/api/announce/{announce}/return', 'AnnounceController@approvalAnnoun
 Route::put('/api/announce/{announce}/reject', 'AnnounceController@approvalAnnounceReject');
 Route::delete('/api/announce/{announce}', 'AnnounceController@deleteAnnounce');
 Route::post('/api/announce', [AnnounceController::class, 'register']);
+Route::put('/api/announce/{id}/update', [AnnounceController::class, 'update']);
 Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);

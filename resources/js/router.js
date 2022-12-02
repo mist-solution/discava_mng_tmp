@@ -8,6 +8,7 @@ const Home = () => import('./components/Home')
 const QuillEditorComponent = () => import('./components/QuillEditor')
 const NewsListComponent = () => import('./components/pages/news_list/NewsListPageComponent')
 const AnnounceRegisterComponent = () => import ('./components/pages/announce/AnnounceRegisterComponent')
+const AnnounceEditComponent = () => import ('./components/pages/announce/AnnounceEditComponent')
 const EndUserRegistComponent = () => import('./components/pages/end_user/EndUserRegistComponent')
 const EndUserUpdateComponent = () => import('./components/pages/end_user/EndUserUpdateComponent')
 const EndUserListComponent = () => import('./components/pages/end_user/EndUserListComponent')
@@ -85,6 +86,13 @@ const routes = [
         path: '/announce/register',
         name: 'announce.register',
         component: AnnounceRegisterComponent,
+    },
+    // お知らせ編集
+    {
+        path: '/announce/edit/:announceId',
+        name: 'announce.edit',
+        component: AnnounceEditComponent,
+        props: true
     },
     // ユーザ登録画面
     {

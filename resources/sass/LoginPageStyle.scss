@@ -1,0 +1,260 @@
+/* ================================ * /
+            RWD 共通CSS
+==================================== */
+/* RWD設定 BEGIN */
+@mixin desktop-l {
+    @media (min-width: 1600px) and (max-width: 1970px) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: 1367px) and (max-width: 1599px) {
+        @content;
+    }
+}
+
+@mixin pad-l {
+    @media (min-width: 1024px) and (max-width: 1366px) {
+        @content;
+    }
+}
+
+@mixin pad {
+    @media (min-width: 760px) and (max-width: 1023px) {
+        @content;
+    }
+}
+
+@mixin pad-s {
+    @media (min-width: 480px) and (max-width: 759px) {
+        @content;
+    }
+}
+
+@mixin pad-yoko {
+    @media (orientation: landscape) and (max-width: 1199px) {
+        @content;
+    }
+}
+
+@mixin mobile {
+    @media (min-width: 340px) and (max-width: 479px) {
+        @content;
+    }
+}
+
+@mixin mobile-s {
+    @media (min-width: 240px) and (max-width: 339px) {
+        @content;
+    }
+}
+
+@mixin pc {
+    @media (min-width: 1200px) {
+        @content;
+    }
+}
+
+@mixin no-pc {
+    @media (max-width: 1199px) {
+        @content;
+    }
+}
+
+/* RWD設定 END */
+
+/* support iOS BEGIN */
+.html {
+    height: -webkit-fill-available;
+}
+
+/* support iOS END*/
+.body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+
+    &__wrap {
+        overflow: hidden;
+    }
+
+    &__gap--control {
+        height: 6rem;
+
+        @include pad {
+            height: 5rem;
+        }
+
+        @include mobile {
+            height: 3rem;
+        }
+    }
+
+    &__miniGap--control {
+        height: 3rem;
+
+        @include pad {
+            height: 2rem;
+        }
+
+        @include mobile {
+            height: 1rem;
+        }
+    }
+
+    &__gap--control-2rem {
+        height: 2rem;
+    }
+
+    &__gap--control-desktop {
+        @include desktop {
+            height: 10rem;
+        }
+    }
+}
+
+/* ================================ * /
+            FONT 設定
+==================================== */
+
+/* ~~~~~~~~
+使用するフォントについて
+
+<メイン>
+・Zen Kaku Gothic New
+- Light 300
+- Regular 400
+- Medium 500
+- Bold 700
+- Black 900
+→ Google Fontsを使用
+
+<日本語>
+・ヒラギノ角ゴシック
+
+<英数字>
+・Avenir Next
+~~~~~~~~~ */
+
+/* Avenir Next Import */
+@font-face {
+    font-family: 'AvenirNextLTPro-Regular';
+    src: url('http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.eot');
+    src: url('http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.eot?#iefix') format('embedded-opentype'),
+        url('http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.woff') format('woff'),
+        url('http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.ttf') format('truetype'),
+        url('http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.svg#AvenirNextLTPro-Regular') format('svg');
+}
+
+/* ウェブフォント読み込み時の修正 BEGIN */
+html.wf-active {
+    visibility: visible;
+}
+
+/* ウェブフォント読み込み時の修正 END */
+
+/* フォントを設定 */
+.font {
+    &--fammily {
+
+        /* ヒラギノ角ゴシック */
+        &__HN {
+            font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+            font-style: normal;
+        }
+
+        /* Avenir Next */
+        &__AN {
+            font-family: 'AvenirNextLTPro-Regular';
+            font-style: normal;
+        }
+    }
+}
+
+/* ================================ * /
+        共通コンポーネント 設定
+==================================== */
+/* 文字色設定 */
+$green: #69a4af;
+
+/* ボタン（グリーン） */
+.btn {
+    &_green {
+        background-color: $green;
+        color: white !important;
+        font-weight: 600;
+        padding: .4rem 2.5rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        width: 160px;
+        border-radius: .375rem;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        border-color: $green;
+        -webkit-box-shadow: 0 3px 4px $green;
+        box-shadow: 0 3px 4px $green;
+
+        &:hover {
+            color: white !important;
+            background-color: #579daa !important;
+        }
+
+        &:active {
+            border-color: $green !important;
+        }
+    }
+}
+
+/* ================================ * /
+            ログイン画面
+==================================== */
+/* card body修正 */
+.card_modify {
+    --bs-card-border-width: 0px;
+    --bs-card-border-radius: 10px 10px 0px 0px !important;
+}
+
+.login {
+    &_title {
+        font-size: 30px;
+        font-weight: 600;
+        color: #707070;
+        background-color: white;
+        margin-bottom: 2rem;
+        margin-top: 1rem;
+        -webkit-text-stroke: 1px #707070;
+    }
+
+    &_cardBody {
+        border-width: 0px !important;
+        -webkit-box-shadow: 0 3px 4px #ededed;
+        box-shadow: 0 3px 4px #ededed;
+        border-radius: 10px;
+    }
+
+    &_textInput {
+        line-height: 1.6rem;
+    }
+
+    &_btnLogin {
+        margin-bottom: 2rem;
+    }
+
+    &_link {
+        text-decoration: none;
+        font-size: 14px;
+        color: $green;
+        font-weight: 500;
+
+        &:hover {
+            color: #579daa;
+        }
+    }
+}
+
+
+
+/* ================================ * /
+            ページ名
+==================================== */

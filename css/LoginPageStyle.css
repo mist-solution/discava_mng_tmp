@@ -77,7 +77,7 @@
 @font-face {
   font-family: "AvenirNextLTPro-Regular";
   src: url("http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.eot");
-  src: url("http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.eot?#iefix") format("embedded-opentype"), url("http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.woff") format("woff"), url("http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.ttf") format("truetype"), url("http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.svg#AvenirNextLTPro-Regular") format("svg");
+  src: url("http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.eot?#iefix") format("embedded-opentype"), url("http://anthillrealtors.co.id/wp-content/themes/x-child/fonts/AvenirNextLTPro-Regular.svg#AvenirNextLTPro-Regular") format("svg");
 }
 /* ウェブフォント読み込み時の修正 BEGIN */
 html.wf-active {
@@ -130,12 +130,13 @@ html.wf-active {
 /* ================================ * /
             ログイン画面
 ==================================== */
-/* card body修正 */
+/* card body修正 Begin*/
 .card_modify {
   --bs-card-border-width: 0px;
   --bs-card-border-radius: 10px 10px 0px 0px !important;
 }
 
+/* card body修正 End*/
 .login_title {
   font-size: 30px;
   font-weight: 600;

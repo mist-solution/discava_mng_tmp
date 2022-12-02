@@ -3,10 +3,21 @@ import axios from "../axios"
 const state = {
     announce: {}
  }
+const getters = {
+    getAnnounce: (state) => {
+        return state.announce;
+    },
+};
 const actions = {
     async getAnnounce(context, id) {
         const res = await axios.get('/api/announce/' + id);
         return res.data;
+    },
+}
+
+const mutations = {
+    setAnnounce(state, announce) {
+        state.announce = announce;
     },
 }
 

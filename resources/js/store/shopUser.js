@@ -7,24 +7,26 @@ const state = {
 const getters = {
     shopUsers: (state) => state.shopUsers,
     shopSelect: (state) => state.shopSelect,
-
-    // getShopSelectData: (state) => {
-    //     const shopSelect = state.shopSelect.find(shop => true);
-    //     if (shopSelect) {
-    //         return shopSelect;
-    //     } else {
-    //         return null;
-    //     }
-    // },
 };
 const actions = {
-    fetchShopUsers(context) {
-        axios.get('/api/shopusers').then((res) => {
+    async fetchShopUsers(context) {
+        await axios.get('/api/shopusers').then((res) => {
             context.commit('setShopUsers', res.data.shopUsers);
         });
-        axios.get('/api/shopselect').then((res) => {
+        await axios.get('/api/shopselect').then((res) => {
             context.commit('setShopSelect', res.data.shopSelect);
         });
+    },
+    async getShopSelection(){
+        const shopSelect = state.shopSelect.find(shop => true);
+        let res = {};
+        if (shopSelect) {
+            res['id'] = 1;
+            res['shop_name'] = '本社';
+            return shopSelect;
+        } else {
+            return null;
+        }
     },
 }
 const mutations = {

@@ -84,30 +84,19 @@ export default {
     };
   },
   methods: {
-    ...mapActions('shopUser', ['fetchShopUsers']),
+    ...mapActions('shopUser', ['fetchShopUsers','getShopSelection']),
   },
   computed: {
-    ...mapGetters("shopUser", ["shopUsers","shopSelect"]),
+    ...mapGetters("shopUser", ["shopUsers"]),
     usershops: {
       get() {
         return this.shopUsers;
       }
     },
-    shopSelection: {
-      get() {
-        const shopselect = this.shopSelect;
-
-        if(shopselect !== null) {
-          const shopsel = {};
-          shopsel.id = shopselect[0].shop_id;
-          shopsel.shop_name = shopselect[0].shop_name;
-          return shopsel;
-        }
-      },
-    },
   },
-  mounted() {
+  async mounted() {
     console.log("sidebar mounted.");
+    shopSelection = await this.getShopSelection();
   },
   created() {
     this.fetchShopUsers();

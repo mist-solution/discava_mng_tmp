@@ -18,6 +18,7 @@
       :items="usershops"
       item-value="id"
       item-title="shop_name"
+      @update:modelValue="onShopSelectionChange"
     ></v-select>
 
     <v-list nav dense>
@@ -85,6 +86,11 @@ export default {
   },
   methods: {
     ...mapActions('shopUser', ['fetchShopUsers','getShopSelection']),
+
+    onShopSelectionChange: function(id) {
+      console.log("onChange");
+      console.log({ id });
+    },
   },
   computed: {
     ...mapGetters("shopUser", ["shopUsers"]),

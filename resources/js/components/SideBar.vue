@@ -96,7 +96,8 @@ export default {
   },
   async mounted() {
     console.log("sidebar mounted.");
-    shopSelection = await this.getShopSelection();
+    let shopselect = await this.getShopSelection();
+    this.shopSelection = shopselect;
   },
   created() {
     this.fetchShopUsers();

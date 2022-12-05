@@ -21,9 +21,9 @@ const actions = {
         const shopSelect = res.data.shopSelect[0];
         let response = {};
         if (shopSelect) {
-            response['id'] = 1;
-            response['shop_name'] = '本社';
-            return shopSelect;
+            response['id'] = shopSelect.shop_id;
+            response['shop_name'] = shopSelect.shop_name;
+            return response;
         } else {
             return null;
         };

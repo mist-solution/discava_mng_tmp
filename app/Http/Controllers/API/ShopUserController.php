@@ -19,6 +19,7 @@ class ShopUserController extends Controller
         $shopUsers = ShopUser::with('shop')
             ->where('user_id', Auth::id())
             ->where('del_flg', '0')
+            ->orderBy('shop_id')
             ->get();
 
         $shopUserArray = array();

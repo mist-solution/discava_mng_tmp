@@ -13,20 +13,21 @@ const actions = {
         await axios.get('/api/shopusers').then((res) => {
             context.commit('setShopUsers', res.data.shopUsers);
         });
-        await axios.get('/api/shopselect').then((res) => {
-            context.commit('setShopSelect', res.data.shopSelect);
-        });
     },
-    async getShopSelection(){
-        const shopSelect = state.shopSelect.find(shop => true);
-        let res = {};
+    async getShopSelection(context){
+        const res = await axios.get('/api/shopselect');
+        context.commit('setShopSelect', res.data.shopSelect);
+
+        const shopSelect = res.data.shopSelect[0];
+        let response = {};
         if (shopSelect) {
-            res['id'] = 1;
-            res['shop_name'] = '本社';
+            response['id'] = 1;
+            response['shop_name'] = '本社';
             return shopSelect;
         } else {
             return null;
-        }
+        };
+
     },
 }
 const mutations = {

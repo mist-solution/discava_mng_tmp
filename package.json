@@ -21,7 +21,8 @@
     "node-notifier": "^10.0.1",
     "roboto-fontface": "*",
     "vue-router": "^4.0.12",
-    "vuetify": "^3.0.1",
+    "vue3-easy-data-table": "^1.5.20",
+    "vuetify": "^3.0.3",
     "vuex": "^4.0.2",
     "webfontloader": "^1.0.0"
   },

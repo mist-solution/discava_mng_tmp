@@ -1,6 +1,6 @@
 <template>
   <back-to-top-component />
-  <v-row v-show="loading">
+  <!-- <v-row v-show="loading">
     <v-col>
       <v-progress-linear
         indeterminate
@@ -13,8 +13,42 @@
     <v-col>
       お知らせがありません。
     </v-col>
+  </v-row> -->
+
+  <v-row>
+    <v-col>
+      <EasyDataTable
+        v-model:items-selected="selected"
+        :headers="headers"
+        :items="news"
+        dense
+      >
+        <template #loading>
+          <v-progress-linear
+            indeterminate
+            class="mx-auto"
+            color="primary"
+          />
+        </template>
+        <template #item-title="item">
+          <router-link :to="{ name: 'announce.edit', params: { announceId: item.id } }">
+            {{ item.title }}
+          </router-link>
+        </template>
+        <template #item-created_at="item">
+          {{ timestampFormat(item.created_at) }}
+        </template>
+        <template #item-updated_at="item">
+          {{ timestampFormat(item.updated_at) }}
+        </template>
+        <template #item-approval_status="item">
+          {{ approvalStatusFormat(item.approval_status) }}
+        </template>
+      </EasyDataTable>
+    </v-col>
   </v-row>
-  <v-row
+
+  <!-- <v-row
     v-for="item in news"
     :key="item.id"
     dense
@@ -115,7 +149,7 @@
         </v-row>
       </v-card>
     </v-col>
-  </v-row>
+  </v-row> -->
   <!-- 削除モーダル -->
   <news-delete-confirm-modal-component
     :display="displayNewsDeleteConfirm"
@@ -141,8 +175,35 @@ export default {
   },
   data() {
     return {
+      selected: [],
+      he: [
+        { text: 'タイトル', value: 'title' },
+      ],
+      items: [
+        { a: 'a' },
+        { a: 'b' },
+      ],
+
+      headers: [
+        {
+          text: '',
+          sortable: false,
+          value: 'imageUrl',
+        },
+        { text: 'タイトル', value: 'title' },
+        { text: 'カテゴリー', value: 'announce_category.category_name' },
+        { text: '投稿日', value: 'created_at' },
+        { text: '最終更新', value: 'updated_at' },
+        { text: '投稿者', value: 'add_account.name' },
+        { text: '承認ステータス', value: 'approval_status' },
+        {
+          text: '',
+          sortable: false,
+          value: 'button',
+        },
+      ],
       test: [],
-      news: null,
+      news: [],
       loading: false,
       displayNewsDeleteConfirm: false,
       approvalStatus: "",

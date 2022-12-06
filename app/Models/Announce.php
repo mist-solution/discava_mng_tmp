@@ -115,8 +115,6 @@ class Announce extends Model
             ->count();
 
         $announce['anounce'] = $announceModel
-            ->limit($limit)
-            ->offset($offset)
             ->get();
 
         return $announce;

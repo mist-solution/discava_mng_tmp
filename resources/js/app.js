@@ -8,6 +8,8 @@ import router from "./router";
 import dayjs from 'dayjs'
 import 'dayjs/locale/ja'
 import AxiosPlugin from './plugins/axios_plugin';
+import Vue3EasyDataTable from 'vue3-easy-data-table';
+import 'vue3-easy-data-table/dist/style.css';
 
 // ロケール設定
 dayjs.locale('ja')
@@ -29,7 +31,8 @@ const app = createApp({
 });
 app.use(router);
 app.use(vuex);
-app.use(vuetify)
-app.use(AxiosPlugin)
-app.provide('dayjs', dayjs)
+app.use(vuetify);
+app.use(AxiosPlugin);
+app.provide('dayjs', dayjs);
+app.component('EasyDataTable', Vue3EasyDataTable);
 app.mount('#app');

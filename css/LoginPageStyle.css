@@ -104,8 +104,10 @@ html.wf-active {
 ==================================== */
 /* 文字色設定 */
 .discavaMate {
-  /* 共通タイトル */
+  /* 共通タイトル（DISCaVa MATE） */
   /* 背景色 */
+  /* card-body フォマート */
+  /* テキストボックス */
 }
 .discavaMate_title {
   font-size: 30px;
@@ -118,6 +120,14 @@ html.wf-active {
 }
 .discavaMate_bg {
   background-color: #f7f7f7;
+}
+.discavaMate_cardBody {
+  border-width: 0px !important;
+  box-shadow: 0 3px 4px #ededed;
+  border-radius: 10px;
+}
+.discavaMate_textInput {
+  line-height: 1.6rem;
 }
 
 /* ボタン（グリーン） */
@@ -154,14 +164,6 @@ html.wf-active {
 }
 
 /* card body修正 End*/
-.login_cardBody {
-  border-width: 0px !important;
-  box-shadow: 0 3px 4px #ededed;
-  border-radius: 10px;
-}
-.login_textInput {
-  line-height: 1.6rem;
-}
 .login_btnLogin {
   margin-bottom: 2rem;
 }
@@ -188,14 +190,6 @@ html.wf-active {
   font-size: 14px;
   color: #707070;
   margin-bottom: 2rem;
-}
-.email_cardBody {
-  border-width: 0px !important;
-  box-shadow: 0 3px 4px #ededed;
-  border-radius: 10px;
-}
-.email_textInput {
-  line-height: 1.6rem;
 }
 .email_btnSubmit {
   margin-bottom: 2rem;

@@ -177,7 +177,7 @@ $green: #69a4af;
 
 .discavaMate {
 
-    /* 共通タイトル */
+    /* 共通タイトル（DISCaVa MATE） */
     &_title {
         font-size: 30px;
         font-weight: 600;
@@ -191,6 +191,19 @@ $green: #69a4af;
     /* 背景色 */
     &_bg {
         background-color: #f7f7f7;
+    }
+
+    /* card-body フォマート */
+    &_cardBody {
+        border-width: 0px !important;
+        -webkit-box-shadow: 0 3px 4px #ededed;
+        box-shadow: 0 3px 4px #ededed;
+        border-radius: 10px;
+    }
+
+    /* テキストボックス */
+    &_textInput {
+        line-height: 1.6rem;
     }
 }
 
@@ -235,17 +248,6 @@ $green: #69a4af;
 /* card body修正 End*/
 
 .login {
-    &_cardBody {
-        border-width: 0px !important;
-        -webkit-box-shadow: 0 3px 4px #ededed;
-        box-shadow: 0 3px 4px #ededed;
-        border-radius: 10px;
-    }
-
-    &_textInput {
-        line-height: 1.6rem;
-    }
-
     &_btnLogin {
         margin-bottom: 2rem;
     }
@@ -279,17 +281,6 @@ $green: #69a4af;
         font-size: 14px;
         color: #707070;
         margin-bottom: 2rem;
-    }
-
-    &_cardBody {
-        border-width: 0px !important;
-        -webkit-box-shadow: 0 3px 4px #ededed;
-        box-shadow: 0 3px 4px #ededed;
-        border-radius: 10px;
-    }
-
-    &_textInput {
-        line-height: 1.6rem;
     }
 
     &_btnSubmit {

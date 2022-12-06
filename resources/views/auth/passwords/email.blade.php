@@ -7,7 +7,7 @@
         <div class="col-sm-8 col-lg-4 col-10">
             <div class="card card_modify">
                 <!-- <div class="card-header">{{ __('パスワードリセット') }}</div> -->
-                <div class="card-body email_cardBody">
+                <div class="card-body discavaMate_cardBody">
                     <div class="col-md-10 offset-md-1">
                         <div class="discavaMate_title font--fammily__AN">{{ __('DISCaVa MATE') }}</div>
                     </div>

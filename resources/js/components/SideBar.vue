@@ -88,8 +88,20 @@ export default {
     ...mapActions('shopUser', ['fetchShopUsers','getShopSelection']),
 
     onShopSelectionChange: function(id) {
-      console.log("onChange");
+      console.log("onShopSelectionChange");
+      // 選択したIDを取得
       console.log({ id });
+      const postData = {
+        shop_id: id,
+      }
+      this.$axios.put('/api/changeshop', postData)
+        .then(response => {
+          // 表示している画面を強制リロード
+          this.$router.go({path: this.$router.currentRoute.path, force: true});
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
   },
   computed: {

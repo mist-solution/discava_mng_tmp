@@ -24,26 +24,34 @@
       <v-tab
         value="one"
         @click="
-          newsStatus(2);
-          setSelectTab(1);
-        "
-        >承認済み</v-tab
-      >
-      <v-tab
-        value="two"
-        @click="
           newsStatus(1);
-          setSelectTab(2);
+          setSelectTab(1);
         "
         >承認待ち</v-tab
       >
       <v-tab
+        value="two"
+        @click="
+          newsStatus(0);
+          setSelectTab(2);
+        "
+        >下書き</v-tab
+      >
+      <v-tab
         value="three"
         @click="
-          newsStatus();
+          newsStatus(3);
           setSelectTab(3);
         "
-        >全ての投稿</v-tab
+        >差戻し</v-tab
+      >
+      <v-tab
+        value="four"
+        @click="
+          newsStatus(2);
+          setSelectTab(4);
+        "
+        >承認済み</v-tab
       >
     </v-tabs>
 
@@ -62,6 +70,10 @@
         </v-window-item>
 
         <v-window-item value="three">
+          <news-list-table />
+        </v-window-item>
+
+        <v-window-item value="four">
           <news-list-table />
         </v-window-item>
       </v-window>
@@ -92,11 +104,17 @@ export default {
     setSelectTab(key) {
       let tabName = "";
       if (key == 1) {
-        tabName = "checkedLists"; // 承認済み
+        // 承認待ち
+        tabName = "notCheckLists";
       } else if (key == 2) {
-        tabName = "notCheckLists"; // 承認待ち
+        // 下書き
+        tabName = "draftLists";
       } else if (key == 3) {
-        tabName = "allLists";     // 全ての投稿
+        // 差戻し
+        tabName = "sendBackLists";
+      } else if (key == 4) {
+        // 承認済み
+        tabName = "checkedLists";
       }
       this.$store.dispatch("news/setDisplayListsItemKey", tabName);
     },

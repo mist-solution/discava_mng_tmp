@@ -12,7 +12,7 @@ const state = {
     displaySearchNewsCol: "",
     displaySearchNews: "",
     displaySearchCategory: "",
-    displayListsItemKey: "checkedLists",
+    displayListsItemKey: "notCheckLists",
     deleteNewsId: "",
     approvalProcessKey: "",
     approvalNewsId: "",

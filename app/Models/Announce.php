@@ -52,11 +52,17 @@ class Announce extends Model
 
         // 承認済み/承認待ち記事取得
         if ($newsStatus != "") {
-            // 表示条件：承認待ち
-            if ($newsStatus == 1) {
+            // 表示条件：下書き
+            if ($newsStatus == 0) {
                 $announceModel = $announceModel->where('approval_status', $newsStatus);
-            // 表示条件：承認済
+            // 表示条件：承認待ち
+            } else if ($newsStatus == 1) {
+                $announceModel = $announceModel->where('approval_status', $newsStatus);
+            // 表示条件：承認済み
             } else if ($newsStatus == 2) {
+                $announceModel = $announceModel->where('approval_status', $newsStatus);
+            // 表示条件：差戻し
+            } else if ($newsStatus == 3) {
                 $announceModel = $announceModel->where('approval_status', $newsStatus);
             }
             // 表示条件：全ては条件追加しない

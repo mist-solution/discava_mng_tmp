@@ -2,13 +2,14 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
+    <div class=" body__gap--control"></div>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-sm-8 col-lg-4 col-10">
             <div class="card card_modify">
                 <!-- <div class="card-header">{{ __('DISCaVa MATE') }}</div> -->
                 <div class="card-body login_cardBody">
                     <div class="offset-md-1">
-                        <div class="login_title font--fammily__AN">{{ __('DISCaVa MATE') }}</div>
+                        <div class="discavaMate_title font--fammily__AN">{{ __('DISCaVa MATE') }}</div>
                     </div>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
@@ -19,7 +20,7 @@
                             <div class="col-md-10 offset-md-1">
                                 <input id="login_user_id" type="text" class="form-control @error('login_user_id') is-invalid @enderror login_textInput" name="login_user_id" value="{{ old('login_user_id') }}" required autocomplete="login_user_id" autofocus>
                                 @error('login_user_id')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback login_errorMsg" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
@@ -33,7 +34,7 @@
                             <div class="col-md-10 offset-md-1">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror login_textInput" name="password" required autocomplete="current-password">
                                 @error('password')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback login_errorMsg" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror

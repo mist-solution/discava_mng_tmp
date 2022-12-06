@@ -175,6 +175,25 @@ html.wf-active {
 /* 文字色設定 */
 $green: #69a4af;
 
+.discavaMate {
+
+    /* 共通タイトル */
+    &_title {
+        font-size: 30px;
+        font-weight: 600;
+        color: #707070;
+        background-color: white;
+        margin-bottom: 3rem;
+        margin-top: 1rem;
+        -webkit-text-stroke: 1px #707070;
+    }
+
+    /* 背景色 */
+    &_bg {
+        background-color: #f7f7f7;
+    }
+}
+
 /* ボタン（グリーン） */
 .btn {
     &_green {
@@ -205,7 +224,7 @@ $green: #69a4af;
 }
 
 /* ================================ * /
-            ログイン画面
+    ログイン・ログイン失敗(login.balde.php)
 ==================================== */
 /* card body修正 Begin*/
 .card_modify {
@@ -216,16 +235,6 @@ $green: #69a4af;
 /* card body修正 End*/
 
 .login {
-    &_title {
-        font-size: 30px;
-        font-weight: 600;
-        color: #707070;
-        background-color: white;
-        margin-bottom: 2rem;
-        margin-top: 1rem;
-        -webkit-text-stroke: 1px #707070;
-    }
-
     &_cardBody {
         border-width: 0px !important;
         -webkit-box-shadow: 0 3px 4px #ededed;
@@ -251,10 +260,51 @@ $green: #69a4af;
             color: #579daa;
         }
     }
+
+    &_errorMsg {
+        font-size: 12px !important;
+        position: relative;
+        top: -5rem;
+        margin-top: -1rem
+    }
 }
 
 
 
 /* ================================ * /
-            ページ名
+    パスワードリセット(email.balde.php)
 ==================================== */
+.email {
+    &_subTitle {
+        font-size: 14px;
+        color: #707070;
+        margin-bottom: 2rem;
+    }
+
+    &_cardBody {
+        border-width: 0px !important;
+        -webkit-box-shadow: 0 3px 4px #ededed;
+        box-shadow: 0 3px 4px #ededed;
+        border-radius: 10px;
+    }
+
+    &_textInput {
+        line-height: 1.6rem;
+    }
+
+    &_btnSubmit {
+        margin-bottom: 2rem;
+        margin-top: 2rem;
+    }
+
+    &_link {
+        text-decoration: none;
+        font-size: 14px;
+        color: $green;
+        font-weight: 500;
+
+        &:hover {
+            color: #579daa;
+        }
+    }
+}

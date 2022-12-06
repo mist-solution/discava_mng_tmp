@@ -103,6 +103,23 @@ html.wf-active {
         共通コンポーネント 設定
 ==================================== */
 /* 文字色設定 */
+.discavaMate {
+  /* 共通タイトル */
+  /* 背景色 */
+}
+.discavaMate_title {
+  font-size: 30px;
+  font-weight: 600;
+  color: #707070;
+  background-color: white;
+  margin-bottom: 3rem;
+  margin-top: 1rem;
+  -webkit-text-stroke: 1px #707070;
+}
+.discavaMate_bg {
+  background-color: #f7f7f7;
+}
+
 /* ボタン（グリーン） */
 .btn_green {
   background-color: #69a4af;
@@ -128,7 +145,7 @@ html.wf-active {
 }
 
 /* ================================ * /
-            ログイン画面
+    ログイン・ログイン失敗(login.balde.php)
 ==================================== */
 /* card body修正 Begin*/
 .card_modify {
@@ -137,15 +154,6 @@ html.wf-active {
 }
 
 /* card body修正 End*/
-.login_title {
-  font-size: 30px;
-  font-weight: 600;
-  color: #707070;
-  background-color: white;
-  margin-bottom: 2rem;
-  margin-top: 1rem;
-  -webkit-text-stroke: 1px #707070;
-}
 .login_cardBody {
   border-width: 0px !important;
   box-shadow: 0 3px 4px #ededed;
@@ -166,7 +174,39 @@ html.wf-active {
 .login_link:hover {
   color: #579daa;
 }
+.login_errorMsg {
+  font-size: 12px !important;
+  position: relative;
+  top: -5rem;
+  margin-top: -1rem;
+}
 
 /* ================================ * /
-            ページ名
-==================================== *//*# sourceMappingURL=LoginPageStyle.css.map */
+    パスワードリセット(email.balde.php)
+==================================== */
+.email_subTitle {
+  font-size: 14px;
+  color: #707070;
+  margin-bottom: 2rem;
+}
+.email_cardBody {
+  border-width: 0px !important;
+  box-shadow: 0 3px 4px #ededed;
+  border-radius: 10px;
+}
+.email_textInput {
+  line-height: 1.6rem;
+}
+.email_btnSubmit {
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+.email_link {
+  text-decoration: none;
+  font-size: 14px;
+  color: #69a4af;
+  font-weight: 500;
+}
+.email_link:hover {
+  color: #579daa;
+}/*# sourceMappingURL=LoginPageStyle.css.map */

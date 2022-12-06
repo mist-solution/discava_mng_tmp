@@ -16,7 +16,7 @@
       dense
       v-model="shopSelection"
       :items="usershops"
-      item-value="id"
+      item-value="shop_id"
       item-title="shop_name"
       @update:modelValue="onShopSelectionChange"
     ></v-select>

@@ -21,7 +21,7 @@ const actions = {
         const shopSelect = res.data.shopSelect[0];
         let response = {};
         if (shopSelect) {
-            response['id'] = shopSelect.shop_id;
+            response['shop_id'] = shopSelect.shop_id;
             response['shop_name'] = shopSelect.shop_name;
             return response;
         } else {

@@ -50,9 +50,6 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
-        Log::info('ユーザ登録');
-        Log::debug(print_r($request, true));
-
         $password = Hash::make($request['password']);
 
         $user = new User();
@@ -83,9 +80,6 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Log::info('ユーザ更新');
-        Log::debug(print_r($request, true));
-
         $update = [
             'name' => $request->name,
             'email' => $request->email,

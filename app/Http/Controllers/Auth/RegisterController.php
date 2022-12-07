@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -69,6 +70,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        Log::info('ユーザ登録');
+        Log::debug(print_r($data, true));
+
         $password = Hash::make($data['password']);
 
         return User::create([

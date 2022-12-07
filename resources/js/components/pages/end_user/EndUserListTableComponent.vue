@@ -9,7 +9,6 @@
     <thead>
       <tr>
         <th class="text-left">選択</th>
-        <th class="text-left">ユーザID</th>
         <th class="text-left">ユーザ名</th>
         <th class="text-left">メールアドレス</th>
         <th class="text-left">登録日時</th>

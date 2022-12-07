@@ -15,7 +15,7 @@
                         @csrf
                         <div class="form-group row mb-3">
                             <div class="col-md-8 offset-md-1">
-                                <label for="email" class="col-md-8 col-form-label text-md-left">{{ __('ユーザID') }}</label>
+                                <label for="email" class="col-md-8 col-form-label text-md-left">{{ __('メールアドレス') }}</label>
                             </div>
                             <div class="col-md-10 offset-md-1">
                                 <input id="email" type="text" class="form-control @error('email') is-invalid @enderror login_textInput" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>

@@ -121,7 +121,7 @@
       },
       getCustomerCodes: function() {
         this.customers = this.getCustomers.map(c => {
-          return c.code;
+          return c.id;
         });
       },
     },

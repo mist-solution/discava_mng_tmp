@@ -22,7 +22,7 @@ class CustomerController extends Controller
         $customerArrays = array();
         foreach($customers as $key => $value) {
             $customerArray = array();
-            $customerArray['code'] = $value->code;
+            $customerArray['id'] = $value->id;
             $customerArray['company_name'] = $value->company_name;
             $customerArrays[] = $customerArray;
         }

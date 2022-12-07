@@ -63,37 +63,37 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  Request  $request
-     * @return \App\Models\User
-     */
-    public function create(Request $request)
-    {
-        Log::info('ユーザ登録');
-        Log::debug(print_r($request, true));
+    // /**
+    //  * Create a new user instance after a valid registration.
+    //  *
+    //  * @param  Request  $request
+    //  * @return \App\Models\User
+    //  */
+    // public function create(Request $request)
+    // {
+    //     Log::info('ユーザ登録');
+    //     Log::debug(print_r($request, true));
 
-        $password = Hash::make($request['password']);
+    //     $password = Hash::make($request['password']);
 
-        $user = new User();
+    //     $user = new User();
 
-        $user['customer_id'] = Auth::user()->customer_id;
-        $user['email'] = $request['email'];
-        $user['name'] = $request['name'];
-        $user['initial_password'] = $password;
-        $user['password'] = $password;
-        $user['email_verified_at'] = null;
-        $user['remember_token'] = null;
+    //     $user['customer_id'] = Auth::user()->customer_id;
+    //     $user['email'] = $request['email'];
+    //     $user['name'] = $request['name'];
+    //     $user['initial_password'] = $password;
+    //     $user['password'] = $password;
+    //     $user['email_verified_at'] = null;
+    //     $user['remember_token'] = null;
 
-        $user['add_account'] = Auth::user()->id;
-        $user['upd_account'] = Auth::user()->id;
-        $user['del_flg'] = '0';
-        $user['created_at'] = new DateTime();
-        $user['updated_at'] = new DateTime();
+    //     $user['add_account'] = Auth::user()->id;
+    //     $user['upd_account'] = Auth::user()->id;
+    //     $user['del_flg'] = '0';
+    //     $user['created_at'] = new DateTime();
+    //     $user['updated_at'] = new DateTime();
 
-        $user->save();
-    }
+    //     $user->save();
+    // }
 
     /**
      * The user has been registered.

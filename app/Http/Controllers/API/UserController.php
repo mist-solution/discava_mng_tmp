@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ShopUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
+use DateTime;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -41,6 +43,38 @@ class UserController extends Controller
     }
 
     /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  Request  $request
+     * @return \App\Models\User
+     */
+    public function register(Request $request)
+    {
+        Log::info('ユーザ登録');
+        Log::debug(print_r($request, true));
+
+        $password = Hash::make($request['password']);
+
+        $user = new User();
+
+        $user['customer_id'] = Auth::user()->customer_id;
+        $user['email'] = $request['email'];
+        $user['name'] = $request['name'];
+        $user['initial_password'] = $password;
+        $user['password'] = $password;
+        $user['email_verified_at'] = null;
+        $user['remember_token'] = null;
+
+        $user['add_account'] = Auth::user()->id;
+        $user['upd_account'] = Auth::user()->id;
+        $user['del_flg'] = '0';
+        $user['created_at'] = new DateTime();
+        $user['updated_at'] = new DateTime();
+
+        $user->save();
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -49,19 +83,17 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Log::info('ユーザ更新');
+        Log::debug(print_r($request, true));
+
         $update = [
             'name' => $request->name,
             'email' => $request->email,
             'upd_account' => Auth::user()->id,
         ];
-//        $customer = DB::table('customers')->where('code', $request->customer)->first();
+
         $user = User::find($id);
         $user->update($update);
-//        $user->customers()->sync($customer->id);
-
-        Log::info('ユーザ更新');
-        Log::debug(print_r($update, true));
-//        Log::debug($customer->id);
     }
 
     /**

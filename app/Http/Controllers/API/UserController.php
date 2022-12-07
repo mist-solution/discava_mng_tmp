@@ -28,7 +28,6 @@ class UserController extends Controller
         foreach ($users as $key => $value) {
             $userArray = array();
             $userArray['id'] = $value->id;
-            $userArray['login_user_id'] = $value->login_user_id;
             $userArray['name'] = $value->name;
             $userArray['email'] = $value->email;
             $userArray['customer_id'] = $value->customer_id;
@@ -51,7 +50,6 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $update = [
-            'login_user_id' => $request->login_user_id,
             'name' => $request->name,
             'email' => $request->email,
             'upd_account' => Auth::user()->id,

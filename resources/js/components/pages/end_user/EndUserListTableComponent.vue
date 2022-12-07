@@ -22,7 +22,6 @@
         <th>
           <input type="checkbox" :value="item.id" v-model="selected">
         </th>
-        <td>{{ item.login_user_id }}</td>
         <td>{{ item.name }}</td>
         <td>{{ item.email }}</td>
         <td>{{ timestampFormat(item.created_at) }}</td>

@@ -15,11 +15,11 @@
                         @csrf
                         <div class="form-group row mb-3">
                             <div class="col-md-8 offset-md-1">
-                                <label for="login_user_id" class="col-md-8 col-form-label text-md-left">{{ __('ユーザID') }}</label>
+                                <label for="email" class="col-md-8 col-form-label text-md-left">{{ __('ユーザID') }}</label>
                             </div>
                             <div class="col-md-10 offset-md-1">
-                                <input id="login_user_id" type="text" class="form-control @error('login_user_id') is-invalid @enderror login_textInput" name="login_user_id" value="{{ old('login_user_id') }}" required autocomplete="login_user_id" autofocus>
-                                @error('login_user_id')
+                                <input id="email" type="text" class="form-control @error('email') is-invalid @enderror login_textInput" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                @error('email')
                                 <span class="invalid-feedback login_errorMsg" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

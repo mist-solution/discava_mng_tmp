@@ -17,7 +17,6 @@ class CreateSystemAdminsTable extends Migration
             //$table->comment('システム管理者');  // Laravel 9.14 以降
             
             $table->id()->comment('ID');
-            $table->string('login_user_id', 255)->comment('ログインユーザID');
             $table->string('mail', 255)->comment('メールアドレス');
             $table->string('name', 50)->comment('システム管理者名');
             $table->string('initial_password', 128)->comment('初期パスワード');
@@ -29,7 +28,7 @@ class CreateSystemAdminsTable extends Migration
             $table->datetime('created_at')->nullable()->comment('登録日時');  // 2038年問題対応 timestamp→datetime
             $table->datetime('updated_at')->nullable()->comment('更新日時');
             // インデックス情報
-            $table->unique('login_user_id');
+            $table->unique('mail');
         });
 
         // テーブルコメント

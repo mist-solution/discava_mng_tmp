@@ -46,7 +46,7 @@ class LoginController extends Controller
 
     public function username()
     {
-      return 'login_user_id';
+      return 'email';
     }
 
     protected function authenticated(\Illuminate\Http\Request $request, $user)

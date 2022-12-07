@@ -17,7 +17,6 @@ class UsersTableSeeder extends Seeder
         // システムユーザ(バッチや自動更新用)  users.id=1 のユーザを作成
         User::create([
             'customer_id' => '1',
-            'login_user_id' => 'mist_system_admin',
             'email' => 'info@discava.net',
             'name' => 'administrator',
             'initial_password' => bcrypt('Passw0rd1qazXSW"'),
@@ -49,7 +48,6 @@ class UsersTableSeeder extends Seeder
             $userid = $array1[$i];
             User::create([
                 'customer_id' => '1',
-                'login_user_id' => $userid,
                 'email' => 'integration-test+' . $userid . '@mistnet.co.jp',
                 'name' => $userid,
                 'initial_password' => bcrypt($userid),
@@ -98,7 +96,6 @@ class UsersTableSeeder extends Seeder
             $userid = substr($proper[$i], 0, $pos);
             User::create([
                 'customer_id' => '1',
-                'login_user_id' => $userid,
                 'email' => $proper[$i],
                 'name' => 'MIST ' . $userid,
                 'initial_password' => bcrypt($userid),

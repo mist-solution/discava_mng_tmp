@@ -7,18 +7,12 @@
 
                     <div class="card-body">
                         <v-form ref="form" v-model="valid">
-                          <v-text-field
+                            <v-text-field
                                 dense
                                 v-model="forms.id"
                                 label="ID"
                                 :rules="[rules.required]"
                                 v-show="false"
-                            />
-                          <v-text-field
-                                dense
-                                v-model="forms.login_user_id"
-                                label="ユーザID"
-                                :rules="[rules.required, rules.max_100]"
                             />
                             <v-text-field
                                 dense
@@ -58,7 +52,6 @@
         valid: true,
         forms: {
           id: '',
-          login_user_id: '',
           name: '',
           email: '',
         },
@@ -100,7 +93,6 @@
         const user_id = this.$route.params.user_id;
         const user = this.getUserById(user_id);
         this.forms.id = user.id;
-        this.forms.login_user_id = user.login_user_id;
         this.forms.name = user.name;
         this.forms.email = user.email;
       },

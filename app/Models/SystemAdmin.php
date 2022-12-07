@@ -12,7 +12,6 @@ class SystemAdmin extends Model
     protected $table = 'system_admins';
 
     protected $fillable = [
-        'login_user_id',
         'mail',
         'name',
         'initial_password',

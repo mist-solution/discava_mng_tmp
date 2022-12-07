@@ -55,7 +55,6 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'login_user_id' => ['required', 'string', 'max:255', 'unique:users'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -74,7 +73,6 @@ class RegisterController extends Controller
 
         return User::create([
             'customer_id' => Auth::user()->customer_id,
-            'login_user_id' => $data['login_user_id'],
             'email' => $data['email'],
             'name' => $data['name'],
             'initial_password' => $password,

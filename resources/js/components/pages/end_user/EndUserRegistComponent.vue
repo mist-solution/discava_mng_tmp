@@ -1,68 +1,96 @@
 <template>
-    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ ('アカウント登録') }}</div>
-
-                    <div class="card-body">
+            <v-container class="p-2 p-sm-4" style="max-width:900px">
+                    <div>{{ ('アカウント登録') }}</div>
+                    <div class="p-0 p-sm-2">
                         <v-form ref="form" v-model="valid">
-                            <v-text-field
-                                dense
-                                v-model="forms.name"
-                                label="ユーザ名"
-                                :rules="[rules.required, rules.max_16]"
-                            />
-                            <v-text-field
-                                dense
-                                v-model="forms.email"
-                                label="メールアドレス"
-                                :rules="[rules.required, rules.email]"
-                            />
-                            <v-text-field
-                                dense
-                                v-model="forms.password"
-                                v-bind:type="toggle.type"
-                                @click:append="showPassword = !showPassword"
-                                :append-icon="toggle.icon"
-                                label="パスワード"
-                                :rules="[rules.required, rules.password]"
-                            />
-                            <v-text-field
-                                dense
-                                v-model="forms.password_confirmation"
-                                v-bind:type="toggle.confType"
-                                @click:append="showPwdConfirm = !showPwdConfirm"
-                                :append-icon="toggle.confIcon"
-                                label="パスワード確認"
-                                :rules="[rules.required, rules.password]"
-                            />
+                          <v-container class="card main-cont">
+                            <v-row align-sm="center">
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
+                                <p class="mb-0 mb-sm-4">ユーザ名</p>
+                              </v-col>
+                              <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
+                                <v-text-field
+                                    dense
+                                    v-model="forms.name"
+                                    :rules="[rules.required, rules.max_16]"
+                                />
+                              </v-col>
+                            </v-row>
+                            <v-row align-sm="center">
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
+                                <p class="mb-0 mb-sm-4">メールアドレス</p>
+                              </v-col>
+                              <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
+                                <v-text-field
+                                    dense
+                                    v-model="forms.email"
+                                    :rules="[rules.required, rules.email]"
+                                />
+                              </v-col>
+                            </v-row>
+                            <v-row align-sm="center">
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
+                                <p class="mb-0 mb-sm-4">パスワード</p>
+                              </v-col>
+                              <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
+                                <v-text-field
+                                    dense
+                                    v-model="forms.password"
+                                    v-bind:type="toggle.type"
+                                    @click:append="showPassword = !showPassword"
+                                    :append-icon="toggle.icon"
+                                    :rules="[rules.required, rules.password]"
+                                    hide-details="false"
+                                />
+                                <p class="text-caption">半角英数字及び記号（「-」「_」「%」「$」「#」）を含む、12文字以上を入力してください</p>
+                              </v-col>
+                            </v-row>
+                            <v-row align-sm="center">
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
+                                <p class="mb-0 mb-sm-4">パスワード</p>
+                              </v-col>
+                              <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
+                                <v-text-field
+                                    dense
+                                    v-model="forms.password_confirmation"
+                                    v-bind:type="toggle.confType"
+                                    @click:append="showPwdConfirm = !showPwdConfirm"
+                                    :append-icon="toggle.confIcon"
+                                    :rules="[rules.required, rules.password]"
+                                    hide-details="false"
+                                />
+                                <p class="text-caption">確認の為もう一度入力</p>
 
-                            <!-- ToDo:権限は要検討 -->
-
-                            <div class="btn-group mr-auto">
-                              <v-btn color="info" @click="submit">
-                                アカウント追加
-                              </v-btn>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                              <!-- ToDo:権限は要検討 -->
+                          <v-row justify="center" class="mt-4 btn-list">
+                              <v-col cols="12" sm="3" class="p-0 m-2">
+                                <v-btn class="green-btn" @click="submit">
+                                  アカウント追加
+                                </v-btn>
+                              </v-col>
 <!--
                               <v-btn class="ml-1" color="secondary" @click="reset">
                                 クリア
                               </v-btn>
 -->
-                              <router-link v-bind:to="{ name: 'enduser.list' }">
-                                <button class="btn btn-success ml-1">
-                                  戻る
-                                </button>
-                              </router-link>
-                            </div>
-                        </v-form>
+                              <v-col cols="12" sm="3" class="p-0 m-2">
+                                <router-link v-bind:to="{ name: 'enduser.list' }">
+                                  <button class="btn btn-success m-0 p-0">
+                                    戻る
+                                  </button>
+                                </router-link>
+                              </v-col>
+                          </v-row>
+                      </v-form>
                     </div>
-                </div>
-            </div>
+            </v-container>
         </div>
-    </div>
 </template>
-
+<style src="../css/common.css"></style>
 <script>
   import { mapActions, mapGetters } from "vuex";
   export default {
@@ -141,3 +169,39 @@
     },
   }
 </script>
+
+<style scoped>
+@media (min-width: 600px){
+    .btn-list > div{
+        max-width:150px;
+        min-width: 150px;
+    }
+    .green-btn,
+    .btn-success{
+      width:100%;
+    }
+}
+.btn-list > div{
+  text-align: center;;
+}
+.green-btn,
+.btn-success{
+  width:150px;
+  height:40px;
+  font-weight: 600;
+}
+.btn-success{
+  background:#fff;
+  color:#69A5AF;
+  border:solid 3px #69A5AF;
+}
+.btn:hover{
+  opacity: .8;
+  background:#fff;
+  color:#69A5AF;
+  border:solid 3px #69A5AF;
+}
+.green-btn:hover{
+  height: 40px;
+}
+</style>

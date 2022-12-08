@@ -2,62 +2,20 @@
             RWD 共通CSS
 ==================================== */
 /* RWD設定 BEGIN */
-@mixin desktop-l {
-    @media (min-width: 1600px) and (max-width: 1970px) {
-        @content;
-    }
-}
-
 @mixin desktop {
-    @media (min-width: 1367px) and (max-width: 1599px) {
+    @media (min-width: 901px) {
         @content;
     }
 }
 
-@mixin pad-l {
-    @media (min-width: 1024px) and (max-width: 1366px) {
-        @content;
-    }
-}
-
-@mixin pad {
-    @media (min-width: 760px) and (max-width: 1023px) {
-        @content;
-    }
-}
-
-@mixin pad-s {
-    @media (min-width: 480px) and (max-width: 759px) {
-        @content;
-    }
-}
-
-@mixin pad-yoko {
-    @media (orientation: landscape) and (max-width: 1199px) {
+@mixin tab {
+    @media (min-width: 601px) and (max-width: 900px) {
         @content;
     }
 }
 
 @mixin mobile {
-    @media (min-width: 340px) and (max-width: 479px) {
-        @content;
-    }
-}
-
-@mixin mobile-s {
-    @media (min-width: 240px) and (max-width: 339px) {
-        @content;
-    }
-}
-
-@mixin pc {
-    @media (min-width: 1200px) {
-        @content;
-    }
-}
-
-@mixin no-pc {
-    @media (max-width: 1199px) {
+    @media (min-width: 280px) and (max-width: 600px) {
         @content;
     }
 }
@@ -120,15 +78,6 @@
 /* ~~~~~~~~
 使用するフォントについて
 
-<メイン>
-・Zen Kaku Gothic New
-- Light 300
-- Regular 400
-- Medium 500
-- Bold 700
-- Black 900
-→ Google Fontsを使用
-
 <日本語>
 ・ヒラギノ角ゴシック
 
@@ -161,7 +110,7 @@ html.wf-active {
             font-style: normal;
         }
 
-        /* Avenir Next */
+        /* Avenir Next、使用：「DISCaVa MATE」タイトルのみ */
         &__AN {
             font-family: 'AvenirNextLTPro-Regular';
             font-style: normal;
@@ -174,6 +123,14 @@ html.wf-active {
 ==================================== */
 /* 文字色設定 */
 $green: #69a4af;
+
+/* card body修正 Begin*/
+.card_modify {
+    --bs-card-border-width: 0px;
+    --bs-card-border-radius: 10px 10px 0px 0px !important;
+}
+
+/* card body修正 End*/
 
 .discavaMate {
 
@@ -199,6 +156,7 @@ $green: #69a4af;
         -webkit-box-shadow: 0 3px 4px #ededed;
         box-shadow: 0 3px 4px #ededed;
         border-radius: 10px;
+        padding-bottom: 2.5rem;
     }
 
     /* テキストボックス */
@@ -214,7 +172,7 @@ $green: #69a4af;
         color: white !important;
         font-weight: 600;
         padding: .4rem 2.5rem;
-        margin-top: 1rem;
+        margin-top: 2rem;
         margin-bottom: 1rem;
         width: 160px;
         border-radius: .375rem;
@@ -239,14 +197,6 @@ $green: #69a4af;
 /* ================================ * /
     ログイン・ログイン失敗(login.balde.php)
 ==================================== */
-/* card body修正 Begin*/
-.card_modify {
-    --bs-card-border-width: 0px;
-    --bs-card-border-radius: 10px 10px 0px 0px !important;
-}
-
-/* card body修正 End*/
-
 .login {
     &_btnLogin {
         margin-bottom: 2rem;
@@ -267,11 +217,9 @@ $green: #69a4af;
         font-size: 12px !important;
         position: relative;
         top: -5rem;
-        margin-top: -1rem
+        margin-top: -1.5rem;
     }
 }
-
-
 
 /* ================================ * /
     パスワードリセット(email.balde.php)
@@ -286,6 +234,32 @@ $green: #69a4af;
     &_btnSubmit {
         margin-bottom: 2rem;
         margin-top: 2rem;
+    }
+
+    &_link {
+        text-decoration: none;
+        font-size: 14px;
+        color: $green;
+        font-weight: 500;
+
+        &:hover {
+            color: #579daa;
+        }
+    }
+}
+
+/* ================================ * /
+    パスワード再設定( reset.balde.php)
+==================================== */
+.reset {
+    &_textReadonly {
+        background-color: #ffffff;
+        border-width: 0px;
+    }
+
+    &_btnReset {
+        margin-bottom: 2rem;
+        padding: 0.4rem 0.5rem !important;
     }
 
     &_link {

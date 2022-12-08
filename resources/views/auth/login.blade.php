@@ -18,7 +18,7 @@
                                 <label for="email" class="col-md-8 col-form-label text-md-left">{{ __('メールアドレス') }}</label>
                             </div>
                             <div class="col-md-10 offset-md-1">
-                                <input id="email" type="text" class="form-control @error('email') is-invalid @enderror login_textInput" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <input id="email" type="text" class="form-control @error('email') is-invalid @enderror discavaMate_textInput" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                 @error('email')
                                 <span class="invalid-feedback login_errorMsg" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -32,7 +32,7 @@
                                 <label for="password" class="col-md-8 col-form-label text-md-left">{{ __('パスワード') }}</label>
                             </div>
                             <div class="col-md-10 offset-md-1">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror login_textInput" name="password" required autocomplete="current-password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror discavaMate_textInput" name="password" required autocomplete="current-password">
                                 @error('password')
                                 <span class="invalid-feedback login_errorMsg" role="alert">
                                     <strong>{{ $message }}</strong>

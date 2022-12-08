@@ -24,7 +24,7 @@
 import SideBar from "./SideBar.vue";
 //import HeaderComponent from "./HeaderComponent.vue";
 import Snackbar from "./Snackbar.vue";
-import DashBoard from "./DashBoardComponent.vue"
+import DashBoard from "./DashboardComponent.vue"
 export default {
   components: {
     SideBar,

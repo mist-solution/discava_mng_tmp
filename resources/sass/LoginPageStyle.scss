@@ -39,7 +39,7 @@
     &__gap--control {
         height: 6rem;
 
-        @include pad {
+        @include tab {
             height: 5rem;
         }
 
@@ -51,7 +51,7 @@
     &__miniGap--control {
         height: 3rem;
 
-        @include pad {
+        @include tab {
             height: 2rem;
         }
 

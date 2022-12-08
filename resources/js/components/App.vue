@@ -1,9 +1,10 @@
 <!-- App.vue -->
 <template>
   <v-app>
-    <v-app-bar app>
+    <!-- <v-app-bar app>
       <header-component />
-    </v-app-bar>
+    </v-app-bar> -->
+    <dash-board />
     <side-bar />
     <v-main>
       <!-- アプリケーションに適切なgutterを提供 -->
@@ -21,13 +22,15 @@
 </template>
 <script>
 import SideBar from "./SideBar.vue";
-import HeaderComponent from "./HeaderComponent.vue";
+//import HeaderComponent from "./HeaderComponent.vue";
 import Snackbar from "./Snackbar.vue";
+import DashBoard from "./DashBoardComponent.vue"
 export default {
   components: {
     SideBar,
-    HeaderComponent,
+    //HeaderComponent,
     Snackbar,
+    DashBoard,
   },
 };
 </script>

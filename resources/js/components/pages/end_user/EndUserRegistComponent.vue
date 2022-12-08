@@ -43,7 +43,7 @@
                                     :rules="[rules.required, rules.password]"
                                     hide-details="false"
                                 />
-                                <p class="text-caption">半角英数字及び記号（「-」「_」「%」「$」「#」）を含む、12文字以上を入力してください</p>
+                                <p class="text-caption mt-1">半角英数字及び記号（「-」「_」「%」「$」「#」）を含む、12文字以上を入力してください</p>
                               </v-col>
                             </v-row>
                             <v-row align-sm="center">
@@ -60,8 +60,38 @@
                                     :rules="[rules.required, rules.password]"
                                     hide-details="false"
                                 />
-                                <p class="text-caption">確認の為もう一度入力</p>
-
+                                <p class="text-caption mt-1">確認の為もう一度入力</p>
+                              </v-col>
+                            </v-row>
+                            <v-row align-xs="center">
+                              <v-col cols="12" class="mt-5 pr-0 pb-0">
+                                <p class="text-subtitle-1 mb-0 pb-0">権限グループ</p>
+                              </v-col>
+                              <v-col cols="12" class="pt-sm-3 pb-0">
+                                <v-row align-sm="center shop-auth">
+                                  <v-col cols="2" class="pr-0 pt-0">
+                                    <p class="mb-0 pb-0">A店</p>
+                                  </v-col>
+                                  <v-col cols="10" class="pt-sm-3">
+                                    <v-select
+                                      v-bind:items="authority"
+                                      label="お選びください"
+                                    />
+                                  </v-col>
+                                </v-row>
+                              </v-col>
+                              <v-col cols="12" class="pt-sm-3 pb-0">
+                                <v-row align-sm="center shop-auth">
+                                  <v-col cols="2" class="pr-0 pt-0">
+                                    <p class="mb-0 pb-0">B店</p>
+                                  </v-col>
+                                  <v-col cols="10" class="pt-sm-3">
+                                    <v-select
+                                      v-bind:items="authority"
+                                      label="お選びください"
+                                    />
+                                  </v-col>
+                                </v-row>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -91,8 +121,10 @@
         </div>
 </template>
 <style src="../css/common.css"></style>
+
 <script>
   import { mapActions, mapGetters } from "vuex";
+
   export default {
     data() {
       return {
@@ -117,7 +149,13 @@
         },
         messages: {
           checkbox: null,
-        }
+        },
+        authority: [
+        '管理者',
+        '投稿者',
+        '閲覧者',
+        '該当なし'
+        ],
       }
     },
     methods: {
@@ -167,7 +205,10 @@
     mounted() {
       this.getCustomerCodes();
     },
+
   }
+
+
 </script>
 
 <style scoped>
@@ -180,6 +221,9 @@
     .btn-success{
       width:100%;
     }
+}
+.shop-auth{
+  align-items: center;
 }
 .btn-list > div{
   text-align: center;;

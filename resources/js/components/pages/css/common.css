@@ -1,0 +1,10 @@
+@charset "utf-8";
+
+/* 共通パーツコンポーネント */
+
+/* 碧色のボタン */
+.green-btn {
+    border-radius: 8px;
+    background-color: #69A5AF;
+    color:#fff;
+}

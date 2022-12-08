@@ -6,7 +6,7 @@
                         <v-form ref="form" v-model="valid">
                           <v-container class="card main-cont">
                             <v-row align-sm="center">
-                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3 pt-0">
                                 <p class="mb-0 mb-sm-4">ユーザ名</p>
                               </v-col>
                               <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
@@ -18,7 +18,7 @@
                               </v-col>
                             </v-row>
                             <v-row align-sm="center">
-                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3 pt-0">
                                 <p class="mb-0 mb-sm-4">メールアドレス</p>
                               </v-col>
                               <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
@@ -30,7 +30,7 @@
                               </v-col>
                             </v-row>
                             <v-row align-sm="center">
-                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3 pt-0">
                                 <p class="mb-0 mb-sm-4">パスワード</p>
                               </v-col>
                               <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
@@ -47,8 +47,8 @@
                               </v-col>
                             </v-row>
                             <v-row align-sm="center">
-                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
-                                <p class="mb-0 mb-sm-4">パスワード</p>
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3 pt-0">
+                                <p class="mb-0 mb-sm-4">パスワード確認</p>
                               </v-col>
                               <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
                                 <v-text-field

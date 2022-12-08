@@ -15,8 +15,8 @@ return [
 
     'reset' => 'パスワードがリセットされました。',
     'sent' => 'パスワードリセットのリンクを送信しました。',
-    'throttled' => 'Please wait before retrying.',
+    'throttled' => 'しばらく待ってから、再度、送信してください。',
     'token' => 'パスワードリセットトークンが無効です。',
-    'user' => "We can't find a user with that email address.",
+    'user' => '登録されていないメールアドレスです。',
 
 ];

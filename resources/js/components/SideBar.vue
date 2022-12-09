@@ -6,13 +6,11 @@
   >
 
     <v-container>
-<!--
       <v-row>
         <v-col align="center">
           DISCaVa MATE
         </v-col>
       </v-row>
--->
 
       <v-row>
         <v-col align="center">

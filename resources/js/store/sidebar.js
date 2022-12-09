@@ -1,30 +1,18 @@
-import { useRoute } from "vue-router";
-
 const state = {
-//    open: false,
-    customer: null,
+    open: false,
 }
 const getters = {
-//    open: (state) => state.open,
-    customer: (state) => state.customer,
+    open: (state) => state.open,
 }
 const mutations = {
-//    toggleOpen(state) {
-//        state.open = !state.open;
-//    },
-    setCustomer(state, customer) {
-        state.customer = customer;
+    toggleOpen(state) {
+        state.open = !state.open;
     },
 }
 const actions = {
-//    toggleOpen(context) {
-//        context.commit('toggleOpen');
-//    }
-    async fetchCustomerBySession(context) {
-        await axios.get('/api/customerSession').then((res) => {
-            context.commit('setCustomer', res.data.customer);
-        });
-    },
+    toggleOpen(context) {
+        context.commit('toggleOpen');
+    }
 }
 
 export default {

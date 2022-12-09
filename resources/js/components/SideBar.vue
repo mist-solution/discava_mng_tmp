@@ -5,13 +5,6 @@
     permanent
   >
 
-  <v-container>
-    <v-row>
-      <v-col align="center">
-        DISCaVa MATE
-      </v-col>
-    </v-row>
-
     <v-row>
       <v-col align="center">
         <v-img
@@ -22,13 +15,6 @@
         </v-img>
       </v-col>
     </v-row>
-
-    <v-row>
-      <v-col align="center">
-      {{ companyName }}
-      </v-col>
-    </v-row>
-    </v-container>
 
     <v-select
       dense
@@ -109,12 +95,10 @@ export default {
       right: null,
       drawer: true,
       rail: false,
-      company_name: '',
     };
   },
   methods: {
     ...mapActions('shopUser', ['fetchShopUsersWithLogout','getShopSelection']),
-    ...mapActions('sidebar', ['fetchCustomerBySession']),
 
     onShopSelectionChange: function(id) {
       console.log("onShopSelectionChange");
@@ -148,17 +132,11 @@ export default {
   },
   computed: {
     ...mapGetters("shopUser", ["shopUsers"]),
-    ...mapGetters("sidebar", ["customer"]),
     usershops: {
       get() {
         return this.shopUsers;
       }
     },
-    companyName: {
-      get() {
-        return this.customer.company_name;
-      }
-    }
   },
   async mounted() {
     console.log("sidebar mounted.");
@@ -167,7 +145,6 @@ export default {
   },
   async created() {
     await this.fetchShopUsersWithLogout();
-    await this.fetchCustomerBySession();
   },
 };
 </script>

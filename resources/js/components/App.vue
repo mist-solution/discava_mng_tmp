@@ -1,14 +1,9 @@
 <!-- App.vue -->
 <template>
   <v-app>
-<!--
-    <v-app-bar app>
-      <header-component />
-    </v-app-bar>
--->
     <side-bar />
     <v-main>
-      <dash-board />
+      <header-component />
       <!-- アプリケーションに適切なgutterを提供 -->
       <v-container fluid>
         <!-- vue-routerを使用する場合 -->
@@ -24,15 +19,13 @@
 </template>
 <script>
 import SideBar from "./SideBar.vue";
-//import HeaderComponent from "./HeaderComponent.vue";
+import HeaderComponent from "./HeaderComponent.vue";
 import Snackbar from "./Snackbar.vue";
-import DashBoard from "./DashboardComponent.vue"
 export default {
   components: {
     SideBar,
-    //HeaderComponent,
+    HeaderComponent,
     Snackbar,
-    DashBoard,
   },
 };
 </script>

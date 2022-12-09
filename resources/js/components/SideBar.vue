@@ -23,13 +23,11 @@
         </v-col>
       </v-row>
 
-<!--
       <v-row>
         <v-col align="center">
         {{ companyName }}
         </v-col>
       </v-row>
--->
     </v-container>
 
     <v-select

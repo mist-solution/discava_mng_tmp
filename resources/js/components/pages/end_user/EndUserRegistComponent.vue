@@ -1,14 +1,14 @@
 <template>
   <div class="row justify-content-center">
-      <v-container class="p-2 p-sm-4">
+      <v-container class="p-2 p-sm-4 pt-0">
               <div>
                 <title-component
                   name = "アカウント登録"
                 />
               </div>
-              <div class="p-0 p-sm-2">
+              <div class="p-0 p-sm-2 mt-5">
                   <v-form ref="form" v-model="valid">
-                    <v-container class="card main-cont pr-sm-12 pl-sm-12 pt-8 pb-8">
+                    <v-container class="card main-cont pr-sm-12 pl-sm-12 pt-8 pb-10">
                       <v-row align-sm="center" class="mb-4">
                         <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
                           <p class="mb-0">ユーザ名</p>
@@ -73,7 +73,7 @@
                         <v-col cols="12" class="mt-5 pr-0 pb-0">
                           <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">権限グループ</p>
                         </v-col>
-                        <v-col cols="12" class="pt-sm-3 pb-0">
+                        <v-col cols="12" class="pt-sm-3 pb-0 pb-sm-3">
                           <v-row align-sm="center shop-auth">
                             <v-col cols="2" class="pr-0">
                               <p class="mb-0 pb-0">A店</p>

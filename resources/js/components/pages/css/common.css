@@ -7,6 +7,11 @@
     background-color: #F7F7F7;
 }
 
+/* 文字色 */
+* {
+    color:#707070;
+}
+
 
 /* メインの入れ物 (主にcardでまとめる)*/
 .main-cont{
@@ -17,7 +22,11 @@
 .v-container{
     max-width:900px !important;
 }
-
+@media (min-width: 576px){
+    .v-container{
+       
+    }
+}
 /* 碧色のボタン */
 .green-btn {
     border-radius: 5px;

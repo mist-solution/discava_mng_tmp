@@ -214,6 +214,30 @@
 </script>
 
 <style scoped>
+/* input */
+.v-field__outline::before,
+.v-field__outline::after{
+ border:none !important;
+}
+
+input{
+    padding-top:0 !important;
+    font-size:14px;
+}
+.v-field__field{
+    height:2.5em;
+}
+
+.v-field__input,
+.v-field__append-inner{
+    padding-top:8px;
+    font-size:14px;
+}
+
+.v-input__append{
+    padding-top:8px !important;
+}
+
 @media (min-width: 600px){
     .btn-list > div{
         max-width:150px;

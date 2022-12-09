@@ -43,7 +43,69 @@
         </div>
     </div>
 </template>
+<style src="../css/common.css"></style>
+<style scoped>
+/* input */
+.v-field__outline::before,
+.v-field__outline::after{
+ border:none !important;
+}
 
+input{
+    padding-top:0 !important;
+    font-size:14px;
+}
+.v-field__field{
+    height:2.5em;
+}
+
+.v-field__input,
+.v-field__append-inner{
+    padding-top:8px;
+    font-size:14px;
+}
+
+.v-input__append{
+    padding-top:8px !important;
+}
+
+@media (min-width: 600px){
+    .btn-list > div{
+        max-width:150px;
+        min-width: 150px;
+    }
+    .green-btn,
+    .btn-success{
+      width:100%;
+    }
+}
+.shop-auth{
+  align-items: center;
+}
+.btn-list > div{
+  text-align: center;;
+}
+.green-btn,
+.btn-success{
+  width:150px;
+  height:40px;
+  font-weight: 600;
+}
+.btn-success{
+  background:#fff;
+  color:#69A5AF;
+  border:solid 3px #69A5AF;
+}
+.btn:hover{
+  opacity: .8;
+  background:#fff;
+  color:#69A5AF;
+  border:solid 3px #69A5AF;
+}
+.green-btn:hover{
+  height: 40px;
+}
+</style>
 <script>
   import { mapActions, mapGetters } from "vuex";
   export default {

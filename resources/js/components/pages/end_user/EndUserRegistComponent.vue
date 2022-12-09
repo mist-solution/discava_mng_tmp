@@ -4,34 +4,36 @@
                     <div>{{ ('アカウント登録') }}</div>
                     <div class="p-0 p-sm-2">
                         <v-form ref="form" v-model="valid">
-                          <v-container class="card main-cont">
-                            <v-row align-sm="center">
-                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3 pt-0">
-                                <p class="mb-0 mb-sm-4">ユーザ名</p>
+                          <v-container class="card main-cont pr-sm-12 pl-sm-12 pt-8 pb-8">
+                            <v-row align-sm="center" class="mb-4">
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
+                                <p class="mb-0">ユーザ名</p>
                               </v-col>
                               <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
                                 <v-text-field
                                     dense
                                     v-model="forms.name"
                                     :rules="[rules.required, rules.max_16]"
+                                    hide-details="false"
                                 />
                               </v-col>
                             </v-row>
-                            <v-row align-sm="center">
-                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3 pt-0">
-                                <p class="mb-0 mb-sm-4">メールアドレス</p>
+                            <v-row align-sm="center" class="mb-4">
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
+                                <p class="mb-0">メールアドレス</p>
                               </v-col>
                               <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
                                 <v-text-field
                                     dense
                                     v-model="forms.email"
                                     :rules="[rules.required, rules.email]"
+                                    hide-details="false"
                                 />
                               </v-col>
                             </v-row>
                             <v-row align-sm="center">
-                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3 pt-0">
-                                <p class="mb-0 mb-sm-4">パスワード</p>
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
+                                <p class="mb-0 mb-sm-8">パスワード</p>
                               </v-col>
                               <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
                                 <v-text-field
@@ -43,12 +45,12 @@
                                     :rules="[rules.required, rules.password]"
                                     hide-details="false"
                                 />
-                                <p class="text-caption mt-1">半角英数字及び記号（「-」「_」「%」「$」「#」）を含む、12文字以上を入力してください</p>
+                                <p class="text-caption mt-2 mb-2">半角英数字及び記号（「-」「_」「%」「$」「#」）を含む、12文字以上を入力してください</p>
                               </v-col>
                             </v-row>
                             <v-row align-sm="center">
-                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3 pt-0">
-                                <p class="mb-0 mb-sm-4">パスワード確認</p>
+                              <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
+                                <p class="mb-0 mb-sm-10">パスワード確認</p>
                               </v-col>
                               <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
                                 <v-text-field
@@ -60,35 +62,35 @@
                                     :rules="[rules.required, rules.password]"
                                     hide-details="false"
                                 />
-                                <p class="text-caption mt-1">確認の為もう一度入力</p>
+                                <p class="text-caption mt-2">確認の為もう一度入力</p>
                               </v-col>
                             </v-row>
                             <v-row align-xs="center">
                               <v-col cols="12" class="mt-5 pr-0 pb-0">
-                                <p class="text-subtitle-1 mb-0 pb-0">権限グループ</p>
+                                <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">権限グループ</p>
                               </v-col>
                               <v-col cols="12" class="pt-sm-3 pb-0">
                                 <v-row align-sm="center shop-auth">
-                                  <v-col cols="2" class="pr-0 pt-0">
+                                  <v-col cols="2" class="pr-0">
                                     <p class="mb-0 pb-0">A店</p>
                                   </v-col>
                                   <v-col cols="10" class="pt-sm-3">
                                     <v-select
                                       v-bind:items="authority"
-                                      label="お選びください"
+                                      hide-details="false"
                                     />
                                   </v-col>
                                 </v-row>
                               </v-col>
                               <v-col cols="12" class="pt-sm-3 pb-0">
                                 <v-row align-sm="center shop-auth">
-                                  <v-col cols="2" class="pr-0 pt-0">
+                                  <v-col cols="2" class="pr-0">
                                     <p class="mb-0 pb-0">B店</p>
                                   </v-col>
                                   <v-col cols="10" class="pt-sm-3">
                                     <v-select
                                       v-bind:items="authority"
-                                      label="お選びください"
+                                      hide-details="false"
                                     />
                                   </v-col>
                                 </v-row>

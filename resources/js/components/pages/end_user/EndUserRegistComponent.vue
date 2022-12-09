@@ -1,6 +1,6 @@
 <template>
         <div class="row justify-content-center">
-            <v-container class="p-2 p-sm-4" style="max-width:900px">
+            <v-container class="p-2 p-sm-4">
                     <div>{{ ('アカウント登録') }}</div>
                     <div class="p-0 p-sm-2">
                         <v-form ref="form" v-model="valid">

@@ -156,7 +156,8 @@ export default {
     },
     companyName: {
       get() {
-        return this.customer.company_name;
+//        return this.customer.company_name;
+        return 'MIST solution';
       }
     }
   },

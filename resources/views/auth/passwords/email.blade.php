@@ -34,8 +34,8 @@
                             </div>
                         </div>
                         <div class="mb-0 justify-content-center">
-                            <div class="d-grid justify-content-center email_btnSubmit">
-                                <button type="submit" class="btn btn_green">
+                            <div class="d-grid justify-content-center">
+                                <button type="submit" class="btn btn_green email_btnSubmit">
                                     {{ __('送信する') }}
                                 </button>
                             </div>

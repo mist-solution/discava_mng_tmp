@@ -35,6 +35,7 @@ Route::get('/api/shopusers', [ShopUserController::class, 'getLoginUserShopList']
 Route::get('/api/shopselect', [ShopUserController::class, 'getLoginUserShopSelect']);
 
 Route::get('/api/customer', [CustomerController::class, 'index']);
+Route::get('/api/customerSession', [CustomerController::class, 'getCompanyBySession']);
 Route::get('/api/enduser', [UserController::class, 'index']);
 Route::post('/api/enduser', [UserController::class, 'register']);
 Route::put('/api/enduser/{id}', [UserController::class, 'update']);

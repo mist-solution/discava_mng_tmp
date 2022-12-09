@@ -1,12 +1,14 @@
 <!-- App.vue -->
 <template>
   <v-app>
-    <!-- <v-app-bar app>
+<!--
+    <v-app-bar app>
       <header-component />
-    </v-app-bar> -->
-    <dash-board />
+    </v-app-bar>
+-->
     <side-bar />
     <v-main>
+      <dash-board />
       <!-- アプリケーションに適切なgutterを提供 -->
       <v-container fluid>
         <!-- vue-routerを使用する場合 -->

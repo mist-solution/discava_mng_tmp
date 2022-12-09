@@ -1,7 +1,8 @@
 <template>
   <v-navigation-drawer
-    v-model='this.$store.state.sidebar.open'
-    :mini-variant.sync="mini"
+    v-model="drawer"
+    :rail="rail"
+    permanent
   >
 
     <v-row>
@@ -62,11 +63,10 @@
     </v-list>
 
     <v-btn
-      icon
-      @click.stop="mini = !mini"
-    >
-      <v-icon>mdi-arrow-collapse</v-icon>
-    </v-btn>
+      variant="text"
+      icon="mdi-arrow-collapse"
+      @click.stop="rail = !rail"
+    ></v-btn>
 
   </v-navigation-drawer>
 </template>
@@ -93,11 +93,12 @@ export default {
         { id: 7, title: "WEBサイトへ", icon: "mdi-tab", linkTo: "", disabled: true, group: false, },
       ],
       right: null,
-      mini: true,
+      drawer: true,
+      rail: false,
     };
   },
   methods: {
-    ...mapActions('shopUser', ['fetchShopUsers','getShopSelection']),
+    ...mapActions('shopUser', ['fetchShopUsersWithLogout','getShopSelection']),
 
     onShopSelectionChange: function(id) {
       console.log("onShopSelectionChange");
@@ -105,15 +106,28 @@ export default {
       console.log({ id });
       const postData = {
         shop_id: id,
+      };
+
+      if(id == "logout") {
+        this.$axios.post("/logout")
+          .then(response => {
+            console.log(response);
+            localStorage.removeItem("auth");
+            window.location.href = "/login"
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } else {
+        this.$axios.put('/api/changeshop', postData)
+          .then(response => {
+            // 表示している画面を強制リロード
+            this.$router.go({path: this.$router.currentRoute.path, force: true});
+          })
+          .catch(error => {
+            console.log(error);
+          });
       }
-      this.$axios.put('/api/changeshop', postData)
-        .then(response => {
-          // 表示している画面を強制リロード
-          this.$router.go({path: this.$router.currentRoute.path, force: true});
-        })
-        .catch(error => {
-          console.log(error);
-        });
     },
   },
   computed: {
@@ -129,8 +143,8 @@ export default {
     let shopselect = await this.getShopSelection();
     this.shopSelection = shopselect;
   },
-  created() {
-    this.fetchShopUsers();
+  async created() {
+    await this.fetchShopUsersWithLogout();
   },
 };
 </script>

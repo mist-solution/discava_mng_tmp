@@ -40,8 +40,8 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getCompanyBySession(Request $request) {
-        $customer = Customer::where('id', Auth::customer()->id)->first();
-
+        $customer = Customer::where('id', Auth::user()->customer_id)->first();
+        
         $response = array();
         $response['customer'] = $customer;
         $response['message'] = 'success';

@@ -21,7 +21,6 @@ const actions = {
 //        context.commit('toggleOpen');
 //    }
     async fetchCustomerBySession(context) {
-        Auth::user()->
         await axios.get('/api/customerSession').then((res) => {
             context.commit('setCustomer', res.data.customer);
         });

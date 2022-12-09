@@ -11,7 +11,7 @@
 
 <script>
 import EndUserListTable from "./EndUserListTableComponent.vue";
-import TitleComponent from "../../TitleComponent.vue"
+import TitleComponent from "../../common/TitleComponent.vue"
 export default {
   components: {
     EndUserListTable,

@@ -1,7 +1,11 @@
 <template>
   <div class="row justify-content-center">
       <v-container class="p-2 p-sm-4">
-              <div>{{ ('アカウント登録') }}</div>
+              <div>
+                <title-component
+                  name = "アカウント登録"
+                />
+              </div>
               <div class="p-0 p-sm-2">
                   <v-form ref="form" v-model="valid">
                     <v-container class="card main-cont pr-sm-12 pl-sm-12 pt-8 pb-8">
@@ -127,7 +131,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-
+import TitleComponent from "../../common/TitleComponent.vue"
 export default {
 data() {
 return {
@@ -159,8 +163,12 @@ return {
   '閲覧者',
   '該当なし'
   ],
+
 }
 },
+components: {
+    TitleComponent,
+  },
 methods: {
 ...mapActions('enduser', ['fetchUsers']),
 ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),

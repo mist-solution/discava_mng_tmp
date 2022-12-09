@@ -47,6 +47,7 @@
 <style src="../css/input-reset.css"></style>
 <script>
 import { mapActions, mapGetters } from "vuex";
+import TitleComponent from "../../common/TitleComponent.vue"
 export default {
   data() {
     return {
@@ -67,6 +68,9 @@ export default {
       },
       messages: {
         checkbox: null,
+      },
+      components: {
+        TitleComponent
       }
     }
   },

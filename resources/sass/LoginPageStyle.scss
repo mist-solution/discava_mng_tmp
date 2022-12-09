@@ -249,15 +249,50 @@ $green: #69a4af;
 }
 
 /* ================================ * /
-    パスワード再設定( reset.balde.php)
+    パスワード再設定(reset.balde.php)
 ==================================== */
 .reset {
     &_textReadonly {
-        background-color: #ffffff;
+        background-color: #ffffff !important;
         border-width: 0px;
+        --webkit-box-shadow: none !important;
+        box-shadow: none !important;
     }
 
     &_btnReset {
+        margin-bottom: 2rem;
+        padding: 0.4rem 0.5rem !important;
+    }
+
+    &_link {
+        text-decoration: none;
+        font-size: 14px;
+        color: $green;
+        font-weight: 500;
+
+        &:hover {
+            color: #579daa;
+        }
+    }
+}
+
+/* ================================ * /
+    パスワード再設定完了(complete.balde.php)
+==================================== */
+.complete {
+    &_subTitle {
+        font-size: 18px;
+        color: #707070;
+        margin-bottom: 1.3rem;
+        font-weight: 900;
+    }
+
+    &_text {
+        font-size: 14px;
+        color: #707070;
+    }
+
+    &_btnBackToLogin {
         margin-bottom: 2rem;
         padding: 0.4rem 0.5rem !important;
     }

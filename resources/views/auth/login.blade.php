@@ -56,8 +56,8 @@
                         <!-- Remember Me コメントアウト -->
 
                         <div class="mb-0 justify-content-center">
-                            <div class="d-grid justify-content-center login_btnLogin">
-                                <button type="submit" class="btn btn_green">
+                            <div class="d-grid justify-content-center">
+                                <button type="submit" class="btn btn_green login_btnLogin">
                                     {{ __('ログイン') }}
                                 </button>
                             </div>

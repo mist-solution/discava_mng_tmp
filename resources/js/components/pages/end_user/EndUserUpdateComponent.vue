@@ -43,8 +43,7 @@
         </div>
     </div>
 </template>
-<style src="../css/common.css"></style>
-<style src="../css/input-reset.css"></style>
+
 <script>
   import { mapActions, mapGetters } from "vuex";
   export default {
@@ -106,42 +105,3 @@
     },
   }
 </script>
-<style scoped>
-
-@media (min-width: 600px){
-    .btn-list > div{
-        max-width:150px;
-        min-width: 150px;
-    }
-    .green-btn,
-    .btn-success{
-      width:100%;
-    }
-}
-.shop-auth{
-  align-items: center;
-}
-.btn-list > div{
-  text-align: center;;
-}
-.green-btn,
-.btn-success{
-  width:150px;
-  height:40px;
-  font-weight: 600;
-}
-.btn-success{
-  background:#fff;
-  color:#69A5AF;
-  border:solid 3px #69A5AF;
-}
-.btn:hover{
-  opacity: .8;
-  background:#fff;
-  color:#69A5AF;
-  border:solid 3px #69A5AF;
-}
-.green-btn:hover{
-  height: 40px;
-}
-</style>

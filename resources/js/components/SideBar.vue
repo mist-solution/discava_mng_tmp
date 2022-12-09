@@ -1,5 +1,8 @@
 <template>
-  <v-navigation-drawer temporary v-model='this.$store.state.sidebar.open'>
+  <v-navigation-drawer
+    v-model='this.$store.state.sidebar.open'
+    :mini-variant.sync="mini"
+  >
 
     <v-row>
       <v-col align="center">
@@ -57,7 +60,15 @@
         ></v-list-item>
       </div>
     </v-list>
-</v-navigation-drawer>
+
+    <v-btn
+      icon
+      @click.stop="mini = !mini"
+    >
+      <v-icon>mdi-arrow-collapse</v-icon>
+    </v-btn>
+
+  </v-navigation-drawer>
 </template>
 
 <script>
@@ -82,6 +93,7 @@ export default {
         { id: 7, title: "WEBサイトへ", icon: "mdi-tab", linkTo: "", disabled: true, group: false, },
       ],
       right: null,
+      mini: true,
     };
   },
   methods: {

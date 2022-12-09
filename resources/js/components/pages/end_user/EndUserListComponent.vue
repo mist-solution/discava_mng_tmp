@@ -1,9 +1,8 @@
 <template>
-  <v-card>
-    <v-card-title class="ml-2" width="80%">
-      <h3 class="h4">アカウント一覧</h3>
-    </v-card-title>
-    <v-divider />
+  <title-component
+   name = "アカウント一覧"
+  />
+  <v-card class="mt-5">
     <v-card-text>
       <end-user-list-table />
     </v-card-text>
@@ -12,9 +11,11 @@
 
 <script>
 import EndUserListTable from "./EndUserListTableComponent.vue";
+import TitleComponent from "../../TitleComponent.vue"
 export default {
   components: {
     EndUserListTable,
+    TitleComponent,
   },
 }
 </script>

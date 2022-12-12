@@ -5,7 +5,7 @@
     <v-main>
       <header-component />
       <!-- アプリケーションに適切なgutterを提供 -->
-      <v-container fluid>
+      <v-container class="p-0" fluid>
         <!-- vue-routerを使用する場合 -->
         <router-view></router-view>
         <snackbar />

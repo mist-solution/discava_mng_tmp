@@ -1,14 +1,13 @@
 <template>
-  <div class="row justify-content-center">
-      <v-container class="p-2 p-sm-4 pt-0">
+      <v-container class="pt-0">
               <div>
                 <title-component
                   name = "アカウント登録"
                 />
               </div>
-              <div class="p-0 p-sm-2 mt-5">
+              <div class="p-0">
                   <v-form ref="form" v-model="valid">
-                    <v-container class="card main-cont pr-sm-12 pl-sm-12 pt-8 pb-10">
+                    <div class="card main-cont pr-md-12 pl-md-12 pr-5 pl-5 pt-6 pb-10">
                       <v-row align-sm="center" class="mb-4">
                         <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
                           <p class="mb-0">ユーザ名</p>
@@ -78,7 +77,7 @@
                             <v-col cols="2" class="pr-0">
                               <p class="mb-0 pb-0">A店</p>
                             </v-col>
-                            <v-col cols="10" class="pt-sm-3">
+                            <v-col cols="10" class="pt-sm-3 shop-sel">
                               <v-select
                                 v-bind:items="authority"
                                 hide-details="false"
@@ -91,7 +90,7 @@
                             <v-col cols="2" class="pr-0">
                               <p class="mb-0 pb-0">B店</p>
                             </v-col>
-                            <v-col cols="10" class="pt-sm-3">
+                            <v-col cols="10" class="pt-sm-3 shop-sel">
                               <v-select
                                 v-bind:items="authority"
                                 hide-details="false"
@@ -100,7 +99,7 @@
                           </v-row>
                         </v-col>
                       </v-row>
-                    </v-container>
+                    </div>
                         <!-- ToDo:権限は要検討 -->
                     <v-row justify="center" class="mt-4 btn-list">
                         <v-col cols="12" sm="3" class="p-0 m-2">
@@ -124,7 +123,6 @@
                 </v-form>
               </div>
       </v-container>
-  </div>
 </template>
 <style src="../css/common.css"></style>
 <style src="../css/input-reset.css"></style>

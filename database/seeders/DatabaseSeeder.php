@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PlansTableSeeder::class);
         $this->call(MateFunctionsTableSeeder::class);
         $this->call(PlanMateFunctionsTableSeeder::class);
+        $this->call(AuthoritiesTableSeeder::class);
         $this->call(AuthoritySetsTableSeeder::class);
         $this->call(CustomersTableSeeder::class);
         $this->call(UsersTableSeeder::class);

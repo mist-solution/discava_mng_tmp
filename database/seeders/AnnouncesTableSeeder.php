@@ -154,6 +154,23 @@ class AnnouncesTableSeeder extends Seeder
                 'del_flg' => '0',
             ]);
 
+            Announce::create([
+                'shop_id' => '2',
+                'announce_category_id' => '1',
+                'start_date' => '2022/12/02 10:00:00',
+                'end_date' => '2023/01/03 11:00:00',
+                'title' => 'テストお知らせ（高松）',
+                'thumbnail_img_path' => null,
+                'contents' => 'お知らせの本文です。',
+                'approval_status' => '3',
+                'approval_account' => null,
+                'approval_datetime' => null,
+                'remand_comment' => null,
+                'add_account' => $i,
+                'upd_account' => '1',
+                'del_flg' => '0',
+            ]);
+
         }
     }
 }

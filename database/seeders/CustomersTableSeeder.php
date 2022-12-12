@@ -32,5 +32,22 @@ class CustomersTableSeeder extends Seeder
             'upd_account' => '1',
             'del_flg' => '0',
         ]);
+
+        for($i = 2; $i < 10; $i++) {
+
+            Customer::create([
+                'company_name' => 'テスト法人' . $i,
+                'business_content' => '',
+                'postal_code' => '101-0000',
+                'address' => "東京都",
+                'building_name' => "",
+                'tel' => '03-8888-9999',
+                'fax' => '',
+                'mail' => '',
+                'add_account' => '1',
+                'upd_account' => '1',
+                'del_flg' => '0',
+            ]);
+        }
     }
 }

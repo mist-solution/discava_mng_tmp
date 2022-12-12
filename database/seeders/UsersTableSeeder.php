@@ -108,5 +108,21 @@ class UsersTableSeeder extends Seeder
             ]);
         }
 
+        for($i = 2; $i < 10; $i++) {
+
+            User::create([
+                'customer_id' => $i,
+                'email' => 'test' . $i . '@example.com',
+                'name' => 'テスト' . $i,
+                'initial_password' => bcrypt('test' . $i),
+                'password' => bcrypt('test' . $i),
+                'email_verified_at' => null,
+                'remember_token' => null,
+                'add_account' => '1',
+                'upd_account' => '1',
+                'del_flg' => '0',
+            ]);
+        }
+
     }
 }

@@ -82,7 +82,7 @@
                         </v-col>
                         <v-col cols="12" sm="3" class="p-0 m-2">
                           <router-link v-bind:to="{ name: 'enduser.list' }">
-                            <button class="btn btn-success ml-1">
+                            <button class="btn btn-success">
                               戻る
                             </button>
                           </router-link>

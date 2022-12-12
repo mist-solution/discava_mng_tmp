@@ -1,80 +1,113 @@
 
 <template>
-  <v-card>
-    <v-card-title class="ml-2" width="80%">
-      <h3 class="h4">お知らせ編集</h3>
-      <v-row mb="2" justify="end">
-        <button class="btn btn-success mr-2" @click="getQuillEditorContent()">プレビュー</button>
-        <button class="btn btn-success mr-2" @click="submit">更新</button>
-      </v-row>
-    </v-card-title>
-    <v-container class="grey lighten-5">
-      <v-form ref="form" v-model="valid">
-        <v-row>
-          <v-col>
-            <v-text-field
-              dense
-              v-model="announce.title"
-              label="タイトル"
-              :rules="[rules.required]"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-select
-              dense
-              v-model="announce.announce_category_id"
-              :items="categories"
-              label="カテゴリ"
-              item-value="id"
-              item-title="category_name"
-              :rules="[rules.required]"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="6">
-            <DatePicker
-              v-model="announce.start_date"
-              placeholder="掲載開始日"
-              :format="format"
-              :enableTimePicker="false"
-              :required="true"
-              selectText="確認"
-              cancelText="キャンセル"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="6">
-            <DatePicker
-              v-model="announce.end_date"
-              placeholder="掲載終了日"
-              :format="format"
-              :enableTimePicker="false"
-              :required="false"
-              selectText="確認"
-              cancelText="キャンセル"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <QuillEditor
-              toolbar="full"
-              class="ql-editor"
-              v-model="contents"
-              ref="myQuillEditor"
-              :options="editorOption"
-              :rules="[rules.required]"
-              @blur="onEditorBlur($event)"
-              @focus="onEditorFocus($event)"
-              @change="onEditorChange($event)"
-            >
-            </QuillEditor>
-          </v-col>
-        </v-row>
+    <div>
+      <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5">投稿者　の投稿記事を編集</h3>
+    </div>
+      <v-form ref="form" v-model="valid" class="art-flex">
+        <v-card class="main-cont p-3">
+
+              <v-text-field
+                dense
+                v-model="announce.title"
+                :rules="[rules.required]"
+                hide-details="false"
+              />
+
+              <QuillEditor
+                toolbar="full"
+                class="ql-editor"
+                v-model="contents"
+                ref="myQuillEditor"
+                :options="editorOption"
+                :rules="[rules.required]"
+                @blur="onEditorBlur($event)"
+                @focus="onEditorFocus($event)"
+                @change="onEditorChange($event)"
+              >
+              </QuillEditor>
+
+        </v-card>
+        <v-card class="main-cont mt-5 mt-sm-0 p-3">
+          <p class="mb-1 font-weight-bold">掲載期間</p>
+            <v-row align="center" class="mb-3 justify-end">
+              <v-col cols="3" class="pr-0 pb-0">
+                <p class="mb-0">開始</p>
+              </v-col>
+              <v-col cols="9" class="pl-0 pb-0">
+                <DatePicker
+                  v-model="announce.start_date"
+                  placeholder="掲載開始日"
+                  :format="format"
+                  :enableTimePicker="false"
+                  :required="true"
+                  selectText="確認"
+                  cancelText="キャンセル"
+                />
+              </v-col>
+              <v-col cols="11" class="mt-2 p-0 Date-time">
+                <v-row  align="center" class="justify-end m-0">
+                  <v-col cols="3" class="p-0">
+                    <v-text-field
+                        dense
+                        hide-details="false"
+                    />
+                  </v-col>
+                  <v-col cols="2" class="p-0">
+                    <p>時</p>
+                  </v-col>
+                  <v-col cols="3" class="p-0">
+                    <v-text-field
+                        dense
+                        hide-details="false"
+                    />
+                  </v-col>
+                  <v-col cols="2" class="p-0">
+                    <p>分</p>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+            <v-row align="center">
+                <v-col cols="3" class="pr-0">
+                  <p class="mb-0">終了</p>
+                </v-col>
+                <v-col cols="9" class="pl-0">
+
+                <DatePicker
+                  v-model="announce.end_date"
+                  placeholder="掲載終了日"
+                  :format="format"
+                  :enableTimePicker="false"
+                  :required="false"
+                  selectText="確認"
+                  cancelText="キャンセル"
+                />
+              </v-col>
+            </v-row>
+          <p class="mt-4 mb-1 font-weight-bold">カテゴリー</p>
+
+              <v-select
+                dense
+                v-model="announce.announce_category_id"
+                :items="categories"
+                item-value="id"
+                item-title="category_name"
+                :rules="[rules.required]"
+                class="cat-tag"
+                hide-details="false"
+              />
+          <p class="mt-4 mb-1 font-weight-bold">サムネイル画像</p>
+
+            <div class="samb-box">
+
+            </div>
+
+
+          <v-row mb="2" justify="end">
+            <button class="btn btn-success mr-2" @click="getQuillEditorContent()">プレビュー</button>
+            <button class="btn btn-success mr-2" @click="submit">更新</button>
+          </v-row>
+        </v-card>
       </v-form>
       <div class="ql-container">
         <p>---お知らせ詳細---</p>
@@ -84,10 +117,59 @@
           @change="getQuillEditorContent()"
         ></div>
       </div>
-    </v-container>
-  </v-card>
 </template>
+<style src="../css/common.css"></style>
+<style scoped>
+  .art-flex{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    row-gap:16px;
+  }
+  .art-flex .main-cont:nth-child(1){
+    width:78%;
+  }
+  .art-flex .main-cont:nth-child(2){
+    width:20%;
+    min-width: 180px;
+  }
+  .art-flex p{
+    font-size:.85rem;
+    margin:0;
+  }
 
+  @media (max-width: 1090.99px){
+    .art-flex .main-cont:nth-child(1){
+        width:95%;
+      }
+      .art-flex .main-cont:nth-child(2){
+        width:20%;
+        min-width: 180px;
+      }
+  }
+  @media (max-width: 599.99px){
+    .art-flex .main-cont:nth-child(1){
+        width:95%;
+      }
+      .art-flex .main-cont:nth-child(2){
+        width:95%;
+      }
+  }
+  .samb-box{
+    aspect-ratio: 16 / 9;
+    width:100%;
+  }
+  .Date-time .v-input{
+    border:solid 1px rgba(0,0,0,0.6);
+    border-radius: 7px;
+  }
+  .Date-time .v-input--density-default .v-field--variant-filled {
+    --v-input-control-height: 24px;
+  }
+  .Date-time p{
+    text-align: center;
+  }
+</style>
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { QuillEditor } from "@vueup/vue-quill";

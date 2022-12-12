@@ -1,15 +1,10 @@
 <template>
-  <div class="btn-group ml-auto mb-1">
-    <router-link v-bind:to="{ name: 'enduser.register' }">
-      <button class="btn btn-success">追加</button>
-    </router-link>
-    <button @click="deleteAll" class="btn btn-success ml-1">削除</button>
-  </div>
-  <v-table fixed-header>
+
+  <v-table class="accounttable" fixed-header>
     <thead>
       <tr>
-        <th class="text-left">選択</th>
-        <th class="text-left">ユーザ名</th>
+        <th class="text-left"></th>
+        <th class="text-left">ユーザID</th>
         <th class="text-left">メールアドレス</th>
         <th class="text-left">登録日時</th>
         <th class="text-left">更新日時</th>
@@ -18,17 +13,16 @@
     </thead>
     <tbody>
       <tr v-for="item in users" :key="item.id">
-        <th>
+        <td>
           <input type="checkbox" :value="item.id" v-model="selected">
-        </th>
+        </td>
         <td>{{ item.name }}</td>
         <td>{{ item.email }}</td>
         <td>{{ timestampFormat(item.created_at) }}</td>
         <td>{{ timestampFormat(item.updated_at) }}</td>
-        <td>
-          <v-btn @click="edit(item)" depressed color="primary">
-            編集
-          </v-btn>
+        <td class="d-flex align-center">
+          <v-icon class="green-icon mr-3" @click="edit(item)">mdi-square-edit-outline</v-icon>
+          <v-icon class="green-icon" @click="edit(item)">mdi-trash-can</v-icon>
         </td>
       </tr>
     </tbody>
@@ -82,3 +76,32 @@ export default {
   },
 };
 </script>
+
+<!-- 共通CSS -->
+<style src="../css/common.css"></style>
+
+<!-- 固有CSS -->
+<style scoped>
+.green-icon {
+  color: #69A5AF;
+}
+
+.accounttable td {
+	background: #F7F7F7;
+}
+.accounttable tr:nth-child(odd) td {
+	background: #fff;
+}
+
+/* vue3-data-tableで罫線固定しているためimportantで指定 */
+.accounttable tr.th,td {
+  border: none !important;
+}
+
+@media (max-width: 600px){
+  .accounttable td {
+    background: #FFF;
+  }
+}
+
+  </style>

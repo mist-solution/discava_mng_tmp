@@ -16,7 +16,7 @@ class AuthoritiesTableSeeder extends Seeder
     {
         Authority::create([
             'id' => '1',
-            'name' => '管理者',
+            'name' => '管理',
             'description' => '',
             'add_account' => '1',
             'upd_account' => '1',

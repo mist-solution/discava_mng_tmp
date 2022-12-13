@@ -7,6 +7,7 @@ use App\Models\Announce;
 use DateTime;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Storage;
 
 class AnnounceController extends Controller
 {
@@ -104,22 +105,37 @@ class AnnounceController extends Controller
     // 新規
     public function register(Request $request)
     {
-        $announce = new Announce();
-        $announce['add_account'] = Auth::user()->id;
-        $announce['upd_account'] = Auth::user()->id;
-        $announce['shop_id'] = $request->session()->get('shop_id');
-        $announce['created_at'] = new DateTime();
-        $announce['updated_at'] = new DateTime();
+        $regist = new Announce();
+        $regist['add_account'] = Auth::user()->id;
+        $regist['upd_account'] = Auth::user()->id;
+        $regist['shop_id'] = $request->session()->get('shop_id');
+        $regist['created_at'] = new DateTime();
+        $regist['updated_at'] = new DateTime();
 
         $data = $request->all();
-        $announce['title'] = $data['title'];
-        $announce['announce_category_id'] = $data['announce_category_id'];
-        $announce['start_date'] = $data['start_date'];
-        $announce['end_date'] = $data['end_date'];
-        $announce['contents'] = $data['contents'];
+        Log::info('data');
+        Log::info(print_r($data, true));
+        $announce = json_decode($data['announce'], true);
+        Log::info('announce');
+        Log::info(print_r($announce, true));
+        $thumbnail = $data['thumbnail_file'];
+        Log::info('サムネイル');
+        Log::info(print_r($thumbnail, true));
 
-        $announce->save();
-        return $announce;
+        $regist['title'] = $announce['title'];
+        $regist['announce_category_id'] = $announce['announce_category_id'];
+        $regist['start_date'] = $announce['start_date'];
+        $regist['end_date'] = $announce['end_date'];
+        $regist['contents'] = $announce['contents'];
+
+        $regist->save();
+
+        if ($thumbnail) {
+            $path =  $uploadFile['file_alias'] = Storage::putFile('announce/'.$regist['shop_id']."/".$regist['id']."/thumbnail", $thumbnail);
+            $regist['thumbnail_img_path'] = $path;
+            $regist->save();
+        }
+        return $regist;
     }
 
     // 更新

@@ -21,6 +21,21 @@
           </v-col>
         </v-row>
         <v-row>
+          <v-col>
+            <v-file-input
+              v-model="announce.thumbnail_file"
+              label="サムネイル"
+            />
+            {{announce.thumbnail_file}}
+          </v-col>
+          <v-col>
+            <v-btn
+              block
+              @click="click"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col cols="12" md="6">
             <v-select
               dense
@@ -126,22 +141,37 @@ export default {
       this.announce.contents = html;
 
       const validateRes = this.$refs.form.validate();
-      console.log('localStorage');
-      console.log(localStorage);
-      console.log(localStorage.getItem('auth'));
       validateRes.then(res => {
         if (!res.valid) {
           console.log("invalid!");
           return;
         }
-        const postData = {
+        let formData = new FormData();
+        const item = {
           title: this.announce.title,
           announce_category_id: this.announce.announce_category_id,
           start_date: moment(this.announce.start_date).format("yyyy-MM-DD"),
           end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
           contents: this.announce.contents,
+          thumbnail_file_name: this.announce.thumbnail_file ? this.announce.thumbnail_file["0"].name : null,
+        };
+        formData.append("announce", JSON.stringify(item));
+
+        if (this.announce.thumbnail_file) {
+          formData.append("thumbnail_file", this.announce.thumbnail_file["0"]);
+        } else {
+          formData.append("thumbnail_file", {});
         }
-        this.$axios.post('/api/announce', postData)
+        console.log(formData)
+
+        const config = {
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        };
+
+        // axios.post('/api/announce', formData, config)
+        axios.post('/api/announce', formData, { headers: { "Content-type": "multipart/form-data", }})
           .then(response => {
             this.openSuccess('登録しました');
             // お知らせ一覧画面に遷移
@@ -168,6 +198,11 @@ export default {
     getQuillEditorContent() {
       const html = this.$refs.myQuillEditor.getHTML();
       this.contents = html;
+    },
+    click() {
+      console.log("click!");
+      console.log(this.announce.thumbnail_file);
+      console.log(this.announce.thumbnail_file["0"].name);
     },
 
     format(date) {

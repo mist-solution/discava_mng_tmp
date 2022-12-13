@@ -3,10 +3,48 @@
     name = "アカウント一覧"
   />
   <!-- タブ部分 -->
-  <v-row class="pt-5 align-center">
+  <v-row class="pt-5 align-center justify-end">
     <!-- 一括操作-実行ボタン -->
+
+
+    <!-- searchフォーム -->
+    <v-col cols="3" class="d-flex">
+      <form>
+        <button icon="mdi-magnify"></button>
+        <input
+          class="searchform"
+          type="search"
+          placeholder="test"
+          aria-label="Search"
+          maxlength="30"
+          hide-details="false"
+        />
+      </form>
+    </v-col>
+
+    <!-- 件数表示 -->
+    <v-col cols="2" class="d-flex justify-center">
+      <p>全16件</p>
+      <p class="white-background">10</p>
+      <p>件表示</p>
+    </v-col>
+
+    <!-- ページャー -->
+    <v-col cols="3" class="d-flex">
+      <v-container class="max-width">
+        <v-pagination
+          v-model="page"
+          class="my-4"
+          :length="15"
+        ></v-pagination>
+      </v-container>
+    </v-col>
+  </v-row>
+
+  <!-- アカウント一覧 -->
+  <v-card class="ac-list main-cont">
     <v-col
-      class="displayflexpc white-background align-center"
+      class="d-flex align-center main-cont"
       cols="4"
       align="center"
     >
@@ -21,61 +59,8 @@
         実行
       </v-btn>
     </v-col>
-
-    <!-- searchフォーム -->
-    <v-col cols="3" class="d-flex">
-      <form>
-        <input
-          class="searchform"
-          type="search"
-          placeholder="test"
-          aria-label="Search"
-          maxlength="30"
-        />
-        <v-icon class="green-icon mr-3" @click="edit(item)">mdi-magnify</v-icon>
-      </form>
-    </v-col>
-
-    <!-- 件数表示 -->
-    <v-col cols="2" class="d-flex justify-center">
-      <p>全16件</p>
-      <p class="white-background">10</p>
-      <p>件表示</p>
-    </v-col>
-
-    <!-- ページャー -->
-    <v-col cols="3" class="displayflexpc">
-      <v-container class="max-width">
-        <v-pagination
-          v-model="page"
-          class="my-4"
-          :length="15"
-        ></v-pagination>
-      </v-container>
-    </v-col>
-  </v-row>
-
-  <!-- アカウント一覧 -->
-  <v-card>
-    <v-card-text>
-    <v-col
-      class="displayflexsp white-background align-center justify-content-start"
-      cols="12"
-      align="center"
-    >
-      <input type="checkbox">
-        <v-select
-          dense
-          :items="items"
-          label="Solo field"
-          solo
-        ></v-select>
-        <v-btn class="green-btn mx-2">
-        実行
-      </v-btn>
-    </v-col>
       <end-user-list-table />
-    </v-card-text>
+
   </v-card>
 </template>
 
@@ -95,6 +80,15 @@ export default {
 
 <!-- 固有CSS -->
 <style scoped>
+.ac-list{
+  position:relative;
+  overflow: visible;
+}
+.ac-list > .main-cont{
+  position:absolute;
+  bottom:99%;
+  background-color: #fff;
+}
 .searchform {
   border: 10px;
   background-color: #FFF;
@@ -107,38 +101,4 @@ export default {
 .white-background {
   background: #FFF;
 }
-
-@media (min-width: 600px){
-  .displayflexpc {
-    display: flex;
-  }
-
-  .displayflexsp {
-    display: none;
-  }
-
-  .displaysp {
-    display: none;
-  }
-}
-
-@media (max-width: 600px){
-  .displayflexpc {
-    display: none;
-  }
-
-  .displaypc {
-    display: none;
-  }
-
-  .displaysp {
-    display: block;
-  }
-
-  .displayflexsp {
-    display: flex;
-  }
-}
-
-
 </style>

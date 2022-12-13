@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () { return redirect('/login'); });
-Route::get('/', function () { return view('app'); })->middleware('auth');
+Route::get('/', function () {
+    return redirect('/login');
+});
+Route::get('/', function () {
+    return view('app');
+})->middleware('auth');
 // それ以外は Vue.Router 参照 ⇒ /resources/js/router.js
 
 //------------------------------------------------
@@ -52,6 +56,8 @@ Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->na
 Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 // パスワードリセット完了
 Route::get('password/complete', 'Auth\CompletePasswordController@showCompleteForm')->name('password.complete');
+// パスワードリセットメール送信完了
+Route::get('password/sendmail', 'Auth\SendMailController@showSendmailForm')->name('password.sendmail');
 
 // それ以外
 Route::get('{any}', function () {

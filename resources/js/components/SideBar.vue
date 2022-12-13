@@ -49,6 +49,7 @@
         >
           <template v-slot:activator="{ props }">
             <v-list-item
+              tile
               v-bind="props"
               :prepend-icon="item.icon"
               :title="item.title"
@@ -56,6 +57,7 @@
             ></v-list-item>
           </template>
           <v-list-item
+            tile
             v-for="submenu in item.submenus"
             :key="submenu.id"
             :title="submenu.title"
@@ -66,6 +68,7 @@
         </v-list-group>
 
         <v-list-item
+          tile
           v-else
           :prepend-icon="item.icon"
           :title="item.title"
@@ -156,8 +159,9 @@ export default {
     },
     companyName: {
       get() {
-//        return this.customer.company_name;
-        return 'MIST solution';
+        if(this.customer != null){
+          return this.customer.company_name;
+        }
       }
     }
   },

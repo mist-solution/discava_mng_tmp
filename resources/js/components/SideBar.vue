@@ -168,8 +168,6 @@ export default {
   },
   async mounted() {
     console.log("sidebar mounted.");
-  },
-  async beforeMount() {
     let shopselect = await this.getShopSelection();
     this.shopSelection = shopselect;
   },

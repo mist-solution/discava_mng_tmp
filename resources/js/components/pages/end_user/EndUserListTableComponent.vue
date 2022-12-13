@@ -1,7 +1,7 @@
 <template>
 
   <v-table class="accounttable" fixed-header>
-    <thead>
+    <thead  class="displaypc">
       <tr>
         <th class="text-left"></th>
         <th class="text-left">ユーザID</th>
@@ -11,7 +11,7 @@
         <th class="text-left">編集/削除</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="displaypc">
       <tr v-for="item in users" :key="item.id">
         <td>
           <input type="checkbox" :value="item.id" v-model="selected">
@@ -26,6 +26,38 @@
         </td>
       </tr>
     </tbody>
+
+    <div class="displaysp">
+      <tbody>
+        <tr v-for="item in users" :key="item.id">
+          <div @click="toggleAccordion()"><input type="checkbox" :value="item.id" v-model="selected">{{ item.name }}</div>
+            <div v-if="isOpened">
+                <tr>
+                  <td>ID</td>
+                  <td>{{ item.name }}</td>
+                </tr>
+                <tr>
+                  <td>メール</td>
+                  <td>{{ item.email }}</td>
+                </tr>
+                <tr>
+                  <td>登録日</td>
+                  <td>{{ timestampFormat(item.created_at) }}</td>
+                </tr>
+                <tr>
+                  <td>更新日</td>
+                  <td>{{ timestampFormat(item.updated_at) }}</td>
+                </tr>
+                <tr>
+                  <td class="d-flex align-center">
+                    <v-icon class="green-icon mr-3" @click="edit(item)">mdi-square-edit-outline</v-icon>
+                    <v-icon class="green-icon" @click="edit(item)">mdi-trash-can</v-icon>
+                  </td>
+                </tr>
+            </div>
+        </tr>
+      </tbody>
+    </div>
   </v-table>
 </template>
 
@@ -36,6 +68,7 @@ export default {
   data() {
     return {
       selected: [],
+      isOpened: false
     };
   },
   methods: {
@@ -65,6 +98,9 @@ export default {
         .catch(error => {
             console.log(error);
         });
+    },
+    toggleAccordion() {
+      this.isOpened = !this.isOpened;
     }
   },
   mounted() {
@@ -98,9 +134,35 @@ export default {
   border: none !important;
 }
 
+.accordionsp {
+}
+
+.accordionsp > div {
+}
+
+
+@media (min-width: 600px){
+  .displaysp {
+    display: none;
+  }
+}
+
 @media (max-width: 600px){
-  .accounttable td {
+  .accounttable th {
     background: #FFF;
+    border-bottom: 1px solid #F7F7F7 !important;
+  }
+
+  .accounttable td {
+	background: #FFF;
+  }
+
+  .displaypc {
+    display: none;
+  }
+
+  .displaysp {
+    display: block;
   }
 }
 

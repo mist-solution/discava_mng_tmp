@@ -6,7 +6,7 @@
   <v-row class="pt-5 align-center">
     <!-- 一括操作-実行ボタン -->
     <v-col
-      class="d-flex white-background align-center"
+      class="displayflexpc white-background align-center"
       cols="4"
       align="center"
     >
@@ -25,7 +25,6 @@
     <!-- searchフォーム -->
     <v-col cols="3" class="d-flex">
       <form>
-        <button icon="mdi-magnify"></button>
         <input
           class="searchform"
           type="search"
@@ -33,6 +32,7 @@
           aria-label="Search"
           maxlength="30"
         />
+        <v-icon class="green-icon mr-3" @click="edit(item)">mdi-magnify</v-icon>
       </form>
     </v-col>
 
@@ -44,7 +44,7 @@
     </v-col>
 
     <!-- ページャー -->
-    <v-col cols="3" class="d-flex">
+    <v-col cols="3" class="displayflexpc">
       <v-container class="max-width">
         <v-pagination
           v-model="page"
@@ -58,6 +58,22 @@
   <!-- アカウント一覧 -->
   <v-card>
     <v-card-text>
+    <v-col
+      class="displayflexsp white-background align-center justify-content-start"
+      cols="12"
+      align="center"
+    >
+      <input type="checkbox">
+        <v-select
+          dense
+          :items="items"
+          label="Solo field"
+          solo
+        ></v-select>
+        <v-btn class="green-btn mx-2">
+        実行
+      </v-btn>
+    </v-col>
       <end-user-list-table />
     </v-card-text>
   </v-card>
@@ -91,4 +107,38 @@ export default {
 .white-background {
   background: #FFF;
 }
+
+@media (min-width: 600px){
+  .displayflexpc {
+    display: flex;
+  }
+
+  .displayflexsp {
+    display: none;
+  }
+
+  .displaysp {
+    display: none;
+  }
+}
+
+@media (max-width: 600px){
+  .displayflexpc {
+    display: none;
+  }
+
+  .displaypc {
+    display: none;
+  }
+
+  .displaysp {
+    display: block;
+  }
+
+  .displayflexsp {
+    display: flex;
+  }
+}
+
+
 </style>

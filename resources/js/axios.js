@@ -2,10 +2,10 @@ import axios from "axios"
 
 const storeAxios = axios.create({
     baseURL: process.env.MIX_APP_API_BASE_URL,
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    responseType: 'json',
+//    headers: {
+//        'Content-Type': 'application/json'
+//    },
+//    responseType: 'json',
     timeout: 30000
 })
 

@@ -20,6 +20,7 @@
     "moment": "^2.29.4",
     "node-notifier": "^10.0.1",
     "roboto-fontface": "*",
+    "vue-ctk-date-time-picker": "^3.0.0-alpha.0",
     "vue-router": "^4.0.12",
     "vue3-easy-data-table": "^1.5.20",
     "vuetify": "^3.0.3",

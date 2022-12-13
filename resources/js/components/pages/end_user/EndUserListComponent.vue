@@ -3,24 +3,9 @@
     name = "アカウント一覧"
   />
   <!-- タブ部分 -->
-  <v-row class="pt-5 align-center">
+  <v-row class="pt-5 align-center justify-end">
     <!-- 一括操作-実行ボタン -->
-    <v-col
-      class="d-flex white-background align-center"
-      cols="4"
-      align="center"
-    >
-      <input type="checkbox">
-        <v-select
-          dense
-          :items="items"
-          label="Solo field"
-          solo
-        ></v-select>
-        <v-btn class="green-btn mx-2">
-        実行
-      </v-btn>
-    </v-col>
+
 
     <!-- searchフォーム -->
     <v-col cols="3" class="d-flex">
@@ -56,10 +41,25 @@
   </v-row>
 
   <!-- アカウント一覧 -->
-  <v-card>
-    <v-card-text>
+  <v-card class="ac-list main-cont">
+    <v-col
+      class="d-flex align-center main-cont"
+      cols="4"
+      align="center"
+    >
+      <input type="checkbox">
+        <v-select
+          dense
+          :items="items"
+          label="Solo field"
+          solo
+        ></v-select>
+        <v-btn class="green-btn mx-2">
+        実行
+      </v-btn>
+    </v-col>
       <end-user-list-table />
-    </v-card-text>
+
   </v-card>
 </template>
 
@@ -79,6 +79,15 @@ export default {
 
 <!-- 固有CSS -->
 <style scoped>
+.ac-list{
+  position:relative;
+  overflow: visible;
+}
+.ac-list > .main-cont{
+  position:absolute;
+  bottom:99%;
+  background-color: #fff;
+}
 .searchform {
   border: 10px;
   background-color: #FFF;

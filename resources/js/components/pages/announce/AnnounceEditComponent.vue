@@ -11,6 +11,7 @@
                 v-model="announce.title"
                 :rules="[rules.required]"
                 hide-details="false"
+                class="mb-5"
               />
 
               <QuillEditor
@@ -33,18 +34,10 @@
               <v-col cols="3" class="pr-0 pb-0">
                 <p class="mb-0">開始</p>
               </v-col>
-              <v-col cols="9" class="pl-0 pb-0">
-                <DatePicker
-                  v-model="announce.start_date"
-                  placeholder="掲載開始日"
-                  :format="format"
-                  :enableTimePicker="false"
-                  :required="true"
-                  selectText="確認"
-                  cancelText="キャンセル"
-                />
+              <v-col cols="9" class="pl-0 pb-0" id="app">
+                <vue-ctk-date-time-picker label="日時を選択" v-model="value"></vue-ctk-date-time-picker>
               </v-col>
-              <v-col cols="11" class="mt-2 p-0 Date-time">
+              <!-- <v-col cols="11" class="mt-2 p-0 Date-time">
                 <v-row  align="center" class="justify-end m-0">
                   <v-col cols="3" class="p-0">
                     <v-text-field
@@ -65,27 +58,17 @@
                     <p>分</p>
                   </v-col>
                 </v-row>
-              </v-col>
+              </v-col> -->
             </v-row>
             <v-row align="center">
                 <v-col cols="3" class="pr-0">
                   <p class="mb-0">終了</p>
                 </v-col>
                 <v-col cols="9" class="pl-0">
-
-                <DatePicker
-                  v-model="announce.end_date"
-                  placeholder="掲載終了日"
-                  :format="format"
-                  :enableTimePicker="false"
-                  :required="false"
-                  selectText="確認"
-                  cancelText="キャンセル"
-                />
+                  <vue-ctk-date-time-picker label="日時を選択" v-model="value"></vue-ctk-date-time-picker>
               </v-col>
             </v-row>
           <p class="mt-4 mb-1 font-weight-bold">カテゴリー</p>
-
               <v-select
                 dense
                 v-model="announce.announce_category_id"
@@ -99,13 +82,16 @@
           <p class="mt-4 mb-1 font-weight-bold">サムネイル画像</p>
 
             <div class="samb-box">
-
+              <v-file-input
+                v-model="image"
+                >
+              </v-file-input>
             </div>
 
 
           <v-row mb="2" justify="end">
             <button class="btn btn-success mr-2" @click="getQuillEditorContent()">プレビュー</button>
-            <button class="btn btn-success mr-2" @click="submit">更新</button>
+            <button class="green-btn btn mr-2" @click="submit">更新</button>
           </v-row>
         </v-card>
       </v-form>
@@ -120,40 +106,27 @@
 </template>
 <style src="../css/common.css"></style>
 <style scoped>
-  .art-flex{
+
+  .main-cont{
+    overflow:visible !important;
+  }
+.art-flex{
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
     row-gap:16px;
-  }
-  .art-flex .main-cont:nth-child(1){
-    width:78%;
-  }
-  .art-flex .main-cont:nth-child(2){
-    width:20%;
-    min-width: 180px;
   }
   .art-flex p{
     font-size:.85rem;
     margin:0;
   }
 
-  @media (max-width: 1090.99px){
-    .art-flex .main-cont:nth-child(1){
-        width:95%;
-      }
-      .art-flex .main-cont:nth-child(2){
-        width:20%;
-        min-width: 180px;
-      }
+.art-flex .main-cont:nth-child(1){
+    width:95%;
   }
-  @media (max-width: 599.99px){
-    .art-flex .main-cont:nth-child(1){
-        width:95%;
-      }
-      .art-flex .main-cont:nth-child(2){
-        width:95%;
-      }
+  .art-flex .main-cont:nth-child(2){
+    width:95%;
+    max-width: 400px;
   }
   .samb-box{
     aspect-ratio: 16 / 9;
@@ -166,11 +139,29 @@
   .Date-time .v-input--density-default .v-field--variant-filled {
     --v-input-control-height: 24px;
   }
+  
   .Date-time p{
     text-align: center;
   }
+  .btn-success{
+    background:#fff;
+    color:#69A5AF;
+    border:solid 3px #69A5AF;
+    }
+    .btn-success:hover{
+    opacity: .8;
+    background:#fff;
+    color:#69A5AF;
+    border:solid 3px #69A5AF;
+    }
+
+  .ql-editor,.ql-toolbar{
+    border-radius: 5px;
+  }
 </style>
 <script>
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import { mapGetters, mapActions } from "vuex";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
@@ -182,6 +173,7 @@ export default {
   components: {
     QuillEditor,
     DatePicker,
+    'vue-ctk-date-time-picker': VueCtkDateTimePicker,
   },
   props: {
     announceId: String,
@@ -190,10 +182,12 @@ export default {
     return {
       contents: null,
       start_date: null,
+      value: null,
       announce: {},
       rules: {
         required: value => !!value || '必須です。',
       },
+      image: [],
     };
   },
   methods: {
@@ -273,6 +267,7 @@ export default {
     this.fetchCategories();
   },
 };
+
 </script>
 
 <style lang="scss">

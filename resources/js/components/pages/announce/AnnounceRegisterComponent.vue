@@ -26,13 +26,6 @@
               v-model="announce.thumbnail_file"
               label="サムネイル"
             />
-            {{announce.thumbnail_file}}
-          </v-col>
-          <v-col>
-            <v-btn
-              block
-              @click="click"
-            />
           </v-col>
         </v-row>
         <v-row>

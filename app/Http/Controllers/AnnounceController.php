@@ -131,7 +131,9 @@ class AnnounceController extends Controller
         $regist->save();
 
         if ($thumbnail) {
+            Log::info('サムネイル アップロード');
             $path =  $uploadFile['file_alias'] = Storage::putFile('announce/'.$regist['shop_id']."/".$regist['id']."/thumbnail", $thumbnail);
+            Log::info($path);
             $regist['thumbnail_img_path'] = $path;
             $regist->save();
         }

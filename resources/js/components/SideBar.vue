@@ -113,6 +113,7 @@ export default {
       drawer: true,
       rail: false,
       company_name: '',
+      shopSelection: null,
     };
   },
   methods: {
@@ -163,10 +164,12 @@ export default {
           return this.customer.company_name;
         }
       }
-    }
+    },
   },
   async mounted() {
     console.log("sidebar mounted.");
+  },
+  async beforeMount() {
     let shopselect = await this.getShopSelection();
     this.shopSelection = shopselect;
   },

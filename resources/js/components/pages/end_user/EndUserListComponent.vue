@@ -17,6 +17,7 @@
           placeholder="test"
           aria-label="Search"
           maxlength="30"
+          hide-details="false"
         />
       </form>
     </v-col>

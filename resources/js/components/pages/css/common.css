@@ -109,3 +109,6 @@
 .ql-editor,.ql-toolbar{
     border-radius: 5px;
   }
+.v-input__details{
+    display: none;
+}

@@ -122,7 +122,7 @@ html.wf-active {
         共通コンポーネント 設定
 ==================================== */
 /* 文字色設定 */
-$green: #69a4af;
+$green: #69A5AF;
 
 /* card body修正 Begin*/
 .card_modify {
@@ -185,7 +185,8 @@ $green: #69a4af;
 
         &:hover {
             color: white !important;
-            background-color: #579daa !important;
+            // background-color: #579daa !important;
+            background-color: $green !important;
         }
 
         &:active {
@@ -290,6 +291,37 @@ $green: #69a4af;
     &_text {
         font-size: 14px;
         color: #707070;
+    }
+
+    &_btnBackToLogin {
+        margin-bottom: 2rem;
+        padding: 0.4rem 0.5rem !important;
+    }
+
+    &_link {
+        text-decoration: none;
+        font-size: 14px;
+        color: $green;
+        font-weight: 500;
+
+        &:hover {
+            color: #579daa;
+        }
+    }
+}
+
+/* ================================ * /
+    パスワードリセット送信完了(sendmail.balde.php)
+==================================== */
+.sendmail {
+    &_subTitle {
+        font-size: 14px;
+        color: #707070;
+    }
+
+    &_komeNotice {
+        padding-left: 1.5rem;
+        text-indent: -0.79rem;
     }
 
     &_btnBackToLogin {

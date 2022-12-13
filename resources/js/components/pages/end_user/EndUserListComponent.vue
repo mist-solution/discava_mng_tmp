@@ -5,8 +5,45 @@
   <!-- タブ部分 -->
   <v-row class="pt-5 align-center justify-end">
     <!-- 一括操作-実行ボタン -->
+
+
+    <!-- searchフォーム -->
+    <v-col cols="3" class="d-flex">
+      <form>
+        <button icon="mdi-magnify"></button>
+        <input
+          class="searchform"
+          type="search"
+          placeholder="test"
+          aria-label="Search"
+          maxlength="30"
+        />
+      </form>
+    </v-col>
+
+    <!-- 件数表示 -->
+    <v-col cols="2" class="d-flex justify-center">
+      <p>全16件</p>
+      <p class="white-background">10</p>
+      <p>件表示</p>
+    </v-col>
+
+    <!-- ページャー -->
+    <v-col cols="3" class="d-flex">
+      <v-container class="max-width">
+        <v-pagination
+          v-model="page"
+          class="my-4"
+          :length="15"
+        ></v-pagination>
+      </v-container>
+    </v-col>
+  </v-row>
+
+  <!-- アカウント一覧 -->
+  <v-card class="ac-list main-cont">
     <v-col
-      class="d-flex white-background align-center"
+      class="d-flex align-center main-cont"
       cols="4"
       align="center"
     >
@@ -21,43 +58,6 @@
         実行
       </v-btn>
     </v-col>
-
-    <!-- searchフォーム -->
-    <v-col cols="3" class="d-flex">
-      <form>
-        <input
-          class="searchform"
-          type="search"
-          placeholder="test"
-          aria-label="Search"
-          maxlength="30"
-        />
-        <v-icon class="green-icon mr-3" @click="edit(item)">mdi-magnify</v-icon>
-      </form>
-    </v-col>
-
-    <!-- 件数表示 -->
-    <v-col cols="2" class="d-flex justify-center">
-      <p>全16件</p>
-      <p class="white-background">10</p>
-      <p>件表示</p>
-    </v-col>
-
-    <!-- ページャー -->
-    <v-col cols="3" class="displayflexpc">
-      <v-container class="max-width">
-        <v-pagination
-          v-model="page"
-          class="my-4"
-          :length="15"
-        ></v-pagination>
-      </v-container>
-    </v-col>
-  </v-row>
-
-  <!-- アカウント一覧 -->
-  <v-card>
-    <v-card-text>
       <end-user-list-table />
 
   </v-card>
@@ -100,38 +100,4 @@ export default {
 .white-background {
   background: #FFF;
 }
-
-@media (min-width: 600px){
-  .displayflexpc {
-    display: flex;
-  }
-
-  .displayflexsp {
-    display: none;
-  }
-
-  .displaysp {
-    display: none;
-  }
-}
-
-@media (max-width: 600px){
-  .displayflexpc {
-    display: none;
-  }
-
-  .displaypc {
-    display: none;
-  }
-
-  .displaysp {
-    display: block;
-  }
-
-  .displayflexsp {
-    display: flex;
-  }
-}
-
-
 </style>

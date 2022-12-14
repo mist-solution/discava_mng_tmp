@@ -20,6 +20,7 @@ class Shop extends Model
         'building_name',
         'tel',
         'fax',
+        'webapi_token',
         'add_account',
         'upd_account',
         'del_flg',

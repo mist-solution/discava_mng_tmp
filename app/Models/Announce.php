@@ -19,6 +19,7 @@ class Announce extends Model
         'end_date',
         'title',
         'thumbnail_img_path',
+        'thumbnail_img_filename',
         'contents',
         'approval_status',
         'approval_account',

@@ -25,6 +25,7 @@ class CreateShopsTable extends Migration
             $table->string('building_name', 512)->nullable()->comment('建物名');
             $table->string('tel', 20)->comment('電話番号');
             $table->string('fax', 20)->nullable()->comment('FAX番号');
+            $table->string('webapi_token', 128)->comment('WebAPIトークン');
             // レコード更新情報
             $table->unsignedBigInteger('add_account')->comment('登録アカウント');
             $table->unsignedBigInteger('upd_account')->comment('更新アカウント');

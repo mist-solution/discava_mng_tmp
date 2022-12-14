@@ -8,6 +8,9 @@ use App\Http\Controllers\API\ShopUserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AnnounceController;
 use App\Http\Controllers\AnnounceCategoryController;
+use App\Http\Controllers\WebAPI\AnnounceDetailContoller;
+use App\Http\Controllers\WebAPI\AnnounceImageController;
+use App\Http\Controllers\WebAPI\AnnounceListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +54,10 @@ Route::delete('/api/announce/{announce}', 'AnnounceController@deleteAnnounce');
 Route::post('/api/announce', [AnnounceController::class, 'register']);
 Route::put('/api/announce/{id}/update', [AnnounceController::class, 'update']);
 Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
+
+//------------------------------------------------
+// WebAPI関連
+//------------------------------------------------
+Route::post('webapi/announce/list', [AnnounceListController::class, 'post']);
+Route::post('webapi/announce/detail/{id}', [AnnounceDetailContoller::class, 'post']);
+Route::post('webapi/announce/image/{id}', [AnnounceImageController::class, 'post']);

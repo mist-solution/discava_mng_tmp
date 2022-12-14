@@ -1,8 +1,9 @@
 import axios from "../axios"
 
 const state = {
-    users: null
- }
+    users: null,
+    deleteUserId: "",
+}
 const getters = {
     getUsers: (state) => {
         return state.users;
@@ -17,17 +18,23 @@ const getters = {
             return null;
         }
     }
-};
+}
 const actions = {
     fetchUsers(context) {
         axios.get('/api/enduser').then((res) => {
             context.commit('setUsers', res.data.users);
         })
     },
+    setDeleteUserId(context, deleteUserId) {
+        context.commit('setDeleteUserId', deleteUserId);
+    },
 }
 const mutations = {
     setUsers(state, users) {
         state.users = users;
+    },
+    setDeleteUserId(state, deleteUserId) {
+        state.deleteUserId = deleteUserId;
     },
 }
 

@@ -138,7 +138,7 @@ export default {
     edit(user) {
       this.$router.push({
         name: 'enduser.update',
-        params: {user_id: user['id']}
+        params: { userId: user.id }
       });
     },
 

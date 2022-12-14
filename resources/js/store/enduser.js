@@ -8,16 +8,16 @@ const getters = {
     getUsers: (state) => {
         return state.users;
     },
-    getUserById: (state) => (id) => {
-        const user = state.users.find((user) => {
-            return user.id == id
-        });
-        if (user) {
-            return user;
-        } else {
-            return null;
-        }
-    }
+//    getUserById: (state) => (id) => {
+//        const user = state.users.find((user) => {
+//            return user.id == id
+//        });
+//        if (user) {
+//            return user;
+//        } else {
+//            return null;
+//        }
+//    }
 }
 const actions = {
     fetchUsers(context) {
@@ -27,6 +27,10 @@ const actions = {
     },
     setDeleteUserId(context, deleteUserId) {
         context.commit('setDeleteUserId', deleteUserId);
+    },
+    async getUserById(context, id) {
+        const res = await axios.get('/api/enduser/' + id);
+        return res.data;
     },
 }
 const mutations = {

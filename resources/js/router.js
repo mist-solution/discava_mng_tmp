@@ -102,7 +102,7 @@ const routes = [
     },
     // ユーザ更新画面
     {
-        path: '/enduser/:user_id',
+        path: '/enduser/:userId',
         name: 'enduser.update',
         component: EndUserUpdateComponent,
         props: true

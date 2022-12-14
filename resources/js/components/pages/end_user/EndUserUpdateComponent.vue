@@ -97,6 +97,9 @@
 import { mapActions, mapGetters } from "vuex";
 import TitleComponent from "../../common/TitleComponent.vue"
 export default {
+  props: {
+    userId: String,
+  },
   data() {
     return {
       valid: true,
@@ -129,7 +132,7 @@ export default {
         TitleComponent
       },
   methods: {
-    ...mapActions('enduser', ['fetchUsers']),
+    ...mapActions('enduser', ['getUserById']),
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
     submit() {
       const validateRes = this.$refs.form.validate();
@@ -148,19 +151,21 @@ export default {
             });
       });
     },
-    getUser: function() {
-      const user_id = this.$route.params.user_id;
-      const user = this.getUserById(user_id);
-      this.forms.id = user.id;
-      this.forms.name = user.name;
-      this.forms.email = user.email;
-    },
+//    getUser: function() {
+//      const user_id = this.$route.params.user_id;
+//      const user = this.getUserById(user_id);
+//      this.forms.id = user.id;
+//      this.forms.name = user.name;
+//      this.forms.email = user.email;
+//    },
   },
-  computed: {
-    ...mapGetters('enduser', ['getUserById']),
-  },
-  mounted() {
-    this.getUser();
+//  computed: {
+//    ...mapGetters('enduser', ['getUserById']),
+//  },
+  async mounted() {
+//    this.getUser();
+    this.forms = await this.getUserById(this.userId);
+console.log(this.userId);
   },
 }
 </script>

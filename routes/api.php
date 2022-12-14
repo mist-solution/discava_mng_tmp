@@ -40,6 +40,7 @@ Route::get('/api/shopselect', [ShopUserController::class, 'getLoginUserShopSelec
 Route::get('/api/customer', [CustomerController::class, 'index']);
 Route::get('/api/customerSession', [CustomerController::class, 'getCompanyBySession']);
 Route::get('/api/enduser', [UserController::class, 'index']);
+Route::get('/api/enduser/{id}', [UserController::class, 'showUser']);
 Route::post('/api/enduser', [UserController::class, 'register']);
 Route::put('/api/enduser/{id}', [UserController::class, 'update']);
 Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);

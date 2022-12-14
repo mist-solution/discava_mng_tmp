@@ -42,6 +42,24 @@ class UserController extends Controller
         return $response;
     }
 
+    public function showUser(Request $request, $id)
+    {
+        $value = User::where('customer_id', Auth::user()->customer_id)
+            ->where('id', $id)
+            ->where('del_flg', '0')
+            ->first();
+
+        $user = array();
+        $user['id'] = $value->id;
+        $user['name'] = $value->name;
+        $user['email'] = $value->email;
+        $user['customer_id'] = $value->customer_id;
+        $user['created_at'] = $value->created_at;
+        $user['updated_at'] = $value->updated_at;
+
+        return $user;
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *

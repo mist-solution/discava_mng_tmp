@@ -55,8 +55,10 @@ Route::get('email/verify', 'Auth\VerificationController@show')->name('verificati
 Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
 Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 // パスワードリセット完了
+//   /resources/views/auth/passwords/complete.blade.php
 Route::get('password/complete', 'Auth\CompletePasswordController@showCompleteForm')->name('password.complete');
 // パスワードリセットメール送信完了
+//   /resources/views/auth/passwords/sendmail.blade.php
 Route::get('password/sendmail', 'Auth\SendMailController@showSendmailForm')->name('password.sendmail');
 
 // それ以外

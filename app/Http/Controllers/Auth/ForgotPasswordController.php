@@ -19,4 +19,14 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
+    /**
+     * Where to redirect users after sent mail.
+     *
+     * @var string
+     */
+    public function sendResetLinkResponse()
+    {
+        return view('auth.passwords.sendmail');
+    }
 }

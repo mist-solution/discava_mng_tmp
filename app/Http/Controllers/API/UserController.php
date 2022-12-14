@@ -39,7 +39,7 @@ class UserController extends Controller
         }
         $response['users'] = $userArrays;
         $response['message'] = 'success';
-        return new JsonResponse($response);
+        return $response;
     }
 
     /**

@@ -135,10 +135,11 @@ export default {
           sortable: false,
         },
         { text: 'ユーザ名', value: 'name' },
-        { text: 'メールアドレス', value: 'email' },
+//        { text: 'メールアドレス', value: 'email' },
         { text: '登録日時', value: 'created_at' },
         { text: '更新日時', value: 'updated_at' },
         { text: '編集/削除', value: 'id' },
+      ],
     };
   },
   methods: {

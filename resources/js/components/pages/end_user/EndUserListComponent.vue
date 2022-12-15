@@ -86,7 +86,7 @@ export default {
 }
 .ac-list > .main-cont{
   position:absolute;
-  bottom:99%;
+  bottom:100%;
   background-color: #fff;
 }
 .searchform {

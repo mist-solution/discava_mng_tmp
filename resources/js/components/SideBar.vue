@@ -6,16 +6,18 @@
   >
 
     <v-container>
-      <v-row>
-        <v-col align="center">
-          DISCaVa MATE
-        </v-col>
-      </v-row>
+      <div v-if="!rail">
+        <v-row>
+          <v-col align="center">
+            DISCaVa MATE
+          </v-col>
+        </v-row>
+      </div>
 
       <v-row>
         <v-col align="center">
           <v-img
-            src="/images/icon_user_beige.png"
+            src="/images/user-icon/kkrn_icon_user_11.png"
             max-height="96"
             max-width="96"
             contain>
@@ -23,15 +25,18 @@
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col align="center">
-        {{ companyName }}
-        </v-col>
-      </v-row>
+      <div v-if="!rail">
+        <v-row>
+          <v-col align="center">
+          {{ companyName }}
+          </v-col>
+        </v-row>
+      </div>
     </v-container>
 
     <v-select
       dense
+      outlined
       v-model="shopSelection"
       :items="usershops"
       item-value="shop_id"

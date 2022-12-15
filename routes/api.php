@@ -8,6 +8,9 @@ use App\Http\Controllers\API\ShopUserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AnnounceController;
 use App\Http\Controllers\AnnounceCategoryController;
+use App\Http\Controllers\WebAPI\AnnounceDetailContoller;
+use App\Http\Controllers\WebAPI\AnnounceImageController;
+use App\Http\Controllers\WebAPI\AnnounceListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +40,7 @@ Route::get('/api/shopselect', [ShopUserController::class, 'getLoginUserShopSelec
 Route::get('/api/customer', [CustomerController::class, 'index']);
 Route::get('/api/customerSession', [CustomerController::class, 'getCompanyBySession']);
 Route::get('/api/enduser', [UserController::class, 'index']);
+Route::get('/api/enduser/{id}', [UserController::class, 'showUser']);
 Route::post('/api/enduser', [UserController::class, 'register']);
 Route::put('/api/enduser/{id}', [UserController::class, 'update']);
 Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
@@ -51,3 +55,10 @@ Route::delete('/api/announce/{announce}', 'AnnounceController@deleteAnnounce');
 Route::post('/api/announce', [AnnounceController::class, 'register']);
 Route::put('/api/announce/{id}/update', [AnnounceController::class, 'update']);
 Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
+
+//------------------------------------------------
+// WebAPI関連
+//------------------------------------------------
+Route::post('webapi/announce/list', [AnnounceListController::class, 'post']);
+Route::post('webapi/announce/detail/{id}', [AnnounceDetailContoller::class, 'post']);
+Route::post('webapi/announce/image/{id}', [AnnounceImageController::class, 'post']);

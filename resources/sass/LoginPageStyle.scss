@@ -14,6 +14,12 @@
     }
 }
 
+// @mixin tab-yoko {
+//     @media (orientation: landscape) and (max-width: 1199px) {
+//         @content;
+//     }
+// }
+
 @mixin mobile {
     @media (min-width: 280px) and (max-width: 600px) {
         @content;
@@ -148,6 +154,19 @@ $green: #69A5AF;
     /* 背景色 */
     &_bg {
         background-color: #f7f7f7;
+    }
+
+    /* card-Ml */
+    &_cardMl {
+        margin-left: 3rem;
+
+        @include tab {
+            margin-left: 2rem;
+        }
+
+        @include mobile {
+            margin-left: 1rem;
+        }
     }
 
     /* card-body フォマート */

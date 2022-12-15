@@ -104,6 +104,7 @@ html.wf-active {
 .discavaMate {
   /* 共通タイトル（DISCaVa MATE） */
   /* 背景色 */
+  /* card-Ml */
   /* card-body フォマート */
   /* テキストボックス */
 }
@@ -119,6 +120,19 @@ html.wf-active {
 .discavaMate_bg {
   background-color: #f7f7f7;
 }
+.discavaMate_cardMl {
+  margin-left: 3rem;
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  .discavaMate_cardMl {
+    margin-left: 2rem;
+  }
+}
+@media (min-width: 280px) and (max-width: 600px) {
+  .discavaMate_cardMl {
+    margin-left: 1rem;
+  }
+}
 .discavaMate_cardBody {
   border-width: 0px !important;
   box-shadow: 0 3px 4px #ededed;
@@ -131,7 +145,7 @@ html.wf-active {
 
 /* ボタン（グリーン） */
 .btn_green {
-  background-color: #69a4af;
+  background-color: #69A5AF;
   color: white !important;
   font-weight: 600;
   padding: 0.4rem 2.5rem;
@@ -142,15 +156,15 @@ html.wf-active {
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
-  border-color: #69a4af;
-  box-shadow: 0 3px 4px #69a4af;
+  border-color: #69A5AF;
+  box-shadow: 0 3px 4px #69A5AF;
 }
 .btn_green:hover {
   color: white !important;
-  background-color: #579daa !important;
+  background-color: #69A5AF !important;
 }
 .btn_green:active {
-  border-color: #69a4af !important;
+  border-color: #69A5AF !important;
 }
 
 /* ================================ * /
@@ -162,7 +176,7 @@ html.wf-active {
 .login_link {
   text-decoration: none;
   font-size: 14px;
-  color: #69a4af;
+  color: #69A5AF;
   font-weight: 500;
 }
 .login_link:hover {
@@ -190,7 +204,7 @@ html.wf-active {
 .email_link {
   text-decoration: none;
   font-size: 14px;
-  color: #69a4af;
+  color: #69A5AF;
   font-weight: 500;
 }
 .email_link:hover {
@@ -213,7 +227,7 @@ html.wf-active {
 .reset_link {
   text-decoration: none;
   font-size: 14px;
-  color: #69a4af;
+  color: #69A5AF;
   font-weight: 500;
 }
 .reset_link:hover {
@@ -240,7 +254,7 @@ html.wf-active {
 .complete_link {
   text-decoration: none;
   font-size: 14px;
-  color: #69a4af;
+  color: #69A5AF;
   font-weight: 500;
 }
 .complete_link:hover {
@@ -265,7 +279,7 @@ html.wf-active {
 .sendmail_link {
   text-decoration: none;
   font-size: 14px;
-  color: #69a4af;
+  color: #69A5AF;
   font-weight: 500;
 }
 .sendmail_link:hover {

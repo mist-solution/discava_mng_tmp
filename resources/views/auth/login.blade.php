@@ -3,8 +3,8 @@
 @section('content')
 <div class="container">
     <div class=" body__gap--control"></div>
-    <div class="row justify-content-center align-items-center">
-        <div class="col-sm-8 col-lg-4 col-10">
+    <div class="row col-11 discavaMate_cardMl justify-content-center align-items-center">
+        <div class="col-sm-8 col-lg-4 col-12">
             <div class="card card_modify">
                 <!-- <div class="card-header">{{ __('DISCaVa MATE') }}</div> -->
                 <div class="card-body discavaMate_cardBody">
@@ -75,10 +75,9 @@
                             </a>
                             @endif
                         </div>
+                    </form>
                 </div>
-                </form>
             </div>
         </div>
     </div>
-</div>
-@endsection
+    @endsection

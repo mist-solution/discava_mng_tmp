@@ -1,8 +1,6 @@
 <template>
   <back-to-top-component />
 
-  <v-row>
-    <v-col>
       <EasyDataTable
         v-model:items-selected="selected"
         :headers="headers"
@@ -36,8 +34,6 @@
           />
         </template>
 -->
-    </v-col>
-  </v-row>
 
   <!-- 削除モーダル -->
 <!--

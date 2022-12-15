@@ -6,7 +6,7 @@
   >
 
     <v-container>
-      <div v-if="!rail">
+      <div v-if="!rail" class="logo">
         <v-row>
           <v-col align="center">
             DISCaVa MATE
@@ -33,16 +33,18 @@
         </v-row>
       </div>
     </v-container>
-
+    <div class="shopsel">
     <v-select
       dense
-      outlined
+      solo
       v-model="shopSelection"
       :items="usershops"
       item-value="shop_id"
       item-title="shop_name"
       @update:modelValue="onShopSelectionChange"
     ></v-select>
+    </div>
+
 
     <v-list nav dense>
 
@@ -182,3 +184,15 @@ export default {
   },
 };
 </script>
+
+<!-- 共通CSS -->
+<style src="../components/pages/css/sidebar.css"></style>
+
+<!-- 固有CSS -->
+<style scoped>
+
+.logo{
+  font-weight:  900;
+}
+
+</style>

@@ -14,7 +14,6 @@
       お知らせがありません。
     </v-col>
   </v-row> -->
-
   <v-row>
     <v-col>
       <EasyDataTable
@@ -45,10 +44,31 @@
         <template #item-updated_at="item">
           {{ timestampFormat(item.updated_at) }}
         </template>
-        <template #item-approval_status="item">
-          {{ approvalStatusFormat(item.approval_status) }}
+        <template #item-approval_status>
+          <!-- {{ approvalStatusFormat(item.approval_status) }} -->
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                class="statusbutton"
+                dark
+                dense
+                v-bind="attrs"
+                v-on="on"
+              >
+                編集<v-icon class="ml-2">mdi-square-edit-outline</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(approval, index) in approvalStatusArray"
+                :key="index"
+              >
+                <v-list-item-title>{{ approval.status }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </template>
-     </EasyDataTable>
+      </EasyDataTable>
     </v-col>
   </v-row>
 
@@ -443,7 +463,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+/* 編集ボタン既存クラス上書き */
+.statusbutton {
+  padding: 0 8px !important;
+  --v-btn-height: 26px !important;
+  background-color: #69A5AF;
+  color: #FFF;
+}
+
 .customize-table {
   /* 表の罫線 */
   --easy-table-row-border: none;

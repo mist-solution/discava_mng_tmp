@@ -21,6 +21,10 @@
         v-model:items-selected="selected"
         :headers="headers"
         :items="news"
+        table-class-name="customize-table"
+        :theme-color="themeColor"
+        alternating
+        buttons-pagination
         dense
       >
         <template #loading>
@@ -44,7 +48,7 @@
         <template #item-approval_status="item">
           {{ approvalStatusFormat(item.approval_status) }}
         </template>
-      </EasyDataTable>
+     </EasyDataTable>
     </v-col>
   </v-row>
 
@@ -156,9 +160,9 @@
     :closeAction="closeAction"
     :deleteAnnounce="deleteAnnounce"
   />
-  <v-row class="mt-3">
+  <!-- <v-row class="mt-3">
     <news-list-table-pagination />
-  </v-row>
+  </v-row> -->
 </template>
 
 <script>
@@ -195,7 +199,7 @@ export default {
         { text: '投稿日', value: 'created_at' },
         { text: '最終更新', value: 'updated_at' },
         { text: '投稿者', value: 'add_account.name' },
-        { text: '承認ステータス', value: 'approval_status' },
+        { text: 'ステータス', value: 'approval_status' },
         {
           text: '',
           sortable: false,
@@ -216,6 +220,7 @@ export default {
       listItems: [],
       menuDeleteAnnounce: [],
       select: [],
+      themeColor: "#69A5AF"
     };
   },
   computed: {
@@ -437,3 +442,16 @@ export default {
   },
 };
 </script>
+
+<style>
+.customize-table {
+  /* 表の罫線 */
+  --easy-table-row-border: none;
+
+  /* 表の背景色 */
+  --easy-table-header-background-color: #F7F7F7;
+
+  /* 表ヘッダー背景色 */
+  --easy-table-header-background-color: #
+}
+</style>

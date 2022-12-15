@@ -170,8 +170,6 @@ import NewsListTablePagination from "./NewsListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { mergeProps } from "vue";
 import NewsDeleteConfirmModalComponent from "./NewsDeleteConfirmModalComponent.vue";
-import { usePagination } from "use-vue3-easy-data-table";
-import type { UsePaginationReturn } from "use-vue3-easy-data-table";
 
 export default {
   components: {

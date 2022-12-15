@@ -4,11 +4,10 @@
 <div class="container">
     <div class="body__gap--control"></div>
     <div class="row col-11 discavaMate_cardMl justify-content-center align-items-center">
-        <div class="col-sm-8 col-lg-4 col-12">
+        <div class="col-sm-8 col-lg-5 col-12">
             <div class="card card_modify">
-                <!-- <div class="card-header">{{ __('パスワードリセット') }}</div> -->
                 <div class="card-body discavaMate_cardBody">
-                    <div class="col-md-10 offset-md-1">
+                    <div class="offset-md-2">
                         <div class="discavaMate_title font--fammily__AN">{{ __('DISCaVa MATE') }}</div>
                     </div>
                     @if (session('status'))
@@ -20,11 +19,11 @@
                     <form method="POST" action="{{ route('password.email') }}">
                         @csrf
                         <div class="form-group row mb-3">
-                            <div class="col-md-10 offset-md-1 email_subTitle">
+                            <div class="col-md-8 offset-md-2 email_subTitle">
                                 ご登録いただいているメールアドレスを入力してください。<br>
                                 パスワード再設定ページのURLをお送りします。
                             </div>
-                            <div class="col-md-10 offset-md-1">
+                            <div class="col-md-8 offset-md-2">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror discavaMate_textInput" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">

@@ -4,23 +4,23 @@
 <div class="container">
     <div class="body__gap--control"></div>
     <div class="row col-11 discavaMate_cardMl justify-content-center align-items-center">
-        <div class="col-sm-8 col-lg-4 col-12">
+        <div class="col-sm-8 col-lg-5 col-12">
             <div class="card card_modify">
                 <div class="card-body discavaMate_cardBody">
-                    <div class="col-md-10 offset-md-1">
+                    <div class="offset-md-2">
                         <div class="discavaMate_title font--fammily__AN">{{ __('DISCaVa MATE') }}</div>
                     </div>
                     @csrf
                     <div class="form-group row mb-3">
-                        <div class="col-md-10 offset-md-1 sendmail_subTitle">
+                        <div class="col-md-8 offset-md-2 sendmail_subTitle">
                             ご登録のメールアドレスへ、パスワード再設定用のメールをお送りしました。<br>
                             メールの本文中に記載されているURLをクリックしてパスワードの再設定を行なってください。<br>
                             <br>
                         </div>
-                        <div class="col-md-10 offset-md-1 sendmail_subTitle sendmail_komeNotice">
+                        <div class="col-md-8 offset-md-2 sendmail_subTitle sendmail_komeNotice">
                             ※再設定用URLの有効期限は60分です。
                         </div>
-                        <div class="col-md-10 offset-md-1 sendmail_subTitle sendmail_komeNotice">
+                        <div class="col-md-8 offset-md-2 sendmail_subTitle sendmail_komeNotice">
                             ※メールが届かない場合は、迷惑メールフォルダ等に入っていないかご確認ください。
                         </div>
                     </div>

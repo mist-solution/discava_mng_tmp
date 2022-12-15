@@ -4,18 +4,18 @@
 <div class="container">
     <div class="body__gap--control"></div>
     <div class="row col-11 discavaMate_cardMl justify-content-center align-items-center">
-        <div class="col-sm-8 col-lg-4 col-12">
+        <div class="col-sm-8 col-lg-5 col-12">
             <div class="card card_modify">
                 <div class="card-body discavaMate_cardBody">
-                    <div class="col-md-10 offset-md-1">
+                    <div class="offset-md-2">
                         <div class="discavaMate_title font--fammily__AN">{{ __('DISCaVa MATE') }}</div>
                     </div>
                     @csrf
                     <div class="form-group row mb-3">
-                        <div class="col-md-10 offset-md-1 complete_subTitle">
+                        <div class="col-md-8 offset-md-2 complete_subTitle">
                             パスワード設定完了
                         </div>
-                        <div class="col-md-10 offset-md-1 complete_text">
+                        <div class="col-md-8 offset-md-2 complete_text">
                             新しいパスワードの設定が完了しました。<br>
                             下記のボタンよりログインしてください。
                         </div>

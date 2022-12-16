@@ -32,59 +32,81 @@
           </v-col>
         </v-row>
       </div>
+      <div v-if="rail">
+        <v-row>
+          <v-col align="center">
+          {{ shopSelection.shop_name }}
+          </v-col>
+        </v-row>
+      </div>
     </v-container>
     <div class="shopsel">
-    <v-select
-      dense
-      solo
-      v-model="shopSelection"
-      :items="usershops"
-      item-value="shop_id"
-      item-title="shop_name"
-      @update:modelValue="onShopSelectionChange"
-    ></v-select>
+      <div v-if="!rail" class="shopsel_max">
+        <v-select
+          dense
+          solo
+          v-model="shopSelection"
+          :items="usershops"
+          item-value="shop_id"
+          item-title="shop_name"
+          @update:modelValue="onShopSelectionChange"
+        ></v-select>
+      </div>
+      <div v-if="rail" class="shopsel_min">
+        <v-select
+          dense
+          solo
+          :items="usershops"
+          item-value="shop_id"
+          item-title="shop_name"
+          @update:modelValue="onShopSelectionChange"
+        ></v-select>
+      </div>
     </div>
 
+    <div class="sidebar_list">
+      <v-list nav dense>
 
-    <v-list nav dense>
+        <div v-for="item in items" :key="item.id">
 
-      <div v-for="item in items" :key="item.id">
-
-        <v-list-group
-          v-if="item.group"
-          :value="item.title"
-        >
-          <template v-slot:activator="{ props }">
+          <v-list-group
+            v-if="item.group"
+            :value="item.title"
+          >
+            <template v-slot:activator="{ props }">
+              <v-list-item
+                tile
+                v-bind="props"
+                :prepend-icon="item.icon"
+                :title="item.title"
+                :disabled="item.disabled"
+                color="blue lighten-5"
+              ></v-list-item>
+            </template>
             <v-list-item
               tile
-              v-bind="props"
-              :prepend-icon="item.icon"
-              :title="item.title"
-              :disabled="item.disabled"
+              v-for="submenu in item.submenus"
+              :key="submenu.id"
+              :title="submenu.title"
+              link
+              :to="{ name: submenu.linkTo }"
+              :disabled="submenu.disabled"
             ></v-list-item>
-          </template>
+          </v-list-group>
+
           <v-list-item
             tile
-            v-for="submenu in item.submenus"
-            :key="submenu.id"
-            :title="submenu.title"
+            v-else
+            :prepend-icon="item.icon"
+            :title="item.title"
             link
-            :to="{ name: submenu.linkTo }"
-            :disabled="submenu.disabled"
+            :to="{ name: item.linkTo }"
+            :disabled="item.disabled"
+            color="blue lighten-5"
           ></v-list-item>
-        </v-list-group>
-
-        <v-list-item
-          tile
-          v-else
-          :prepend-icon="item.icon"
-          :title="item.title"
-          link
-          :to="{ name: item.linkTo }"
-          :disabled="item.disabled"
-        ></v-list-item>
-      </div>
-    </v-list>
+        </div>
+      </v-list>
+    </div>
 
     <v-btn
       variant="text"

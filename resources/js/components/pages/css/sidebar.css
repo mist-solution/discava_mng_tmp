@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 
-.v-field--no-label{
+.shopsel_max .v-field--no-label{
     border-radius: 40px !important;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
     max-width: 54%;
@@ -10,8 +10,61 @@
     margin-right: auto;
 }
 
-.v-field--no-label .v-field__overlay{
+.shopsel_max .v-field--no-label .v-field__overlay{
     background-color: white;
     max-height: 70%;
     
+}
+
+.shopsel_max .v-field--variant-filled .v-field__outline::before{
+    border-style: none !important;
+}
+
+.shopsel_max .v-field--variant-filled .v-field__outline::after{
+    border-style: none !important;
+}
+
+.shopsel_min .v-field--no-label{
+    border-radius: 100px !important;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+    max-width: 54%;
+    max-height: 54%;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.shopsel_min .v-field--no-label .v-field__overlay{
+    background-color: white;
+    max-height: 70%;
+    
+}
+
+.shopsel_min .v-field--variant-filled .v-field__outline::before{
+    border-style: none !important;
+}
+
+.shopsel_min .v-field--variant-filled .v-field__outline::after{
+    border-style: none !important;
+}
+
+.shopsel_min .v-input .v-input__control .v-field .v-field__append-inner .v-icon{
+    height: 0em !important;
+}
+
+.sidebar_list .v-list .v-icon{
+    width: 35px !important;
+}
+
+.sidebar_list .v-list-item--disabled{
+    color: gray !important;
+}
+
+.sidebar_list .v-list--nav{
+    padding-inline-start: 0px !important;
+    padding-inline-end: 0px !important;
+}
+
+.sidebar_list .v-list .v-list-item--rounded{
+    border-radius: 0px !important;
 }

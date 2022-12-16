@@ -28,17 +28,6 @@
       <p class="white-background">10</p>
       <p>件表示</p>
     </v-col>
-
-    <!-- ページャー -->
-    <v-col cols="3" class="d-flex">
-      <v-container class="max-width">
-        <v-pagination
-          v-model="page"
-          class="my-4"
-          :length="15"
-        ></v-pagination>
-      </v-container>
-    </v-col>
   </v-row>
 
   <!-- アカウント一覧 -->

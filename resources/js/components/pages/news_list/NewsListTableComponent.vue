@@ -14,6 +14,7 @@
       お知らせがありません。
     </v-col>
   </v-row> -->
+
   <v-row>
     <v-col>
       <EasyDataTable
@@ -55,7 +56,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                編集<v-icon class="ml-2">mdi-square-edit-outline</v-icon>
+                編集<v-icon class="ml-1">mdi-square-edit-outline</v-icon>
               </v-btn>
             </template>
             <v-list>
@@ -463,6 +464,10 @@ export default {
 };
 </script>
 
+<!-- 共通CSS -->
+<style src="../css/common.css"></style>
+<style src="../css/list.css"></style>
+
 <style scoped>
 /* 編集ボタン既存クラス上書き */
 .statusbutton {
@@ -479,7 +484,10 @@ export default {
   /* 表の背景色 */
   --easy-table-header-background-color: #F7F7F7;
 
-  /* 表ヘッダー背景色 */
-  --easy-table-header-background-color: #
+  /* フッターのpadding追加 */
+  --easy-table-footer-padding: 1.5rem;
+
+  /* フッターフォントサイズ */
+  --easy-table-footer-font-size: 14px;
 }
 </style>

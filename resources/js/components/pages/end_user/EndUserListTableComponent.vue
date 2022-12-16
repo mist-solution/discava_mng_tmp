@@ -1,10 +1,12 @@
 <template>
   <back-to-top-component />
-
       <EasyDataTable
         v-model:items-selected="selected"
         :headers="headers"
         :items="users"
+        :theme-color="themeColor"
+        alternating
+        buttons-pagination
         dense
       >
 <!--
@@ -75,6 +77,7 @@ export default {
       displayNewsDeleteConfirm: false,
       menuDeleteAnnounce: [],
       select: [],
+      themeColor: "#69A5AF"
     };
   },
   computed: {
@@ -148,13 +151,13 @@ export default {
 
 <!-- 共通CSS -->
 <style src="../css/common.css"></style>
+<style src="../css/list.css"></style>
 
 <!-- 固有CSS -->
 <style scoped>
 .green-icon {
   color: #69A5AF;
 }
-
 .accounttable td {
         background: #F7F7F7;
 }
@@ -162,41 +165,18 @@ export default {
         background: #fff;
 }
 
-/* vue3-data-tableで罫線固定しているためimportantで指定 */
-.accounttable tr.th,td {
-  border: none !important;
-}
+.customize-table {
+  /* 表の罫線 */
+  --easy-table-row-border: none;
 
-.accordionsp {
-}
+  /* 表の背景色 */
+  --easy-table-header-background-color: #F7F7F7;
 
-.accordionsp > div {
-}
+  /* フッターのpadding追加 */
+  --easy-table-footer-padding: 1.5rem;
 
-
-@media (min-width: 600px){
-  .displaysp {
-    display: none;
-  }
-}
-
-@media (max-width: 600px){
-  .accounttable th {
-    background: #FFF;
-    border-bottom: 1px solid #F7F7F7 !important;
-  }
-
-  .accounttable td {
-        background: #FFF;
-  }
-
-  .displaypc {
-    display: none;
-  }
-
-  .displaysp {
-    display: block;
-  }
+  /* フッターフォントサイズ */
+  --easy-table-footer-font-size: 14px;
 }
 
 </style>

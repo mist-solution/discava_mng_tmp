@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+/* 一件あたりの表示件数を表示しない */
+.pagination__rows-per-page {
+    display: none !important;
+}

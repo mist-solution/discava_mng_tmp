@@ -118,6 +118,12 @@ html.wf-active {
   margin-left: 3px;
   -webkit-text-stroke: 1px #707070;
 }
+@media (min-width: 280px) and (max-width: 600px) {
+  .discavaMate_title {
+    font-size: 25px;
+    margin-bottom: 2rem;
+  }
+}
 .discavaMate_bg {
   background-color: #f7f7f7;
 }
@@ -182,12 +188,6 @@ html.wf-active {
 }
 .login_link:hover {
   color: #579daa;
-}
-.login_errorMsg {
-  font-size: 12px !important;
-  position: relative;
-  top: -5rem;
-  margin-top: -1.5rem;
 }
 
 /* ================================ * /
@@ -284,5 +284,88 @@ html.wf-active {
   font-weight: 500;
 }
 .sendmail_link:hover {
+  color: #579daa;
+}
+
+/* ================================ * /
+    アカウントロック(lock.balde.php)
+==================================== */
+.lock_alertBorder {
+  border: 1px solid #c60100;
+  border-radius: 10px;
+  padding: 1rem 0.4rem;
+}
+.lock_alertIcon {
+  font-size: 28px;
+  color: #c60100;
+  display: inline-flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+.lock_errorIcon {
+  width: 16%;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  display: inline-flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  .lock_errorIcon {
+    margin-left: -1rem;
+  }
+}
+@media (min-width: 280px) and (max-width: 600px) {
+  .lock_errorIcon {
+    width: 16%;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+}
+.lock_title {
+  font-size: 12px;
+  color: #c60100;
+  font-weight: 900;
+  margin-left: 0.5rem;
+  -webkit-text-stroke: 0.4px #c60100;
+  display: inline-flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  .lock_title {
+    margin-right: -2.5rem;
+  }
+}
+@media (min-width: 280px) and (max-width: 600px) {
+  .lock_title {
+    font-size: 11px;
+  }
+}
+.lock_subTitle {
+  font-size: 14px;
+  color: #707070;
+  margin-top: 0.8rem;
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  .lock_subTitle {
+    margin-top: 0.5rem;
+  }
+}
+.lock_btnSubmit {
+  margin-bottom: 2rem;
+  padding: 0.4rem 0.5rem !important;
+  width: 170px;
+}
+.lock_link {
+  text-decoration: none;
+  font-size: 14px;
+  color: #69A5AF;
+  font-weight: 500;
+}
+.lock_link:hover {
   color: #579daa;
 }/*# sourceMappingURL=LoginPageStyle.css.map */

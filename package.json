@@ -22,7 +22,7 @@
     "roboto-fontface": "*",
     "vue-ctk-date-time-picker": "^3.0.0-alpha.0",
     "vue-router": "^4.0.12",
-    "vue3-easy-data-table": "^1.5.20",
+    "vue3-easy-data-table": "^1.5.23",
     "vuetify": "^3.0.3",
     "vuex": "^4.0.2",
     "webfontloader": "^1.0.0"

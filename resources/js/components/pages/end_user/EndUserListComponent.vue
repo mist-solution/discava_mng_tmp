@@ -1,4 +1,5 @@
 <template>
+  <v-container class="max-cont">
   <title-component
     name = "アカウント一覧"
   />
@@ -51,6 +52,7 @@
       <end-user-list-table />
 
   </v-card>
+  </v-container>
 </template>
 
 <script>

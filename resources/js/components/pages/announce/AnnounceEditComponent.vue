@@ -1,164 +1,152 @@
 
 <template>
-    <div>
-      <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5">投稿者　の投稿記事を編集</h3>
-    </div>
-      <v-form ref="form" v-model="valid" class="art-flex">
-        <v-card class="main-cont p-3">
+  <div>
+    <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5">投稿者　の投稿記事を編集</h3>
+  </div>
+    <v-form ref="form" v-model="valid" class="art-flex">
+      <v-card class="main-cont p-3">
 
-              <v-text-field
-                dense
-                v-model="announce.title"
-                :rules="[rules.required]"
-                hide-details="false"
-                class="mb-5"
+            <v-text-field
+              dense
+              v-model="announce.title"
+              :rules="[rules.required]"
+              hide-details="false"
+            />
+
+            <QuillEditor
+              toolbar="full"
+              class="ql-editor"
+              v-model="contents"
+              ref="myQuillEditor"
+              :options="editorOption"
+              :rules="[rules.required]"
+              @blur="onEditorBlur($event)"
+              @focus="onEditorFocus($event)"
+              @change="onEditorChange($event)"
+            >
+            </QuillEditor>
+
+      </v-card>
+      <v-card class="main-cont mt-5 mt-sm-0 p-3">
+        <p class="mb-1 font-weight-bold">掲載期間</p>
+          <v-row align="center" class="mb-3">
+            <v-col cols="3" class="pr-0 pb-0">
+              <p class="mb-0">開始</p>
+            </v-col>
+            <v-col cols="9" class="pl-0 pb-0">
+              <DatePicker
+                v-model="announce.start_date"
+                placeholder="掲載開始日"
+                :format="format"
+                :enableTimePicker="false"
+                :required="true"
+                selectText="確認"
+                cancelText="キャンセル"
               />
-
-              <QuillEditor
-                toolbar="full"
-                class="ql-editor"
-                v-model="contents"
-                ref="myQuillEditor"
-                :options="editorOption"
-                :rules="[rules.required]"
-                @blur="onEditorBlur($event)"
-                @focus="onEditorFocus($event)"
-                @change="onEditorChange($event)"
-              >
-              </QuillEditor>
-
-        </v-card>
-        <v-card class="main-cont mt-5 mt-sm-0 p-3">
-          <p class="mb-1 font-weight-bold">掲載期間</p>
-            <v-row align="center" class="mb-3 justify-end">
-              <v-col cols="3" class="pr-0 pb-0">
-                <p class="mb-0">開始</p>
-              </v-col>
-              <v-col cols="9" class="pl-0 pb-0" id="app">
-                <vue-ctk-date-time-picker label="日時を選択" v-model="value"></vue-ctk-date-time-picker>
-              </v-col>
-              <!-- <v-col cols="11" class="mt-2 p-0 Date-time">
-                <v-row  align="center" class="justify-end m-0">
-                  <v-col cols="3" class="p-0">
-                    <v-text-field
-                        dense
-                        hide-details="false"
-                    />
-                  </v-col>
-                  <v-col cols="2" class="p-0">
-                    <p>時</p>
-                  </v-col>
-                  <v-col cols="3" class="p-0">
-                    <v-text-field
-                        dense
-                        hide-details="false"
-                    />
-                  </v-col>
-                  <v-col cols="2" class="p-0">
-                    <p>分</p>
-                  </v-col>
-                </v-row>
-              </v-col> -->
-            </v-row>
-            <v-row align="center">
-                <v-col cols="3" class="pr-0">
-                  <p class="mb-0">終了</p>
+            </v-col>
+            <v-col cols="12" class="mt-2 p-0 Date-time">
+              <v-row  align="center" class="m-0 time-pick">
+                <v-col cols="3" class="p-0"></v-col>
+                <v-col cols="2" class="p-0">
+                  <v-text-field
+                      dense
+                      hide-details="false"
+                  />
                 </v-col>
-                <v-col cols="9" class="pl-0">
-                  <vue-ctk-date-time-picker label="日時を選択" v-model="value"></vue-ctk-date-time-picker>
-              </v-col>
-            </v-row>
-          <p class="mt-4 mb-1 font-weight-bold">カテゴリー</p>
-              <v-select
-                dense
-                v-model="announce.announce_category_id"
-                :items="categories"
-                item-value="id"
-                item-title="category_name"
-                :rules="[rules.required]"
-                class="cat-tag"
-                hide-details="false"
-              />
-          <p class="mt-4 mb-1 font-weight-bold">サムネイル画像</p>
-
-            <div class="samb-box">
-              <v-file-input
-                v-model="image"
-                >
-              </v-file-input>
-            </div>
-
-
-          <v-row mb="2" justify="end">
-            <button class="btn btn-success mr-2" @click="getQuillEditorContent()">プレビュー</button>
-            <button class="green-btn btn mr-2" @click="submit">更新</button>
+                <v-col cols="2" class="p-0">
+                  <p>時</p>
+                </v-col>
+                <v-col cols="2" class="p-0">
+                  <v-text-field
+                      dense
+                      hide-details="false"
+                  />
+                </v-col>
+                <v-col cols="2" class="p-0">
+                  <p>分</p>
+                </v-col>
+              </v-row>
+            </v-col>
           </v-row>
-        </v-card>
-      </v-form>
-      <div class="ql-container">
-        <p>---お知らせ詳細---</p>
-        <div
-          class="ql-editor"
-          v-html="contents"
-          @change="getQuillEditorContent()"
-        ></div>
-      </div>
+          <v-row align="center" class="mb-3">
+              <v-col cols="3" class="pr-0 pb-0">
+                <p class="mb-0">終了</p>
+              </v-col>
+              <v-col cols="9" class="pl-0 pb-0">
+
+              <DatePicker
+                v-model="announce.end_date"
+                placeholder="掲載終了日"
+                :format="format"
+                :enableTimePicker="false"
+                :required="false"
+                selectText="確認"
+                cancelText="キャンセル"
+              />
+            </v-col>
+            <v-col cols="12" class="mt-2 p-0 Date-time">
+              <v-row  align="center" class="m-0 time-pick">
+                <v-col cols="3" class="p-0"></v-col>
+                <v-col cols="2" class="p-0">
+                  <v-text-field
+                      dense
+                      hide-details="false"
+                  />
+                </v-col>
+                <v-col cols="2" class="p-0">
+                  <p>時</p>
+                </v-col>
+                <v-col cols="2" class="p-0">
+                  <v-text-field
+                      dense
+                      hide-details="false"
+                  />
+                </v-col>
+                <v-col cols="2" class="p-0">
+                  <p>分</p>
+                </v-col>
+              </v-row>
+            </v-col>
+
+          </v-row>
+        <p class="mt-4 mb-1 font-weight-bold">カテゴリー</p>
+
+            <v-select
+              dense
+              v-model="announce.announce_category_id"
+              :items="categories"
+              item-value="id"
+              item-title="category_name"
+              :rules="[rules.required]"
+              class="cat-tag"
+              hide-details="false"
+            />
+        <p class="mt-4 mb-1 font-weight-bold">サムネイル画像</p>
+
+          <div class="samb-box">
+            <v-input-file></v-input-file>
+          </div>
+
+
+        <v-row mb="2" justify="end">
+          <button class="btn btn-success mr-2" @click="getQuillEditorContent()">プレビュー</button>
+          <button class="btn btn-success mr-2" @click="submit">更新</button>
+        </v-row>
+      </v-card>
+    </v-form>
+    <div class="ql-container">
+      <p>---お知らせ詳細---</p>
+      <div
+        class="ql-editor"
+        v-html="contents"
+        @change="getQuillEditorContent()"
+      ></div>
+    </div>
 </template>
 <style src="../css/common.css"></style>
 <style scoped>
-
-  .main-cont{
-    overflow:visible !important;
-  }
-.art-flex{
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    row-gap:16px;
-  }
-  .art-flex p{
-    font-size:.85rem;
-    margin:0;
-  }
-
-.art-flex .main-cont:nth-child(1){
-    width:95%;
-  }
-  .art-flex .main-cont:nth-child(2){
-    width:95%;
-    max-width: 400px;
-  }
-  .samb-box{
-    aspect-ratio: 16 / 9;
-    width:100%;
-  }
-  .Date-time .v-input{
-    border:solid 1px rgba(0,0,0,0.6);
-    border-radius: 7px;
-  }
-  .Date-time .v-input--density-default .v-field--variant-filled {
-    --v-input-control-height: 24px;
-  }
-  
-  .Date-time p{
-    text-align: center;
-  }
-  .btn-success{
-    background:#fff;
-    color:#69A5AF;
-    border:solid 3px #69A5AF;
-    }
-    .btn-success:hover{
-    opacity: .8;
-    background:#fff;
-    color:#69A5AF;
-    border:solid 3px #69A5AF;
-    }
-
-  .ql-editor,.ql-toolbar{
-    border-radius: 5px;
-  }
 </style>
+
 <script>
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';

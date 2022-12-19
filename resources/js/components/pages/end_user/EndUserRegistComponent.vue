@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pt-0">
+  <v-container class="pt-0 max-cont">
     <div>
       <title-component
         name = "アカウント登録"

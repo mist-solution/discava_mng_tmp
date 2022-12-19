@@ -1,5 +1,5 @@
 <template>
-  <div class="v-container pt-0">
+  <div class="max-cont pt-0">
             <div>
               <title-component
                 name = "アカウント更新"

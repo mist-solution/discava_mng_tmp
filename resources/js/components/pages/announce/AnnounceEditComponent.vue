@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5">投稿者　の投稿記事を編集</h3>
+    <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5 ml-5">投稿者　の投稿記事を編集</h3>
   </div>
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">
@@ -124,13 +124,16 @@
         <p class="mt-4 mb-1 font-weight-bold">サムネイル画像</p>
 
           <div class="samb-box">
-            <v-input-file></v-input-file>
+            <v-file-input
+              multiple
+              label="File input"
+            ></v-file-input>
           </div>
 
 
         <v-row mb="2" justify="end">
-          <button class="btn btn-success mr-2" @click="getQuillEditorContent()">プレビュー</button>
-          <button class="btn btn-success mr-2" @click="submit">更新</button>
+          <button class="btn green-btn mr-2" @click="getQuillEditorContent()">プレビュー</button>
+          <button class="btn green-btn mr-2" @click="submit">保存</button>
         </v-row>
       </v-card>
     </v-form>

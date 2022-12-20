@@ -18,7 +18,7 @@ class AuthoritiesTableSeeder extends Seeder
         // 管理者
         //----------------------------------------
         Authority::create([
-            'authority_id' => '1',        // 管理者
+            'authority_set_id' => '1',        // 管理者
             'mate_function_id' => '1',    // 投稿管理
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -32,7 +32,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '1',        // 管理者
+            'authority_set_id' => '1',        // 管理者
             'mate_function_id' => '2',    // ギャラリー管理
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -46,7 +46,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '1',        // 管理者
+            'authority_set_id' => '1',        // 管理者
             'mate_function_id' => '3',    // アクセス情報
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -60,7 +60,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '1',        // 管理者
+            'authority_set_id' => '1',        // 管理者
             'mate_function_id' => '4',    // アカウント管理
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -74,7 +74,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '1',        // 管理者
+            'authority_set_id' => '1',        // 管理者
             'mate_function_id' => '5',    // 契約情報
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -88,7 +88,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '1',        // 管理者
+            'authority_set_id' => '1',        // 管理者
             'mate_function_id' => '6',    // サイト更新依頼
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -102,7 +102,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '1',        // 管理者
+            'authority_set_id' => '1',        // 管理者
             'mate_function_id' => '7',    // WEBサイトへ
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -120,7 +120,7 @@ class AuthoritiesTableSeeder extends Seeder
         // 一般
         //----------------------------------------
         Authority::create([
-            'authority_id' => '2',        // 一般
+            'authority_set_id' => '2',        // 一般
             'mate_function_id' => '1',    // 投稿管理
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -134,7 +134,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '2',        // 一般
+            'authority_set_id' => '2',        // 一般
             'mate_function_id' => '2',    // ギャラリー管理
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -148,7 +148,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '2',        // 一般
+            'authority_set_id' => '2',        // 一般
             'mate_function_id' => '3',    // アクセス情報
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -162,7 +162,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '2',        // 一般
+            'authority_set_id' => '2',        // 一般
             'mate_function_id' => '4',    // アカウント管理
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -176,7 +176,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '2',        // 一般
+            'authority_set_id' => '2',        // 一般
             'mate_function_id' => '5',    // 契約情報
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -190,7 +190,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '2',        // 一般
+            'authority_set_id' => '2',        // 一般
             'mate_function_id' => '6',    // サイト更新依頼
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -204,7 +204,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '2',        // 一般
+            'authority_set_id' => '2',        // 一般
             'mate_function_id' => '7',    // WEBサイトへ
             'function_auth_flg' => '1',
             'create_auth_flg' => '1',
@@ -222,7 +222,7 @@ class AuthoritiesTableSeeder extends Seeder
         // 閲覧
         //----------------------------------------
         Authority::create([
-            'authority_id' => '3',        // 閲覧
+            'authority_set_id' => '3',        // 閲覧
             'mate_function_id' => '1',    // 投稿管理
             'function_auth_flg' => '1',
             'create_auth_flg' => '0',
@@ -236,7 +236,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '3',        // 閲覧
+            'authority_set_id' => '3',        // 閲覧
             'mate_function_id' => '2',    // ギャラリー管理
             'function_auth_flg' => '1',
             'create_auth_flg' => '0',
@@ -250,7 +250,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '3',        // 閲覧
+            'authority_set_id' => '3',        // 閲覧
             'mate_function_id' => '3',    // アクセス情報
             'function_auth_flg' => '1',
             'create_auth_flg' => '0',
@@ -264,7 +264,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '3',        // 閲覧
+            'authority_set_id' => '3',        // 閲覧
             'mate_function_id' => '4',    // アカウント管理
             'function_auth_flg' => '1',
             'create_auth_flg' => '0',
@@ -278,7 +278,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '3',        // 閲覧
+            'authority_set_id' => '3',        // 閲覧
             'mate_function_id' => '5',    // 契約情報
             'function_auth_flg' => '1',
             'create_auth_flg' => '0',
@@ -292,7 +292,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '3',        // 閲覧
+            'authority_set_id' => '3',        // 閲覧
             'mate_function_id' => '6',    // サイト更新依頼
             'function_auth_flg' => '1',
             'create_auth_flg' => '0',
@@ -306,7 +306,7 @@ class AuthoritiesTableSeeder extends Seeder
             'del_flg' => '0',
         ]);
         Authority::create([
-            'authority_id' => '3',        // 閲覧
+            'authority_set_id' => '3',        // 閲覧
             'mate_function_id' => '7',    // WEBサイトへ
             'function_auth_flg' => '1',
             'create_auth_flg' => '0',

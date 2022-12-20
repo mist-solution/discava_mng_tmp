@@ -27,7 +27,7 @@ class AuthoritySetController extends Controller
             $authoritySetArray['name'] = $value->name;
             $authoritySetArrays[] = $authoritySetArray;
         }
-        $response['customers'] = $authoritySetArrays;
+        $response['authoritySets'] = $authoritySetArrays;
         // Log::info('取引先取得');
         // Log::debug(print_r($authoritySetArrays, true));
         $response['message'] = 'success';

@@ -10,8 +10,9 @@ const getters = {
 };
 const actions = {
     async fetchAllAuthoritySet(context, id) {
-        const res = await axios.get('/api/authoritySet/');
-        return res.data;
+        return await axios.get('/api/authoritySet').then((res) => {
+            context.commit('setAuthoritySet', res.data.authoritySets);
+        })
     },
 }
 

@@ -83,7 +83,9 @@
                 </v-col>
                 <v-col cols="10" class="pt-sm-3 shop-sel">
                   <v-select
-                    v-bind:items="authoritySet"
+                    :items="authoritySet"
+                    item-value="id"
+                    item-title="name"
                     hide-details="false"
                   />
                 </v-col>
@@ -96,7 +98,9 @@
                 </v-col>
                 <v-col cols="10" class="pt-sm-3 shop-sel">
                   <v-select
-                    v-bind:items="authoritySet"
+                    :items="authoritySet"
+                    item-value="id"
+                    item-title="name"
                     hide-details="false"
                   />
                 </v-col>
@@ -212,9 +216,9 @@ export default {
       return { icon, type, confIcon, confType }
     }
   },
-  mounted() {
+  async mounted() {
 //    this.getCustomerCodes();
-    this.fetchAllAuthoritySet();
+    await this.fetchAllAuthoritySet();
     this.authoritySet = this.getAuthoritySet;
   },
 }

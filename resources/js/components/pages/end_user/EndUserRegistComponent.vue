@@ -79,11 +79,11 @@
             <v-col cols="12" class="pt-sm-3 pb-0 pb-sm-3">
               <v-row align-sm="center shop-auth">
                 <v-col cols="2" class="pr-0">
-                  <p class="mb-0 pb-0">A店</p>
+                  <p class="mb-0 pb-0">本社</p>
                 </v-col>
                 <v-col cols="10" class="pt-sm-3 shop-sel">
                   <v-select
-                    v-bind:items="authority"
+                    v-bind:items="authoritySet"
                     hide-details="false"
                   />
                 </v-col>
@@ -92,11 +92,11 @@
             <v-col cols="12" class="pt-sm-3 pb-0">
               <v-row align-sm="center shop-auth">
                 <v-col cols="2" class="pr-0">
-                  <p class="mb-0 pb-0">B店</p>
+                  <p class="mb-0 pb-0">高松支店</p>
                 </v-col>
                 <v-col cols="10" class="pt-sm-3 shop-sel">
                   <v-select
-                    v-bind:items="authority"
+                    v-bind:items="authoritySet"
                     hide-details="false"
                   />
                 </v-col>
@@ -160,12 +160,7 @@ export default {
       messages: {
         checkbox: null,
       },
-      authority: [
-        '管理者',
-        '投稿者',
-        '閲覧者',
-        '該当なし'
-      ],
+      authoritySet: [],
     }
   },
   components: {
@@ -174,6 +169,7 @@ export default {
   methods: {
     ...mapActions('enduser', ['fetchUsers']),
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
+    ...mapActions('authoritySet', ['fetchAllAuthoritySet']),
     submit() {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
@@ -207,6 +203,8 @@ export default {
   // 顧客はログインユーザの顧客IDのため不要、一方で店舗一覧を出して権限(店舗ユーザ)を設定したい。
   computed: {
     ...mapGetters('customer', ['getCustomers']),
+    ...mapGetters('authoritySet', ['getCustomers']),
+    ...mapGetters('authoritySet', ['getAuthoritySet']),
     toggle () {
       const icon = this.showPassword ? 'mdi-eye' : 'mdi-eye-off'
       const type = this.showPassword ? 'text' : 'password'
@@ -217,6 +215,8 @@ export default {
   },
   mounted() {
     this.getCustomerCodes();
+    this.fetchAllAuthoritySet();
+    this.authoritySet = this.getAuthoritySet;
   },
 }
 </script>

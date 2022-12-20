@@ -173,7 +173,7 @@ export default {
   methods: {
     ...mapActions('enduser', ['fetchUsers']),
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
-    ...mapActions('authoritySet', ['fetchAllAuthoritySet']),
+    ...mapActions('authoritySet', ['fetchAllAuthoritySetDisplay']),
     submit() {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
@@ -218,7 +218,7 @@ export default {
   },
   async mounted() {
 //    this.getCustomerCodes();
-    await this.fetchAllAuthoritySet();
+    await this.fetchAllAuthoritySetDisplay();
     this.authoritySet = this.getAuthoritySet;
   },
 }

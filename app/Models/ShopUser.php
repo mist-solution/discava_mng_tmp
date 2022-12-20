@@ -15,7 +15,7 @@ class ShopUser extends Model
         'customer_id',
         'shop_id',
         'user_id',
-        'authority_id',
+        'authority_set_id',
         'add_account',
         'upd_account',
         'del_flg',

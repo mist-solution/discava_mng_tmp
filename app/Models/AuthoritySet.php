@@ -13,15 +13,8 @@ class AuthoritySet extends Model
     protected $table = 'authority_sets';
     
     protected $fillable = [
-        'authority_id',
-        'mate_function_id',
-        'function_auth_flg',
-        'create_auth_flg',
-        'read_auth_flg',
-        'update_auth_flg',
-        'delete_auth_flg',
-        'request_auth_flg',
-        'approval_auth_flg',
+        'name',
+        'description',
         'add_account',
         'upd_account',
         'del_flg',

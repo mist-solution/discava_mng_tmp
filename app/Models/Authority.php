@@ -13,8 +13,15 @@ class Authority extends Model
     protected $table = 'authorities';
     
     protected $fillable = [
-        'name',
-        'description',
+        'authority_set_id',
+        'mate_function_id',
+        'function_auth_flg',
+        'create_auth_flg',
+        'read_auth_flg',
+        'update_auth_flg',
+        'delete_auth_flg',
+        'request_auth_flg',
+        'approval_auth_flg',
         'add_account',
         'upd_account',
         'del_flg',

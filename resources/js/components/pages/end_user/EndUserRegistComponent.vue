@@ -207,7 +207,7 @@ export default {
   // 顧客はログインユーザの顧客IDのため不要、一方で店舗一覧を出して権限(店舗ユーザ)を設定したい。
   computed: {
     ...mapGetters('customer', ['getCustomers']),
-    ...mapGetters('authoritySet', ['getAuthoritySet']),
+    ...mapGetters('authoritySet', ['getAuthoritySetDisplay']),
     toggle () {
       const icon = this.showPassword ? 'mdi-eye' : 'mdi-eye-off'
       const type = this.showPassword ? 'text' : 'password'
@@ -219,7 +219,7 @@ export default {
   async mounted() {
 //    this.getCustomerCodes();
     await this.fetchAllAuthoritySetDisplay();
-    this.authoritySet = this.getAuthoritySet;
+    this.authoritySet = this.getAuthoritySetDisplay;
   },
 }
 </script>

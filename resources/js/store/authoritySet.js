@@ -1,12 +1,15 @@
 import axios from "../axios"
 
 const state = {
-    authoritySet: {}
+    authoritySet: {},
     authoritySetDisplay: {}
  }
 const getters = {
     getAuthoritySet: (state) => {
         return state.authoritySet;
+    },
+    getAuthoritySetDisplay: (state) => {
+        return state.authoritySetDisplay;
     },
 };
 const actions = {

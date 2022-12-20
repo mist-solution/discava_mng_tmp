@@ -138,23 +138,29 @@
           </v-col>
           <v-col cols="9" sm="12" class="pt-3 pt-sm-2">
             <div class="samb-box">
-              <v-file-input
-                multiple
-                label="サムネイル"
-                v-model="announce.thumbnail_file"
-              ></v-file-input>
+              <div v-if="!dataUrl">
+                <label for="image" class="samb-none"></label>
+                <input type="file" id="image" accept="image/*" @change="readImage">
+              </div>
+              <div v-else>
+                <div id="image-preview">
+                    <img :src="dataUrl" v-if="dataUrl">
+                </div>
+                <label for="image" class="samb-on"></label>
+                <input type="file" id="image" accept="image/*" @change="readImage">
+              </div>
             </div>
           </v-col>
         </v-row>
 
-          <v-row mb="2" justify="space-between" class="p-1 btn-gap mt-4">
-            <v-col cols="12" sm="7" class="p-0 mb-sm-0 mb-2">
+          <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-4">
+            <v-col cols="11" sm="7" class="p-0 mb-sm-0 mb-2">
               <button class="pr-0 pl-0 btn white-btn" @click="getQuillEditorContent()">プレビュー</button>
             </v-col>
-            <v-col cols="12" sm="4" class="p-0 mb-sm-0 mb-2">
+            <v-col cols="11" sm="4" class="p-0 mb-sm-0 mb-2">
               <button class="btn green-btn pr-0 pl-0" @click="submit">保存</button>
             </v-col>
-            <v-col cols="12" class="pt-sm-3 pt-0 pr-0 pl-0">
+            <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0">
               <button class="btn green-btn" @click="submit">保存して申請</button>
           </v-col>
         </v-row>
@@ -180,6 +186,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
 
 export default {
+  
   components: {
     QuillEditor,
     DatePicker,
@@ -188,6 +195,8 @@ export default {
     return {
       contents: null,
       start_date: null,
+      dataUrl: null,
+      file: null,
       announce: {
         title: null,
         announce_category_id: null,
@@ -250,7 +259,19 @@ export default {
           });
       });
     },
+    readImage() {
+      const inputImage = document.getElementById('image');
+      if (inputImage.files.length === 0) {
+        return;
+      }
 
+      this.file = inputImage.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.dataUrl = e.target.result;
+      }
+      reader.readAsDataURL(this.file);
+    },
     onEditorBlur(editor) {
       console.log("editor blur!", editor);
     },
@@ -290,7 +311,7 @@ export default {
   },
   created() {
     this.fetchCategories();
-  },
+  }
 };
 </script>
 

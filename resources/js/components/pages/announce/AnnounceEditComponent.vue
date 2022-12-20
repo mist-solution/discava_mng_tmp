@@ -138,11 +138,17 @@
           </v-col>
           <v-col cols="9" sm="12" class="pt-3 pt-sm-2">
             <div class="samb-box">
-              <v-file-input
-                multiple
-                label="サムネイル"
-                v-model="announce.thumbnail_file"
-              ></v-file-input>
+              <div v-if="!dataUrl">
+                <label for="image" class="samb-none"></label>
+                <input type="file" id="image" accept="image/*" @change="readImage">
+              </div>
+              <div v-else>
+                <div id="image-preview">
+                    <img :src="dataUrl" v-if="dataUrl">
+                </div>
+                <label for="image" class="samb-on"></label>
+                <input type="file" id="image" accept="image/*" @change="readImage">
+              </div>
             </div>
           </v-col>
         </v-row>
@@ -230,6 +236,8 @@ export default {
       start_date: null,
       value: null,
       announce: {},
+      dataUrl: null,
+      file: null,
       rules: {
         required: value => !!value || '必須です。',
       },
@@ -272,7 +280,19 @@ export default {
           });
       });
     },
+    readImage() {
+      const inputImage = document.getElementById('image');
+      if (inputImage.files.length === 0) {
+        return;
+      }
 
+      this.file = inputImage.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.dataUrl = e.target.result;
+      }
+      reader.readAsDataURL(this.file);
+    },
     onEditorBlur(editor) {
       console.log("editor blur!", editor);
     },

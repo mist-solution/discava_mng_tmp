@@ -200,10 +200,7 @@ margin:0;
         font-size: 1rem !important;
     }
 }
-.samb-box{
-aspect-ratio: 16 / 9;
-width:100%;
-}
+
 .Date-time .v-input{
 border:unset;
 }
@@ -254,4 +251,38 @@ text-align: center;
     .v-main{
         --v-layout-top: 0px !important;
     }
+}
+
+/* サムネ制御 */
+.samb-box{
+    aspect-ratio: 16 / 9; 
+    width:100%;
+}
+.samb-box{
+    position: relative;
+    overflow: hidden;
+}
+.samb-box img {
+    max-width:100%;
+    object-fit: cover;
+}
+.samb-box input[type="file"] {
+    display: none;
+}
+.samb-box div {
+    width:100%;
+    height:100%;
+}
+.samb-box .samb-none{
+    width:100%;
+    height:100%;
+    background:#F7F7F7;
+    text-align: center;
+}
+.samb-box .samb-on{
+    width:100%;
+    height:100%;
+    opacity: 0;
+    position: absolute;
+    top:0;
 }

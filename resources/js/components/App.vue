@@ -1,6 +1,6 @@
 <!-- App.vue -->
 <template>
-  <v-app>
+  <v-app clas="vue-app">
     <side-bar />
     <sp-side-bar />
     <v-main>

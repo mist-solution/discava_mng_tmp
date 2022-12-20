@@ -4,41 +4,15 @@
     name = "アカウント一覧"
   />
   <!-- タブ部分 -->
-  <v-row class="pt-5 align-center justify-end">
+  <v-row class="pt-5 align-center justify-start">
     <!-- 一括操作-実行ボタン -->
-
-
-    <!-- searchフォーム -->
-    <v-col cols="3" class="d-flex">
-      <form>
-        <button icon="mdi-magnify"></button>
-        <input
-          class="searchform"
-          type="search"
-          placeholder="test"
-          aria-label="Search"
-          maxlength="30"
-          hide-details="false"
-        />
-      </form>
-    </v-col>
-
-    <!-- 件数表示 -->
-    <v-col cols="2" class="d-flex justify-center">
-      <p>全16件</p>
-      <p class="white-background">10</p>
-      <p>件表示</p>
-    </v-col>
-  </v-row>
-
-  <!-- アカウント一覧 -->
-  <v-card class="ac-list main-cont">
     <v-col
-      class="d-flex align-center main-cont"
-      cols="4"
+      class="d-flex align-center"
+      sm="5"
+      cols="10"
       align="center"
     >
-      <input type="checkbox">
+      <input type="checkbox" class="mr-5">
         <v-select
           dense
           :items="items"
@@ -49,8 +23,41 @@
         実行
       </v-btn>
     </v-col>
-      <end-user-list-table />
 
+    <!-- searchフォーム -->
+    <v-col
+      sm="4"
+      cols="6"
+      class="d-flex justify-sm-end justify-start"
+    >
+      <form class="searchform-list">
+        <input
+          class="searchform search-box"
+          type="search"
+          placeholder=""
+          aria-label="Search"
+          maxlength="30"
+          hide-details="false"
+        />
+        <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
+      </form>
+    </v-col>
+
+    <!-- 件数表示 -->
+    <v-col
+      sm="3"
+      cols="6"
+      class="usercount-list p-0 justify-sm-center justify-start"
+    >
+      <p class="m-0 px-3">全16件</p>
+      <p class="countnum m-0">10</p>
+      <p class="m-0 px-2">件表示</p>
+    </v-col>
+  </v-row>
+
+  <!-- アカウント一覧 -->
+  <v-card class="ac-list main-cont">
+      <end-user-list-table />
   </v-card>
   </v-container>
 </template>
@@ -91,5 +98,47 @@ export default {
 
 .white-background {
   background: #FFF;
+}
+
+/* 件数表示 */
+.usercount-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.usercount-list > .countnum {
+  background-color: #FFF;
+  padding: 5px 10px;
+}
+
+/* 検索フォーム */
+.searchform-list {
+  position: relative;
+  max-width: 300px;
+}
+
+.searchform-list > .search-box {
+  padding: 10px 30px 10px 8px;
+  border-radius: 8px;
+  width: 180px;
+}
+
+@media (max-width: 599.99px){
+.searchform-list > .search-box{
+    width: 150px;
+  }
+}
+
+
+.searchform-list > .serch-btn {
+  height:50px;
+  position:absolute;
+  top:-2px;
+  background:none;
+  color:#666;
+  border:none;
+  font-size:14px;
+  right: 10px;
 }
 </style>

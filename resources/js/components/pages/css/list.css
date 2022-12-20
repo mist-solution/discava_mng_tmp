@@ -4,3 +4,8 @@
 .pagination__rows-per-page {
     display: none !important;
 }
+
+/* 文字数の黒 */
+.vue3-easy-data-table__body td.direction-left {
+    color: #000 !important;
+}

@@ -28,7 +28,7 @@ class CreateAuthoritySetsTable extends Migration
         });
 
         // テーブルコメント
-        DB::statement("ALTER TABLE `authorities` comment '権限セット'");
+        DB::statement("ALTER TABLE `authority_sets` comment '権限セット'");
     }
 
     /**

@@ -194,16 +194,15 @@ export default {
       this.$refs.form.reset();
 //      this.forms.customer = null;
     },
-    getCustomerCodes: function() {
-      this.customers = this.getCustomers.map(c => {
-        return c.id;
-      });
-    },
+//    getCustomerCodes: function() {
+//      this.customers = this.getCustomers.map(c => {
+//        return c.id;
+//      });
+//    },
   },
   // 顧客はログインユーザの顧客IDのため不要、一方で店舗一覧を出して権限(店舗ユーザ)を設定したい。
   computed: {
     ...mapGetters('customer', ['getCustomers']),
-    ...mapGetters('authoritySet', ['getCustomers']),
     ...mapGetters('authoritySet', ['getAuthoritySet']),
     toggle () {
       const icon = this.showPassword ? 'mdi-eye' : 'mdi-eye-off'
@@ -214,7 +213,7 @@ export default {
     }
   },
   mounted() {
-    this.getCustomerCodes();
+//    this.getCustomerCodes();
     this.fetchAllAuthoritySet();
     this.authoritySet = this.getAuthoritySet;
   },

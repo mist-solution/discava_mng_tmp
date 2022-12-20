@@ -2,6 +2,7 @@
 <template>
   <v-app>
     <side-bar />
+    <sp-side-bar />
     <v-main>
       <header-component />
       <!-- アプリケーションに適切なgutterを提供 -->
@@ -19,6 +20,7 @@
 </template>
 <script>
 import SideBar from "./SideBar.vue";
+import SpSideBar from "./SpSideBar.vue";
 import HeaderComponent from "./HeaderComponent.vue";
 import Snackbar from "./Snackbar.vue";
 export default {
@@ -26,6 +28,7 @@ export default {
     SideBar,
     HeaderComponent,
     Snackbar,
+    SpSideBar
   },
 };
 </script>

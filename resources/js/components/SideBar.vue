@@ -1,110 +1,111 @@
 <template>
-  <v-navigation-drawer
-    v-model="drawer"
-    :rail="rail"
-    permanent
-  >
+  <div class="pc_sidebar">
+    <v-navigation-drawer
+      v-model="drawer"
+      :rail="rail"
+      permanent
+    >
 
-    <v-container>
-      <div v-if="!rail" class="logo">
+      <v-container>
+        <div v-if="!rail" class="logo">
+          <v-row>
+            <v-col align="center">
+              DISCaVa MATE
+            </v-col>
+          </v-row>
+        </div>
+
         <v-row>
           <v-col align="center">
-            DISCaVa MATE
+            <v-img
+              src="/images/user-icon/kkrn_icon_user_11.png"
+              max-height="96"
+              max-width="96"
+              contain>
+            </v-img>
           </v-col>
         </v-row>
+
+        <div v-if="!rail">
+          <v-row>
+            <v-col align="center">
+            {{ companyName }}
+            </v-col>
+          </v-row>
+        </div>
+        <div v-if="rail">
+          <v-row>
+            <v-col align="center">
+            {{ shopSelection.shop_name }}
+            </v-col>
+          </v-row>
+        </div>
+      </v-container>
+      <div class="shopsel">
+        <div v-if="!rail" class="shopsel_max">
+          <v-select
+            dense
+            solo
+            v-model="shopSelection"
+            :items="usershops"
+            item-value="shop_id"
+            item-title="shop_name"
+            @update:modelValue="onShopSelectionChange"
+          ></v-select>
+        </div>
+        <div v-if="rail" class="shopsel_min">
+          <v-select
+            dense
+            solo
+            :items="usershops"
+            item-value="shop_id"
+            item-title="shop_name"
+            @update:modelValue="onShopSelectionChange"
+          ></v-select>
+        </div>
       </div>
 
-      <v-row>
-        <v-col align="center">
-          <v-img
-            src="/images/user-icon/kkrn_icon_user_11.png"
-            max-height="96"
-            max-width="96"
-            contain>
-          </v-img>
-        </v-col>
-      </v-row>
+      <div class="sidebar_list">
+        <v-list nav dense>
 
-      <div v-if="!rail">
-        <v-row>
-          <v-col align="center">
-          {{ companyName }}
-          </v-col>
-        </v-row>
-      </div>
-      <div v-if="rail">
-        <v-row>
-          <v-col align="center">
-          {{ shopSelection.shop_name }}
-          </v-col>
-        </v-row>
-      </div>
-    </v-container>
-    <div class="shopsel">
-      <div v-if="!rail" class="shopsel_max">
-        <v-select
-          dense
-          solo
-          v-model="shopSelection"
-          :items="usershops"
-          item-value="shop_id"
-          item-title="shop_name"
-          @update:modelValue="onShopSelectionChange"
-        ></v-select>
-      </div>
-      <div v-if="rail" class="shopsel_min">
-        <v-select
-          dense
-          solo
-          :items="usershops"
-          item-value="shop_id"
-          item-title="shop_name"
-          @update:modelValue="onShopSelectionChange"
-        ></v-select>
-      </div>
-    </div>
+          <div v-for="item in items" :key="item.id">
 
-    <div class="sidebar_list">
-      <v-list nav dense>
-
-        <div v-for="item in items" :key="item.id">
-
-          <v-list-group
-            v-if="item.group"
-            :value="item.title"
-          >
-            <template v-slot:activator="{ props }">
+            <v-list-group
+              v-if="item.group"
+              :value="item.title"
+            >
+              <template v-slot:activator="{ props }">
+                <v-list-item
+                  tile
+                  v-bind="props"
+                  :prepend-icon="item.icon"
+                  :title="item.title"
+                  :disabled="item.disabled"
+                  color="blue lighten-5"
+                ></v-list-item>
+              </template>
               <v-list-item
                 tile
-                v-bind="props"
-                :prepend-icon="item.icon"
-                :title="item.title"
-                :disabled="item.disabled"
-                color="blue lighten-5"
+                v-for="submenu in item.submenus"
+                :key="submenu.id"
+                :title="submenu.title"
+                link
+                :to="{ name: submenu.linkTo }"
+                :disabled="submenu.disabled"
               ></v-list-item>
-            </template>
+            </v-list-group>
+
             <v-list-item
               tile
-              v-for="submenu in item.submenus"
-              :key="submenu.id"
-              :title="submenu.title"
+              v-else
+              :prepend-icon="item.icon"
+              :title="item.title"
               link
-              :to="{ name: submenu.linkTo }"
-              :disabled="submenu.disabled"
+              :to="{ name: item.linkTo }"
+              :disabled="item.disabled"
+              color="blue lighten-5"
             ></v-list-item>
-          </v-list-group>
-
-          <v-list-item
-            tile
-            v-else
-            :prepend-icon="item.icon"
-            :title="item.title"
-            link
-            :to="{ name: item.linkTo }"
-            :disabled="item.disabled"
-            color="blue lighten-5"
-          ></v-list-item>
-        </div>
+          </div>
       </v-list>
     </div>
 
@@ -114,7 +115,8 @@
       @click.stop="rail = !rail"
     ></v-btn>
 
-  </v-navigation-drawer>
+    </v-navigation-drawer>
+  </div>
 </template>
 
 <script>
@@ -215,6 +217,12 @@ export default {
 
 .logo{
   font-weight:  900;
+}
+
+@media (max-width: 900px){
+    .pc_sidebar{
+        display: none;
+    }
 }
 
 </style>

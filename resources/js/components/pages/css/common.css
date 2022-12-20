@@ -154,3 +154,19 @@ text-align: center;
     height: fit-content !important;
     min-height:250px !important;
 }
+
+@media (max-width: 900px){
+    .v-main{ 
+        --v-layout-left: 0px !important;
+    }
+    .sp_sidebar .v-toolbar{
+        left: 0px !important;
+        width: calc((100% - 0px) - 0px) !important;
+    }
+}
+
+@media (min-width: 901px){
+    .v-main{
+        --v-layout-top: 0px !important;
+    }
+}

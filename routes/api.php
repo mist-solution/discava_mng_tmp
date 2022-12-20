@@ -1,14 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\AuthoritySetController;
 use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\SelectShopController;
 use App\Http\Controllers\API\ShopUserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AnnounceController;
 use App\Http\Controllers\AnnounceCategoryController;
-use App\Http\Controllers\AuthoritySetController;
 use App\Http\Controllers\WebAPI\AnnounceDetailContoller;
 use App\Http\Controllers\WebAPI\AnnounceImageController;
 use App\Http\Controllers\WebAPI\AnnounceListController;

@@ -1,11 +1,28 @@
 <template>
-    <div class="sp_sidebar">
+  <div class="sp_sidebar">
     <v-app-bar
      dark app
      color = "white"
-     height = "54">
-     <input id="navi" type="checkbox" />
-      <label for="navi">
+     :height = header_height>
+     <div v-if="shopSelection" class="company_name">
+        {{companyName}} - {{shopSelection.shop_name}}
+     </div>
+    <v-tab class="shop_choice">
+      <v-img
+        src="/images/user-icon/kkrn_icon_user_11.png"
+        max-height="54"
+        max-width="54"
+        contain>
+      <v-select
+        :items="usershops"
+        item-value="shop_id"
+        item-title="shop_name"
+        @update:modelValue="onShopSelectionChange"
+      ></v-select>
+      </v-img>
+    </v-tab>
+    <input id="navi" type="checkbox" @click="heightchange()"/>
+      <label for="navi" v-bind:class="{'bento-active':header_height == 1000}">
         <div class="dots"></div>
         <div class="dots"></div>
         <div class="dots"></div>
@@ -16,6 +33,48 @@
         <div class="dots"></div>
         <div class="dots"></div>
       </label>
+    <div class="bento_menu" v-bind:class="{'bento_menu_active':header_height == 1000}">
+      <v-list nav dense>
+        <div v-for="item in items" :key="item.id">
+            <v-list-group
+              v-if="item.group"
+              :value="item.title"
+            >
+              <template v-slot:activator="{ props }">
+                <v-list-item
+                  tile
+                  v-bind="props"
+                  :prepend-icon="item.icon"
+                  :title="item.title"
+                  :disabled="item.disabled"
+                  color="blue lighten-5"
+                ></v-list-item>
+              </template>
+              <v-list-item
+                tile
+                v-for="submenu in item.submenus"
+                :key="submenu.id"
+                :title="submenu.title"
+                link
+                :to="{ name: submenu.linkTo }"
+                :disabled="submenu.disabled"
+                @click="heightchange()"
+              ></v-list-item>
+            </v-list-group>
+            <v-list-item
+              tile
+              v-else
+              :prepend-icon="item.icon"
+              :title="item.title"
+              link
+              :to="{ name: item.linkTo }"
+              :disabled="item.disabled"
+              color="blue lighten-5"
+              @click="heightchange()"
+            ></v-list-item>
+          </div>
+      </v-list>
+    </div>
     </v-app-bar>
   </div>
 </template>
@@ -42,10 +101,9 @@ export default {
         { id: 7, title: "WEBサイトへ", icon: "mdi-tab", linkTo: "", disabled: true, group: false, },
       ],
       right: null,
-      drawer: true,
-      rail: false,
       company_name: '',
       shopSelection: null,
+      header_height:"54",
     };
   },
   methods: {
@@ -81,6 +139,15 @@ export default {
           });
       }
     },
+
+    heightchange: function(){
+        console.log(this.header_height)
+      if(this.header_height == "54"){
+        this.header_height = "1000"
+      }else if(this.header_height == "1000"){
+        this.header_height = "54"
+      }
+    }
   },
   computed: {
     ...mapGetters("shopUser", ["shopUsers"]),
@@ -111,43 +178,64 @@ export default {
 </script>
 
 <!-- 共通CSS -->
-<style src="../components/pages/css/sidebar.css"></style>
 
 <style scoped>
+
+.sp_sidebar label .dots:nth-of-type(3n+2) {
+    margin: 0 4px;
+}
+.sp_sidebar label .dots:nth-of-type(2) {
+    transform-origin: top;
+}
+.sp_sidebar label .dots:nth-of-type(4) {
+    transform-origin: left;
+}
+.sp_sidebar label .dots:nth-of-type(6) {
+    transform-origin: right;
+}
+.sp_sidebar label .dots:nth-of-type(8) {
+    transform-origin: bottom;
+}
 
 .sp_sidebar #navi {
     display: none;
 }
-.sp_sidebar #navi:checked ~ label {
+.sp_sidebar label.bento-active {
     transform: rotate(225deg);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(1) {
+.sp_sidebar label.bento-active .dots:nth-of-type(1) {
     filter: opacity(0);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(2) {
+.sp_sidebar label.bento-active .dots:nth-of-type(2) {
     transform: scaleY(4.75);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(3) {
+.sp_sidebar label.bento-active .dots:nth-of-type(3) {
     filter: opacity(0);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(4) {
+.sp_sidebar label.bento-active .dots:nth-of-type(4) {
     transform: scaleX(4.75);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(5) {
+.sp_sidebar label.bento-active .dots:nth-of-type(5) {
     filter: opacity(0);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(6) {
+.sp_sidebar label.bento-active .dots:nth-of-type(6) {
     transform: scaleX(4.75);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(7) {
+.sp_sidebar label.bento-active .dots:nth-of-type(7) {
     filter: opacity(0);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(8) {
+.sp_sidebar label.bento-active .dots:nth-of-type(8) {
     transform: scaleY(4.75);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(9) {
+.sp_sidebar label.bento-active .dots:nth-of-type(9) {
     filter: opacity(0);
 }
+
+.sp_sidebar .bento_menu.bento_menu_active{
+  opacity: 1;
+  visibility: visible;
+}
+
 .sp_sidebar label {
     cursor: pointer;
     position: fixed;
@@ -167,22 +255,6 @@ export default {
     background-color: black;
     transition: .5s;
 }
-.sp_sidebar label .dots:nth-of-type(3n+2) {
-    margin: 0 4px;
-}
-.sp_sidebar label .dots:nth-of-type(2) {
-    transform-origin: top;
-}
-.sp_sidebar label .dots:nth-of-type(4) {
-    transform-origin: left;
-}
-.sp_sidebar label .dots:nth-of-type(6) {
-    transform-origin: right;
-}
-.sp_sidebar label .dots:nth-of-type(8) {
-    transform-origin: bottom;
-}
-
 label {
     cursor: pointer;
     position: fixed;
@@ -196,60 +268,51 @@ label {
     height: 26px;
     transition: .5s;
 }
-label .dots {
-    width: 6px;
-    height: 6px;
-    background-color: black;
-    transition: .5s;
-}
-label .dots:nth-of-type(3n+2) {
-    margin: 0 4px;
-}
-label .dots:nth-of-type(2) {
-    transform-origin: top;
-}
-label .dots:nth-of-type(4) {
-    transform-origin: left;
-}
-label .dots:nth-of-type(6) {
-    transform-origin: right;
-}
-label .dots:nth-of-type(8) {
-    transform-origin: bottom;
+
+
+.sp_sidebar .shop_choice ::before{
+  visibility: hidden;
 }
 
-#navi {
-    display: none;
+.sp_sidebar .v-btn--size-default{
+  padding: 0px !important;
 }
-#navi:checked ~ label {
-    transform: rotate(225deg);
+
+.sp_sidebar .company_name{
+  position: fixed;
+  left: 15px;
 }
-#navi:checked ~ label .dots:nth-of-type(1) {
-    filter: opacity(0);
+
+.sp_sidebar .v-tab{
+  min-width: 0px !important;
 }
-#navi:checked ~ label .dots:nth-of-type(2) {
-    transform: scaleY(4.75);
+
+.sp_sidebar .shop_choice{
+  position: fixed;
+  right: 50px;
 }
-#navi:checked ~ label .dots:nth-of-type(3) {
-    filter: opacity(0);
+
+.bento_menu {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1010;
+  top: 54px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .5s ease-out;
+  will-change: opacity, visibility;
 }
-#navi:checked ~ label .dots:nth-of-type(4) {
-    transform: scaleX(4.75);
-}
-#navi:checked ~ label .dots:nth-of-type(5) {
-    filter: opacity(0);
-}
-#navi:checked ~ label .dots:nth-of-type(6) {
-    transform: scaleX(4.75);
-}
-#navi:checked ~ label .dots:nth-of-type(7) {
-    filter: opacity(0);
-}
-#navi:checked ~ label .dots:nth-of-type(8) {
-    transform: scaleY(4.75);
-}
-#navi:checked ~ label .dots:nth-of-type(9) {
-    filter: opacity(0);
+
+.bento_menu .v-list-item--density-default{
+  min-height: 62px;
 }
 
 @media (min-width: 901px){

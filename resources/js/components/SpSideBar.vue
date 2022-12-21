@@ -13,7 +13,7 @@
         max-height="54"
         max-width="54"
         contain>
-        <v-select
+      <v-select
         :items="usershops"
         item-value="shop_id"
         item-title="shop_name"
@@ -58,6 +58,7 @@
                 link
                 :to="{ name: submenu.linkTo }"
                 :disabled="submenu.disabled"
+                @click="heightchange()"
               ></v-list-item>
             </v-list-group>
             <v-list-item
@@ -69,6 +70,7 @@
               :to="{ name: item.linkTo }"
               :disabled="item.disabled"
               color="blue lighten-5"
+              @click="heightchange()"
             ></v-list-item>
           </div>
       </v-list>
@@ -284,9 +286,13 @@ label {
   left: 15px;
 }
 
+.sp_sidebar .v-tab{
+  min-width: 0px !important;
+}
+
 .sp_sidebar .shop_choice{
   position: fixed;
-  right: 35px;
+  right: 50px;
 }
 
 .bento_menu {
@@ -306,6 +312,10 @@ label {
   visibility: hidden;
   transition: all .5s ease-out;
   will-change: opacity, visibility;
+}
+
+.bento_menu .v-list-item--density-default{
+  min-height: 62px;
 }
 
 @media (min-width: 901px){

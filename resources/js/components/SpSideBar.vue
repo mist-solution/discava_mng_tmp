@@ -22,7 +22,7 @@
       </v-img>
     </v-tab>
     <input id="navi" type="checkbox" @click="heightchange()"/>
-      <label for="navi">
+      <label for="navi" v-bind:class="{'bento-active':header_height == 1000}">
         <div class="dots"></div>
         <div class="dots"></div>
         <div class="dots"></div>
@@ -33,7 +33,7 @@
         <div class="dots"></div>
         <div class="dots"></div>
       </label>
-    <div class="bento_menu">
+    <div class="bento_menu" v-bind:class="{'bento_menu_active':header_height == 1000}">
       <v-list nav dense>
         <div v-for="item in items" :key="item.id">
             <v-list-group
@@ -181,47 +181,59 @@ export default {
 
 <style scoped>
 
+.sp_sidebar label .dots:nth-of-type(3n+2) {
+    margin: 0 4px;
+}
+.sp_sidebar label .dots:nth-of-type(2) {
+    transform-origin: top;
+}
+.sp_sidebar label .dots:nth-of-type(4) {
+    transform-origin: left;
+}
+.sp_sidebar label .dots:nth-of-type(6) {
+    transform-origin: right;
+}
+.sp_sidebar label .dots:nth-of-type(8) {
+    transform-origin: bottom;
+}
+
 .sp_sidebar #navi {
     display: none;
 }
-.sp_sidebar #navi:checked ~ label {
+.sp_sidebar label.bento-active {
     transform: rotate(225deg);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(1) {
+.sp_sidebar label.bento-active .dots:nth-of-type(1) {
     filter: opacity(0);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(2) {
+.sp_sidebar label.bento-active .dots:nth-of-type(2) {
     transform: scaleY(4.75);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(3) {
+.sp_sidebar label.bento-active .dots:nth-of-type(3) {
     filter: opacity(0);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(4) {
+.sp_sidebar label.bento-active .dots:nth-of-type(4) {
     transform: scaleX(4.75);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(5) {
+.sp_sidebar label.bento-active .dots:nth-of-type(5) {
     filter: opacity(0);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(6) {
+.sp_sidebar label.bento-active .dots:nth-of-type(6) {
     transform: scaleX(4.75);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(7) {
+.sp_sidebar label.bento-active .dots:nth-of-type(7) {
     filter: opacity(0);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(8) {
+.sp_sidebar label.bento-active .dots:nth-of-type(8) {
     transform: scaleY(4.75);
 }
-.sp_sidebar #navi:checked ~ label .dots:nth-of-type(9) {
+.sp_sidebar label.bento-active .dots:nth-of-type(9) {
     filter: opacity(0);
 }
 
-.sp_sidebar #navi:checked ~ .bento_menu{
+.sp_sidebar .bento_menu.bento_menu_active{
   opacity: 1;
   visibility: visible;
-}
-
-.sp_sidebar #navi:checked ~ .v-toolbar__content{
-  height: 1000px !important;
 }
 
 .sp_sidebar label {
@@ -255,21 +267,6 @@ label {
     width: 26px;
     height: 26px;
     transition: .5s;
-}
-.sp_sidebar label .dots:nth-of-type(3n+2) {
-    margin: 0 4px;
-}
-.sp_sidebar label .dots:nth-of-type(2) {
-    transform-origin: top;
-}
-.sp_sidebar label .dots:nth-of-type(4) {
-    transform-origin: left;
-}
-.sp_sidebar label .dots:nth-of-type(6) {
-    transform-origin: right;
-}
-.sp_sidebar label .dots:nth-of-type(8) {
-    transform-origin: bottom;
 }
 
 

@@ -73,10 +73,10 @@ class ShopUserController extends Controller
         public function getShopListWithAuthoritySet(Request $request, $id)
         {
             $shopUsers = Shop::leftJoin('shop_users',
-                function ($join, $user_id) {
+                function ($join) use ($id) {
                     $join->on('shops.id', '=', 'shop_users.shop_id')
                     ->where('shop_users.customer_id', '=', Auth::user()->customer_id)
-                    ->where('shop_users.user_id', '=', $user_id)
+                    ->where('shop_users.user_id', '=', $id)
                     ->where('shop_users.del_flg', '0');
                 })
                 ->where('shops.customer_id', Auth::user()->customer_id)
@@ -94,14 +94,14 @@ class ShopUserController extends Controller
             $shopUserArray = array();
             foreach ($shopUsers as $key => $value) {
                 $shopUserData = array();
-                $shopUserData['shop_id'] = $value->id;
                 $shopUserData['customer_id'] = $value->customer_id;
-                $shopUserData['shop_name'] = $value->shop_id;
+                $shopUserData['shop_id'] = $value->shop_id;
+                $shopUserData['shop_name'] = $value->shop_name;
                 $shopUserData['user_id'] = $value->user_id;
-                if(is_null($value->authority_id)) {
+                if(is_null($value->authority_set_id)) {
                     $shopUserData['authority_set_id'] = 'none';
                 } else {
-                    $shopUserData['authority_set_id'] = $value->authority_id;
+                    $shopUserData['authority_set_id'] = $value->authority_set_id;
                 }
                 $shopUserArray[] = $shopUserData;
             }

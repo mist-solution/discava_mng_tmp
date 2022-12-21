@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Str;
+
 class ResetPasswordController extends Controller
 {
     /*
@@ -21,13 +22,12 @@ class ResetPasswordController extends Controller
     */
 
     use ResetsPasswords;
-
     /**
      * Where to redirect users after resetting their password.
      *
      * @var string
      */
-//    protected $redirectTo = RouteServiceProvider::HOME;
+    //    protected $redirectTo = RouteServiceProvider::HOME;
     protected $redirectTo = '/password/complete';
 
     // ResetsPasswords クラスのメソッドをオーバーライドでカスタマイズ
@@ -47,8 +47,12 @@ class ResetPasswordController extends Controller
         $user->save();
 
         event(new PasswordReset($user));
-
         // パスワードリセット後、自動でログインしない。
         //$this->guard()->login($user);
+    }
+
+    public function reset(Request $request)
+    {
+        $this->clearLoginAttempts($request);
     }
 }

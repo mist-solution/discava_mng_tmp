@@ -46,23 +46,23 @@ class LoginController extends Controller
 
     public function username()
     {
-      return 'email';
+        return 'email';
     }
 
     protected function authenticated(\Illuminate\Http\Request $request, $user)
     {
-      //------------------------------
-      // ここに追加したい処理を書く
-      //------------------------------
-      // 店舗ユーザの１行目を取得
-      $shopuser = ShopUser::where('user_id', Auth::id())->first();
+        //------------------------------
+        // ここに追加したい処理を書く
+        //------------------------------
+        // 店舗ユーザの１行目を取得
+        $shopuser = ShopUser::where('user_id', Auth::id())->first();
 
-      // 店舗ID、権限を設定
-      $request->session()->put('shop_id', $shopuser->shop_id);
-      $request->session()->put('authority_id', $shopuser->authority_id);
+        // 店舗ID、権限を設定
+        $request->session()->put('shop_id', $shopuser->shop_id);
+        $request->session()->put('authority_id', $shopuser->authority_id);
 
-      // ログイン後のリダイレクト
-      return redirect()->intended($this->redirectPath());
+        // ログイン後のリダイレクト
+        return redirect()->intended($this->redirectPath());
     }
 
     /**
@@ -73,6 +73,17 @@ class LoginController extends Controller
      */
     protected function loggedOut(Request $request)
     {
-      return redirect('/login');
+        return redirect('/login');
+    }
+
+    /**
+     * If account lock, display account locked form and clear login locks.
+     *
+     * @var string
+     */
+    public function sendLockoutResponse(Request $request)
+    {
+        // $this->clearLoginAttempts($request);
+        return view('auth.passwords.lock');
     }
 }

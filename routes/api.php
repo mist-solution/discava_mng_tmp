@@ -35,11 +35,14 @@ use App\Http\Controllers\WebAPI\AnnounceListController;
 //Route::delete('/api/tasks/{task}', 'TaskController@destroy');
 
 Route::put('/api/changeshop', [SelectShopController::class, 'changeShopId']);
+
 Route::get('/api/shopusers', [ShopUserController::class, 'getLoginUserShopList']);
 Route::get('/api/shopselect', [ShopUserController::class, 'getLoginUserShopSelect']);
+Route::get('/api/shoplist/{id}', [ShopUserController::class, 'getShopListWithAuthoritySet']);
 
 Route::get('/api/customer', [CustomerController::class, 'index']);
 Route::get('/api/customerSession', [CustomerController::class, 'getCompanyBySession']);
+
 Route::get('/api/enduser', [UserController::class, 'index']);
 Route::get('/api/enduser/{id}', [UserController::class, 'showUser']);
 Route::post('/api/enduser', [UserController::class, 'register']);

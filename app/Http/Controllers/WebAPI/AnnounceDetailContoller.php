@@ -25,7 +25,11 @@ class AnnounceDetailContoller extends Controller
      */
     public function post(Request $request)
     {
-        return response(Storage::disk('s3')->get('announce/1/sample1.png'))->header('Content-Type', 'image/png');
+        return response([
+            "title" => "タイトルです。",
+            "body" => "<div>記事詳細です。</div>",
+            "result" => "success",
+        ]);
     }
 }
 

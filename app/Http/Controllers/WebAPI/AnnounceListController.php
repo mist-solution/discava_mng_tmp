@@ -25,7 +25,14 @@ class AnnounceListController extends Controller
      */
     public function post(Request $request)
     {
-        return response(Storage::disk('s3')->get('announce/1/sample1.png'))->header('Content-Type', 'image/png');
+        return response([
+            "list" => [
+                [ "id" => "1", "title" => "タイトル(1)です。", "thumbnail_img" => "sample1.png" ],
+                [ "id" => "2", "title" => "タイトル(2)です。", "thumbnail_img" => "sample2.png" ],
+                [ "id" => "3", "title" => "タイトル(3)です。", "thumbnail_img" => "sample3.png" ],
+            ],
+            "result" => "success",
+        ]);
     }
 }
 

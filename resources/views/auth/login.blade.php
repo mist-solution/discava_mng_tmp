@@ -19,7 +19,7 @@
                             <div class="col-md-8 offset-md-2">
                                 <input id="email" type="text" class="form-control @error('email') is-invalid @enderror discavaMate_textInput" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                 @error('email')
-                                <span class="invalid-feedback login_errorMsg" role="alert">
+                                <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
@@ -33,7 +33,7 @@
                             <div class="col-md-8 offset-md-2">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror discavaMate_textInput" name="password" required autocomplete="current-password">
                                 @error('password')
-                                <span class="invalid-feedback login_errorMsg" role="alert">
+                                <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror

@@ -77,13 +77,12 @@ class LoginController extends Controller
     }
 
     /**
-     * If account lock, display account locked form and clear login locks.
+     * If account lock, display account locked form.
      *
      * @var string
      */
     public function sendLockoutResponse(Request $request)
     {
-        // $this->clearLoginAttempts($request);
         return view('auth.passwords.lock');
     }
 }

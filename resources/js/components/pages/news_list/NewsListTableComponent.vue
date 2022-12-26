@@ -65,6 +65,13 @@
                 <v-list-item>
                   <v-list-item-title>
                     <div @click="" role="button">
+                      プレビュー
+                    </div>
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>
+                    <div @click="" role="button">
                       下書きへ
                     </div>
                   </v-list-item-title>

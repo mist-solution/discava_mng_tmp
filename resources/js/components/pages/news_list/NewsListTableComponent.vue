@@ -54,7 +54,13 @@
           {{ approvalStatusFormat(item.approval_status) }}
         </template>
         <template #item-open_status="item">
+          <!-- on off 切り替え -->
           <div class="toggle_switch">
+              <input type="checkbox" name="open" id="cb_toggle_switch">
+              <label for="cb_toggle_switch"></label>
+          </div>
+          <!-- 無効化 -->
+          <div class="toggle_switch disable">
               <input type="checkbox" name="open" id="cb_toggle_switch">
               <label for="cb_toggle_switch"></label>
           </div>
@@ -494,10 +500,10 @@ export default {
 .toggle_switch > label {
     display: block;
     position: relative;
-    width: 1.8em;
+    width: 2.2em;
     height: 1em;
     border-radius: 1em;
-    background-color: #2b2a2f;
+    background-color: #CCCCCC;
     cursor: pointer;
 }
 .toggle_switch > input:checked + label {
@@ -516,5 +522,12 @@ export default {
 }
 .toggle_switch > input:checked + label::before {
     left: calc(100% - 1em + 0.05em);
+}
+.disable > label::before {
+    background-color: #BABABA;
+    pointer-events:none;
+}
+.disable > label{
+  cursor: default;
 }
 </style>

@@ -14,6 +14,11 @@
       お知らせがありません。
     </v-col>
   </v-row> -->
+    <v-row justify="end">
+      <v-col align="right" class="mr-2">
+        合計件数： {{ $store.state.news.totalCount }}
+      </v-col>
+    </v-row>
 
   <v-row>
     <v-col>
@@ -46,28 +51,7 @@
           {{ timestampFormat(item.updated_at) }}
         </template>
         <template #item-approval_status>
-          <!-- {{ approvalStatusFormat(item.approval_status) }} -->
-          <v-menu offset-y>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                class="statusbutton"
-                dark
-                dense
-                v-bind="attrs"
-                v-on="on"
-              >
-                編集<v-icon class="ml-1">mdi-square-edit-outline</v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item
-                v-for="(approval, index) in approvalStatusArray"
-                :key="index"
-              >
-                <v-list-item-title>{{ approval.status }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+          {{ approvalStatusFormat(item.approval_status) }}
         </template>
       </EasyDataTable>
     </v-col>

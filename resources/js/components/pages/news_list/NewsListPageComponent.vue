@@ -1,8 +1,10 @@
 <template>
   <v-container class="max-cont">
+    <title-component
+      name = "投稿記事一覧"
+    />
     <v-card>
       <v-card-title class="ml-2" width="80%">
-        <h3 class="h4">投稿記事一覧</h3>
         <div class="btn-group ml-auto">
           <router-link v-bind:to="{ name: 'announce.register' }">
             <button class="btn btn-success mr-2">投稿</button>
@@ -86,10 +88,12 @@
 <script>
 import NewsListTable from "./NewsListTableComponent.vue";
 import NewsListActionBarConponent from "./NewsListActionBarConponent.vue";
+import TitleComponent from "../../common/TitleComponent.vue"
 export default {
   components: {
     NewsListTable,
     NewsListActionBarConponent,
+    TitleComponent
   },
   data() {
     return {

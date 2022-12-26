@@ -2,7 +2,7 @@
   <v-container class="grey lighten-5">
     <v-row no-gutters>
       <v-row justify="right">
-        <v-col cols="12" sm="6" md="8">
+        <v-col cols="12">
           <v-btn
             @click.stop="displaySearch = true"
             class="ma-2"
@@ -42,6 +42,7 @@
           >
           </v-btn>
           <label>一括承認</label>
+        </v-col>
 
           <!-- 検索モーダル -->
           <news-display-search-modal-component
@@ -65,15 +66,9 @@
             :display="displayCheckAll"
             :closeAction="closeAction"
           />
-        </v-col>
-      </v-row>
-
-      <v-row justify="end">
-        <v-col cols="6" md="4" align-self="center">
-          合計件数： {{ $store.state.news.totalCount }}
-        </v-col>
       </v-row>
     </v-row>
+
   </v-container>
 </template>
 

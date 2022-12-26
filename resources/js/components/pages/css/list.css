@@ -9,3 +9,7 @@
 .vue3-easy-data-table__body td.direction-left {
     color: #000 !important;
 }
+
+.vue3-easy-data-table__header th,td {
+    white-space: nowrap  !important;
+}

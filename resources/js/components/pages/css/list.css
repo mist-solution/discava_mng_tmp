@@ -13,3 +13,7 @@
 .vue3-easy-data-table__header th,td {
     white-space: nowrap  !important;
 }
+.vue3-easy-data-table__main.fixed-header th[data-v-2ea569e3]:nth-of-type(8) > span,
+.vue3-easy-data-table__main.fixed-header th[data-v-2ea569e3]:nth-of-type(9) > span{
+    justify-content: space-evenly !important;
+}

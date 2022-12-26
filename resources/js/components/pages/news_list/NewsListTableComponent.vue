@@ -51,7 +51,69 @@
           {{ timestampFormat(item.updated_at) }}
         </template>
         <template #item-approval_status="item">
-          {{ approvalStatusFormat(item.approval_status) }}
+          <div class="text-center">
+            {{ approvalStatusFormat(item.approval_status) }}
+            <br>
+            <v-menu>
+              <template v-slot:activator="{ props }">
+                <v-btn   elevation="2" x-small v-bind="props">
+                  編集
+                </v-btn>
+              </template>
+              <v-list
+              >
+                <v-list-item>
+                  <v-list-item-title>
+                    <div @click="" role="button">
+                      下書きへ
+                    </div>
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>
+                    <div @click="" role="button">
+                      申請する
+                    </div>
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>
+                    <div @click="" role="button">
+                      承認する
+                    </div>
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>
+                    <div @click="" role="button">
+                      差し戻す
+                    </div>
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>
+                    <div @click="" role="button">
+                      もう一度申請    
+                    </div>
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>
+                    <div @click="" role="button">
+                      申請をやめる
+                    </div>
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>
+                    <div @click="" role="button">
+                        削除
+                      </div>
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </div>
         </template>
         <template #item-open_status="item">
           <!-- on off 切り替え -->
@@ -491,6 +553,7 @@ export default {
 .toggle_switch {
     display: table;
     font-size: 20px;
+    margin:0 auto;
 }
 
 .toggle_switch > input {
@@ -530,4 +593,5 @@ export default {
 .disable > label{
   cursor: default;
 }
+
 </style>

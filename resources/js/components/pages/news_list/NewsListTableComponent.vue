@@ -53,6 +53,12 @@
         <template #item-approval_status="item">
           {{ approvalStatusFormat(item.approval_status) }}
         </template>
+        <template #item-open_status="item">
+          <div class="toggle_switch">
+              <input type="checkbox" name="open" id="cb_toggle_switch">
+              <label for="cb_toggle_switch"></label>
+          </div>
+        </template>
       </EasyDataTable>
     </v-col>
   </v-row>
@@ -205,6 +211,7 @@ export default {
         { text: '最終更新', value: 'updated_at' },
         { text: '投稿者', value: 'add_account.name' },
         { text: 'ステータス', value: 'approval_status' },
+        { text: '公開', value: 'open_status' },
         {
           text: '',
           sortable: false,
@@ -473,5 +480,41 @@ export default {
 
   /* フッターフォントサイズ */
   --easy-table-footer-font-size: 14px;
+}
+/* open button */
+.toggle_switch {
+    display: table;
+    font-size: 20px;
+}
+
+.toggle_switch > input {
+    display: none;
+}
+
+.toggle_switch > label {
+    display: block;
+    position: relative;
+    width: 1.8em;
+    height: 1em;
+    border-radius: 1em;
+    background-color: #2b2a2f;
+    cursor: pointer;
+}
+.toggle_switch > input:checked + label {
+    background-color: #69A5AF;
+}
+.toggle_switch > label::before {
+    position: absolute;
+    top: 0.05em;
+    left: 0.05em;
+    width: calc(1em - 0.1em);
+    height: calc(1em - 0.1em);
+    border-radius: calc(1em - 0.1em);
+    background-color: #fff;
+    transition: 0.5s;
+    content: "";
+}
+.toggle_switch > input:checked + label::before {
+    left: calc(100% - 1em + 0.05em);
 }
 </style>

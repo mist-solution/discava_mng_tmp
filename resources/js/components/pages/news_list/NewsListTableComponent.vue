@@ -533,7 +533,7 @@ export default {
 <!-- 共通CSS -->
 <style src="../css/common.css"></style>
 <style src="../css/list.css"></style>
-
+<style src="../css/dropdown.css"></style>
 <style scoped>
 /* 編集ボタン既存クラス上書き */
 .statusbutton {

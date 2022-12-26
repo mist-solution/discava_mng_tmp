@@ -50,29 +50,8 @@
         <template #item-updated_at="item">
           {{ timestampFormat(item.updated_at) }}
         </template>
-        <template #item-approval_status>
-         <!-- {{ approvalStatusFormat(item.approval_status) }} -->
-         <v-menu offset-y>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                class="statusbutton"
-                dark
-                dense
-                v-bind="attrs"
-                v-on="on"
-              >
-                編集<v-icon class="ml-1">mdi-square-edit-outline</v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item
-                v-for="(approval, index) in approvalStatusArray"
-                :key="index"
-              >
-                <v-list-item-title>{{ approval.status }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+        <template #item-approval_status="item">
+          {{ approvalStatusFormat(item.approval_status) }}
         </template>
       </EasyDataTable>
     </v-col>

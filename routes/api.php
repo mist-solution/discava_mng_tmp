@@ -65,6 +65,6 @@ Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']
 //------------------------------------------------
 // WebAPI関連
 //------------------------------------------------
-Route::post('webapi/announce/list', [AnnounceListController::class, 'post']);
-Route::post('webapi/announce/detail/{id}', [AnnounceDetailContoller::class, 'post']);
-Route::post('webapi/announce/image/{id}', [AnnounceImageController::class, 'post']);
+Route::get('webapi/announce/list', [AnnounceListController::class, 'post']);
+Route::get('webapi/announce/detail/{id}', [AnnounceDetailContoller::class, 'post']);
+Route::get('webapi/announce/image/{id}', [AnnounceImageController::class, 'post']);

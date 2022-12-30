@@ -35,6 +35,7 @@ class CreateShopsTable extends Migration
             // インデックス情報
             $table->index('customer_id');
             $table->index('shop_name');
+            $table->unique('webapi_token');
             // 外部キー情報
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('plan_id')->references('id')->on('plans');

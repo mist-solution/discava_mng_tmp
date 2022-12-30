@@ -14,8 +14,6 @@ class ShopsTableSeeder extends Seeder
      */
     public function run()
     {
-        $webapikey = '1KYjM^rwIQGXAEC^t3jI5L*)';
-
         Shop::create([
             'customer_id' => '1',
             'shop_name' => '本社',
@@ -25,7 +23,7 @@ class ShopsTableSeeder extends Seeder
             'building_name' => "D'sVARIE神田ビル（ユニゾ神田西福田町ビル）4F",
             'tel' => '03-3526-7271',
             'fax' => '03-3526-0271',
-            'webapi_token' => bcrypt($webapikey),
+            'webapi_token' => bcrypt('mist1'),
             'add_account' => '1',
             'upd_account' => '1',
             'del_flg' => '0',
@@ -40,7 +38,7 @@ class ShopsTableSeeder extends Seeder
             'building_name' => '香川三友ビル3F',
             'tel' => '087-3873-2502',
             'fax' => '087-3873-2503',
-            'webapi_token' => bcrypt($webapikey),
+            'webapi_token' => bcrypt('mist2'),
             'add_account' => '1',
             'upd_account' => '1',
             'del_flg' => '0',

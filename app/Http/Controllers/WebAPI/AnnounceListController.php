@@ -26,7 +26,7 @@ class AnnounceListController extends Controller
      *
      * @return response
      */
-    public function post(Request $request)
+    public function get(Request $request)
     {
         $token = null;
         $shopId = null;
@@ -66,7 +66,6 @@ class AnnounceListController extends Controller
             ->orderBy('id', 'desc')
             ->get();
         
-        $response = array();
         $announceArrays = array();
         foreach($records as $key => $value) {
             $announceArray = array();

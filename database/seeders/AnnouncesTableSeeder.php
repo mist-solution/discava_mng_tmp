@@ -26,7 +26,7 @@ class AnnouncesTableSeeder extends Seeder
                 'title' => 'テストお知らせ1',
                 'thumbnail_img_path' => null,
                 'contents' => 'お知らせの本文です。',
-                'approval_status' => '0',
+                'approval_status' => '2',
                 'approval_account' => null,
                 'approval_datetime' => null,
                 'remand_comment' => null,

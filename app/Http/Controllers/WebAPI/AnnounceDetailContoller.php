@@ -95,7 +95,7 @@ class AnnounceDetailContoller extends Controller
         $announce['thumbnail_img_filename'] = $value->thumbnail_img_filename;
         $announce['contents'] = $value->contents;
 
-        // 店舗の指定されたお知らせを取得する
+        // 対象のお知らせに添付されている画像を取得する
         $records = AnnounceAttachment::where('announce_id', $announceId)
         ->where('shop_id', $shopId)
         ->where('del_flg', '0')

@@ -34,16 +34,18 @@
         <input
           class="searchform search-box"
           type="search"
-          placeholder=""
+          placeholder="検索"
           aria-label="Search"
           maxlength="30"
           hide-details="false"
+          v-model="searchText"
         />
         <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
       </form>
     </v-col>
 
     <!-- 件数表示 -->
+<!--
     <v-col
       sm="3"
       cols="6"
@@ -53,11 +55,12 @@
       <p class="countnum m-0">10</p>
       <p class="m-0 px-2">件表示</p>
     </v-col>
+-->
   </v-row>
 
   <!-- アカウント一覧 -->
   <v-card class="ac-list main-cont">
-      <end-user-list-table />
+      <end-user-list-table :searchValue="searchText"/>
   </v-card>
   </v-container>
 </template>
@@ -69,6 +72,11 @@ export default {
   components: {
     EndUserListTable,
     TitleComponent,
+  },
+  data() {
+    return {
+      searchText: "",
+    }
   },
 }
 </script>

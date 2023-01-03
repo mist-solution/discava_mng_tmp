@@ -8,6 +8,8 @@
         alternating
         buttons-pagination
         dense
+        :search-field="searchField"
+        :search-value="searchValue"
       >
 <!--
         <template #item-title="item">
@@ -59,6 +61,9 @@ export default {
     BackToTopComponent,
     NewsDeleteConfirmModalComponent,
   },
+  props: [
+    "searchValue",
+  ],
   data() {
     return {
       selected: [],
@@ -77,7 +82,8 @@ export default {
       displayNewsDeleteConfirm: false,
       menuDeleteAnnounce: [],
       select: [],
-      themeColor: "#69A5AF"
+      themeColor: "#69A5AF",
+      searchField: "name",
     };
   },
   computed: {

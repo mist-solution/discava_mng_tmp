@@ -5,24 +5,12 @@
   />
   <!-- タブ部分 -->
   <v-row class="pt-5 align-center justify-start">
-    <!-- 一括操作-実行ボタン -->
-    <v-col
-      class="d-flex align-center"
-      sm="5"
-      cols="10"
-      align="center"
-    >
-      <input type="checkbox" class="mr-5">
-        <v-select
-          dense
-          :items="items"
-          label="Solo field"
-          solo
-        ></v-select>
-        <v-btn class="green-btn mx-2">
-        実行
+
+    <router-link v-bind:to="{ name: 'enduser.register' }" >
+      <v-btn class="green-btn mx-2">
+        アカウント登録
       </v-btn>
-    </v-col>
+    </router-link>
 
     <!-- searchフォーム -->
     <v-col
@@ -42,6 +30,27 @@
         />
         <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
       </form>
+    </v-col>
+
+    <!-- 一括操作-実行ボタン -->
+    <v-col
+      class="d-flex align-center"
+      sm="5"
+      cols="10"
+      align="center"
+    >
+<!--
+      <input type="checkbox" class="mr-5">
+-->
+      <v-select
+          dense
+          :items="items"
+          label="一括操作"
+          solo
+      ></v-select>
+      <v-btn class="green-btn mx-2">
+        実行
+      </v-btn>
     </v-col>
 
     <!-- 件数表示 -->
@@ -76,6 +85,7 @@ export default {
   data() {
     return {
       searchText: "",
+      items: [ "アカウント一括削除", "権限一括付与", "権限一括削除",],
     }
   },
 }

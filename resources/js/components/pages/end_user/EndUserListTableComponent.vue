@@ -1,34 +1,42 @@
 <template>
   <back-to-top-component />
-      <EasyDataTable
-        v-model:items-selected="selected"
-        :headers="headers"
-        :items="users"
-        :theme-color="themeColor"
-        alternating
-        buttons-pagination
-        dense
-        :search-field="searchField"
-        :search-value="searchValue"
-      >
+
+  <EasyDataTable
+    v-model:items-selected="selected"
+    :headers="headers"
+    :items="users"
+    :theme-color="themeColor"
+    alternating
+    buttons-pagination
+    dense
+    :search-field="searchField"
+    :search-value="searchValue"
+    :rows-per-page=10
+  >
 <!--
-        <template #item-title="item">
-          <router-link :to="{ name: 'announce.edit', params: { announceId: item.id } }">
-            {{ item.title }}
-          </router-link>
-        </template>
+    <template #item-title="item">
+      <router-link :to="{ name: 'announce.edit', params: { announceId: item.id } }">
+        {{ item.title }}
+      </router-link>
+    </template>
 -->
-        <template #item-created_at="item">
-          {{ timestampFormat(item.created_at) }}
-        </template>
-        <template #item-updated_at="item">
-          {{ timestampFormat(item.updated_at) }}
-        </template>
-        <template #item-button="item">
-          <v-icon class="green-icon mr-3" @click="edit(item)">mdi-square-edit-outline</v-icon>
-          <v-icon class="green-icon" @click="edit(item)">mdi-trash-can</v-icon>
-        </template>
-      </EasyDataTable>
+    <template #item-created_at="item">
+      {{ timestampFormat(item.created_at) }}
+    </template>
+    <template #item-updated_at="item">
+      {{ timestampFormat(item.updated_at) }}
+    </template>
+    <template #item-button="item">
+      <v-icon class="green-icon mr-3" @click="edit(item)">
+        mdi-square-edit-outline
+      </v-icon>
+      <v-icon class="green-icon"
+        @click.stop="(displayAccountDeleteConfirm = true), setDeleteAccountId(item.id)"
+      >
+        mdi-trash-can
+      </v-icon>
+    </template>
+  </EasyDataTable>
 <!--
         <template #loading>
           <v-progress-linear
@@ -40,26 +48,24 @@
 -->
 
   <!-- 削除モーダル -->
-<!--
-  <news-delete-confirm-modal-component
-    :display="displayNewsDeleteConfirm"
+  <end-user-delete-confirm-modal-component
+    :modelValue="displayAccountDeleteConfirm"
+    @update:modelValue="displayAccountDeleteConfirm = $event"
     :closeAction="closeAction"
-    :deleteAnnounce="deleteAnnounce"
-  />
--->
+    :deleteUser="deleteUser"
+    />
 </template>
 
 <script>
-import NewsListTablePagination from "../news_list/NewsListTablePagination.vue";
+//import NewsListTablePagination from "../news_list/NewsListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { inject, mergeProps } from "vue";
-import NewsDeleteConfirmModalComponent from "../news_list/NewsDeleteConfirmModalComponent.vue";
+import EndUserDeleteConfirmModalComponent from "../end_user/EndUserDeleteConfirmModalComponent.vue";
 
 export default {
   components: {
-    NewsListTablePagination,
     BackToTopComponent,
-    NewsDeleteConfirmModalComponent,
+    EndUserDeleteConfirmModalComponent,
   },
   props: [
     "searchValue",
@@ -79,7 +85,7 @@ export default {
         },
       ],
       users: [],
-      displayNewsDeleteConfirm: false,
+      displayAccountDeleteConfirm: false,
       menuDeleteAnnounce: [],
       select: [],
       themeColor: "#69A5AF",
@@ -93,11 +99,11 @@ export default {
   methods: {
     mergeProps,
     closeAction() {
-      this.displayNewsDeleteConfirm = false;
-      window.location.reload();
+      this.displayAccountDeleteConfirm = false;
+//      window.location.reload();
     },
 
-    getNewsList() {
+    getAccountList() {
 //      this.loading = true;
       axios
         .get("/api/enduser", {
@@ -115,15 +121,15 @@ export default {
     },
 
     // 削除確認ダイアログに渡せるため、IDをstoreに設定
-    setDeleteAnnounceId(id) {
-      let announceId = id;
-      this.$store.dispatch("news/setDeleteNewsId", announceId);
+    setDeleteAccountId(id) {
+      let accountId = id;
+      this.$store.dispatch("enduser/setDeleteUserId", accountId);
     },
 
     // 削除処理
-    deleteAnnounce(announceId) {
-      console.log(`ID:${announceId} が削除しました。`);
-      axios.delete("/api/announce/" + announceId).then((res) => {});
+    deleteUser(accountId) {
+console.log(`ID:${accountId} を削除しました。`);
+      axios.delete("/api/enduser/" + accountId).then((res) => {});
       window.location.reload();
     },
 
@@ -149,7 +155,7 @@ export default {
 
   },
   mounted() {
-    this.getNewsList();
+    this.getAccountList();
     this.setSelectItems();
   },
 };

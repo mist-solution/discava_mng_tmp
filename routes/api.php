@@ -48,6 +48,7 @@ Route::get('/api/enduser/{id}', [UserController::class, 'showUser']);
 Route::post('/api/enduser', [UserController::class, 'register']);
 Route::put('/api/enduser/{id}', [UserController::class, 'update']);
 Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
+Route::delete('/api/enduser/{id}', [UserController::class, 'deleteAccount']);
 
 Route::get('/api/authoritySet', [AuthoritySetController::class, 'getAll']);
 

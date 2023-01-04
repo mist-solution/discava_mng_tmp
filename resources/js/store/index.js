@@ -8,6 +8,7 @@ import announceCategory from './announceCategory';
 import snackbar from './snackbar';
 import shopUser from './shopUser';
 import authoritySet from './authoritySet';
+import shop from './shop';
 
 export default new Vuex.Store({
     modules: {
@@ -20,5 +21,6 @@ export default new Vuex.Store({
         snackbar: snackbar,
         shopUser: shopUser,
         authoritySet: authoritySet,
+        shop: shop,
     }
 });

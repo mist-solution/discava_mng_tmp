@@ -5,6 +5,7 @@ use App\Http\Controllers\API\AuthoritySetController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\SelectShopController;
+use App\Http\Controllers\API\ShopController;
 use App\Http\Controllers\API\ShopUserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AnnounceController;
@@ -39,6 +40,7 @@ Route::put('/api/changeshop', [SelectShopController::class, 'changeShopId']);
 Route::get('/api/shopusers', [ShopUserController::class, 'getLoginUserShopList']);
 Route::get('/api/shopselect', [ShopUserController::class, 'getLoginUserShopSelect']);
 Route::get('/api/shoplist/{id}', [ShopUserController::class, 'getShopListWithAuthoritySet']);
+Route::get('/api/shops', [ShopController::class, 'getShopList']);
 
 Route::get('/api/customer', [CustomerController::class, 'index']);
 Route::get('/api/customerSession', [CustomerController::class, 'getCompanyBySession']);

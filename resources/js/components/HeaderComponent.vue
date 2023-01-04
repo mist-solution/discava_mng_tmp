@@ -25,7 +25,7 @@ export default {
   methods: {
   },
   mounted() {
-    console.log("example mounted.");
+    console.log("header mounted.");
   },
 };
 </script>

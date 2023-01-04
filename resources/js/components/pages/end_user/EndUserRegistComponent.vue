@@ -76,6 +76,24 @@
             <v-col cols="12" class="mt-5 pr-0 pb-0">
               <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">権限グループ</p>
             </v-col>
+
+            <v-col v-for="shop in shopList" cols="12" class="pt-sm-3 pb-0 pb-sm-3">
+              <v-row align-sm="center shop-auth">
+                <v-col cols="2" class="pr-0">
+                  <p class="mb-0 pb-0">{{ shop.shop_name }}</p>
+                </v-col>
+                <v-col cols="10" class="pt-sm-3 shop-sel">
+                  <v-select
+                    :items="authoritySet"
+                    item-value="id"
+                    item-title="name"
+                    hide-details="false"
+                    v-model="shopSelection"
+                  />
+                </v-col>
+              </v-row>
+            </v-col>
+<!--
             <v-col cols="12" class="pt-sm-3 pb-0 pb-sm-3">
               <v-row align-sm="center shop-auth">
                 <v-col cols="2" class="pr-0">
@@ -91,6 +109,7 @@
                 </v-col>
               </v-row>
             </v-col>
+
             <v-col cols="12" class="pt-sm-3 pb-0">
               <v-row align-sm="center shop-auth">
                 <v-col cols="2" class="pr-0">
@@ -106,6 +125,7 @@
                 </v-col>
               </v-row>
             </v-col>
+-->
           </v-row>
         </div>
         <!-- ToDo:権限は要検討 -->
@@ -165,15 +185,18 @@ export default {
         checkbox: null,
       },
       authoritySet: [],
+      shopList: null,
+      shopSelection: { id: "none", name: "該当なし" },
     }
   },
   components: {
     TitleComponent,
   },
   methods: {
-    ...mapActions('enduser', ['fetchUsers']),
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
+    ...mapActions('enduser', ['fetchUsers']),
     ...mapActions('authoritySet', ['fetchAllAuthoritySetDisplay']),
+    ...mapActions('shop', ['fetchShops']),
     submit() {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
@@ -208,6 +231,7 @@ export default {
   computed: {
     ...mapGetters('customer', ['getCustomers']),
     ...mapGetters('authoritySet', ['getAuthoritySetDisplay']),
+    ...mapGetters('shop', ['getShops']),
     toggle () {
       const icon = this.showPassword ? 'mdi-eye' : 'mdi-eye-off'
       const type = this.showPassword ? 'text' : 'password'
@@ -220,6 +244,9 @@ export default {
 //    this.getCustomerCodes();
     await this.fetchAllAuthoritySetDisplay();
     this.authoritySet = this.getAuthoritySetDisplay;
+    await this.fetchShops();
+    this.shopList = this.getShops;
+console.log(this.getShops);
   },
 }
 </script>

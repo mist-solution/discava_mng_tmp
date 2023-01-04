@@ -88,7 +88,7 @@
                     item-value="id"
                     item-title="name"
                     hide-details="false"
-                    v-model="shopSelection"
+                    v-model=shop.model
                   />
                 </v-col>
               </v-row>
@@ -186,7 +186,6 @@ export default {
       },
       authoritySet: [],
       shopList: null,
-      shopSelection: { id: "none", name: "該当なし" },
     }
   },
   components: {
@@ -246,7 +245,10 @@ export default {
     this.authoritySet = this.getAuthoritySetDisplay;
     await this.fetchShops();
     this.shopList = this.getShops;
-console.log(this.getShops);
+//console.log(this.getShops);
+    this.shopList.forEach(function(value){
+      value.model = { id: 'none', name: '該当なし'};
+    });
   },
 }
 </script>

@@ -31,6 +31,7 @@ export default {
         this.$store.state.news.approvalNewsStatus
       );
       this.closeAction();
+      window.location.reload();
     },
   },
   mounted() {},

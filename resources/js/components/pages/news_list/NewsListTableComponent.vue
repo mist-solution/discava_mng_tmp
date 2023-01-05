@@ -85,14 +85,22 @@
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-title>
-                    <div @click="" role="button">
+                    <div
+                      @click="(displayNewsApprovalConfirm = true),
+                        setApprovalAnnounceId(item.id)"
+                      role="button"
+                    >
                       承認する
-                    </div>
+                    </div>                    
                   </v-list-item-title>
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-title>
-                    <div @click="" role="button">
+                    <div
+                      @click="(displayNewsReturnApprovalConfirm = true),
+                        setApprovalAnnounceId(item.id)"
+                      role="button"
+                    >
                       差し戻す
                     </div>
                   </v-list-item-title>
@@ -113,9 +121,13 @@
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-title>
-                    <div @click="" role="button">
-                        削除
-                      </div>
+                    <div
+                      @click="(displayNewsDeleteConfirm = true),
+                        setDeleteAnnounceId(item.id)"
+                      role="button"
+                    >
+                      削除
+                    </div>
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -242,10 +254,26 @@
   </v-row> -->
   <!-- 削除モーダル -->
   <news-delete-confirm-modal-component
-    :display="displayNewsDeleteConfirm"
+    :modelValue="displayNewsDeleteConfirm"
+    @update:modelValue="displayNewsDeleteConfirm = $event"
     :closeAction="closeAction"
     :deleteAnnounce="deleteAnnounce"
   />
+  <!-- 承認モーダル -->
+  <news-approval-confirm-modal-component
+    :modelValue="displayNewsApprovalConfirm"
+    @update:modelValue="displayNewsApprovalConfirm = $event"
+    :closeAction="closeApproval"
+    :approvalAnnounceProcess="approvalAnnounceProcess"
+  />
+  <!-- 差し戻しモーダル -->
+  <news-approval-return-confirm-modal-component
+    :modelValue="displayNewsReturnApprovalConfirm"
+    @update:modelValue="displayNewsReturnApprovalConfirm = $event"
+    :closeAction="closeReturn"
+    :approvalAnnounceProcess="approvalAnnounceProcess"
+  />
+
   <!-- <v-row class="mt-3">
     <news-list-table-pagination />
   </v-row> -->
@@ -256,12 +284,16 @@ import NewsListTablePagination from "./NewsListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { mergeProps } from "vue";
 import NewsDeleteConfirmModalComponent from "./NewsDeleteConfirmModalComponent.vue";
+import NewsApprovalConfirmModalComponent from "./NewsApprovalConfirmModalComponent.vue";
+import NewsApprovalReturnConfirmModalComponent from "./NewsApprovalReturnConfirmModalComponent.vue"
 
 export default {
   components: {
     NewsListTablePagination,
     BackToTopComponent,
     NewsDeleteConfirmModalComponent,
+    NewsApprovalConfirmModalComponent,
+    NewsApprovalReturnConfirmModalComponent,
   },
   data() {
     return {
@@ -297,6 +329,8 @@ export default {
       news: [],
       loading: false,
       displayNewsDeleteConfirm: false,
+      displayNewsApprovalConfirm: false,
+      displayNewsReturnApprovalConfirm: false,
       approvalStatus: "",
       approvalStatusArray: [
         { value: "0", status: "下書き" },
@@ -390,9 +424,15 @@ export default {
     mergeProps,
     closeAction() {
       this.displayNewsDeleteConfirm = false;
-      window.location.reload();
+//      window.location.reload();
     },
-
+    closeApproval() {
+      this.displayNewsApprovalConfirm = false;
+    },
+    closeReturn() {
+      this.displayNewsReturnApprovalConfirm = false;
+    },
+    
     getNewsList() {
       this.loading = true;
       axios
@@ -503,12 +543,82 @@ export default {
       let announceId = id;
       this.$store.dispatch("news/setDeleteNewsId", announceId);
     },
+    // 承認確認ダイアログに渡せるため、IDをstoreに設定
+    setApprovalAnnounceId(id) {
+      let announceId = id;
+      this.$store.dispatch("news/setApprovalNewsId", announceId);
+    },
 
     // 削除処理
     deleteAnnounce(announceId) {
       console.log(`ID:${announceId} が削除しました。`);
       axios.delete("/api/announce/" + announceId).then((res) => {});
       window.location.reload();
+    },
+
+    
+    // 承認・差戻し・否認処理
+    approvalAnnounceProcess(processKey, id, status) {
+      let approvalProcessKey = processKey;
+      let announceId = id;
+      let announceStatus = status;
+
+      switch (approvalProcessKey) {
+        case "approval":
+          if (announceStatus == "9") {
+            this.openError("否認されたお知らせが承認できません。");
+          } else if (announceStatus == "1") {
+            this.openError("すでに承認されました。");
+          } else {
+            axios
+              .put(
+                "/api/announce/" + announceId + "/" + "approval",
+                this.announce
+              )
+              .then((res) => {
+                window.location.reload();
+                this.openSuccess("承認しました。");
+              });
+          }
+          break;
+        case "return":
+          if (announceStatus == "9") {
+            this.openError("否認されたお知らせが差戻されません。");
+          } else if (announceStatus == "1") {
+            this.openError("承認されたお知らせが差戻されません。");
+          } else {
+            axios
+              .put("/api/announce/" + announceId + "/" + "return", {
+                announce: this.announce,
+                approvalReturnComment:
+                  this.$store.state.news.approvalReturnComment,
+              })
+              .then((res) => {
+                window.location.reload();
+                this.openSuccess("差戻しました。");
+              });
+          }
+          break;
+        case "reject":
+          if (announceStatus == "9") {
+            this.openError("すでに否認されました。");
+          } else if (announceStatus == "1") {
+            this.openError("承認されたお知らせが否認できません。");
+          } else {
+            axios
+              .put(
+                "/api/announce/" + announceId + "/" + "reject",
+                this.announce
+              )
+              .then((res) => {
+                window.location.reload();
+                this.openSuccess("否認しました。");
+              });
+          }
+          break;
+        default:
+          break;
+      }
     },
 
     timestampFormat(timestamp) {

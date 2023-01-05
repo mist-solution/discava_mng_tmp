@@ -27,6 +27,7 @@ export default {
     submitAction() {
       this.deleteAnnounce(this.$store.state.news.deleteNewsId);
       this.closeAction();
+      window.location.reload();
     },
   },
   mounted() {},

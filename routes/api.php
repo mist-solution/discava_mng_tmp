@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\AuthorityController;
 use App\Http\Controllers\API\AuthoritySetController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\UserController;
@@ -53,6 +54,8 @@ Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
 Route::delete('/api/enduser/{id}', [UserController::class, 'deleteAccount']);
 
 Route::get('/api/authoritySet', [AuthoritySetController::class, 'getAll']);
+
+Route::get('/api/authority', [AuthorityController::class, 'getAuthority']);
 
 Route::get('/api/announce', [AnnounceController::class, 'getAnnounce']);
 Route::get('/api/announce/{announce}', [AnnounceController::class, 'showAnnounce']);

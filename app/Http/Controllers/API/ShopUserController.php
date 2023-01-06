@@ -68,46 +68,46 @@ class ShopUserController extends Controller
         return new JsonResponse($response);
     }
 
-        // 対象ユーザの店舗一覧と権限を取得
-        // $id : user_id
-        public function getShopListWithAuthoritySet(Request $request, $id)
-        {
-            $shopUsers = Shop::leftJoin('shop_users',
-                function ($join) use ($id) {
-                    $join->on('shops.id', '=', 'shop_users.shop_id')
-                    ->where('shop_users.customer_id', '=', Auth::user()->customer_id)
-                    ->where('shop_users.user_id', '=', $id)
-                    ->where('shop_users.del_flg', '0');
-                })
-                ->where('shops.customer_id', Auth::user()->customer_id)
-                ->where('shops.del_flg', '0')
-                ->select(
-                    'shops.id as shop_id',
-                    'shops.customer_id',
-                    'shops.shop_name',
-                    'shop_users.user_id',
-                    'shop_users.authority_set_id',
-                )
-                ->get();
+    // 対象ユーザの店舗一覧と権限を取得
+    // $id : user_id
+    public function getShopListWithAuthoritySet(Request $request, $id)
+    {
+        $shopUsers = Shop::leftJoin('shop_users',
+            function ($join) use ($id) {
+                $join->on('shops.id', '=', 'shop_users.shop_id')
+                ->where('shop_users.customer_id', '=', Auth::user()->customer_id)
+                ->where('shop_users.user_id', '=', $id)
+                ->where('shop_users.del_flg', '0');
+            })
+            ->where('shops.customer_id', Auth::user()->customer_id)
+            ->where('shops.del_flg', '0')
+            ->select(
+                'shops.id as shop_id',
+                'shops.customer_id',
+                'shops.shop_name',
+                'shop_users.user_id',
+                'shop_users.authority_set_id',
+            )
+            ->get();
 
-            $response = array();
-            $shopUserArray = array();
-            foreach ($shopUsers as $key => $value) {
-                $shopUserData = array();
-                $shopUserData['customer_id'] = $value->customer_id;
-                $shopUserData['shop_id'] = $value->shop_id;
-                $shopUserData['shop_name'] = $value->shop_name;
-                $shopUserData['user_id'] = $value->user_id;
-                if(is_null($value->authority_set_id)) {
-                    $shopUserData['authority_set_id'] = 'none';
-                } else {
-                    $shopUserData['authority_set_id'] = $value->authority_set_id;
-                }
-                $shopUserArray[] = $shopUserData;
+        $response = array();
+        $shopUserArray = array();
+        foreach ($shopUsers as $key => $value) {
+            $shopUserData = array();
+            $shopUserData['customer_id'] = $value->customer_id;
+            $shopUserData['shop_id'] = $value->shop_id;
+            $shopUserData['shop_name'] = $value->shop_name;
+            $shopUserData['user_id'] = $value->user_id;
+            if(is_null($value->authority_set_id)) {
+                $shopUserData['authority_set_id'] = 'none';
+            } else {
+                $shopUserData['authority_set_id'] = $value->authority_set_id;
             }
-
-            $response['shopSelect'] = $shopUserArray;
-            $response['message'] = 'success';
-            return new JsonResponse($response);
+            $shopUserArray[] = $shopUserData;
         }
+
+        $response['shopSelect'] = $shopUserArray;
+        $response['message'] = 'success';
+        return new JsonResponse($response);
+    }
 }

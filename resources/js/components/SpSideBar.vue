@@ -166,7 +166,7 @@ export default {
     },
   },
   async mounted() {
-    console.log("sidebar mounted.");
+    console.log("sp sidebar mounted.");
     let shopselect = await this.getShopSelection();
     this.shopSelection = shopselect;
   },

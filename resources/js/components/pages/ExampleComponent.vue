@@ -14,7 +14,7 @@
 <script>
 export default {
   mounted() {
-    console.log("example mounted.");
+    console.log("example pages mounted.");
   },
 };
 </script>

@@ -1,5 +1,9 @@
 <template>
-  <v-dialog v-show="display" persistent>
+  <v-dialog
+    :modelValue="display"
+    @update:modelValue="$emit('update:display', $event)"
+    persistent
+  >
     <v-card>
       <v-card-title> 削除 </v-card-title>
       <v-card-text class="text-center">
@@ -25,8 +29,9 @@ export default {
   },
   methods: {
     submitAction() {
-      this.deleteUser(this.$store.state.user.deleteUserId);
+      this.deleteUser(this.$store.state.enduser.deleteUserId);
       this.closeAction();
+      window.location.reload();
     },
   },
   mounted() {},

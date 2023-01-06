@@ -40,14 +40,14 @@ class Announce extends Model
         return $this->belongsTo(User::class, 'upd_account');
     }
 
-    public function announce_category()
+    public function announce_categories()
     {
         return $this->belongsTo(AnnounceCategory::class, 'announce_category_id');
     }
 
     public static function getAnnounce($offset, $limit, $sort, $newsStatus, $newsAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchNewsCol, $searchNews, $searchCategory, $shop_id)
     {
-        $announceModel = Announce::with('add_account', 'upd_account', 'announce_category')
+        $announceModel = Announce::with('add_account', 'upd_account', 'announce_categories')
             ->where('del_flg', false)
             ->where('shop_id', $shop_id);
 

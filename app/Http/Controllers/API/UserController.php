@@ -4,14 +4,14 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\ShopUser;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Hash;
-use DateTime;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use DateTime;
 use DB;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -133,5 +133,28 @@ class UserController extends Controller
 
         Log::info('ユーザ削除');
         Log::debug(print_r($user_ids, true));
+    }
+
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
+    public function deleteAccount(Request $request, $id)
+    {
+        // 店舗ユーザの物理削除
+        ShopUser::where('user_id', $id)->delete();
+
+        // 対象ユーザの論理削除
+        // ユーザ情報を取得
+        $user = User::where('id', $id)->first();
+        // 誤って削除した場合など、同じメールアドレスを再使用することが考えられるため、IDとタイムスタンプで更新する。
+        User::where('id', $id)->update([
+            'del_flg' => 1,
+            'email' => $user->email . '_' . $user->id . '_' . date("YmdHis"),
+        ]);
+
+        Log::info('ユーザ削除');
+        Log::debug(print_r($id, true));
     }
 }

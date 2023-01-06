@@ -4,12 +4,11 @@
       <v-btn
         class="back_to_top"
         color="#fed966"
-        icon
-        variant="contained"
+        prepend-icon="mdi-triangle"
+        variant="plain"
         v-show="isVisible"
         @click="backTop"
       >
-        <v-icon>mdi-triangle</v-icon>
         TOP
       </v-btn>
     </div>
@@ -54,7 +53,7 @@ export default {
 .back_to_top {
   z-index: 999;
   position: fixed;
-  top: 90vh;
+  top: 85vh;
   left: 93vw;
   display: flex;
   flex-direction: column;

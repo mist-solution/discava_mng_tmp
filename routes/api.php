@@ -5,6 +5,7 @@ use App\Http\Controllers\API\AuthoritySetController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\SelectShopController;
+use App\Http\Controllers\API\ShopController;
 use App\Http\Controllers\API\ShopUserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AnnounceController;
@@ -39,6 +40,7 @@ Route::put('/api/changeshop', [SelectShopController::class, 'changeShopId']);
 Route::get('/api/shopusers', [ShopUserController::class, 'getLoginUserShopList']);
 Route::get('/api/shopselect', [ShopUserController::class, 'getLoginUserShopSelect']);
 Route::get('/api/shoplist/{id}', [ShopUserController::class, 'getShopListWithAuthoritySet']);
+Route::get('/api/shops', [ShopController::class, 'getShopList']);
 
 Route::get('/api/customer', [CustomerController::class, 'index']);
 Route::get('/api/customerSession', [CustomerController::class, 'getCompanyBySession']);
@@ -48,6 +50,7 @@ Route::get('/api/enduser/{id}', [UserController::class, 'showUser']);
 Route::post('/api/enduser', [UserController::class, 'register']);
 Route::put('/api/enduser/{id}', [UserController::class, 'update']);
 Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
+Route::delete('/api/enduser/{id}', [UserController::class, 'deleteAccount']);
 
 Route::get('/api/authoritySet', [AuthoritySetController::class, 'getAll']);
 
@@ -65,6 +68,6 @@ Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']
 //------------------------------------------------
 // WebAPI関連
 //------------------------------------------------
-Route::post('webapi/announce/list', [AnnounceListController::class, 'post']);
-Route::post('webapi/announce/detail/{id}', [AnnounceDetailContoller::class, 'post']);
-Route::post('webapi/announce/image/{id}', [AnnounceImageController::class, 'post']);
+Route::get('webapi/announce/list', [AnnounceListController::class, 'get']);
+Route::get('webapi/announce/detail/{id}', [AnnounceDetailContoller::class, 'get']);
+Route::get('webapi/announce/image/{id}', [AnnounceImageController::class, 'get']);

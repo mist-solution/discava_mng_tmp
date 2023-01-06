@@ -1,8 +1,9 @@
 
 <template>
   <div>
-    <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5 ml-5">新規投稿</h3>
-  </div>
+    <div>
+      <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5 ml-5">新規投稿</h3>
+    </div>
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">
 
@@ -16,7 +17,7 @@
 
             <QuillEditor
               toolbar="full"
-              class="ql-editor"
+              class="ql-editor p-0"
               v-model="contents"
               ref="myQuillEditor"
               :options="editorOption"
@@ -166,6 +167,8 @@
         </v-row>
       </v-card>
     </v-form>
+
+    <!--- プレビュー -->
     <div class="ql-container">
       <p>---お知らせ詳細---</p>
       <div
@@ -174,7 +177,9 @@
         @change="getQuillEditorContent()"
       ></div>
     </div>
+  </div>
 </template>
+
 <style src="../css/common.css"></style>
 
 <script>

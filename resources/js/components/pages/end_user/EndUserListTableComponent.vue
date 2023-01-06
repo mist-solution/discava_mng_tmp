@@ -60,7 +60,7 @@
 //import NewsListTablePagination from "../news_list/NewsListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { inject, mergeProps } from "vue";
-import EndUserDeleteConfirmModalComponent from "../end_user/EndUserDeleteConfirmModalComponent.vue";
+import EndUserDeleteConfirmModalComponent from "../../modals//EndUserDeleteConfirmModalComponent.vue";
 
 export default {
   components: {

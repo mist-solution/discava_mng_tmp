@@ -73,10 +73,10 @@
 </template>
 
 <script>
-import NewsDisplaySearchModalComponent from "./NewsDisplaySearchModalComponent.vue";
-import NewsDisplayLimitModalComponent from "./NewsDisplayLimitModalComponent.vue";
-import NewsDisplaySortModalComponent from "./NewsDisplaySortModalComponent.vue";
-import NewsDisplayCheckAllModalComponent from "./NewsDisplayCheckAllModalComponent.vue";
+import NewsDisplaySearchModalComponent from "../../modals/NewsDisplaySearchModalComponent.vue";
+import NewsDisplayLimitModalComponent from "../../modals/NewsDisplayLimitModalComponent.vue";
+import NewsDisplaySortModalComponent from "../../modals/NewsDisplaySortModalComponent.vue";
+import NewsDisplayCheckAllModalComponent from "../../modals/NewsDisplayCheckAllModalComponent.vue";
 
 export default {
   inject: ["reload"],

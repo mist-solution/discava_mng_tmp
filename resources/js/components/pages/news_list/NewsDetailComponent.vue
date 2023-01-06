@@ -51,7 +51,7 @@
 <script>
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { mapActions } from "vuex";
-import NewsDeleteConfirmModalComponent from "./NewsDeleteConfirmModalComponent.vue";
+import NewsDeleteConfirmModalComponent from "../../modals/NewsDeleteConfirmModalComponent.vue";
 
 export default {
   components: {

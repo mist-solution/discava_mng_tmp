@@ -105,9 +105,9 @@
 <script>
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { mapActions } from "vuex";
-import NewsApprovalConfirmModalComponent from "./NewsApprovalConfirmModalComponent.vue";
-import NewsApprovalReturnConfirmModalComponent from "./NewsApprovalReturnConfirmModalComponent.vue";
-import NewsApprovalRejectConfirmModalComponent from "./NewsApprovalRejectConfirmModalComponent.vue";
+import NewsApprovalConfirmModalComponent from "../../modals/NewsApprovalConfirmModalComponent.vue";
+import NewsApprovalReturnConfirmModalComponent from "../../modals/NewsApprovalReturnConfirmModalComponent.vue";
+import NewsApprovalRejectConfirmModalComponent from "../../modals/NewsApprovalRejectConfirmModalComponent.vue";
 
 export default {
   components: {

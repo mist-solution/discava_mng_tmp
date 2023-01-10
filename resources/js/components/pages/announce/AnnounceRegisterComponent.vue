@@ -155,14 +155,14 @@
         </v-row>
 
           <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-4">
-            <v-col cols="11" sm="7" class="p-0 mb-sm-0 mb-2">
+            <v-col cols="11" class="pt-0 px-0">
               <button class="pr-0 pl-0 btn white-btn" @click="getQuillEditorContent()">プレビュー</button>
             </v-col>
-            <v-col cols="11" sm="4" class="p-0 mb-sm-0 mb-2">
-              <button class="btn green-btn pr-0 pl-0" @click="submit">保存</button>
+            <v-col cols="11" class="pt-0 px-0">
+              <button class="btn green-btn pr-0 pl-0" @click="submit">下書き保存</button>
             </v-col>
-            <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0">
-              <button class="btn green-btn" @click="submit">保存して申請</button>
+            <v-col cols="11" class="pt-0 px-0">
+              <button class="btn green-btn" @click="submit">登録する</button>
           </v-col>
         </v-row>
       </v-card>

@@ -31,7 +31,7 @@ class SelectShopController extends Controller
 
         // 店舗ID、権限を設定
         $request->session()->put('shop_id', $shopuser->shop_id);
-        $request->session()->put('authority_id', $shopuser->authority_id);
+        $request->session()->put('authority_set_id', $shopuser->authority_set_id);
 
         Log::info('店舗切り替え user_id:' . Auth::id() . 'shop_id:' . $shopuser->shop_id . ' shop_name' . $shopuser->shop_name);
     }

@@ -55,7 +55,7 @@
             {{ approvalStatusFormat(item.approval_status) }}
             <br>
             <v-menu>
-              <template v-slot:activator="{ props }">
+              <template v-slot:activator="{ props }" v-if="update_auth_flg">
                 <v-btn   elevation="2" x-small v-bind="props">
                   編集
                 </v-btn>
@@ -76,14 +76,14 @@
                     </div>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item v-if="request_auth_flg">
                   <v-list-item-title>
                     <div @click="" role="button">
                       申請する
                     </div>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item v-if="approval_auth_flg">
                   <v-list-item-title>
                     <div
                       @click="(displayNewsApprovalConfirm = true),
@@ -94,7 +94,7 @@
                     </div>                    
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item v-if="approval_auth_flg">
                   <v-list-item-title>
                     <div
                       @click="(displayNewsReturnApprovalConfirm = true),
@@ -105,21 +105,21 @@
                     </div>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item v-if="request_auth_flg">
                   <v-list-item-title>
                     <div @click="" role="button">
                       もう一度申請    
                     </div>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item v-if="request_auth_flg">
                   <v-list-item-title>
                     <div @click="" role="button">
                       申請をやめる
                     </div>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item v-if="delete_auth_flg">
                   <v-list-item-title>
                     <div
                       @click="(displayNewsDeleteConfirm = true),
@@ -280,6 +280,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import NewsListTablePagination from "./NewsListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { mergeProps } from "vue";
@@ -341,7 +343,12 @@ export default {
       listItems: [],
       menuDeleteAnnounce: [],
       select: [],
-      themeColor: "#69A5AF"
+      themeColor: "#69A5AF",
+      approval_auth_flg: null,
+      create_auth_flg: null,
+      update_auth_flg: null,
+      request_auth_flg: null,
+      delete_auth_flg: null,
     };
   },
   computed: {
@@ -421,6 +428,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions('authority', ['fetchAllAuthority']),
     mergeProps,
     closeAction() {
       this.displayNewsDeleteConfirm = false;
@@ -632,10 +640,19 @@ export default {
       );
     },
   },
-  mounted() {
+  async mounted() {
     this.getNewsList();
     this.setSelectItems();
     this.getListItems();
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.delete_auth_flg = authority.delete_auth_flg;
+      this.update_auth_flg = authority.update_auth_flg;
+      this.create_auth_flg = authority.create_auth_flg;
+      this.approval_auth_flg = authority.approval_auth_flg;
+      this.request_auth_flg = authority.request_auth_flg;
+      console.log(this.delete_auth_flg);
+    }
   },
 };
 </script>

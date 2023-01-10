@@ -12,6 +12,11 @@
     color:#707070;
 }
 
+/* aタグのtext-decoration無効化 */
+a {
+    text-decoration: none;
+}
+
 /* メインの入れ物 (主にcardでまとめる)*/
 .main-cont{
     border-radius: 5px;
@@ -27,6 +32,7 @@
        
     }
 }
+
 /* 碧色のボタン */
 .green-btn {
     border-radius: 5px;
@@ -43,6 +49,44 @@
     opacity:.8 !important;
     box-shadow: unset !important;
     background-color: #69A5AF !important;
+    color:#fff !important;
+}
+
+/* 灰色のボタン */
+.gray-btn {
+    border-radius: 5px;
+    background-color: #b9b9b9;
+    box-shadow: unset;
+}
+.gray-btn .v-btn__content{
+    color:#fff !important;
+}
+.gray-btn {
+    color:#fff !important;
+}
+.gray-btn:hover{
+    opacity:.8 !important;
+    box-shadow: unset !important;
+    background-color: #b9b9b9 !important;
+    color:#fff !important;
+}
+
+/* 赤いろのボタン(塗りあり) */
+.red-btn {
+    border-radius: 5px;
+    background-color: #DD5D5D;
+    box-shadow: unset;
+}
+.red-btn .v-btn__content{
+    color:#fff !important;
+}
+.red-btn {
+    color:#fff !important;
+}
+.red-btn:hover{
+    opacity:.8 !important;
+    box-shadow: unset !important;
+    background-color: #DD5D5D !important;
     color:#fff !important;
 }
 
@@ -285,4 +329,17 @@ text-align: center;
     opacity: 0;
     position: absolute;
     top:0;
+}
+
+/* モーダルの制御 */
+.v-dialog .v-overlay__content {
+    width: 50%;
+}
+@media (max-width: 599.99px){
+    .v-dialog .v-overlay__content {
+        width: 90%;
+    }
+}
+.modal-title {
+    font-weight: 600;
 }

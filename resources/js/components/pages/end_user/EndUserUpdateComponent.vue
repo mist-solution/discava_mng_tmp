@@ -46,32 +46,22 @@
                             <v-col cols="12" class="mt-5 pr-0 pb-0">
                               <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">権限グループ</p>
                             </v-col>
-                            <v-col cols="12" class="pt-sm-3 pb-0 pb-sm-3">
+                            <v-col v-for="shop in shopList" cols="12" class="pt-sm-3 pb-0 pb-sm-3">
                               <v-row align-sm="center shop-auth">
                                 <v-col cols="2" class="pr-0">
-                                  <p class="mb-0 pb-0">A店</p>
+                                  <p class="mb-0 pb-0">{{ shop.shop_name }}</p>
                                 </v-col>
                                 <v-col cols="10" class="pt-sm-3 shop-sel">
                                   <v-select
-                                    v-bind:items="authority"
+                                    :items="authoritySet"
+                                    item-value="id"
+                                    item-title="name"
                                     hide-details="false"
+                                    v-model=shop.model
                                   />
                                 </v-col>
                               </v-row>
-                            </v-col>
-                            <v-col cols="12" class="pt-sm-3 pb-0">
-                              <v-row align-sm="center shop-auth">
-                                <v-col cols="2" class="pr-0">
-                                  <p class="mb-0 pb-0">B店</p>
-                                </v-col>
-                                <v-col cols="10" class="pt-sm-3 shop-sel">
-                                  <v-select
-                                    v-bind:items="authority"
-                                    hide-details="false"
-                                  />
-                                </v-col>
-                              </v-row>
-                            </v-col>
+                            </v-col>                          
                           </v-row>
                       </div>
                       <v-row justify="center" class="mt-4 btn-list">
@@ -120,12 +110,8 @@ export default {
       messages: {
         checkbox: null,
       },
-      authority: [
-      '管理者',
-      '投稿者',
-      '閲覧者',
-      '該当なし'
-      ],
+      authoritySet: [],
+      shopList: null,
     }
   },
   components: {
@@ -134,6 +120,8 @@ export default {
   methods: {
     ...mapActions('enduser', ['getUserById']),
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
+    ...mapActions('authoritySet', ['fetchAllAuthoritySetDisplay']),
+    ...mapActions('shop', ['fetchShops']),
     submit() {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
@@ -159,13 +147,24 @@ export default {
 //      this.forms.email = user.email;
 //    },
   },
-//  computed: {
-//    ...mapGetters('enduser', ['getUserById']),
-//  },
+  computed: {
+    ...mapGetters('customer', ['getCustomers']),
+    ...mapGetters('authoritySet', ['getAuthoritySetDisplay']),
+    ...mapGetters('shop', ['getShops']),
+  },
   async mounted() {
 //    this.getUser();
     this.forms = await this.getUserById(this.userId);
-console.log(this.userId);
+    console.log(this.userId);
+    //    this.getCustomerCodes();
+    await this.fetchAllAuthoritySetDisplay();
+    this.authoritySet = this.getAuthoritySetDisplay;
+    await this.fetchShops();
+    this.shopList = this.getShops;
+  //console.log(this.getShops);
+    this.shopList.forEach(function(value){
+      value.model = { id:"" , name:"" };    
+    });
   },
 }
 </script>

@@ -155,15 +155,15 @@
         </v-row>
 
           <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-4">
-            <v-col cols="11" sm="7" class="p-0 mb-sm-0 mb-2">
+            <v-col cols="11" class="pt-0 px-0">
               <button class="pr-0 pl-0 btn white-btn" @click="getQuillEditorContent()">プレビュー</button>
             </v-col>
-            <v-col cols="11" sm="4" class="p-0 mb-sm-0 mb-2">
-              <button class="btn green-btn pr-0 pl-0" @click="submit">保存</button>
+            <v-col cols="11" class="pt-0 px-0">
+              <button class="btn green-btn pr-0 pl-0" @click="submit">下書き保存</button>
             </v-col>
-            <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0">
-              <button class="btn green-btn" @click="submit">保存して申請</button>
-          </v-col>
+            <v-col cols="11" class="pt-0 px-0">
+              <button class="btn green-btn" @click="submit">登録する</button>
+            </v-col>
         </v-row>
       </v-card>
     </v-form>
@@ -202,6 +202,8 @@ export default {
       start_date: null,
       dataUrl: null,
       file: null,
+      approval_auth_flg: null,
+      request_auth_flg: null,
       announce: {
         title: null,
         announce_category_id: null,
@@ -217,6 +219,7 @@ export default {
   methods: {
     ...mapActions('announceCategory', ['fetchCategories']),
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
+    ...mapActions('authority', ['fetchAllAuthority']),
     submit() {
       // リッチテキストのhtmlを取得
       const html = this.$refs.myQuillEditor.getHTML();
@@ -316,7 +319,14 @@ export default {
   },
   created() {
     this.fetchCategories();
-  }
+  },
+  async mounted() {
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.approval_auth_flg = authority.approval_auth_flg;
+      this.request_auth_flg = authority.request_auth_flg;
+    }
+  },
 };
 </script>
 

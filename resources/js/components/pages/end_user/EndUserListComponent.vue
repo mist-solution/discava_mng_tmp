@@ -6,7 +6,7 @@
   <!-- タブ部分 -->
   <v-row class="pt-5 align-center justify-start">
 
-    <router-link v-bind:to="{ name: 'enduser.register' }" >
+    <router-link v-bind:to="{ name: 'enduser.register' }" v-if="approval_auth_flg">
       <v-btn class="green-btn mx-2">
         アカウント登録
       </v-btn>
@@ -38,6 +38,7 @@
       sm="5"
       cols="10"
       align="center"
+      v-if="approval_auth_flg"
     >
 <!--
       <input type="checkbox" class="mr-5">
@@ -69,12 +70,15 @@
 
   <!-- アカウント一覧 -->
   <v-card class="ac-list main-cont">
-      <end-user-list-table :searchValue="searchText"/>
+    <end-user-list-table 
+      :searchValue="searchText"
+    />
   </v-card>
   </v-container>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import EndUserListTable from "../../items/EndUserListTableComponent.vue";
 import TitleComponent from "../../common/TitleComponent.vue"
 export default {
@@ -86,7 +90,18 @@ export default {
     return {
       searchText: "",
       items: [ "アカウント一括削除", "権限一括付与", "権限一括削除",],
+      approval_auth_flg: null,
     }
+  },
+  methods: {
+    ...mapActions('authority', ['fetchAllAuthority']),
+  },
+  async mounted() {
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.approval_auth_flg = authority.approval_auth_flg;
+    }
+    console.log(this.approval_auth_flg)
   },
 }
 </script>

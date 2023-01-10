@@ -163,7 +163,7 @@
             </v-col>
             <v-col cols="11" class="pt-0 px-0">
               <button class="btn green-btn" @click="submit">登録する</button>
-          </v-col>
+            </v-col>
         </v-row>
       </v-card>
     </v-form>
@@ -202,6 +202,8 @@ export default {
       start_date: null,
       dataUrl: null,
       file: null,
+      approval_auth_flg: null,
+      request_auth_flg: null,
       announce: {
         title: null,
         announce_category_id: null,
@@ -217,6 +219,7 @@ export default {
   methods: {
     ...mapActions('announceCategory', ['fetchCategories']),
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
+    ...mapActions('authority', ['fetchAllAuthority']),
     submit() {
       // リッチテキストのhtmlを取得
       const html = this.$refs.myQuillEditor.getHTML();
@@ -316,7 +319,14 @@ export default {
   },
   created() {
     this.fetchCategories();
-  }
+  },
+  async mounted() {
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.approval_auth_flg = authority.approval_auth_flg;
+      this.request_auth_flg = authority.request_auth_flg;
+    }
+  },
 };
 </script>
 

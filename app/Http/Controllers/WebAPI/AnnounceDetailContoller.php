@@ -23,7 +23,7 @@ class AnnounceDetailContoller extends Controller
     }
 
     /**
-     * 
+     *
      *
      * @return response
      */
@@ -38,7 +38,7 @@ class AnnounceDetailContoller extends Controller
         $token = $request->header('X-DiscavaMATE-API-Token');
         if(is_null($token)) {
             return response()->json([
-                'message' => 'Internal Server Error'
+                'message' => 'Internal Server Error(no header \'X-DiscavaMATE-API-Token\')'
             ], 500);
         }
 
@@ -53,15 +53,15 @@ class AnnounceDetailContoller extends Controller
         }
         if(is_null($shopId)) {
             return response()->json([
-                'message' => 'Internal Server Error'
+                'message' => 'Internal Server Error(not found shop id by token['. $token . '])'
             ], 500);
         }
-        
+
         // 店舗の指定されたお知らせIDを取得
         $announceId = $id;
         if(is_null($announceId)) {
             return response()->json([
-                'message' => 'Internal Server Error'
+                'message' => 'Internal Server Error(not found shop\'s announce id)'
             ], 500);
         }
 
@@ -78,11 +78,11 @@ class AnnounceDetailContoller extends Controller
             ->first();
         if(is_null($value)) {
             return response()->json([
-                'message' => 'Internal Server Error'
+                'message' => 'Internal Server Error(not found shop\'s announce record)'
             ], 500);
         }
-        
-        // お知らせ 
+
+        // お知らせ
         $announce = array();
         $announce['id'] = $value->id;
         $announce['shop_id'] = $value->shop_id;
@@ -101,7 +101,7 @@ class AnnounceDetailContoller extends Controller
         ->where('del_flg', '0')
         ->orderBy('id')
         ->get();
-        
+
         // お知らせ画像 ID
         $announceAttachments = array();
         foreach($records as $key => $value) {
@@ -120,4 +120,3 @@ class AnnounceDetailContoller extends Controller
         return $response;
     }
 }
-

@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import EndUserListTable from "./EndUserListTableComponent.vue";
+import EndUserListTable from "../../items/EndUserListTableComponent.vue";
 import TitleComponent from "../../common/TitleComponent.vue"
 export default {
   components: {

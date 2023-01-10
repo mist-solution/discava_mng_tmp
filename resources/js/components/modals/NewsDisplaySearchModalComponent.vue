@@ -1,8 +1,10 @@
 <template>
     <v-dialog v-show="display" persistent>
       <v-card>
-        <v-card-title> 検索 </v-card-title>
-        <v-card-text>
+        <!-- モーダルタイトル -->
+        <v-card-title class="text-center modal-title"> 検索 </v-card-title>
+        <!--  モーダル説明文 -->
+        <v-card-text class="text-center mb-3">
           検索条件を入力し、「検索」ボタンを押下してください。
         </v-card-text>
         <v-container>
@@ -79,9 +81,12 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-card-actions>
-          <v-btn @click="closeAction()">閉じる</v-btn>
-          <v-btn color="primary" @click="submitAction()">検索</v-btn>
+        <!-- 操作 -->
+        <v-card-actions class="justify-center">
+          <!-- 閉じるボタン -->
+          <v-btn @click="closeAction()" class="gray-btn mx-2">閉じる</v-btn>
+          <!-- 検索ボタン -->
+          <v-btn @click="submitAction()" class="red-btn mx-2">検索</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

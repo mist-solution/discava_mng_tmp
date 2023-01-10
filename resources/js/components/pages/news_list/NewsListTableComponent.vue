@@ -283,9 +283,9 @@
 import NewsListTablePagination from "./NewsListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { mergeProps } from "vue";
-import NewsDeleteConfirmModalComponent from "./NewsDeleteConfirmModalComponent.vue";
-import NewsApprovalConfirmModalComponent from "./NewsApprovalConfirmModalComponent.vue";
-import NewsApprovalReturnConfirmModalComponent from "./NewsApprovalReturnConfirmModalComponent.vue"
+import NewsDeleteConfirmModalComponent from "../../modals/NewsDeleteConfirmModalComponent.vue";
+import NewsApprovalConfirmModalComponent from "../../modals/NewsApprovalConfirmModalComponent.vue";
+import NewsApprovalReturnConfirmModalComponent from "../../modals/NewsApprovalReturnConfirmModalComponent.vue"
 
 export default {
   components: {

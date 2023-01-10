@@ -4,18 +4,21 @@
       @update:modelValue="$emit('update:display', $event)"
       persistent
     >
-      <v-card>
-        <v-card-title> 削除 </v-card-title>
-        <v-card-text class="text-center">
+      <v-card class="p-3">
+        <!-- モーダルタイトル -->
+        <v-card-title class="text-center modal-title"> 削除 </v-card-title>
+        <!--  モーダル説明文 -->
+        <v-card-text class="text-center mb-3">
           アカウントの削除を行います。<br />
-          よろしければ「削除」ボダンを<br />
+          よろしければ「削除」ボタンを<br />
           押下してください。
-          <br />
-          <br />
         </v-card-text>
-        <v-card-actions>
-          <v-btn @click="closeAction()">閉じる</v-btn>
-          <v-btn color="primary" @click="submitAction()">削除</v-btn>
+        <!-- 操作 -->
+        <v-card-actions class="justify-center">
+          <!-- 閉じるボタン -->
+          <v-btn @click="closeAction()" class="gray-btn mx-2">閉じる</v-btn>
+          <!-- 削除ボタン -->
+          <v-btn @click="submitAction()" class="green-btn mx-2">削除</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

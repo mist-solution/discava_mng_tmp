@@ -1,23 +1,29 @@
 <template>
-    <v-dialog width="auto" v-show="display" persistent>
-      <v-card>
-        <v-card-title> 差戻し </v-card-title>
-        <v-card-text class="text-center">
+    <v-dialog v-show="display" persistent>
+      <v-card class="p-3">
+        <!-- モーダルタイトル -->
+        <v-card-title class="text-center modal-title"> 差戻し </v-card-title>
+        <!--  モーダル説明文 -->
+        <v-card-text class="text-center mb-3">
           記事の差戻しを行います。<br />
-          よろしければ「差戻し」ボダンを<br />
+          よろしければ「差戻し」ボタンを<br />
           押下してください。
-          <br />
-          <br />
         </v-card-text>
+        <!-- 差戻しコメント -->
         <v-textarea
           outlined
           v-model="returnComment"
           name="returnComment"
-          label="コメント"
-        ></v-textarea>
-        <v-card-actions>
-          <v-btn @click="closeAction()">閉じる</v-btn>
-          <v-btn color="primary" @click="submitAction()">差戻し</v-btn>
+          label="差戻しコメント"
+          class="mx-md-4 mb-4"
+        >
+        </v-textarea>
+        <!-- 操作 -->
+        <v-card-actions class="justify-center">
+          <!-- 閉じるボタン -->
+          <v-btn @click="closeAction()" class="gray-btn mx-2">閉じる</v-btn>
+          <!-- 差戻しボタン -->
+          <v-btn @click="submitAction()" class="green-btn mx-2">差戻し</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

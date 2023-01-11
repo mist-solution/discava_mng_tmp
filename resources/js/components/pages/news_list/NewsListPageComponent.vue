@@ -6,8 +6,11 @@
     <v-card>
       <v-card-title class="ml-2" width="80%">
         <div class="btn-group ml-auto" v-if="create_auth_flg">
-          <router-link v-bind:to="{ name: 'announce.register' }">
-            <button class="btn btn-success mr-2">投稿</button>
+          <router-link v-bind:to="{ name: 'announce.register' }" class="mt-2">
+            <button class="btn green-btn_toukou mr-2 px-4 justify-center">
+              <v-icon color="white" x-small class="pb-1">mdi-pencil</v-icon>
+              投稿
+            </button>
           </router-link>
   <!--
           <router-link v-bind:to="{ name: 'task.list' }">
@@ -144,3 +147,26 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  /* 投稿ボタン */
+  .green-btn_toukou {
+    border-radius: 5px;
+    background-color: #69A5AF;
+    box-shadow: unset;
+    font-size: large;
+    font-weight: 600;
+  }
+  .green-btn_toukou .v-btn__content{
+    color:#fff !important;
+  }
+  .green-btn_toukou {
+    color:#fff !important;
+  }
+  .green-btn_toukou:hover{
+    opacity:.8 !important;
+    box-shadow: unset !important;
+    background-color: #69A5AF !important;
+    color:#fff !important;
+  }
+</style>

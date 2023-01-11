@@ -147,7 +147,7 @@ export default {
       axios.get("/api/announce/" + this.announceId).then((res) => {
         this.AnnounceDetail = res.data;
         if (this.AnnounceDetail == 1) {
-          this.openError("対象が削除しました。");
+          this.openError("このお知らせは削除されています");
           this.$router.push({ name: "news.list" });
           return;
         } else if (this.AnnounceDetail == 9) {

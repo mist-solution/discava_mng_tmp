@@ -86,6 +86,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import NewsListTable from "./NewsListTableComponent.vue";
 import NewsListActionBarConponent from "./NewsListActionBarConponent.vue";
 import TitleComponent from "../../common/TitleComponent.vue"
@@ -99,10 +101,10 @@ export default {
     return {
       tab: null,
       create_auth_flg: null,
-      update_auth_flg: null,
     };
   },
   methods: {
+    ...mapActions('authority', ['fetchAllAuthority']),
     // お知らせの承認ステータス
     newsStatus(newsStatus) {
       this.$store.dispatch("news/setDisplayNewsStatus", newsStatus);
@@ -126,6 +128,12 @@ export default {
       }
       this.$store.dispatch("news/setDisplayListsItemKey", tabName);
     },
+  },
+  async mounted() {
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.create_auth_flg = authority.create_auth_flg;
+    }
   },
 };
 </script>

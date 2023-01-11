@@ -40,9 +40,12 @@
           />
         </template>
         <template #item-title="item">
-          <router-link :to="{ name: 'announce.edit', params: { announceId: item.id } }">
+          <router-link :to="{ name: 'announce.edit', params: { announceId: item.id } }" v-if="update_auth_flg">
             {{ item.title }}
           </router-link>
+          <div v-if="!update_auth_flg">
+            {{ item.title }}
+          </div>
         </template>
         <template #item-created_at="item">
           {{ timestampFormat(item.created_at) }}

@@ -203,7 +203,7 @@ export default {
       //     console.log("invalid!");
       //     return;
       //   }
-console.log(this.forms);
+        console.log(this.forms);
         this.$axios.post('/api/enduser', this.forms)
         .then(response => {
           this.reset();

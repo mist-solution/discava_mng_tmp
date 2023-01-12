@@ -154,42 +154,42 @@
         </v-row>
 
         <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-4">
-          <v-col cols="11" sm="7" class="p-0 mb-sm-0 mb-2">
-            <button class="pr-0 pl-0 btn white-btn" @click="getQuillEditorContent()">プレビュー</button>
+          <v-col cols="11" class="pt-0 px-0">
+              <button type="button" class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">プレビュー</button>
           </v-col>
-          <v-col cols="11" sm="4" class="p-0 mb-sm-0 mb-2">
-            <button class="btn green-btn pr-0 pl-0" @click="submit">保存</button>
+          <v-col cols="11" class="pt-0 px-0">
+            <button type="button" class="btn green-btn pr-0 pl-0" @click="submit">下書き保存</button>
           </v-col>
-          <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0">
-            <button class="btn green-btn">保存して申請</button>
+          <v-col cols="11" class="pt-0 px-0">
+            <button type="button" class="btn green-btn" @click="submit">登録する</button>
           </v-col>
         </v-row>
 
-        <p class="pt-3 mt-3 mb-4 mb-sm-0 font-weight-bold accept-stat ">承認ステータス</p>
+        <p class="pt-3 mt-3 mb-4 mb-sm-0 font-weight-bold accept-stat" v-if="approval_auth_flg && announce.approval_status != '0'">承認ステータス</p>
         <!-- 管理者権限　承認or差し戻し -->
-        <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0">
+        <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0" v-if="approval_auth_flg && announce.approval_status == '1'">
           <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0">
-            <button class="btn sendbacks-btn">差し戻す</button>
+            <button type="button" class="btn sendbacks-btn">差し戻す</button>
           </v-col>
           <v-col cols="11" class="pt-0 pr-0 pl-0">
-            <button class="btn greens-btn">承認する</button>
+            <button type="button" class="btn greens-btn">承認する</button>
           </v-col>
         </v-row>
 
         <!-- 管理者権限　承認後 -->
-        <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0">
+        <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0" v-if="approval_auth_flg && announce.approval_status == '2'">
           <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0">
-            <button class="btn disable-btn">承認済み</button>
+            <button type="button" class="btn disable-btn">承認済み</button>
           </v-col>
           <v-col cols="11" class="pt-0 pr-0 pl-0">
-            <button class="btn sendback-btn">承認取り下げ</button>
+            <button type="button" class="btn sendback-btn">承認取り下げ</button>
           </v-col>
         </v-row>
 
         <!-- 管理者権限　差し戻し後 -->
-        <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0">
+        <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0" v-if="approval_auth_flg && announce.approval_status == '3'">
           <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0">
-            <button class="btn disable-btn">差し戻し済</button>
+            <button type="button" class="btn disable-btn">差し戻し済</button>
           </v-col>
         </v-row>
 
@@ -203,6 +203,18 @@
         @change="getQuillEditorContent()"
       ></div>
     </div>
+
+    <!-- プレビュー画面モーダル -->
+    <announce-preview-modal-component
+      :modelValue="displayAnnouncePreview"
+      @update:modelValue="displayAnnouncePreview = $event"
+      :closeAction="closePreview"
+      :close_flg=1
+      :contents="contents"
+      :start_date="announce.start_date"
+      :end_date="announce.end_date"
+      :username="username"
+    />
 </template>
 <style src="../css/common.css"></style>
 <style scoped>
@@ -220,12 +232,14 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import DatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
+import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
 
 export default {
   components: {
     QuillEditor,
     DatePicker,
     'vue-ctk-date-time-picker': VueCtkDateTimePicker,
+    AnnouncePreviewModalComponent,
   },
   props: {
     announceId: String,
@@ -242,12 +256,18 @@ export default {
         required: value => !!value || '必須です。',
       },
       image: [],
+      approval_auth_flg: null,
+      request_auth_flg: null,
+      displayAnnouncePreview: false,
+      username: null,
     };
   },
   methods: {
     ...mapActions('announceCategory', ['fetchCategories']),
     ...mapActions('announce', ['getAnnounce']),
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
+    ...mapActions('authority', ['fetchAllAuthority']),
+    ...mapActions('enduser', ['getUserInfo']),
     submit() {
       // リッチテキストのhtmlを取得
       const html = this.$refs.myQuillEditor.getHTML();
@@ -310,8 +330,21 @@ export default {
       this.contents = html;
     },
 
+    // 掲載期間を取得
+    getAnnounceDate() {
+      const start = moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD") : '';
+      const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD") : '';
+      this.announce.start_date = start;
+      this.announce.end_date = end;
+      this.username = this.username;
+      },
+
     format(date) {
       return moment(date).format('yyyy/MM/DD');
+    },
+
+    closePreview(){
+      this.displayAnnouncePreview = false;
     },
   },
   computed: {
@@ -328,6 +361,16 @@ export default {
   async mounted() {
     this.announce = await this.getAnnounce(this.announceId);
     this.$refs.myQuillEditor.pasteHTML(this.announce.contents);
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.approval_auth_flg = authority.approval_auth_flg;
+      this.request_auth_flg = authority.request_auth_flg;
+    }
+    console.log(this.approval_auth_flg)
+    let name = await this.getUserInfo();
+    if(name){
+        this.username = name.name;
+    }
   },
   created() {
     this.fetchCategories();
@@ -348,4 +391,13 @@ export default {
 .ql-editor h2 {
   border: none;
 }
+
+.v-dialog--fullscreen .v-overlay__content{
+    width: 100% !important;
+}
+
+.v-dialog--fullscreen .v-overlay__content .v-card{
+    padding: 0px !important;
+}
+
 </style>

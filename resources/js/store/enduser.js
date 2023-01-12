@@ -3,11 +3,15 @@ import axios from "../axios"
 const state = {
     users: null,
     deleteUserId: "",
+    userInfo: null,
 }
 const getters = {
     getUsers: (state) => {
         return state.users;
     },
+    getUserInfo: (state) =>{
+        return state.userInfo;
+    }
 //    getUserById: (state) => (id) => {
 //        const user = state.users.find((user) => {
 //            return user.id == id
@@ -32,6 +36,20 @@ const actions = {
         const res = await axios.get('/api/enduser/' + id);
         return res.data;
     },
+    async getUserInfo(context){
+        const res = await axios.get('/api/loginuserinfo')
+        context.commit('setUserInfo', res.data.userInfo);
+
+        const userInfo = res.data.userInfo[0];
+        let response = {};
+        if (userInfo) {
+            response['name'] = userInfo.name;
+            return response;
+        } else {
+            return null;
+        };
+        
+    }
 }
 const mutations = {
     setUsers(state, users) {
@@ -39,6 +57,9 @@ const mutations = {
     },
     setDeleteUserId(state, deleteUserId) {
         state.deleteUserId = deleteUserId;
+    },
+    setUserInfo(state, userInfo) {
+        state.userInfo = userInfo;
     },
 }
 

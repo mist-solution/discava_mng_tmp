@@ -40,9 +40,12 @@
           />
         </template>
         <template #item-title="item">
-          <router-link :to="{ name: 'announce.edit', params: { announceId: item.id } }">
+          <router-link :to="{ name: 'announce.edit', params: { announceId: item.id } }" v-if="update_auth_flg">
             {{ item.title }}
           </router-link>
+          <div v-if="!update_auth_flg">
+            {{ item.title }}
+          </div>
         </template>
         <template #item-created_at="item">
           {{ timestampFormat(item.created_at) }}
@@ -274,6 +277,11 @@
     :approvalAnnounceProcess="approvalAnnounceProcess"
   />
 
+  <!-- プレビューモーダル -->
+  <announce-preview-modal-component
+    :closeAction="closePreview"
+  />
+
   <!-- <v-row class="mt-3">
     <news-list-table-pagination />
   </v-row> -->
@@ -288,6 +296,7 @@ import { mergeProps } from "vue";
 import NewsDeleteConfirmModalComponent from "../../modals/NewsDeleteConfirmModalComponent.vue";
 import NewsApprovalConfirmModalComponent from "../../modals/NewsApprovalConfirmModalComponent.vue";
 import NewsApprovalReturnConfirmModalComponent from "../../modals/NewsApprovalReturnConfirmModalComponent.vue"
+import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
 
 export default {
   components: {
@@ -296,6 +305,7 @@ export default {
     NewsDeleteConfirmModalComponent,
     NewsApprovalConfirmModalComponent,
     NewsApprovalReturnConfirmModalComponent,
+    AnnouncePreviewModalComponent,
   },
   data() {
     return {
@@ -333,6 +343,7 @@ export default {
       displayNewsDeleteConfirm: false,
       displayNewsApprovalConfirm: false,
       displayNewsReturnApprovalConfirm: false,
+      displayAnnouncePreview: false,
       approvalStatus: "",
       approvalStatusArray: [
         { value: "0", status: "下書き" },
@@ -439,6 +450,9 @@ export default {
     },
     closeReturn() {
       this.displayNewsReturnApprovalConfirm = false;
+    },
+    closePreview(){
+      this.displayAnnouncePreview = false;
     },
     
     getNewsList() {

@@ -77,7 +77,7 @@
               <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">権限グループ</p>
             </v-col>
 
-            <v-col v-for="shop in shopList" cols="12" class="pt-sm-3 pb-0 pb-sm-3">
+            <v-col v-for="shop in this.forms.shopList" cols="12" class="pt-sm-3 pb-0 pb-sm-3">
               <v-row align-sm="center shop-auth">
                 <v-col cols="2" class="pr-0">
                   <p class="mb-0 pb-0">{{ shop.shop_name }}</p>
@@ -170,6 +170,7 @@ export default {
         email: '',
         password: '',
         password_confirmation:'',
+        shopList: null,
       },
       rules: {
         required: value => !!value || '必須です。',
@@ -185,7 +186,6 @@ export default {
         checkbox: null,
       },
       authoritySet: [],
-      shopList: null,
     }
   },
   components: {
@@ -203,17 +203,18 @@ export default {
           console.log("invalid!");
           return;
         }
+        console.log(this.forms);
         this.$axios.post('/api/enduser', this.forms)
         .then(response => {
           this.reset();
           this.openSuccess('登録しました');
           this.$router.push('/enduser');
 //          this.fetchUsers();
-        })
+       })
         .catch(error => {
           console.log(error);
         });
-      });
+       });
     },
     // 入力内容と検証エラーをリセットするメソッド
     reset() {
@@ -244,9 +245,9 @@ export default {
     await this.fetchAllAuthoritySetDisplay();
     this.authoritySet = this.getAuthoritySetDisplay;
     await this.fetchShops();
-    this.shopList = this.getShops;
+    this.forms.shopList = this.getShops;
 //console.log(this.getShops);
-    this.shopList.forEach(function(value){
+    this.forms.shopList.forEach(function(value){
       value.model = { id: 'none', name: '該当なし'};
     });
   },

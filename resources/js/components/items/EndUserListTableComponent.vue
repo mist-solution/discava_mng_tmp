@@ -31,7 +31,7 @@
 				{{ timestampFormat(item.updated_at) }}
 			</template>
 			<!-- 操作 -->
-			<template #item-button="item">
+			<template #item-button="item" v-if="approval_auth_flg">
 				<!-- 編集 -->
 				<v-icon class="green-icon mr-3"
 					@click="edit(item)"
@@ -66,6 +66,7 @@
 </template>
   
   <script>
+  import { mapActions } from "vuex";
   //import NewsListTablePagination from "../news_list/NewsListTablePagination.vue";
   import BackToTopComponent from "../BackToTopComponent.vue";
   import { inject, mergeProps } from "vue";
@@ -98,6 +99,7 @@
         select: [],
         themeColor: "#69A5AF",
         searchField: "name",
+        approval_auth_flg: null,
       };
     },
     computed: {
@@ -105,6 +107,7 @@
     watch: {
     },
     methods: {
+      ...mapActions('authority', ['fetchAllAuthority']),
       mergeProps,
       closeAction() {
         this.displayAccountDeleteConfirm = false;
@@ -157,9 +160,17 @@
         });
       },
     },
-    mounted() {
+    async mounted() {
       this.getAccountList();
       this.setSelectItems();
+      let authority = await this.fetchAllAuthority();
+      if(authority){
+        this.approval_auth_flg = authority.approval_auth_flg;
+        console.log(this.headers[3].text)
+        if(!this.approval_auth_flg){
+          this.headers[3].text = "";
+        }
+      }
     },
   };
   </script>

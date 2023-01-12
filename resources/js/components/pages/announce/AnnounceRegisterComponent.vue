@@ -156,14 +156,14 @@
 
           <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-4">
             <v-col cols="11" class="pt-0 px-0">
-              <button class="pr-0 pl-0 btn white-btn" @click="getQuillEditorContent()">プレビュー</button>
+              <button class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">プレビュー</button>
             </v-col>
             <v-col cols="11" class="pt-0 px-0">
               <button class="btn green-btn pr-0 pl-0" @click="submit">下書き保存</button>
             </v-col>
             <v-col cols="11" class="pt-0 px-0">
               <button class="btn green-btn" @click="submit">登録する</button>
-          </v-col>
+            </v-col>
         </v-row>
       </v-card>
     </v-form>
@@ -178,6 +178,18 @@
       ></div>
     </div>
   </div>
+
+  <!-- プレビュー画面モーダル -->
+    <announce-preview-modal-component
+      :modelValue="displayAnnouncePreview"
+      @update:modelValue="displayAnnouncePreview = $event"
+      :closeAction="closePreview"
+      :close_flg=1
+      :contents="contents"
+      :start_date="announce.start_date"
+      :end_date="announce.end_date"
+      :username="username"
+    />
 </template>
 
 <style src="../css/common.css"></style>
@@ -189,12 +201,14 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import DatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
+import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
 
 export default {
   
   components: {
     QuillEditor,
     DatePicker,
+    AnnouncePreviewModalComponent,
   },
   data() {
     return {
@@ -202,6 +216,10 @@ export default {
       start_date: null,
       dataUrl: null,
       file: null,
+      approval_auth_flg: null,
+      request_auth_flg: null,
+      displayAnnouncePreview: false,
+      username: null,
       announce: {
         title: null,
         announce_category_id: null,
@@ -217,6 +235,8 @@ export default {
   methods: {
     ...mapActions('announceCategory', ['fetchCategories']),
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
+    ...mapActions('authority', ['fetchAllAuthority']),
+    ...mapActions('enduser', ['getUserInfo']),
     submit() {
       // リッチテキストのhtmlを取得
       const html = this.$refs.myQuillEditor.getHTML();
@@ -293,6 +313,15 @@ export default {
       const html = this.$refs.myQuillEditor.getHTML();
       this.contents = html;
     },
+    // 掲載期間を取得
+    getAnnounceDate() {
+      const start = moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD") : '';
+      const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD") : '';
+      this.announce.start_date = start;
+      this.announce.end_date = end;
+      this.username = this.username;
+    },
+
     click() {
       console.log("click!");
       console.log(this.announce.thumbnail_file);
@@ -301,6 +330,10 @@ export default {
 
     format(date) {
       return moment(date).format('yyyy/MM/DD');
+    },
+
+    closePreview(){
+      this.displayAnnouncePreview = false;
     },
   },
   computed: {
@@ -316,7 +349,18 @@ export default {
   },
   created() {
     this.fetchCategories();
-  }
+  },
+  async mounted() {
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.approval_auth_flg = authority.approval_auth_flg;
+      this.request_auth_flg = authority.request_auth_flg;
+    }
+    let name = await this.getUserInfo();
+    if(name){
+        this.username = name.name;
+    }
+  },
 };
 </script>
 
@@ -332,4 +376,13 @@ export default {
 .ql-editor h2 {
   border: none;
 }
+
+.v-dialog--fullscreen .v-overlay__content{
+    width: 100% !important;
+}
+
+.v-dialog--fullscreen .v-overlay__content .v-card{
+    padding: 0px !important;
+}
+
 </style>

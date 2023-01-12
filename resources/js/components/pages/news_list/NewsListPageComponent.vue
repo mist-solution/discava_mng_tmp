@@ -33,7 +33,6 @@
             newsStatus(1);
             setSelectTab(1);
           "
-          v-if="update_auth_flg"
           >承認待ち</v-tab
         >
         <v-tab
@@ -42,7 +41,6 @@
             newsStatus(0);
             setSelectTab(2);
           "
-          v-if="update_auth_flg"
           >下書き</v-tab
         >
         <v-tab
@@ -51,7 +49,6 @@
             newsStatus(3);
             setSelectTab(3);
           "
-          v-if="update_auth_flg"
           >差戻し</v-tab
         >
         <v-tab
@@ -60,7 +57,6 @@
             newsStatus(2);
             setSelectTab(4);
           "
-          v-if="update_auth_flg"
           >承認済み</v-tab
         >
       </v-tabs>
@@ -108,7 +104,6 @@ export default {
     return {
       tab: null,
       create_auth_flg: null,
-      update_auth_flg: null,
     };
   },
   methods: {
@@ -140,9 +135,7 @@ export default {
   async mounted() {
     let authority = await this.fetchAllAuthority();
     if(authority){
-      this.update_auth_flg = authority.update_auth_flg;
       this.create_auth_flg = authority.create_auth_flg;
-      console.log(this.create_auth_flg);
     }
   },
 };

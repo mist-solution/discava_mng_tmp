@@ -68,6 +68,8 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
+        \Debugbar::info("info");
+//        log::info("呼ばれてる");
         $password = Hash::make($request['password']);
 
         $user = new User();
@@ -87,6 +89,26 @@ class UserController extends Controller
         $user['updated_at'] = new DateTime();
 
         $user->save();
+
+//        log::info("ユーザー登録完了");
+        $shopList = $request['shopList'];
+
+//        Log::info($shopList);
+        for($i = 0 ; $i < count($shopList); $i++) {
+            $shopUser = new ShopUser();
+
+            $shopUser['customer_id'] = Auth::user()->customer_id;
+            $shopUser['shop_id'] = $shopList[$i]['id'];
+            $shopUser['user_id'] = DB::table('users')->latest('id')->first()->id;
+            $shopUser['authority_set_id'] = $shopList[$i]['model'];
+            $shopUser['add_account'] = Auth::user()->id;
+            $shopUser['upd_account'] = Auth::user()->id;
+            $shopUser['del_flg'] = '0';
+            $shopUser['created_at'] = new DateTime();
+            $shopUser['updated_at'] = new DateTime();
+
+            $shopUser->save();
+        }
     }
 
     /**
@@ -106,6 +128,20 @@ class UserController extends Controller
 
         $user = User::find($id);
         $user->update($update);
+
+        $shopList = $request['shopList'];
+        Log::info($shopList);
+        
+        for($i = 0 ; $i < count($shopList); $i++) {
+            $shopUser = new ShopUser();
+            $shopUser['customer_id'] = Auth::user()->customer_id;
+            $shopUser['user_id'] = Auth::user()->id;
+            $shopUser['shop_id'] = $shopList[$i]['id'];
+            $shopUser['authority_set_id'] = $shopList[$i]['model'];
+            $shopUser['updated_at'] = new DateTime();
+
+            $shopUser->update();
+        }
     }
 
     /**
@@ -156,5 +192,26 @@ class UserController extends Controller
 
         Log::info('ユーザ削除');
         Log::debug(print_r($id, true));
+    }
+
+    //sessionのUser_idからログインユーザーの情報取得
+    public function getUserInfo(Request $request){
+        $userId = $request->session()->get('user_id');
+        $response = array();
+        
+        $UserInfo = User::where('id',$userId)
+            ->get();
+        
+        $userInfoArray = array();
+        foreach ($UserInfo as $key => $value) {
+            $userData = array();
+            $userData['name'] = $value->name;
+            $userInfoArray[] = $userData;
+        }
+        
+        $response['userInfo'] = $userInfoArray;
+        $response['message'] = 'success_ui';
+        return new JsonResponse($response);
+
     }
 }

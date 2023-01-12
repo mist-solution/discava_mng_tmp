@@ -57,9 +57,10 @@ class LoginController extends Controller
         // 店舗ユーザの１行目を取得
         $shopuser = ShopUser::where('user_id', Auth::id())->first();
 
-        // 店舗ID、権限を設定
+        // 店舗ID、権限、ユーザーIDを設定
         $request->session()->put('shop_id', $shopuser->shop_id);
         $request->session()->put('authority_set_id', $shopuser->authority_set_id);
+        $request->session()->put('user_id', $shopuser->user_id);
 
         // ログイン後のリダイレクト
         return redirect()->intended($this->redirectPath());

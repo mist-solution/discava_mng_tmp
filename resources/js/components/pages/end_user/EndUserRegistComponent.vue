@@ -210,11 +210,11 @@ export default {
           this.openSuccess('登録しました');
           this.$router.push('/enduser');
 //          this.fetchUsers();
-        })
+       })
         .catch(error => {
           console.log(error);
         });
-      // });
+       });
     },
     // 入力内容と検証エラーをリセットするメソッド
     reset() {

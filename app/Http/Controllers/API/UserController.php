@@ -87,6 +87,22 @@ class UserController extends Controller
         $user['updated_at'] = new DateTime();
 
         $user->save();
+
+        $shopList = $request['shopList'];
+
+        for(shopList) {
+            $shopUser = new ShopUser();
+
+            $shopUser['customer_id'] = Auth::user()->customer_id;
+            $shopUser['shop_id'] = $shopList[i].id;
+            $shopUser['user_id'] = ????
+            $shopUser['authority_set_id'] = $shopList[i].id;
+            $shopUser['add_account'] = Auth::user()->id;
+            $shopUser['upd_account'] = Auth::user()->id;
+            $shopUser['del_flg'] = '0';
+            $shopUser['created_at'] = new DateTime();
+            $shopUser['updated_at'] = new DateTime();
+        }
     }
 
     /**

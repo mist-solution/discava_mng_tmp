@@ -296,6 +296,14 @@ export default {
       const html = this.$refs.myQuillEditor.getHTML();
       this.contents = html;
     },
+    // 掲載期間を取得
+    getAnnounceDate() {
+      const start = moment(this.announce.start_date).format("yyyy-MM-DD");
+      const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '';
+      this.announce.start_date = start;
+      this.announce.start_date = end;
+    },
+
     click() {
       console.log("click!");
       console.log(this.announce.thumbnail_file);

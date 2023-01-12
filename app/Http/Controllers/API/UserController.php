@@ -179,4 +179,25 @@ class UserController extends Controller
         Log::info('ユーザ削除');
         Log::debug(print_r($id, true));
     }
+
+    //sessionのUser_idからログインユーザーの情報取得
+    public function getUserInfo(Request $request){
+        $userId = $request->session()->get('user_id');
+        $response = array();
+        
+        $UserInfo = User::where('id',$userId)
+            ->get();
+        
+        $userInfoArray = array();
+        foreach ($UserInfo as $key => $value) {
+            $userData = array();
+            $userData['name'] = $value->name;
+            $userInfoArray[] = $userData;
+        }
+        
+        $response['userInfo'] = $userInfoArray;
+        $response['message'] = 'success_ui';
+        return new JsonResponse($response);
+
+    }
 }

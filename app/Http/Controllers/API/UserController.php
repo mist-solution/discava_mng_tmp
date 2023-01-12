@@ -128,6 +128,20 @@ class UserController extends Controller
 
         $user = User::find($id);
         $user->update($update);
+
+        $shopList = $request['shopList'];
+        Log::info($shopList);
+        
+        for($i = 0 ; $i < count($shopList); $i++) {
+            $shopUser = new ShopUser();
+            $shopUser['customer_id'] = Auth::user()->customer_id;
+            $shopUser['user_id'] = Auth::user()->id;
+            $shopUser['shop_id'] = $shopList[$i]['id'];
+            $shopUser['authority_set_id'] = $shopList[$i]['model'];
+            $shopUser['updated_at'] = new DateTime();
+
+            $shopUser->update();
+        }
     }
 
     /**

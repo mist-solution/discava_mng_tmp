@@ -46,7 +46,7 @@
                             <v-col cols="12" class="mt-5 pr-0 pb-0">
                               <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">権限グループ</p>
                             </v-col>
-                            <v-col v-for="shop in shopList" cols="12" class="pt-sm-3 pb-0 pb-sm-3">
+                            <v-col v-for="shop in this.forms.shopList" cols="12" class="pt-sm-3 pb-0 pb-sm-3">
                               <v-row align-sm="center shop-auth">
                                 <v-col cols="2" class="pr-0">
                                   <p class="mb-0 pb-0">{{ shop.shop_name }}</p>
@@ -97,6 +97,7 @@ export default {
         id: '',
         name: '',
         email: '',
+        shopList: null,
       },
       rules: {
         required: value => !!value || '必須です。',
@@ -110,8 +111,7 @@ export default {
       messages: {
         checkbox: null,
       },
-      authoritySet: [],
-      shopList: null,
+      authoritySet: []
     }
   },
   components: {
@@ -160,10 +160,12 @@ export default {
     await this.fetchAllAuthoritySetDisplay();
     this.authoritySet = this.getAuthoritySetDisplay;
     await this.fetchShops();
-    this.shopList = this.getShops;
-  //console.log(this.getShops);
-    this.shopList.forEach(function(value){
-      value.model = { id:"" , name:"" };    
+    this.forms.shopList = this.getShops;
+    console.log("aaaaaaaaaaa");
+    console.log(this.forms.shopList);
+    console.log("aaaaaaaaaaa");
+    this.forms.shopList.forEach(function(value){
+      ;    
     });
   },
 }

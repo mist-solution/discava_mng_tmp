@@ -69,7 +69,7 @@ class UserController extends Controller
     public function register(Request $request)
     {
         \Debugbar::info("info");
-        log::info("呼ばれてる");
+//        log::info("呼ばれてる");
         $password = Hash::make($request['password']);
 
         $user = new User();
@@ -89,22 +89,25 @@ class UserController extends Controller
         $user['updated_at'] = new DateTime();
 
         $user->save();
-        log::info("ユーザー登録完了");
+
+//        log::info("ユーザー登録完了");
         $shopList = $request['shopList'];
 
-        Log::info($shopList);
-
+//        Log::info($shopList);
         for($i = 0 ; $i < count($shopList); $i++) {
             $shopUser = new ShopUser();
+
             $shopUser['customer_id'] = Auth::user()->customer_id;
-            $shopUser['shop_id'] = $shopList[i].id;
-            $shopUser['user_id'] = DB::table('users')->latest('id')->first();
-            $shopUser['authority_set_id'] = $shopList["model"];
+            $shopUser['shop_id'] = $shopList[$i]['id'];
+            $shopUser['user_id'] = DB::table('users')->latest('id')->first()->id;
+            $shopUser['authority_set_id'] = $shopList[$i]['model'];
             $shopUser['add_account'] = Auth::user()->id;
             $shopUser['upd_account'] = Auth::user()->id;
             $shopUser['del_flg'] = '0';
             $shopUser['created_at'] = new DateTime();
             $shopUser['updated_at'] = new DateTime();
+
+            $shopUser->save();
         }
     }
 

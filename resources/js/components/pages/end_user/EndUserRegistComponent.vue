@@ -198,11 +198,11 @@ export default {
     ...mapActions('shop', ['fetchShops']),
     submit() {
       const validateRes = this.$refs.form.validate();
-      // validateRes.then(res => {
-      //   if (!res.valid) {
-      //     console.log("invalid!");
-      //     return;
-      //   }
+      validateRes.then(res => {
+        if (!res.valid) {
+          console.log("invalid!");
+          return;
+        }
         console.log(this.forms);
         this.$axios.post('/api/enduser', this.forms)
         .then(response => {

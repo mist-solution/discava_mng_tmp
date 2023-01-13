@@ -97,6 +97,7 @@
                     <v-text-field
                         dense
                         hide-details="false"
+                        v-model="end_hour.hour"
                     />
                   </v-col>
                   <v-col cols="2" class="p-0">
@@ -106,6 +107,7 @@
                     <v-text-field
                         dense
                         hide-details="false"
+                        v-model="end_hour.hour"
                     />
                   </v-col>
                   <v-col cols="2" class="p-0">
@@ -315,8 +317,8 @@ export default {
     },
     // 掲載期間を取得
     getAnnounceDate() {
-      const start = moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD") : '';
-      const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD") : '';
+      const start = moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : '';
+      const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : '';
       this.announce.start_date = start;
       this.announce.end_date = end;
       this.username = this.username;

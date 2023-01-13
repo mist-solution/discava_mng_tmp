@@ -67,7 +67,9 @@
               >
                 <v-list-item>
                   <v-list-item-title>
-                    <div @click="" role="button">
+                    <div 
+                      @click="(displayAnnouncePreview = true),
+                       setPreviewInfo(item.start_date,item.end_date,item.contents)" role="button">
                       プレビュー
                     </div>
                   </v-list-item-title>
@@ -277,9 +279,17 @@
     :approvalAnnounceProcess="approvalAnnounceProcess"
   />
 
-  <!-- プレビューモーダル -->
+  <!-- プレビュー画面モーダル -->
   <announce-preview-modal-component
+    v-if="start_date"
+    :modelValue="displayAnnouncePreview"
+    @update:modelValue="displayAnnouncePreview = $event"
     :closeAction="closePreview"
+    :close_flg=0
+    :contents="contents"
+    :start_date="start_date"
+    :end_date="end_date"
+    :username="username"
   />
 
   <!-- <v-row class="mt-3">
@@ -360,6 +370,10 @@ export default {
       update_auth_flg: null,
       request_auth_flg: null,
       delete_auth_flg: null,
+      start_date: null,
+      end_date: null,
+      contents: null,
+      username: null,
     };
   },
   computed: {
@@ -440,6 +454,7 @@ export default {
   },
   methods: {
     ...mapActions('authority', ['fetchAllAuthority']),
+    ...mapActions('enduser', ['getUserInfo']),
     mergeProps,
     closeAction() {
       this.displayNewsDeleteConfirm = false;
@@ -653,6 +668,13 @@ export default {
         date.getDate().toString().padStart(2, "0")
       );
     },
+
+    //プレビュー画面に必要な情報をセット
+    setPreviewInfo(start_date,end_date,contents){
+      this.start_date = start_date.slice(0,-3)
+      this.end_date = end_date.slice(0,-3)
+      this.contents = contents
+    },
   },
   async mounted() {
     this.getNewsList();
@@ -665,8 +687,12 @@ export default {
       this.create_auth_flg = authority.create_auth_flg;
       this.approval_auth_flg = authority.approval_auth_flg;
       this.request_auth_flg = authority.request_auth_flg;
-      console.log(this.delete_auth_flg);
     }
+    let name = await this.getUserInfo();
+    if(name){
+        this.username = name.name;
+    }
+
   },
 };
 </script>
@@ -740,6 +766,16 @@ export default {
 }
 .disable > label{
   cursor: default;
+}
+</style>
+<style lang="scss">
+
+.v-dialog--fullscreen .v-overlay__content{
+    width: 100% !important;
+}
+
+.v-dialog--fullscreen .v-overlay__content .v-card{
+    padding: 0px !important;
 }
 
 </style>

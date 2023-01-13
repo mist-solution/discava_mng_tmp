@@ -97,7 +97,6 @@
                     <v-text-field
                         dense
                         hide-details="false"
-                        v-model="end_hour.hour"
                     />
                   </v-col>
                   <v-col cols="2" class="p-0">
@@ -107,7 +106,6 @@
                     <v-text-field
                         dense
                         hide-details="false"
-                        v-model="end_hour.hour"
                     />
                   </v-col>
                   <v-col cols="2" class="p-0">

@@ -6,28 +6,66 @@
     </div>
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">
+        <v-text-field
+          dense
+          v-model="announce.title"
+          :rules="[rules.required]"
+          hide-details="false"
+          label="タイトルを入力"
+        />
 
-            <v-text-field
-              dense
-              v-model="announce.title"
-              :rules="[rules.required]"
-              hide-details="false"
-              label="タイトルを入力"
-            />
+        <QuillEditor
+          toolbar="full"
+          class="ql-editor p-0"
+          v-model="contents"
+          ref="myQuillEditor"
+          :options="editorOption"
+          :rules="[rules.required]"
+          @blur="onEditorBlur($event)"
+          @focus="onEditorFocus($event)"
+          @change="onEditorChange($event)"
+        >
+        </QuillEditor>
 
-            <QuillEditor
-              toolbar="full"
-              class="ql-editor p-0"
-              v-model="contents"
-              ref="myQuillEditor"
-              :options="editorOption"
-              :rules="[rules.required]"
-              @blur="onEditorBlur($event)"
-              @focus="onEditorFocus($event)"
-              @change="onEditorChange($event)"
+        <!-- 添付ファイルのドラッグ＆ドロップ -->
+        <!-- ドラッグ＆ドロップでのファイル複数指定に対応のため dragover.prevent でイベントを無くす -->
+        <div class="p-3" @dragover.prevent="over" @dragleave.prevent="leave" @drop.prevent="upload($event)">
+            <!-- 添付ファイルをここにドラッグ＆ドロップ または -->
+            <!-- ファイルを追加 -->
+            <v-btn
+                depressed
+                small
+                elevation=1
+                @click="selectfile()"
             >
-            </QuillEditor>
-
+            ファイル選択
+            </v-btn>
+            <input id="file_input" type="file" accept="image/*" hidden multiple @change.prevent="addfile()">
+        </div>
+        <div class="p-3">
+          <EasyDataTable
+            v-if="attachments.length > 0"
+            :headers="headers"
+            :items="attachments"
+            :items-per-page="-1"
+            dense
+            hide-default-footer
+            hide-default-header
+            no-data-text=""
+          >
+            <template #item-action="item">
+              <!-- 削除ボタン -->
+              <v-btn
+                x-small
+                dark
+                elevation=0
+                @click="deletefile()"
+              >
+                <v-icon>mdi-trash-can-outline</v-icon>
+              </v-btn>
+            </template>
+          </EasyDataTable>
+        </div>
       </v-card>
       <v-card class="main-cont mt-5 mt-sm-0 p-3">
         <v-row>
@@ -227,9 +265,14 @@ export default {
         end_date: null,
         contents: null,
       },
+      attachments: [],
       rules: {
         required: value => !!value || '必須です。',
       },
+      headers: [
+          { text: 'ファイル名', value: 'name', align: 'left', class: 'no-wrap', sortable: false },
+          { text: '', value: 'action', align: 'right', class: 'action', sortable: false },
+      ],
     };
   },
   methods: {
@@ -263,6 +306,10 @@ export default {
           formData.append("thumbnail_file", this.announce.thumbnail_file["0"]);
         } else {
           formData.append("thumbnail_file", {});
+        }
+
+        for (let i = 0; i < this.attachments.length; i++) {
+          formData.append('attachments[' + i + ']', this.attachments[i]);
         }
         console.log(formData)
 
@@ -334,6 +381,47 @@ export default {
 
     closePreview(){
       this.displayAnnouncePreview = false;
+    },
+    // ドラッグ＆ドロップでファイルを追加
+    upload: function(event) {
+        const files = event.dataTransfer.files;
+        for (const file of files) {
+          this.attachments.push(file);
+        }
+        this.leave(event);
+    },
+    // ファイルを追加ボタン押下
+    selectfile: function() {
+        const fileInput = document.getElementById("file_input")
+        if (fileInput != null) {
+            fileInput.click()
+        }
+    },
+    // ファイルを追加ボタンでファイルを追加
+    addfile: function() {
+        const fileInput = document.getElementById("file_input")
+        for (const file of fileInput.files) {
+          this.attachments.push(file);
+          // 表示用タグとして本文に追加
+          let text = this.$refs.myQuillEditor.getText();
+          text = text + '\n' + '[['+file.name+']]';
+          this.$refs.myQuillEditor.setText(text);
+        }
+    },
+    // 削除ボタン押下
+    deletefile: function(item) {
+      const index = this.attachments.indexOf(item);
+      this.attachments.splice(index, 1);
+    },
+    over: function(event) {
+        if (event.target.classList && event.target.classList.contains("file-upload")) {
+            event.target.style.backgroundColor = '#CE93D8'
+        }
+    },
+    leave: function(event) {
+        if (event.target.classList && event.target.classList.contains("file-upload")) {
+            event.target.style.backgroundColor = ''
+        }
     },
   },
   computed: {

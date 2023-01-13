@@ -121,6 +121,9 @@ class AnnounceController extends Controller
         $thumbnail = $data['thumbnail_file'];
         Log::info('サムネイル');
         Log::info(print_r($thumbnail, true));
+        $attachments = $data['attachments'];
+        Log::info('ファイル');
+        Log::info(print_r($attachments, true));
 
         $regist['title'] = $announce['title'];
         $regist['announce_category_id'] = $announce['announce_category_id'];
@@ -137,6 +140,13 @@ class AnnounceController extends Controller
             $regist['thumbnail_img_path'] = $path;
             $regist->save();
         }
+
+        foreach ($attachments as $key => $value) {
+            Log::info('ファイル アップロード');
+            $path = Storage::putFile('announce/'.$regist['shop_id']."/".$regist['id']."/attachments", $value);
+            Log::info($path);
+        }
+
         return $regist;
     }
 

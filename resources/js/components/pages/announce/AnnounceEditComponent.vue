@@ -153,55 +153,124 @@
           </v-col>
         </v-row>
 
-        <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-4">
-          <v-col cols="11" class="pt-0 px-0">
-              <button type="button" class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">プレビュー</button>
+        <!-- 操作エリア -->
+        <v-row class="p-1 btn-gap mt-4 justify-center">
+          <!-- プレビュー -->
+          <v-col cols="11" class="p-0 mb-sm-0 mb-2">
+            <button class="pr-0 pl-0 btn white-btn" @click="getQuillEditorContent()">プレビュー</button>
           </v-col>
-          <v-col cols="11" class="pt-0 px-0">
-            <button type="button" class="btn green-btn pr-0 pl-0" @click="submit">下書き保存</button>
+        </v-row>
+        <v-row class="p-1 btn-gap mt-4 justify-center mb-3">
+          <!-- 更新する - ユーザに更新権限がある場合 -->
+          <v-col
+            v-if="update_auth_flg"
+            cols="11"
+            class="p-0 pb-2 mb-sm-0 mb-2"
+          >
+            <button
+              class="btn green-btn pr-0 pl-0"
+              @click="submit()"
+              type="button"
+            >
+              更新する
+            </button>
           </v-col>
-          <v-col cols="11" class="pt-0 px-0">
-            <button type="button" class="btn green-btn" @click="submit">登録する</button>
+          <!-- 申請する - ユーザに承認権限がある場合かつ、承認ステータス 2:承認済み以外の場合-->
+          <v-col
+            v-if="request_auth_flg && announce.approval_status != 2"
+            cols="11"
+            class="p-0 mb-sm-0 mb-2"
+          >
+            <button
+              class="btn green-btn pr-0 pl-0"
+              @click="approvalRequest(announce.id)"
+              type="button"
+            >
+              申請する
+            </button>
           </v-col>
         </v-row>
 
-        <p class="pt-3 mt-3 mb-4 mb-sm-0 font-weight-bold accept-stat" v-if="approval_auth_flg && announce.approval_status != '0'">承認ステータス</p>
-        <!-- 管理者権限　承認or差し戻し -->
-        <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0" v-if="approval_auth_flg && announce.approval_status == '1'">
-          <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0">
-            <button type="button" class="btn sendbacks-btn">差し戻す</button>
-          </v-col>
-          <v-col cols="11" class="pt-0 pr-0 pl-0">
-            <button type="button" class="btn greens-btn">承認する</button>
-          </v-col>
-        </v-row>
-
-        <!-- 管理者権限　承認後 -->
-        <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0" v-if="approval_auth_flg && announce.approval_status == '2'">
-          <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0">
-            <button type="button" class="btn disable-btn">承認済み</button>
-          </v-col>
-          <v-col cols="11" class="pt-0 pr-0 pl-0">
-            <button type="button" class="btn sendback-btn">承認取り下げ</button>
-          </v-col>
-        </v-row>
-
-        <!-- 管理者権限　差し戻し後 -->
-        <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0" v-if="approval_auth_flg && announce.approval_status == '3'">
-          <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0">
-            <button type="button" class="btn disable-btn">差し戻し済</button>
-          </v-col>
-        </v-row>
-
+        <!-- ユーザに承認権限がある場合かつ、承認ステータス 0:下書き以外の場合 -->
+        <div v-if="approval_auth_flg && announce.approval_status != 0">
+          <!-- 区切り線-->
+          <hr class="text-center">
+          <p class="pt-3 mt-3 mb-4 font-weight-bold text-center">
+            承認ステータス
+          </p>
+          <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0 pb-5">
+            <!-- 承認する - 承認ステータス 1:承認待ちの場合 -->
+            <v-col
+              v-if="announce.approval_status === 1"
+              cols="11"
+              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1"
+              >
+              <button
+                class="btn greens-btn"
+                @click="approvalAnnounce(announce.id)"
+                type="button"
+              >
+                承認する
+              </button>
+            </v-col>
+            <!-- 承認済み - 承認ステータス 2:承認済みの場合 -->
+            <v-col
+              v-if="announce.approval_status === 2"
+              cols="11"
+              class="pt-0 pr-0 pl-0 pb-1"
+            >
+              <button class="btn disable-btn">承認済み</button>
+            </v-col>
+            <!-- 承認ステータス 0:下書き、3:差戻し以外の場合 -->
+            <v-col
+              v-if="announce.approval_status != 0 && announce.approval_status != 3"
+              cols="11"
+              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1"
+            >
+              <button
+                  class="btn sendbacks-btn"
+                  @click="(displayNewsReturnApprovalConfirm = true),
+                    setApprovalAnnounceId(announce.id)"
+                  type="button"
+              >
+                差し戻す
+              </button>
+            </v-col>
+            <!-- 承認ステータス 3:差戻しの場合 -->
+            <v-col
+              v-if="announce.approval_status === 3"
+              cols="11"
+              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1"
+            >
+              <button class="btn disable-btn">差戻し済み</button>
+            </v-col>
+            <!-- 承認ステータス 0:取り下げる以外の場合 -->
+            <v-col
+              v-if="announce.approval_status != 0"
+              cols="11"
+              class="pt-sm-3 pt-0 pr-0 pl-0 pb-5"
+            >
+              <button
+                @click="approvalCancel(announce.id)"
+                class="btn sendbacks-btn"
+                type="button"
+              >
+                取り下げる
+              </button>
+            </v-col>
+          </v-row>
+        </div>
       </v-card>
     </v-form>
+
     <div class="ql-container">
       <p>---お知らせ詳細---</p>
       <div
         class="ql-editor"
         v-html="contents"
         @change="getQuillEditorContent()"
-      ></div>
+      >
+      </div>
     </div>
 
     <!-- プレビュー画面モーダル -->
@@ -215,7 +284,17 @@
       :end_date="announce.end_date"
       :username="username"
     />
+
+    <!-- 差し戻しモーダル -->
+    <news-approval-return-confirm-modal-component
+      :modelValue="displayNewsReturnApprovalConfirm"
+      @update:modelValue="displayNewsReturnApprovalConfirm = $event"
+      :closeAction="closeReturn"
+      :approvalReturn="approvalReturn"
+    />
+
 </template>
+
 <style src="../css/common.css"></style>
 <style scoped>
 .accept-stat{
@@ -232,7 +311,8 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import DatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
-import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
+import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue";
+import NewsApprovalReturnConfirmModalComponent from "../../modals/NewsApprovalReturnConfirmModalComponent.vue";
 
 export default {
   components: {
@@ -240,6 +320,7 @@ export default {
     DatePicker,
     'vue-ctk-date-time-picker': VueCtkDateTimePicker,
     AnnouncePreviewModalComponent,
+    NewsApprovalReturnConfirmModalComponent,
   },
   props: {
     announceId: String,
@@ -258,7 +339,9 @@ export default {
       image: [],
       approval_auth_flg: null,
       request_auth_flg: null,
+      update_auth_flg: null,
       displayAnnouncePreview: false,
+      displayNewsReturnApprovalConfirm: false,
       username: null,
     };
   },
@@ -343,8 +426,42 @@ export default {
       return moment(date).format('yyyy/MM/DD');
     },
 
-    closePreview(){
-      this.displayAnnouncePreview = false;
+    // 差戻し確認ダイアログに渡すIDをstoreに設定
+      setApprovalAnnounceId(id) {
+      let announceId = id;
+      this.$store.dispatch("news/setApprovalNewsId", announceId);
+    },
+    // 差戻しモーダルを閉じる
+    closeReturn() {
+      this.displayNewsReturnApprovalConfirm = false;
+    },
+
+    // 申請処理
+    approvalRequest(announceId) {
+      axios.put("/api/announce/" + announceId + "/request")
+      .then((res) => {});
+      window.location.reload();
+    },
+    // 承認処理
+    approvalAnnounce(announce) {
+      axios.post("/api/announce/" + announce + "/approval")
+      .then((res) => {});
+      window.location.reload();
+    },
+    // 差戻し処理
+    approvalReturn(announceId) {
+      axios.put("/api/announce/" + announceId + "/return", {
+          announce: this.announce,
+          approvalReturnComment:
+          this.$store.state.news.approvalReturnComment,
+      })
+      .then((res) => {});
+      window.location.reload();
+    },
+    // 取り下げ処理
+    approvalCancel(announceId) {
+      axios.put("/api/announce/" + announceId + "/cansel").then((res) => {});
+      window.location.reload();
     },
   },
   computed: {
@@ -361,15 +478,12 @@ export default {
   async mounted() {
     this.announce = await this.getAnnounce(this.announceId);
     this.$refs.myQuillEditor.pasteHTML(this.announce.contents);
+    // ユーザの権限セットを取得
     let authority = await this.fetchAllAuthority();
     if(authority){
       this.approval_auth_flg = authority.approval_auth_flg;
       this.request_auth_flg = authority.request_auth_flg;
-    }
-    console.log(this.approval_auth_flg)
-    let name = await this.getUserInfo();
-    if(name){
-        this.username = name.name;
+      this.update_auth_flg = authority.update_auth_flg;
     }
   },
   created() {
@@ -400,4 +514,7 @@ export default {
     padding: 0px !important;
 }
 
+.accept-stat{
+  border-top:1px solid rgba(0,0,0,0.5);
+}
 </style>

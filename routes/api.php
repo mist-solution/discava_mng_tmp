@@ -58,15 +58,30 @@ Route::get('/api/authoritySet', [AuthoritySetController::class, 'getAll']);
 
 Route::get('/api/authority', [AuthorityController::class, 'getAuthority']);
 
+//------------------------------------------------
+// お知らせ関連
+//------------------------------------------------
+// 一覧取得
 Route::get('/api/announce', [AnnounceController::class, 'getAnnounce']);
+// 詳細取得
 Route::get('/api/announce/{announce}', [AnnounceController::class, 'showAnnounce']);
+// 一括承認
 Route::put('/api/announce/{announce}', [AnnounceController::class, 'approvalAllAnnounce']);
-Route::put('/api/announce/{announce}/approval', [AnnounceController::class, 'approvalAnnounce']);
+// 承認する
+Route::post('/api/announce/{announce}/approval', [AnnounceController::class, 'approvalAnnounce']);
+// 差戻し
 Route::put('/api/announce/{announce}/return', [AnnounceController::class, 'approvalAnnounceReturn']);
-Route::put('/api/announce/{announce}/reject', [AnnounceController::class, 'approvalAnnounceReject']);
+// 削除
 Route::delete('/api/announce/{announce}', [AnnounceController::class, 'deleteAnnounce']);
-Route::post('/api/announce', [AnnounceController::class, 'register']);
+// 新規登録
+Route::post('/api/announce/regist', [AnnounceController::class, 'register']);
+// 編集
 Route::put('/api/announce/{id}/update', [AnnounceController::class, 'update']);
+// 申請
+Route::put('/api/announce/{announce}/request', [AnnounceController::class, 'request']);
+// 取り下げる
+Route::put('/api/announce/{announce}/cansel', [AnnounceController::class, 'cansel']);
+// お知らせカテゴリ取得
 Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
 
 //------------------------------------------------

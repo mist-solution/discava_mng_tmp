@@ -159,10 +159,10 @@
               <button class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">プレビュー</button>
             </v-col>
             <v-col cols="11" class="pt-0 px-0">
-              <button class="btn green-btn pr-0 pl-0" @click="submit">下書き保存</button>
+              <button class="btn green-btn pr-0 pl-0" @click="submit(2)">下書き保存</button>
             </v-col>
             <v-col cols="11" class="pt-0 px-0">
-              <button class="btn green-btn" @click="submit">登録する</button>
+              <button class="btn green-btn" @click="submit(1)">登録する</button>
             </v-col>
         </v-row>
       </v-card>
@@ -237,7 +237,7 @@ export default {
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
     ...mapActions('authority', ['fetchAllAuthority']),
     ...mapActions('enduser', ['getUserInfo']),
-    submit() {
+    submit(registFlg) {
       // リッチテキストのhtmlを取得
       const html = this.$refs.myQuillEditor.getHTML();
       this.announce.contents = html;
@@ -256,6 +256,7 @@ export default {
           end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
           contents: this.announce.contents,
           thumbnail_file_name: this.announce.thumbnail_file ? this.announce.thumbnail_file["0"].name : null,
+          regist_flg: registFlg,
         };
         formData.append("announce", JSON.stringify(item));
 
@@ -273,7 +274,7 @@ export default {
         };
 
         // axios.post('/api/announce', formData, config)
-        axios.post('/api/announce', formData, { headers: { "Content-type": "multipart/form-data", }})
+        axios.post('/api/announce/regist', formData, { headers: { "Content-type": "multipart/form-data", }})
           .then(response => {
             this.openSuccess('登録しました');
             // お知らせ一覧画面に遷移

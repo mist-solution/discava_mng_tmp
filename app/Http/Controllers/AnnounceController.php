@@ -8,6 +8,7 @@ use DateTime;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Storage;
+use App\Http\Controllers\API\AuthorityController;
 
 class AnnounceController extends Controller
 {
@@ -51,38 +52,41 @@ class AnnounceController extends Controller
         $announce->update(['approval_status' => 1]);
         return $announce;
     }
-    // 承認機能（承認）
-    public function approvalAnnounce(Request $request, Announce $announce)
-    {
-        // 未承認 → 承認
-        if ($announce['approval_status'] == 0) {
-            $announce->update(['approval_status' => 1]);
-            log::info("ID:  " . $announce['id'] . ":::未承認 → 承認:::  " . $announce['approval_status']);
 
-            // 差戻し → 承認
-        } else if (($announce['approval_status'] == 2)) {
-            $announce->update(['approval_status' => 1]);
-            log::info("ID:  " . $announce['id'] . ":::差戻し → 承認:::  " . $announce['approval_status']);
-        }
+    // 承認機能（承認）
+    public function approvalAnnounce(announce $announce)
+    {
+        // 承認ステータスを2:承認済みに更新
+        $announce->update(['approval_status' => 2]);
         return $announce;
     }
 
     // 承認機能（差戻し）
     public function approvalAnnounceReturn(Request $request, Announce $announce)
     {
+        // 差戻しコメント
         $approvalReturnComment = $request->input('approvalReturnComment');
-        // 未承認 → 差戻し
-        if ($announce['approval_status'] == 0) {
-            $announce->update(['approval_status' => 2]);
-            $announce->update(['remand_comment' => $approvalReturnComment]);
-            log::info("ID:  " . $announce['id'] . ":::未承認 → 再差戻し:::  " . $announce['approval_status'] . "  comment:: " . $announce['remand_comment']);
+        // 承認ステータスを3:差戻しに更新
+        $announce->update(['approval_status' => 3]);
+        // 差戻しコメント
+        $announce->update(['remand_comment' => $approvalReturnComment]);
 
-            // 差戻し → 再差戻し
-        } else if ($announce['approval_status'] == 2) {
-            $announce->update(['remand_comment' => $approvalReturnComment]);
-            $announce->update(['approval_status' => 2]);
-            log::info("ID:  " . $announce['id'] . ":::差戻し → 再差戻し:::  " . $announce['approval_status'] . "  comment:: " . $announce['remand_comment']);
-        }
+        return $announce;
+    }
+
+    // 承認機能（申請）
+    public function request(Announce $announce)
+    {
+        // 未承認 → 承認
+        $announce->update(['approval_status' => 1]);
+        return $announce;
+    }
+
+    // 承認機能（取り下げ）
+    public function cansel(Announce $announce)
+    {
+        // 未承認 → 承認
+        $announce->update(['approval_status' => 0]);
         return $announce;
     }
 
@@ -127,6 +131,19 @@ class AnnounceController extends Controller
         $regist['start_date'] = $announce['start_date'];
         $regist['end_date'] = $announce['end_date'];
         $regist['contents'] = $announce['contents'];
+
+        // 登録(1) or 下書き保存(2)
+        if ($announce['regist_flg'] == 1) {
+            // 登録の場合
+            // 承認権限フラグによって登録時の承認ステータスを分ける
+            $AuthorityController = new AuthorityController();
+            $authorityList = $AuthorityController->getAuthority($request);
+            $approvalAuthFlg = $authorityList->original["authority"][0]['approval_auth_flg'];
+            $regist['approval_status'] = $approvalAuthFlg = 1 ? 2 : 1;
+        } else {
+            // 下書き保存の場合
+            $regist['approval_status'] = 0;
+        }
 
         $regist->save();
 

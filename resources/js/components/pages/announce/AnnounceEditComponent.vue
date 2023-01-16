@@ -415,8 +415,8 @@ export default {
 
     // 掲載期間を取得
     getAnnounceDate() {
-      const start = moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD") : '';
-      const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD") : '';
+      const start = moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : '';
+      const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : '';
       this.announce.start_date = start;
       this.announce.end_date = end;
       this.username = this.username;
@@ -484,6 +484,10 @@ export default {
       this.approval_auth_flg = authority.approval_auth_flg;
       this.request_auth_flg = authority.request_auth_flg;
       this.update_auth_flg = authority.update_auth_flg;
+    }
+    let name = await this.getUserInfo();
+    if(name){
+        this.username = name.name;
     }
   },
   created() {

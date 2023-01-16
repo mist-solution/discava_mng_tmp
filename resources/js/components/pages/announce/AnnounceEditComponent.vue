@@ -157,7 +157,7 @@
         <v-row class="p-1 btn-gap mt-4 justify-center">
           <!-- プレビュー -->
           <v-col cols="11" class="p-0 mb-sm-0 mb-2">
-            <button class="pr-0 pl-0 btn white-btn" @click="getQuillEditorContent()">プレビュー</button>
+            <button type="button" class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">プレビュー</button>
           </v-col>
         </v-row>
         <v-row class="p-1 btn-gap mt-4 justify-center mb-3">
@@ -421,6 +421,11 @@ export default {
       this.announce.end_date = end;
       this.username = this.username;
       },
+
+    // プレビュー画面を閉じる
+    closePreview(){
+      this.displayAnnouncePreview = false;
+    },
 
     format(date) {
       return moment(date).format('yyyy/MM/DD');

@@ -304,7 +304,6 @@
 
   <!-- プレビュー画面モーダル -->
   <announce-preview-modal-component
-    v-if="start_date"
     :modelValue="displayAnnouncePreview"
     @update:modelValue="displayAnnouncePreview = $event"
     :closeAction="closePreview"
@@ -331,6 +330,7 @@ import NewsApprovalConfirmModalComponent from "../../modals/NewsApprovalConfirmM
 import NewsApprovalReturnConfirmModalComponent from "../../modals/NewsApprovalReturnConfirmModalComponent.vue";
 import NewsApprovalRequestConfirmModalComponent from "../../modals/NewsApprovalRequestConfirmModalComponent.vue"
 import NewsApprovalCancelConfirmModalComponent from "../../modals/NewsApprovalCancelConfirmModalComponent.vue"
+import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
 
 export default {
   components: {
@@ -341,6 +341,7 @@ export default {
     NewsApprovalReturnConfirmModalComponent,
     NewsApprovalRequestConfirmModalComponent,
     NewsApprovalCancelConfirmModalComponent,
+    AnnouncePreviewModalComponent
 
   },
   data() {
@@ -381,6 +382,7 @@ export default {
       displayNewsReturnApprovalConfirm: false,
       displayNewsCancelConfirm: false,
       displayNewsDeleteConfirm: false,
+      displayAnnouncePreview: false,
       approvalStatus: "",
       approvalStatusArray: [
         { value: "0", status: "下書き" },
@@ -499,6 +501,9 @@ export default {
     closeAction() {
       this.displayNewsDeleteConfirm = false;
       // window.location.reload();
+    },
+    closePreview(){
+      this.displayAnnouncePreview = false;
     },
     
     getNewsList() {

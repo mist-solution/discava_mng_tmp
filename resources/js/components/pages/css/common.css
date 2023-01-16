@@ -24,7 +24,6 @@ a {
     border:unset;
 }
 .max-cont{
-    max-width:900px !important;
     margin:0 auto;
 }
 @media (min-width: 576px){

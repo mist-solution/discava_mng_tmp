@@ -14,6 +14,27 @@
       お知らせがありません。
     </v-col>
   </v-row> -->
+
+  <!-- searchフォーム -->
+    <v-col
+      sm="4"
+      cols="6"
+      class="d-flex justify-sm-end justify-start"
+    >
+      <form class="searchform-list">
+        <input
+          class="searchform search-box"
+          type="search"
+          placeholder="検索"
+          aria-label="Search"
+          maxlength="30"
+          hide-details="false"
+          v-model="searchText"
+        />
+        <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
+      </form>
+    </v-col>
+
     <v-row justify="end">
       <v-col align="right" class="mr-2">
         合計件数： {{ $store.state.news.totalCount }}
@@ -30,6 +51,8 @@
         :theme-color="themeColor"
         alternating
         buttons-pagination
+        :search-field="searchField"
+  			:search-value="searchText"
         dense
       >
         <template #loading>
@@ -403,6 +426,8 @@ export default {
       end_date: null,
       contents: null,
       username: null,
+      searchField: "title",
+      searchText: "",
     };
   },
   computed: {
@@ -548,6 +573,7 @@ export default {
       if (!this.news) {
         return 0;
       }
+      console.log(this.news.length)
       return this.news.length;
     },
 
@@ -780,6 +806,39 @@ export default {
 .disable > label{
   cursor: default;
 }
+
+
+/* 検索フォーム */
+.searchform-list {
+  position: relative;
+  max-width: 300px;
+}
+
+.searchform-list > .search-box {
+  padding: 10px 30px 10px 8px;
+  border-radius: 8px;
+  width: 180px;
+  border: solid 2px black;
+}
+
+@media (max-width: 599.99px){
+.searchform-list > .search-box{
+    width: 150px;
+  }
+}
+
+
+.searchform-list > .serch-btn {
+  height:50px;
+  position:absolute;
+  top:-2px;
+  background:none;
+  color:#666;
+  border:none;
+  font-size:14px;
+  right: 10px;
+}
+
 </style>
 <style lang="scss">
 

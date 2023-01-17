@@ -2,11 +2,11 @@
     <v-dialog v-show="display" persistent>
       <v-card class="p-3">
         <!-- モーダルタイトル -->
-        <v-card-title class="text-center modal-title"> 取り下げ </v-card-title>
+        <v-card-title class="text-center modal-title"> 差戻し </v-card-title>
         <!--  モーダル説明文 -->
         <v-card-text class="text-center mb-3">
-          記事の取り下げを行います。<br />
-          よろしければ「取り下げ」ボタンを<br />
+          記事の差戻しを行います。<br />
+          よろしければ「差戻し」ボタンを<br />
           押下してください。
         </v-card-text>
         <!-- 差戻しコメント -->
@@ -23,7 +23,7 @@
           <!-- 閉じるボタン -->
           <v-btn @click="closeAction()" class="gray-btn mx-2">閉じる</v-btn>
           <!-- 差戻しボタン -->
-          <v-btn @click="submitAction()" class="green-btn mx-2">取り下げ</v-btn>
+          <v-btn @click="submitAction()" class="green-btn mx-2">差戻し</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -31,7 +31,7 @@
   
   <script>
   export default {
-    props: ["display", "closeAction", "approvalCancel"],
+    props: ["display", "closeAction", "approvalReturn"],
     data() {
       return {
         returnComment: null,
@@ -39,13 +39,13 @@
     },
     methods: {
       submitAction() {
-        // 取り下げのコメントをstateに設定
-        this.$store.dispatch("news/setApprovalReturnComment", this.returnComment);
+        // 差戻しのコメントをstateに設定
+        this.$store.dispatch("announce/setApprovalReturnComment", this.returnComment);
   
-        // 取り下げる処理
-        this.approvalCancel(
-          this.$store.state.news.approvalNewsId,
-          this.$store.state.news.approvalNewsStatus
+        // 差戻す処理
+        this.approvalReturn(
+          this.$store.state.announce.approvalAnnounceId,
+          this.$store.state.announce.approvalAnnounceStatus
         );
         this.closeAction();
       },

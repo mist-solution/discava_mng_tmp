@@ -18,17 +18,17 @@ class AnnounceController extends Controller
         $limit = $request->input('limit');
         $offset = $request->input('offset');
         $sort = $request->input('sort');
-        $newsStatus = $request->input('newsStatus');
-        $newsAddAccount = $request->input('newsAddAccount');
+        $announceStatus = $request->input('announceStatus');
+        $announceAddAccount = $request->input('announceAddAccount');
         $searchAddDateBegin = $request->input('searchAddDateBegin');
         $searchAddDateEnd = $request->input('searchAddDateEnd');
         $searchUpdDateBegin = $request->input('searchUpdDateBegin');
         $searchUpdDateEnd = $request->input('searchUpdDateEnd');
-        $searchNewsCol = $request->input('searchNewsCol');
-        $searchNews = $request->input('searchNews');
+        $searchAnnounceCol = $request->input('searchAnnounceCol');
+        $searchAnnounce = $request->input('searchAnnounce');
         $searchCategory = $request->input('searchCategory');
         $shop_id = $request->session()->get('shop_id');
-        $announce = Announce::getAnnounce($offset, $limit, $sort, $newsStatus, $newsAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchNewsCol, $searchNews, $searchCategory, $shop_id);
+        $announce = Announce::getAnnounce($offset, $limit, $sort, $announceStatus, $announceAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchAnnounceCol, $searchAnnounce, $searchCategory, $shop_id);
         return $announce;
     }
 

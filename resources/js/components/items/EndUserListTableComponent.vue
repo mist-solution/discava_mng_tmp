@@ -67,7 +67,7 @@
   
   <script>
   import { mapActions } from "vuex";
-  //import NewsListTablePagination from "../news_list/NewsListTablePagination.vue";
+  //import NewsListTablePagination from "../announce/NewsListTablePagination.vue";
   import BackToTopComponent from "../BackToTopComponent.vue";
   import { inject, mergeProps } from "vue";
   import EndUserDeleteConfirmModalComponent from "../modals/EndUserDeleteConfirmModalComponent.vue";

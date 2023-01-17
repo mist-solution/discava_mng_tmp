@@ -1,16 +1,20 @@
 <template>
   <div class="container-fluid bg-light mb-3">
     <div class="container">
-      <v-btn
-        class="back_to_top"
-        color="#fed966"
-        prepend-icon="mdi-triangle"
-        variant="plain"
-        v-show="isVisible"
-        @click="backTop"
+      <div
+      class="back_to_top"
+      v-show="isVisible"
       >
-        TOP
-      </v-btn>
+        <v-icon>mdi-triangle</v-icon>
+        <v-btn
+        class="d-flex back-button"
+        color="#fed966"
+        variant="plain"
+        @click="backTop"
+        >
+          TOP
+        </v-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -60,5 +64,10 @@ export default {
   font-size: x-small;
   font-weight: 600;
   line-height: 1rem;
+  align-items: center;
+}
+
+.back-button {
+  height: 24px !important;
 }
 </style>

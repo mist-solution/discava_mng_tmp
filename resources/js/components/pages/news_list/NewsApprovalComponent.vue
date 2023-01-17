@@ -4,7 +4,7 @@
     <v-card-title class="ml-2" width="80%">
       <h3 class="h4">お知らせ承認</h3>
       <div class="btn-group ml-auto">
-        <router-link v-bind:to="{ name: 'news.list' }">
+        <router-link v-bind:to="{ name: 'announce.list' }">
           <button class="btn btn-success mr-2">戻る</button>
         </router-link>
         <button
@@ -140,7 +140,7 @@ export default {
       this.displayNewsApprovalConfirm = false;
       this.displayNewsApprovalReturnConfirm = false;
       this.displayNewsApprovalRejectConfirm = false;
-      // this.$router.push({ name: "news.list" });
+      // this.$router.push({ name: "announce.list" });
     },
 
     getAnnounceDetail() {
@@ -148,11 +148,11 @@ export default {
         this.AnnounceDetail = res.data;
         if (this.AnnounceDetail == 1) {
           this.openError("このお知らせは削除されています");
-          this.$router.push({ name: "news.list" });
+          this.$router.push({ name: "announce.list" });
           return;
         } else if (this.AnnounceDetail == 9) {
           this.openError("対象が否認しました。");
-          this.$router.push({ name: "news.list" });
+          this.$router.push({ name: "announce.list" });
           return;
         }
       });

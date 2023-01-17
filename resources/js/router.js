@@ -26,25 +26,25 @@ const routes = [
     // ※初回リリース時点ではお知らせ一覧に直接遷移します。
     {
         path: '/',
-        redirect: '/news'
+        redirect: '/announce'
     },
     // お知らせ一覧画面
     {
-        path: '/news',
-        name: 'news.list',
+        path: '/announce',
+        name: 'announce.list',
         component: NewsListComponent
     },
     // お知らせ詳細・削除画面
     {
-        path: '/news/:announceId',
-        name: 'news.detail',
+        path: '/announce/:announceId',
+        name: 'announce.detail',
         component: NewsDetailComponent,
         props: true
     },
     // お知らせ承認画面
     {
-        path: '/news/:announceId/approvalProcess',
-        name: 'news.approval',
+        path: '/announce/:announceId/approvalProcess',
+        name: 'announce.approval',
         component: NewsApprovalConfirmComponent,
         props: true
     },

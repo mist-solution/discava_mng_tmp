@@ -598,7 +598,7 @@ export default {
         this.listItems = [
           {
             title: "詳細を確認",
-            link: "news.detail",
+            link: "announce.detail",
           },
           { title: "共有リンクをコピー" },
           { title: "公開停止" },
@@ -610,10 +610,10 @@ export default {
         this.listItems = [
           {
             title: "詳細を確認",
-            link: "news.detail",
+            link: "announce.detail",
           },
-          { title: "承認する", link: "news.approval" },
-          { title: "差し戻す", link: "news.approval" },
+          { title: "承認する", link: "announce.approval" },
+          { title: "差し戻す", link: "announce.approval" },
         ];
         this.menuDeleteAnnounce = [{ title: "削除" }];
 
@@ -622,7 +622,7 @@ export default {
         this.listItems = [
           {
             title: "詳細を確認",
-            link: "news.detail",
+            link: "announce.detail",
           },
           { title: "共有リンクをコピー" },
           { title: "公開停止" },

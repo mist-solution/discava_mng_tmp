@@ -4,10 +4,10 @@
     <v-card-title class="ml-2" width="80%">
       <h3 class="h4">お知らせ詳細・削除</h3>
       <div class="btn-group ml-auto">
-        <router-link v-bind:to="{ name: 'news.list' }">
+        <router-link v-bind:to="{ name: 'announce.list' }">
           <button class="btn btn-success mr-2">戻る</button>
         </router-link>
-        <router-link v-bind:to="{ name: 'news.list' }">
+        <router-link v-bind:to="{ name: 'announce.list' }">
           <button class="btn btn-success mr-2">編集</button>
         </router-link>
         <button
@@ -85,7 +85,7 @@ export default {
         this.AnnounceDetail = res.data;
         if (this.AnnounceDetail == 1) {
           this.openError("このお知らせは削除されています");
-          this.$router.push({ name: "news.list" });
+          this.$router.push({ name: "announce.list" });
           return;
         } else {
           // ダイアログに渡せるため、本記事のIDをstoreに設定
@@ -117,7 +117,7 @@ export default {
     deleteAnnounce(announceId) {
       console.log(`ID:${announceId} が削除しました。`);
       axios.delete("/api/announce/" + announceId).then((res) => {});
-      this.$router.push({ name: "news.list" });
+      this.$router.push({ name: "announce.list" });
     },
   },
   mounted() {

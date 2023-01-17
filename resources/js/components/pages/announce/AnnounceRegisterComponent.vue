@@ -325,7 +325,7 @@ export default {
           .then(response => {
             this.openSuccess('登録しました');
             // お知らせ一覧画面に遷移
-            this.$router.push({ name: 'news.list' })
+            this.$router.push({ name: 'announce.list' })
           })
           .catch(error => {
             console.log(error);

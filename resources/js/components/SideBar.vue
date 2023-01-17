@@ -127,7 +127,7 @@ export default {
     return {
       drawer: true,
       items: [
-        { id: 1, title: "投稿管理", icon: "mdi-bullhorn-variant-outline", linkTo: "news.list", disabled: false, group: false, },
+        { id: 1, title: "投稿管理", icon: "mdi-bullhorn-variant-outline", linkTo: "announce.list", disabled: false, group: false, },
         { id: 2, title: "ギャラリー管理", icon: "mdi-image-outline", linkTo: "", disabled: true, group: false, },
         { id: 3, title: "アクセス情報", icon: "mdi-chart-bar", linkTo: "", disabled: true, group: false, },
         { id: 4, title: "アカウント管理", icon: "mdi-account", linkTo: "enduser.list", disabled: false, group: false, },

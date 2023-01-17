@@ -73,7 +73,7 @@
               sort = "id";
               break;
           }
-          this.$store.dispatch("news/setDisplaySort", sort);
+          this.$store.dispatch("announce/setDisplaySort", sort);
           this.closeAction();
         }
       },

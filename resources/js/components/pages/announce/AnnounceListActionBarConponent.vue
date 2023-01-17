@@ -45,24 +45,24 @@
         </v-col>
 
           <!-- 検索モーダル -->
-          <news-display-search-modal-component
+          <announce-display-search-modal-component
             :display="displaySearch"
             :closeAction="closeAction"
           />
 
           <!-- 並び順モーダル -->
-          <news-display-sort-modal-component
+          <announce-display-sort-modal-component
             :display="displaySort"
             :closeAction="closeAction"
           />
           <!-- 表示件数モーダル -->
-          <news-display-limit-modal-component
+          <announce-display-limit-modal-component
             :display="displayLimit"
             :closeAction="closeAction"
           />
 
           <!-- 一括承認モーダル -->
-          <news-display-check-all-modal-component
+          <announce-display-check-all-modal-component
             :display="displayCheckAll"
             :closeAction="closeAction"
           />
@@ -73,18 +73,18 @@
 </template>
 
 <script>
-import NewsDisplaySearchModalComponent from "../../modals/NewsDisplaySearchModalComponent.vue";
-import NewsDisplayLimitModalComponent from "../../modals/NewsDisplayLimitModalComponent.vue";
-import NewsDisplaySortModalComponent from "../../modals/NewsDisplaySortModalComponent.vue";
-import NewsDisplayCheckAllModalComponent from "../../modals/NewsDisplayCheckAllModalComponent.vue";
+import AnnounceDisplaySearchModalComponent from "../../modals/AnnounceDisplaySearchModalComponent.vue";
+import AnnounceDisplayLimitModalComponent from "../../modals/AnnounceDisplayLimitModalComponent.vue";
+import AnnounceDisplaySortModalComponent from "../../modals/AnnounceDisplaySortModalComponent.vue";
+import AnnounceDisplayCheckAllModalComponent from "../../modals/AnnounceDisplayCheckAllModalComponent.vue";
 
 export default {
   inject: ["reload"],
   components: {
-    NewsDisplaySearchModalComponent,
-    NewsDisplayLimitModalComponent,
-    NewsDisplaySortModalComponent,
-    NewsDisplayCheckAllModalComponent,
+    AnnounceDisplaySearchModalComponent,
+    AnnounceDisplayLimitModalComponent,
+    AnnounceDisplaySortModalComponent,
+    AnnounceDisplayCheckAllModalComponent,
   },
   data() {
     return {

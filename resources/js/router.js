@@ -6,14 +6,14 @@ const Home = () => import('./components/Home')
 //const TaskCreateComponent = () => import('./components/TaskCreateComponent')
 //const TaskEditComponent = () => import('./components/TaskEditComponent')
 const QuillEditorComponent = () => import('./components/QuillEditor')
-const NewsListComponent = () => import('./components/pages/news_list/NewsListPageComponent')
+const AnnounceListComponent = () => import('./components/pages/announce/AnnounceListPageComponent')
 const AnnounceRegisterComponent = () => import('./components/pages/announce/AnnounceRegisterComponent')
 const AnnounceEditComponent = () => import('./components/pages/announce/AnnounceEditComponent')
 const EndUserRegistComponent = () => import('./components/pages/end_user/EndUserRegistComponent')
 const EndUserUpdateComponent = () => import('./components/pages/end_user/EndUserUpdateComponent')
 const EndUserListComponent = () => import('./components/pages/end_user/EndUserListComponent')
-const NewsDetailComponent = () => import('./components/pages/news_list/NewsDetailComponent')
-const NewsApprovalConfirmComponent = () => import('./components/pages/news_list/NewsApprovalComponent')
+const AnnounceDetailComponent = () => import('./components/pages/announce/AnnounceDetailComponent')
+const AnnounceApprovalConfirmComponent = () => import('./components/pages/announce/AnnounceApprovalComponent')
 const NotFoundComponent = () => import('./components/pages/NotFoundComponent')
 
 const routes = [
@@ -26,26 +26,26 @@ const routes = [
     // ※初回リリース時点ではお知らせ一覧に直接遷移します。
     {
         path: '/',
-        redirect: '/news'
+        redirect: '/announce'
     },
     // お知らせ一覧画面
     {
-        path: '/news',
-        name: 'news.list',
-        component: NewsListComponent
+        path: '/announce',
+        name: 'announce.list',
+        component: AnnounceListComponent
     },
     // お知らせ詳細・削除画面
     {
-        path: '/news/:announceId',
-        name: 'news.detail',
-        component: NewsDetailComponent,
+        path: '/announce/:announceId',
+        name: 'announce.detail',
+        component: AnnounceDetailComponent,
         props: true
     },
     // お知らせ承認画面
     {
-        path: '/news/:announceId/approvalProcess',
-        name: 'news.approval',
-        component: NewsApprovalConfirmComponent,
+        path: '/announce/:announceId/approvalProcess',
+        name: 'announce.approval',
+        component: AnnounceApprovalConfirmComponent,
         props: true
     },
     //    // 一覧画面

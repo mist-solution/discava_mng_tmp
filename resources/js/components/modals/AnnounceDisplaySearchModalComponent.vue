@@ -163,11 +163,11 @@
         if (this.searchAddDateBegin && this.searchAddDateEnd) {
           if (this.searchAddDateEnd > this.searchAddDateBegin) {
             this.$store.dispatch(
-              "news/setDisplaySearchAddDateBegin",
+              "announce/setDisplaySearchAddDateBegin",
               searchAddDateBegin
             );
             this.$store.dispatch(
-              "news/setDisplaySearchAddDateEnd",
+              "announce/setDisplaySearchAddDateEnd",
               searchAddDateEnd
             );
           } else {
@@ -175,18 +175,18 @@
           }
         } else if (this.searchAddDateBegin) {
           this.$store.dispatch(
-            "news/setDisplaySearchAddDateBegin",
+            "announce/setDisplaySearchAddDateBegin",
             searchAddDateBegin
           );
           // 更新日時検索処理
         } else if (this.searchUpdDateBegin && this.searchUpdDateEnd) {
           if (this.searchUpdDateEnd > this.searchUpdDateBegin) {
             this.$store.dispatch(
-              "news/setDisplaySearchUpdDateBegin",
+              "announce/setDisplaySearchUpdDateBegin",
               searchUpdDateBegin
             );
             this.$store.dispatch(
-              "news/setDisplaySearchUpdDateEnd",
+              "announce/setDisplaySearchUpdDateEnd",
               searchUpdDateEnd
             );
           } else {
@@ -194,7 +194,7 @@
           }
         } else if (this.searchUpdDateBegin) {
           this.$store.dispatch(
-            "news/setDisplaySearchUpdDateBegin",
+            "announce/setDisplaySearchUpdDateBegin",
             searchUpdDateBegin
           );
   
@@ -202,15 +202,15 @@
         } else if (this.searchAddUser) {
           let setAddUserId = null;
           setAddUserId = this.AddUsers.indexOf(this.searchAddUser) + 1;
-          this.$store.dispatch("news/setDisplaySearchNewsCol", "add_account");
-          this.$store.dispatch("news/setDisplaySearchNews", setAddUserId);
+          this.$store.dispatch("announce/setDisplaySearchAnnounceCol", "add_account");
+          this.$store.dispatch("announce/setDisplaySearchAnnounce", setAddUserId);
   
           // 更新者検索処理
         } else if (this.searchUpdUser) {
           let setUpdUserId = null;
           setUpdUserId = this.UpdUsers.indexOf(this.searchUpdUser) + 1;
-          this.$store.dispatch("news/setDisplaySearchNewsCol", "upd_account");
-          this.$store.dispatch("news/setDisplaySearchNews", setUpdUserId);
+          this.$store.dispatch("announce/setDisplaySearchAnnounceCol", "upd_account");
+          this.$store.dispatch("announce/setDisplaySearchAnnounce", setUpdUserId);
         }
   
         // カテゴリ検索処理
@@ -218,7 +218,7 @@
           let searchCategoryId = null;
           searchCategoryId =
             this.AnnounceCategory.indexOf(this.searchCategory) + 1;
-          this.$store.dispatch("news/setDisplaySearchCategory", searchCategoryId);
+          this.$store.dispatch("announce/setDisplaySearchCategory", searchCategoryId);
         }
   
         this.closeAction("displaySearch");

@@ -7,7 +7,7 @@
     </div>
     <div class="p-0">
       <v-form ref="form" v-model="valid">
-        <div class="card main-cont pr-md-12 pl-md-12 pr-5 pl-5 pt-6 pb-10">
+        <div class="card main-cont pr-md-12 pl-md-12 pr-5 pl-5 pt-6 pb-10 auth-re">
           <v-row align-sm="center" class="mb-4">
             <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
               <p class="mb-0">ユーザ名</p>

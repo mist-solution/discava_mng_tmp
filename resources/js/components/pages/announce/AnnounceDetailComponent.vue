@@ -4,15 +4,15 @@
     <v-card-title class="ml-2" width="80%">
       <h3 class="h4">お知らせ詳細・削除</h3>
       <div class="btn-group ml-auto">
-        <router-link v-bind:to="{ name: 'news.list' }">
+        <router-link v-bind:to="{ name: 'announce.list' }">
           <button class="btn btn-success mr-2">戻る</button>
         </router-link>
-        <router-link v-bind:to="{ name: 'news.list' }">
+        <router-link v-bind:to="{ name: 'announce.list' }">
           <button class="btn btn-success mr-2">編集</button>
         </router-link>
         <button
           class="btn btn-success mr-2"
-          @click.stop="displayNewsDeleteConfirm = true"
+          @click.stop="displayAnnounceDeleteConfirm = true"
         >
           削除
         </button>
@@ -40,8 +40,8 @@
       </v-row>
     </v-card>
     <!-- 削除モーダル -->
-    <news-delete-confirm-modal-component
-      :display="displayNewsDeleteConfirm"
+    <announce-delete-confirm-modal-component
+      :display="displayAnnounceDeleteConfirm"
       :closeAction="closeAction"
       :deleteAnnounce="deleteAnnounce"
     />
@@ -51,12 +51,12 @@
 <script>
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { mapActions } from "vuex";
-import NewsDeleteConfirmModalComponent from "../../modals/NewsDeleteConfirmModalComponent.vue";
+import AnnounceDeleteConfirmModalComponent from "../../modals/AnnounceDeleteConfirmModalComponent.vue";
 
 export default {
   components: {
     BackToTopComponent,
-    NewsDeleteConfirmModalComponent,
+    AnnounceDeleteConfirmModalComponent,
   },
   props: {
     announceId: String,
@@ -65,7 +65,7 @@ export default {
     return {
       AnnounceDetail: {},
       AnnounceDetailCategory: null,
-      displayNewsDeleteConfirm: false,
+      displayAnnounceDeleteConfirm: false,
     };
   },
   methods: {
@@ -77,7 +77,7 @@ export default {
     ]),
 
     closeAction() {
-      this.displayNewsDeleteConfirm = false;
+      this.displayAnnounceDeleteConfirm = false;
     },
 
     getAnnounceDetail() {
@@ -85,11 +85,11 @@ export default {
         this.AnnounceDetail = res.data;
         if (this.AnnounceDetail == 1) {
           this.openError("このお知らせは削除されています");
-          this.$router.push({ name: "news.list" });
+          this.$router.push({ name: "announce.list" });
           return;
         } else {
           // ダイアログに渡せるため、本記事のIDをstoreに設定
-          this.$store.dispatch("news/setDeleteNewsId", this.AnnounceDetail.id);
+          this.$store.dispatch("announce/setDeleteAnnounceId", this.AnnounceDetail.id);
         }
       });
     },
@@ -116,7 +116,7 @@ export default {
     //削除処理
     deleteAnnounce(announceId) {
       axios.delete("/api/announce/" + announceId).then((res) => {});
-      this.$router.push({ name: "news.list" });
+      this.$router.push({ name: "announce.list" });
     },
   },
   mounted() {

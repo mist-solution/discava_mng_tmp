@@ -137,7 +137,6 @@
   
       // 削除処理
       deleteUser(accountId) {
-  			console.log(`ID:${accountId} を削除しました。`);
         axios.delete("/api/enduser/" + accountId).then((res) => {});
         window.location.reload();
       },
@@ -166,7 +165,6 @@
       let authority = await this.fetchAllAuthority();
       if(authority){
         this.approval_auth_flg = authority.approval_auth_flg;
-        console.log(this.headers[3].text)
         if(!this.approval_auth_flg){
           this.headers[3].text = "";
         }

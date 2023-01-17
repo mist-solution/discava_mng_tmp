@@ -661,7 +661,6 @@ export default {
 
     // 削除処理
     deleteAnnounce(announceId) {
-      console.log(`ID:${announceId} が削除しました。`);
       axios.delete("/api/announce/" + announceId).then((res) => {});
       window.location.reload();
     },

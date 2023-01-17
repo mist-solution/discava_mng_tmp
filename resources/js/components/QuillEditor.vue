@@ -143,7 +143,6 @@ export default {
     // リッチテキストのhtmlを取得
     getQuillEditorContent(content) {
       const getQuillEditorContent = this.$refs.myQuillEditor.getHTML();
-      console.log(getQuillEditorContent);
       if (content) {
         null;
       } else {

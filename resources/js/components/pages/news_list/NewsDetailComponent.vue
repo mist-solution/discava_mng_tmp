@@ -115,7 +115,6 @@ export default {
 
     //削除処理
     deleteAnnounce(announceId) {
-      console.log(`ID:${announceId} が削除しました。`);
       axios.delete("/api/announce/" + announceId).then((res) => {});
       this.$router.push({ name: "news.list" });
     },

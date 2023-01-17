@@ -155,15 +155,11 @@ export default {
   async mounted() {
 //    this.getUser();
     this.forms = await this.getUserById(this.userId);
-    console.log(this.userId);
     //    this.getCustomerCodes();
     await this.fetchAllAuthoritySetDisplay();
     this.authoritySet = this.getAuthoritySetDisplay;
     await this.fetchShops();
     this.forms.shopList = this.getShops;
-    console.log("aaaaaaaaaaa");
-    console.log(this.forms.shopList);
-    console.log("aaaaaaaaaaa");
     this.forms.shopList.forEach(function(value){
       ;    
     });

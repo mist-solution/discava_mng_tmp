@@ -114,9 +114,7 @@ export default {
     ...mapActions('sidebar', ['fetchCustomerBySession']),
 
     onShopSelectionChange: function(id) {
-      console.log("onShopSelectionChange");
       // 選択したIDを取得
-      console.log({ id });
       const postData = {
         shop_id: id,
       };
@@ -124,7 +122,6 @@ export default {
       if(id == "logout") {
         this.$axios.post("/logout")
           .then(response => {
-            console.log(response);
             localStorage.removeItem("auth");
             window.location.href = "/login"
           })
@@ -144,7 +141,6 @@ export default {
     },
 
     heightchange: function(){
-        console.log(this.header_height)
       if(this.header_height == "54"){
         this.header_height = "1000"
       }else if(this.header_height == "1000"){
@@ -169,7 +165,6 @@ export default {
     },
   },
   async mounted() {
-    console.log("sp sidebar mounted.");
     let shopselect = await this.getShopSelection();
     this.shopSelection = shopselect;
   },

@@ -20,7 +20,7 @@
             <button class="btn btn-success mr-2">ADD</button>
           </router-link>
           <router-link v-bind:to="{ name: 'quilleditor' }">
-            <button class="btn btn-success">News</button>
+            <button class="btn btn-success">Announce</button>
           </router-link>
   -->
         </div>
@@ -30,7 +30,7 @@
         <v-tab
           value="one"
           @click="
-            newsStatus(1);
+            announceStatus(1);
             setSelectTab(1);
           "
           >承認待ち</v-tab
@@ -38,7 +38,7 @@
         <v-tab
           value="two"
           @click="
-            newsStatus(0);
+            announceStatus(0);
             setSelectTab(2);
           "
           >下書き</v-tab
@@ -46,7 +46,7 @@
         <v-tab
           value="three"
           @click="
-            newsStatus(3);
+            announceStatus(3);
             setSelectTab(3);
           "
           >差戻し</v-tab
@@ -54,7 +54,7 @@
         <v-tab
           value="four"
           @click="
-            newsStatus(2);
+            announceStatus(2);
             setSelectTab(4);
           "
           >承認済み</v-tab
@@ -62,25 +62,25 @@
       </v-tabs>
 
       <v-card-actions>
-        <news-list-action-bar-conponent class="ml-3" />
+        <announce-list-action-bar-conponent class="ml-3" />
       </v-card-actions>
 
       <v-card-text>
         <v-window v-model="tab">
           <v-window-item value="one">
-            <news-list-table />
+            <announce-list-table />
           </v-window-item>
 
           <v-window-item value="two">
-            <news-list-table />
+            <announce-list-table />
           </v-window-item>
 
           <v-window-item value="three">
-            <news-list-table />
+            <announce-list-table />
           </v-window-item>
 
           <v-window-item value="four">
-            <news-list-table />
+            <announce-list-table />
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -91,13 +91,13 @@
 <script>
 import { mapActions } from "vuex";
 
-import NewsListTable from "./NewsListTableComponent.vue";
-import NewsListActionBarConponent from "./NewsListActionBarConponent.vue";
+import AnnounceListTable from "./AnnounceListTableComponent.vue";
+import AnnounceListActionBarConponent from "./AnnounceListActionBarConponent.vue";
 import TitleComponent from "../../common/TitleComponent.vue"
 export default {
   components: {
-    NewsListTable,
-    NewsListActionBarConponent,
+    AnnounceListTable,
+    AnnounceListActionBarConponent,
     TitleComponent
   },
   data() {
@@ -109,8 +109,8 @@ export default {
   methods: {
     ...mapActions('authority', ['fetchAllAuthority']),
     // お知らせの承認ステータス
-    newsStatus(newsStatus) {
-      this.$store.dispatch("news/setDisplayNewsStatus", newsStatus);
+    announceStatus(announceStatus) {
+      this.$store.dispatch("announce/setDisplayAnnounceStatus", announceStatus);
     },
 
     // 選択したタブをstoreに設定
@@ -129,7 +129,7 @@ export default {
         // 承認済み
         tabName = "checkedLists";
       }
-      this.$store.dispatch("news/setDisplayListsItemKey", tabName);
+      this.$store.dispatch("announce/setDisplayListsItemKey", tabName);
     },
   },
   async mounted() {

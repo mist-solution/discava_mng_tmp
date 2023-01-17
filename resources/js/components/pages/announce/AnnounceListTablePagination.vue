@@ -16,14 +16,14 @@ export default {
   computed: {
     length() {
       return Math.ceil(
-        this.$store.state.news.totalCount / this.$store.state.news.displayLimit
+        this.$store.state.announce.totalCount / this.$store.state.announce.displayLimit
       );
     },
   },
   methods: {},
   watch: {
     page(value) {
-      this.$store.dispatch("news/setDisplayPage", value);
+      this.$store.dispatch("announce/setDisplayPage", value);
     },
   },
 };

@@ -10,7 +10,7 @@
         <button
           class="btn btn-success mr-2"
           @click.stop="
-            (displayNewsApprovalRejectConfirm = true),
+            (displayAnnounceApprovalRejectConfirm = true),
               setApprovalAnnounce(
                 'reject',
                 this.AnnounceDetail.id,
@@ -23,7 +23,7 @@
         <button
           class="btn btn-success mr-2"
           @click.stop="
-            (displayNewsApprovalReturnConfirm = true),
+            (displayAnnounceApprovalReturnConfirm = true),
               setApprovalAnnounce(
                 'return',
                 this.AnnounceDetail.id,
@@ -36,7 +36,7 @@
         <button
           class="btn btn-success mr-2"
           @click.stop="
-            (displayNewsApprovalConfirm = true),
+            (displayAnnounceApprovalConfirm = true),
               setApprovalAnnounce(
                 'approval',
                 this.AnnounceDetail.id,
@@ -80,22 +80,22 @@
       </v-row>
     </v-card>
     <!-- 承認モーダル -->
-    <news-approval-confirm-modal-component
-      :display="displayNewsApprovalConfirm"
+    <announce-approval-confirm-modal-component
+      :display="displayAnnounceApprovalConfirm"
       :closeAction="closeAction"
       :approvalAnnounceProcess="approvalAnnounceProcess"
     />
 
     <!-- 差戻しモーダル -->
-    <news-approval-return-confirm-modal-component
-      :display="displayNewsApprovalReturnConfirm"
+    <announce-approval-return-confirm-modal-component
+      :display="displayAnnounceApprovalReturnConfirm"
       :closeAction="closeAction"
       :approvalAnnounceProcess="approvalAnnounceProcess"
     />
 
     <!-- 否認モーダル -->
-    <news-approval-reject-confirm-modal-component
-      :display="displayNewsApprovalRejectConfirm"
+    <announce-approval-reject-confirm-modal-component
+      :display="displayAnnounceApprovalRejectConfirm"
       :closeAction="closeAction"
       :approvalAnnounceProcess="approvalAnnounceProcess"
     />
@@ -105,16 +105,16 @@
 <script>
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { mapActions } from "vuex";
-import NewsApprovalConfirmModalComponent from "../../modals/NewsApprovalConfirmModalComponent.vue";
-import NewsApprovalReturnConfirmModalComponent from "../../modals/NewsApprovalReturnConfirmModalComponent.vue";
-import NewsApprovalRejectConfirmModalComponent from "../../modals/NewsApprovalRejectConfirmModalComponent.vue";
+import AnnounceApprovalConfirmModalComponent from "../../modals/AnnounceApprovalConfirmModalComponent.vue";
+import AnnounceApprovalReturnConfirmModalComponent from "../../modals/AnnounceApprovalReturnConfirmModalComponent.vue";
+import AnnounceApprovalRejectConfirmModalComponent from "../../modals/AnnounceApprovalRejectConfirmModalComponent.vue";
 
 export default {
   components: {
     BackToTopComponent,
-    NewsApprovalConfirmModalComponent,
-    NewsApprovalReturnConfirmModalComponent,
-    NewsApprovalRejectConfirmModalComponent,
+    AnnounceApprovalConfirmModalComponent,
+    AnnounceApprovalReturnConfirmModalComponent,
+    AnnounceApprovalRejectConfirmModalComponent,
   },
   props: {
     announceId: String,
@@ -123,9 +123,9 @@ export default {
     return {
       AnnounceDetail: {},
       AnnounceDetailCategory: null,
-      displayNewsApprovalConfirm: false,
-      displayNewsApprovalReturnConfirm: false,
-      displayNewsApprovalRejectConfirm: false,
+      displayAnnounceApprovalConfirm: false,
+      displayAnnounceApprovalReturnConfirm: false,
+      displayAnnounceApprovalRejectConfirm: false,
     };
   },
   methods: {
@@ -137,9 +137,9 @@ export default {
     ]),
 
     closeAction() {
-      this.displayNewsApprovalConfirm = false;
-      this.displayNewsApprovalReturnConfirm = false;
-      this.displayNewsApprovalRejectConfirm = false;
+      this.displayAnnounceApprovalConfirm = false;
+      this.displayAnnounceApprovalReturnConfirm = false;
+      this.displayAnnounceApprovalRejectConfirm = false;
       // this.$router.push({ name: "announce.list" });
     },
 
@@ -182,9 +182,9 @@ export default {
       let announceId = id;
       let announceStatus = approval_status;
       let approvalProcessKey = value;
-      this.$store.dispatch("news/setApprovalProcessKey", approvalProcessKey);
-      this.$store.dispatch("news/setApprovalNewsId", announceId);
-      this.$store.dispatch("news/setApprovalNewsStatus", announceStatus);
+      this.$store.dispatch("announce/setApprovalProcessKey", approvalProcessKey);
+      this.$store.dispatch("announce/setApprovalAnnounceId", announceId);
+      this.$store.dispatch("announce/setApprovalAnnounceStatus", announceStatus);
     },
 
     // 承認・差戻し・否認処理
@@ -221,7 +221,7 @@ export default {
               .put("/api/announce/" + announceId + "/" + "return", {
                 announce: this.announce,
                 approvalReturnComment:
-                  this.$store.state.news.approvalReturnComment,
+                  this.$store.state.announce.approvalReturnComment,
               })
               .then((res) => {
                 window.location.reload();

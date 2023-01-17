@@ -9,7 +9,7 @@
       ></v-progress-linear>
     </v-col>
   </v-row>
-  <v-row v-show="!loading && getNewsLength() == 0">
+  <v-row v-show="!loading && getAnnounceLength() == 0">
     <v-col>
       お知らせがありません。
     </v-col>
@@ -37,7 +37,7 @@
 
     <v-row justify="end">
       <v-col align="right" class="mr-2">
-        合計件数： {{ $store.state.news.totalCount }}
+        合計件数： {{ $store.state.announce.totalCount }}
       </v-col>
     </v-row>
 
@@ -46,7 +46,7 @@
       <EasyDataTable
         v-model:items-selected="selected"
         :headers="headers"
-        :items="news"
+        :items="announce"
         table-class-name="customize-table"
         :theme-color="themeColor"
         alternating
@@ -103,7 +103,7 @@
                 >
                   <v-list-item-title>
                     <div
-                      @click="(displayNewsRequestConfirm = true),
+                      @click="(displayAnnounceRequestConfirm = true),
                         setApprovalAnnounceId(item.id)"
                       role="button"
                     >
@@ -115,8 +115,8 @@
                 <v-list-item v-if="approval_auth_flg && item.approval_status === 1">
                   <v-list-item-title>
                     <div
-                      @click="(displayNewsApprovalConfirm = true),
-                        setNewsId(item.id)"
+                      @click="(displayAnnounceApprovalConfirm = true),
+                        setAnnounceId(item.id)"
                       role="button"
                     >
                       承認する
@@ -129,7 +129,7 @@
                 >
                   <v-list-item-title>
                     <div
-                      @click="(displayNewsReturnApprovalConfirm = true),
+                      @click="(displayAnnounceReturnApprovalConfirm = true),
                         setApprovalAnnounceId(item.id)"
                       role="button"
                     >
@@ -141,7 +141,7 @@
                 <v-list-item v-if="request_auth_flg && item.approval_status != 0">
                   <v-list-item-title>
                     <div
-                      @click="(displayNewsCancelConfirm = true),
+                      @click="(displayAnnounceCancelConfirm = true),
                         setApprovalAnnounceId(item.id)"
                       role="button"
                     >
@@ -153,7 +153,7 @@
                 <v-list-item v-if="delete_auth_flg">
                   <v-list-item-title>
                     <div
-                      @click="(displayNewsDeleteConfirm = true),
+                      @click="(displayAnnounceDeleteConfirm = true),
                         setDeleteAnnounceId(item.id)"
                       role="button"
                     >
@@ -182,10 +182,10 @@
   </v-row>
 
   <!-- <v-row
-    v-for="item in news"
+    v-for="item in announce"
     :key="item.id"
     dense
-    v-show="!loading && getNewsLength() != 0"
+    v-show="!loading && getAnnounceLength() != 0"
   >
     <v-col>
       <v-card>
@@ -253,7 +253,7 @@
                     <v-list>
                       <v-list-item
                         color="red"
-                        @click.stop="(displayNewsDeleteConfirm = true), setDeleteAnnounceId(item.id)"
+                        @click.stop="(displayAnnounceDeleteConfirm = true), setDeleteAnnounceId(item.id)"
                       >
                         <v-list-item-title>
                           {{ menuDeleteAnnounce[index].title }}
@@ -286,41 +286,41 @@
 
 
   <!-- 申請モーダル -->
-  <news-approval-request-confirm-modal-component
-    :modelValue="displayNewsRequestConfirm"
-    @update:modelValue="displayNewsRequestConfirm = $event"
+  <announce-approval-request-confirm-modal-component
+    :modelValue="displayAnnounceRequestConfirm"
+    @update:modelValue="displayAnnounceRequestConfirm = $event"
     :closeAction="closeRequest"
     :approvalRequest="approvalRequest"
   />
 
   <!-- 承認モーダル -->
-  <news-approval-confirm-modal-component
-    :modelValue="displayNewsApprovalConfirm"
-    @update:modelValue="displayNewsApprovalConfirm = $event"
+  <announce-approval-confirm-modal-component
+    :modelValue="displayAnnounceApprovalConfirm"
+    @update:modelValue="displayAnnounceApprovalConfirm = $event"
     :closeAction="closeApproval"
     :approvalAnnounce="approvalAnnounce"
   />
 
   <!-- 差し戻しモーダル -->
-  <news-approval-return-confirm-modal-component
-    :modelValue="displayNewsReturnApprovalConfirm"
-    @update:modelValue="displayNewsReturnApprovalConfirm = $event"
+  <announce-approval-return-confirm-modal-component
+    :modelValue="displayAnnounceReturnApprovalConfirm"
+    @update:modelValue="displayAnnounceReturnApprovalConfirm = $event"
     :closeAction="closeReturn"
     :approvalReturn="approvalReturn"
   />
 
   <!-- 取り下げモーダル -->
-  <news-approval-cancel-confirm-modal-component
-    :modelValue="displayNewsCancelConfirm"
-    @update:modelValue="displayNewsCancelConfirm = $event"
+  <announce-approval-cancel-confirm-modal-component
+    :modelValue="displayAnnounceCancelConfirm"
+    @update:modelValue="displayAnnounceCancelConfirm = $event"
     :closeAction="closeCancel"
     :approvalCancel="approvalCancel"
   />
 
   <!-- 削除モーダル -->
-  <news-delete-confirm-modal-component
-    :modelValue="displayNewsDeleteConfirm"
-    @update:modelValue="displayNewsDeleteConfirm = $event"
+  <announce-delete-confirm-modal-component
+    :modelValue="displayAnnounceDeleteConfirm"
+    @update:modelValue="displayAnnounceDeleteConfirm = $event"
     :closeAction="closeAction"
     :deleteAnnounce="deleteAnnounce"
   />
@@ -338,32 +338,32 @@
   />
 
   <!-- <v-row class="mt-3">
-    <news-list-table-pagination />
+    <announce-list-table-pagination />
   </v-row> -->
 </template>
 
 <script>
 import { mapActions } from "vuex";
 
-import NewsListTablePagination from "./NewsListTablePagination.vue";
+import AnnounceListTablePagination from "./AnnounceListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
 import { mergeProps } from "vue";
-import NewsDeleteConfirmModalComponent from "../../modals/NewsDeleteConfirmModalComponent.vue";
-import NewsApprovalConfirmModalComponent from "../../modals/NewsApprovalConfirmModalComponent.vue";
-import NewsApprovalReturnConfirmModalComponent from "../../modals/NewsApprovalReturnConfirmModalComponent.vue";
-import NewsApprovalRequestConfirmModalComponent from "../../modals/NewsApprovalRequestConfirmModalComponent.vue"
-import NewsApprovalCancelConfirmModalComponent from "../../modals/NewsApprovalCancelConfirmModalComponent.vue"
+import AnnounceDeleteConfirmModalComponent from "../../modals/AnnounceDeleteConfirmModalComponent.vue";
+import AnnounceApprovalConfirmModalComponent from "../../modals/AnnounceApprovalConfirmModalComponent.vue";
+import AnnounceApprovalReturnConfirmModalComponent from "../../modals/AnnounceApprovalReturnConfirmModalComponent.vue";
+import AnnounceApprovalRequestConfirmModalComponent from "../../modals/AnnounceApprovalRequestConfirmModalComponent.vue"
+import AnnounceApprovalCancelConfirmModalComponent from "../../modals/AnnounceApprovalCancelConfirmModalComponent.vue"
 import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
 
 export default {
   components: {
-    NewsListTablePagination,
+    AnnounceListTablePagination,
     BackToTopComponent,
-    NewsDeleteConfirmModalComponent,
-    NewsApprovalConfirmModalComponent,
-    NewsApprovalReturnConfirmModalComponent,
-    NewsApprovalRequestConfirmModalComponent,
-    NewsApprovalCancelConfirmModalComponent,
+    AnnounceDeleteConfirmModalComponent,
+    AnnounceApprovalConfirmModalComponent,
+    AnnounceApprovalReturnConfirmModalComponent,
+    AnnounceApprovalRequestConfirmModalComponent,
+    AnnounceApprovalCancelConfirmModalComponent,
     AnnouncePreviewModalComponent
 
   },
@@ -398,13 +398,13 @@ export default {
         },
       ],
       test: [],
-      news: [],
+      announce: [],
       loading: false,
-      displayNewsRequestConfirm: false,
-      displayNewsApprovalConfirm: false,
-      displayNewsReturnApprovalConfirm: false,
-      displayNewsCancelConfirm: false,
-      displayNewsDeleteConfirm: false,
+      displayAnnounceRequestConfirm: false,
+      displayAnnounceApprovalConfirm: false,
+      displayAnnounceReturnApprovalConfirm: false,
+      displayAnnounceCancelConfirm: false,
+      displayAnnounceDeleteConfirm: false,
       displayAnnouncePreview: false,
       approvalStatus: "",
       approvalStatusArray: [
@@ -432,78 +432,78 @@ export default {
   },
   computed: {
     displayLimit() {
-      return this.$store.state.news.displayLimit;
+      return this.$store.state.announce.displayLimit;
     },
     displaySort() {
-      return this.$store.state.news.displaySort;
+      return this.$store.state.announce.displaySort;
     },
-    displayNewsStatus() {
-      return this.$store.state.news.displayNewsStatus;
+    displayAnnounceStatus() {
+      return this.$store.state.announce.displayAnnounceStatus;
     },
-    displayNewsAddAccount() {
-      return this.$store.state.news.displayNewsAddAccount;
+    displayAnnounceAddAccount() {
+      return this.$store.state.announce.displayAnnounceAddAccount;
     },
     displaySearchAddDateBegin() {
-      return this.$store.state.news.displaySearchAddDateBegin;
+      return this.$store.state.announce.displaySearchAddDateBegin;
     },
     displaySearchAddDateEnd() {
-      return this.$store.state.news.displaySearchAddDateEnd;
+      return this.$store.state.announce.displaySearchAddDateEnd;
     },
     displaySearchUpdDateBegin() {
-      return this.$store.state.news.displaySearchUpdDateBegin;
+      return this.$store.state.announce.displaySearchUpdDateBegin;
     },
     displaySearchUpdDateEnd() {
-      return this.$store.state.news.displaySearchUpdDateEnd;
+      return this.$store.state.announce.displaySearchUpdDateEnd;
     },
-    displaySearchNewsCol() {
-      return this.$store.state.news.displaySearchNewsCol;
+    displaySearchAnnounceCol() {
+      return this.$store.state.announce.displaySearchAnnounceCol;
     },
-    displaySearchNews() {
-      return this.$store.state.news.displaySearchNews;
+    displaySearchAnnounce() {
+      return this.$store.state.announce.displaySearchAnnounce;
     },
     displaySearchCategory() {
-      return this.$store.state.news.displaySearchCategory;
+      return this.$store.state.announce.displaySearchCategory;
     },
     displayPage() {
-      return this.$store.state.news.displayPage;
+      return this.$store.state.announce.displayPage;
     },
   },
   watch: {
     displayLimit() {
-      this.getNewsList();
+      this.getAnnounceList();
     },
     displaySort() {
-      this.getNewsList();
+      this.getAnnounceList();
     },
-    displayNewsStatus() {
-      this.getNewsList();
+    displayAnnounceStatus() {
+      this.getAnnounceList();
     },
-    displayNewsAddAccount() {
-      this.getNewsList();
+    displayAnnounceAddAccount() {
+      this.getAnnounceList();
     },
     displaySearchAddDateBegin() {
-      this.getNewsList();
+      this.getAnnounceList();
     },
     displaySearchAddDateEnd() {
-      this.getNewsList();
+      this.getAnnounceList();
     },
     displaySearchUpdDateBegin() {
-      this.getNewsList();
+      this.getAnnounceList();
     },
     displaySearchUpdDateEnd() {
-      this.getNewsList();
+      this.getAnnounceList();
     },
-    displaySearchNewsCol() {
-      this.getNewsList();
+    displaySearchAnnounceCol() {
+      this.getAnnounceList();
     },
-    displaySearchNews() {
-      this.getNewsList();
+    displaySearchAnnounce() {
+      this.getAnnounceList();
     },
     displaySearchCategory() {
-      this.getNewsList();
+      this.getAnnounceList();
     },
     displayPage() {
-      this.getNewsList();
+      this.getAnnounceList();
     },
   },
   methods: {
@@ -512,78 +512,78 @@ export default {
     mergeProps,
     // モーダルを閉じる
     closeRequest() {
-      this.displayNewsRequestConfirm = false;
+      this.displayAnnounceRequestConfirm = false;
     },
     closeApproval() {
-      this.displayNewsApprovalConfirm = false;
+      this.displayAnnounceApprovalConfirm = false;
     },
     closeReturn() {
-      this.displayNewsReturnApprovalConfirm = false;
+      this.displayAnnounceReturnApprovalConfirm = false;
     },
     closeCancel() {
-      this.displayNewsCancelConfirm = false;
+      this.displayAnnounceCancelConfirm = false;
     },
     closeAction() {
-      this.displayNewsDeleteConfirm = false;
+      this.displayAnnounceDeleteConfirm = false;
       // window.location.reload();
     },
     closePreview(){
       this.displayAnnouncePreview = false;
     },
     
-    getNewsList() {
+    getAnnounceList() {
       this.loading = true;
       axios
         .get("/api/announce", {
           params: {
             limit:
-              this.$store.state.news.displayLimit,
+              this.$store.state.announce.displayLimit,
             offset:
-              this.$store.state.news.displayLimit * (this.$store.state.news.displayPage - 1),
+              this.$store.state.announce.displayLimit * (this.$store.state.announce.displayPage - 1),
             sort:
-              this.$store.state.news.displaySort,
-            newsStatus:
-              this.$store.state.news.displayNewsStatus,
-            newsAddAccount:
-              this.$store.state.news.displayNewsAddAccount,
+              this.$store.state.announce.displaySort,
+            announceStatus:
+              this.$store.state.announce.displayAnnounceStatus,
+            announceAddAccount:
+              this.$store.state.announce.displayAnnounceAddAccount,
             searchAddDateBegin:
-              this.$store.state.news.displaySearchAddDateBegin,
+              this.$store.state.announce.displaySearchAddDateBegin,
             searchAddDateEnd:
-              this.$store.state.news.displaySearchAddDateEnd,
+              this.$store.state.announce.displaySearchAddDateEnd,
             searchUpdDateBegin:
-              this.$store.state.news.displaySearchUpdDateBegin,
+              this.$store.state.announce.displaySearchUpdDateBegin,
             searchUpdDateEnd:
-              this.$store.state.news.displaySearchUpdDateEnd,
-            searchNewsCol:
-              this.$store.state.news.displaySearchNewsCol,
-            searchNews:
-              this.$store.state.news.displaySearchNews,
+              this.$store.state.announce.displaySearchUpdDateEnd,
+            searchAnnounceCol:
+              this.$store.state.announce.displaySearchAnnounceCol,
+            searchAnnounce:
+              this.$store.state.announce.displaySearchAnnounce,
             searchCategory:
-              this.$store.state.news.displaySearchCategory,
+              this.$store.state.announce.displaySearchCategory,
           },
         })
         .then((res) => {
-          this.news = res.data.anounce;
-          this.$store.dispatch("news/setTotalCount", res.data.count);
+          this.announce = res.data.anounce;
+          this.$store.dispatch("announce/setTotalCount", res.data.count);
           this.loading = false;
         });
     },
 
-    getNewsLength() {
-      if (!this.news) {
+    getAnnounceLength() {
+      if (!this.announce) {
         return 0;
       }
-      console.log(this.news.length)
-      return this.news.length;
+      console.log(this.announce.length)
+      return this.announce.length;
     },
 
     // 承認ステータスフォーマット
-    approvalStatusFormat(newsApprovalStatus) {
+    approvalStatusFormat(announceApprovalStatus) {
       let approvalStatus = '';
       let step = this.approvalStatusArray.length;
       for (var i = 0; i < step; i++) {
         const approvalStatusValue = this.approvalStatusArray[i].value;
-        if (approvalStatusValue == newsApprovalStatus) {
+        if (approvalStatusValue == announceApprovalStatus) {
           approvalStatus = this.approvalStatusArray[i].status;
         }
       }
@@ -591,7 +591,7 @@ export default {
     },
 
     getListItems() {
-      let listsItemKey = this.$store.state.news.displayListsItemKey;
+      let listsItemKey = this.$store.state.announce.displayListsItemKey;
 
       // 承認済みタブ
       if (listsItemKey == "checkedLists") {
@@ -634,29 +634,29 @@ export default {
 
     // 選択した記事をstoreに設定
     setSelectItems() {
-      this.$store.dispatch("news/setDisplayCheckedItems", this.select);
+      this.$store.dispatch("announce/setDisplayCheckedItems", this.select);
     },
 
     // 削除確認ダイアログに渡せるため、IDをstoreに設定
     setDeleteAnnounceId(id) {
       let announceId = id;
-      this.$store.dispatch("news/setDeleteNewsId", announceId);
+      this.$store.dispatch("announce/setDeleteAnnounceId", announceId);
     },
     // 承認確認ダイアログに渡せるため、IDをstoreに設定
     setApprovalAnnounceId(id) {
       let announceId = id;
-      this.$store.dispatch("news/setApprovalNewsId", announceId);
+      this.$store.dispatch("announce/setApprovalAnnounceId", announceId);
     },
 
     // 承認確認ダイアログに渡せるため、IDをstoreに設定
     setApprovalAnnounceId(id) {
       let announceId = id;
-      this.$store.dispatch("news/setApprovalNewsId", announceId);
+      this.$store.dispatch("announce/setApprovalAnnounceId", announceId);
     },
 
     // お知らせIDをstoreに設定
-    setNewsId(id) {
-      this.$store.dispatch("news/setNewsId", id);
+    setAnnounceId(id) {
+      this.$store.dispatch("announce/setAnnounceId", id);
     },
 
     // 申請処理
@@ -678,7 +678,7 @@ export default {
       axios.put("/api/announce/" + announceId + "/return", {
           announce: this.announce,
           approvalReturnComment:
-          this.$store.state.news.approvalReturnComment,
+          this.$store.state.announce.approvalReturnComment,
       })
       .then((res) => {});
       window.location.reload();
@@ -692,7 +692,6 @@ export default {
 
     // 削除処理
     deleteAnnounce(announceId) {
-      console.log(`ID:${announceId} が削除しました。`);
       axios.delete("/api/announce/" + announceId).then((res) => {});
       window.location.reload();
     },
@@ -716,7 +715,7 @@ export default {
     },
   },
   async mounted() {
-    this.getNewsList();
+    this.getAnnounceList();
     this.setSelectItems();
     this.getListItems();
     let authority = await this.fetchAllAuthority();

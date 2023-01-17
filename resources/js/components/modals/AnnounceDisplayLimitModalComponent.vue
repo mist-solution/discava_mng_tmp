@@ -40,7 +40,7 @@ export default {
   methods: {
     submitAction() {
       if (this.select) {
-        this.$store.dispatch("news/setDisplayLimit", this.select);
+        this.$store.dispatch("announce/setDisplayLimit", this.select);
         this.closeAction();
       }
     },

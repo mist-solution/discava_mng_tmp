@@ -45,33 +45,33 @@ class Announce extends Model
         return $this->belongsTo(AnnounceCategory::class, 'announce_category_id');
     }
 
-    public static function getAnnounce($offset, $limit, $sort, $newsStatus, $newsAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchNewsCol, $searchNews, $searchCategory, $shop_id)
+    public static function getAnnounce($offset, $limit, $sort, $announceStatus, $announceAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchAnnounceCol, $searchAnnounce, $searchCategory, $shop_id)
     {
         $announceModel = Announce::with('add_account', 'upd_account', 'announce_categories')
             ->where('del_flg', false)
             ->where('shop_id', $shop_id);
 
         // 承認済み/承認待ち記事取得
-        if ($newsStatus != "") {
+        if ($announceStatus != "") {
             // 表示条件：下書き
-            if ($newsStatus == 0) {
-                $announceModel = $announceModel->where('approval_status', $newsStatus);
+            if ($announceStatus == 0) {
+                $announceModel = $announceModel->where('approval_status', $announceStatus);
             // 表示条件：承認待ち
-            } else if ($newsStatus == 1) {
-                $announceModel = $announceModel->where('approval_status', $newsStatus);
+            } else if ($announceStatus == 1) {
+                $announceModel = $announceModel->where('approval_status', $announceStatus);
             // 表示条件：承認済み
-            } else if ($newsStatus == 2) {
-                $announceModel = $announceModel->where('approval_status', $newsStatus);
+            } else if ($announceStatus == 2) {
+                $announceModel = $announceModel->where('approval_status', $announceStatus);
             // 表示条件：差戻し
-            } else if ($newsStatus == 3) {
-                $announceModel = $announceModel->where('approval_status', $newsStatus);
+            } else if ($announceStatus == 3) {
+                $announceModel = $announceModel->where('approval_status', $announceStatus);
             }
             // 表示条件：全ては条件追加しない
         }
 
         // 自分の投稿記事取得
-        if ($newsAddAccount != "") {
-            $announceModel = $announceModel->where('add_account', $newsAddAccount);
+        if ($announceAddAccount != "") {
+            $announceModel = $announceModel->where('add_account', $announceAddAccount);
         }
 
         // 検索：登録日時（開始のみ入力済 、開始/終了入力済）
@@ -97,8 +97,8 @@ class Announce extends Model
         }
 
         // 検索：登録者・更新者共通
-        if ($searchNewsCol != "" && $searchNews != "") {
-            $announceModel = $announceModel->where($searchNewsCol, $searchNews);
+        if ($searchAnnounceCol != "" && $searchAnnounce != "") {
+            $announceModel = $announceModel->where($searchAnnounceCol, $searchAnnounce);
         }
 
         // 検索：お知らせカテゴリ

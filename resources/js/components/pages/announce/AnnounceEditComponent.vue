@@ -229,7 +229,7 @@
             >
               <button
                   class="btn sendbacks-btn"
-                  @click="(displayNewsReturnApprovalConfirm = true),
+                  @click="(displayAnnounceReturnApprovalConfirm = true),
                     setApprovalAnnounceId(announce.id)"
                   type="button"
               >
@@ -286,9 +286,9 @@
     />
 
     <!-- 差し戻しモーダル -->
-    <news-approval-return-confirm-modal-component
-      :modelValue="displayNewsReturnApprovalConfirm"
-      @update:modelValue="displayNewsReturnApprovalConfirm = $event"
+    <announce-approval-return-confirm-modal-component
+      :modelValue="displayAnnounceReturnApprovalConfirm"
+      @update:modelValue="displayAnnounceReturnApprovalConfirm = $event"
       :closeAction="closeReturn"
       :approvalReturn="approvalReturn"
     />
@@ -312,7 +312,7 @@ import DatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
 import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue";
-import NewsApprovalReturnConfirmModalComponent from "../../modals/NewsApprovalReturnConfirmModalComponent.vue";
+import AnnounceApprovalReturnConfirmModalComponent from "../../modals/AnnounceApprovalReturnConfirmModalComponent.vue";
 
 export default {
   components: {
@@ -320,7 +320,7 @@ export default {
     DatePicker,
     'vue-ctk-date-time-picker': VueCtkDateTimePicker,
     AnnouncePreviewModalComponent,
-    NewsApprovalReturnConfirmModalComponent,
+    AnnounceApprovalReturnConfirmModalComponent,
   },
   props: {
     announceId: String,
@@ -341,7 +341,7 @@ export default {
       request_auth_flg: null,
       update_auth_flg: null,
       displayAnnouncePreview: false,
-      displayNewsReturnApprovalConfirm: false,
+      displayAnnounceReturnApprovalConfirm: false,
       username: null,
     };
   },
@@ -434,11 +434,11 @@ export default {
     // 差戻し確認ダイアログに渡すIDをstoreに設定
       setApprovalAnnounceId(id) {
       let announceId = id;
-      this.$store.dispatch("news/setApprovalNewsId", announceId);
+      this.$store.dispatch("announce/setApprovalAnnounceId", announceId);
     },
     // 差戻しモーダルを閉じる
     closeReturn() {
-      this.displayNewsReturnApprovalConfirm = false;
+      this.displayAnnounceReturnApprovalConfirm = false;
     },
 
     // 申請処理
@@ -458,7 +458,7 @@ export default {
       axios.put("/api/announce/" + announceId + "/return", {
           announce: this.announce,
           approvalReturnComment:
-          this.$store.state.news.approvalReturnComment,
+          this.$store.state.announce.approvalReturnComment,
       })
       .then((res) => {});
       window.location.reload();

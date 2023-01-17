@@ -6,14 +6,14 @@ const Home = () => import('./components/Home')
 //const TaskCreateComponent = () => import('./components/TaskCreateComponent')
 //const TaskEditComponent = () => import('./components/TaskEditComponent')
 const QuillEditorComponent = () => import('./components/QuillEditor')
-const NewsListComponent = () => import('./components/pages/announce/NewsListPageComponent')
+const AnnounceListComponent = () => import('./components/pages/announce/AnnounceListPageComponent')
 const AnnounceRegisterComponent = () => import('./components/pages/announce/AnnounceRegisterComponent')
 const AnnounceEditComponent = () => import('./components/pages/announce/AnnounceEditComponent')
 const EndUserRegistComponent = () => import('./components/pages/end_user/EndUserRegistComponent')
 const EndUserUpdateComponent = () => import('./components/pages/end_user/EndUserUpdateComponent')
 const EndUserListComponent = () => import('./components/pages/end_user/EndUserListComponent')
-const NewsDetailComponent = () => import('./components/pages/announce/NewsDetailComponent')
-const NewsApprovalConfirmComponent = () => import('./components/pages/announce/NewsApprovalComponent')
+const AnnounceDetailComponent = () => import('./components/pages/announce/AnnounceDetailComponent')
+const AnnounceApprovalConfirmComponent = () => import('./components/pages/announce/AnnounceApprovalComponent')
 const NotFoundComponent = () => import('./components/pages/NotFoundComponent')
 
 const routes = [
@@ -32,20 +32,20 @@ const routes = [
     {
         path: '/announce',
         name: 'announce.list',
-        component: NewsListComponent
+        component: AnnounceListComponent
     },
     // お知らせ詳細・削除画面
     {
         path: '/announce/:announceId',
         name: 'announce.detail',
-        component: NewsDetailComponent,
+        component: AnnounceDetailComponent,
         props: true
     },
     // お知らせ承認画面
     {
         path: '/announce/:announceId/approvalProcess',
         name: 'announce.approval',
-        component: NewsApprovalConfirmComponent,
+        component: AnnounceApprovalConfirmComponent,
         props: true
     },
     //    // 一覧画面

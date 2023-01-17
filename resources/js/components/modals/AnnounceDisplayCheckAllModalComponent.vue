@@ -12,7 +12,7 @@
         <v-card-actions>
           <v-card-text> 承認するお知らせ </v-card-text>
           <v-card-text>
-            {{ $store.state.news.displayCheckedItems.length }}
+            {{ $store.state.announce.displayCheckedItems.length }}
           </v-card-text>
           <v-card-text> 件 </v-card-text>
         </v-card-actions>
@@ -35,21 +35,21 @@
     },
     methods: {
       closeChecked(checkUpdated) {
-        if (checkUpdated == this.$store.state.news.displayCheckedItems.length) {
+        if (checkUpdated == this.$store.state.announce.displayCheckedItems.length) {
         }
         this.closeAction();
       },
   
       submitAction() {
-        let getSelectItems = this.$store.state.news.displayCheckedItems;
+        let getSelectItems = this.$store.state.announce.displayCheckedItems;
         let step = getSelectItems.length;
         let checkUpdated = 0;
         for (var i = 0; i < step; i++) {
-          const newsId = getSelectItems[i];
-          axios.get("/api/announce/" + newsId).then((res) => {
+          const announceId = getSelectItems[i];
+          axios.get("/api/announce/" + announceId).then((res) => {
             this.announce = res.data;
           });
-          axios.put("/api/announce/" + newsId, this.announce).then((res) => {
+          axios.put("/api/announce/" + announceId, this.announce).then((res) => {
             checkUpdated = checkUpdated + 1;
             this.closeChecked(checkUpdated);
           });

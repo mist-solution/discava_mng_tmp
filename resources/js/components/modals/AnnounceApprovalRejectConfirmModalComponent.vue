@@ -29,9 +29,9 @@
     methods: {
       submitAction() {
         this.approvalAnnounceProcess(
-          this.$store.state.news.approvalProcessKey,
-          this.$store.state.news.approvalNewsId,
-          this.$store.state.news.approvalNewsStatus
+          this.$store.state.announce.approvalProcessKey,
+          this.$store.state.announce.approvalAnnounceId,
+          this.$store.state.announce.approvalAnnounceStatus
         );
         this.closeAction();
       },

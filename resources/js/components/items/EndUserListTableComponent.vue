@@ -67,7 +67,7 @@
   
   <script>
   import { mapActions } from "vuex";
-  //import NewsListTablePagination from "../announce/NewsListTablePagination.vue";
+  //import AnnounceListTablePagination from "../announce/AnnounceListTablePagination.vue";
   import BackToTopComponent from "../BackToTopComponent.vue";
   import { inject, mergeProps } from "vue";
   import EndUserDeleteConfirmModalComponent from "../modals/EndUserDeleteConfirmModalComponent.vue";
@@ -120,13 +120,13 @@
           })
           .then((res) => {
             this.users = res.data.users;
-  					// this.$store.dispatch("news/setTotalCount", res.data.count);
+  					// this.$store.dispatch("announce/setTotalCount", res.data.count);
   					// this.loading = false;
           });
       },
       // 選択した記事をstoreに設定
       setSelectItems() {
-        this.$store.dispatch("news/setDisplayCheckedItems", this.select);
+        this.$store.dispatch("announce/setDisplayCheckedItems", this.select);
       },
   
       // 削除確認ダイアログに渡せるため、IDをstoreに設定
@@ -137,7 +137,6 @@
   
       // 削除処理
       deleteUser(accountId) {
-  			console.log(`ID:${accountId} を削除しました。`);
         axios.delete("/api/enduser/" + accountId).then((res) => {});
         window.location.reload();
       },
@@ -166,7 +165,6 @@
       let authority = await this.fetchAllAuthority();
       if(authority){
         this.approval_auth_flg = authority.approval_auth_flg;
-        console.log(this.headers[3].text)
         if(!this.approval_auth_flg){
           this.headers[3].text = "";
         }

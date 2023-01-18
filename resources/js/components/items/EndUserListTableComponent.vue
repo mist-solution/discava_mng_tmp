@@ -33,7 +33,7 @@
 			<!-- 操作 -->
 			<template #item-button="item" v-if="approval_auth_flg">
 				<!-- 編集 -->
-				<v-icon class="green-icon mr-3"
+				<v-icon class="green-icon mr-3 mr-sm-5"
 					@click="edit(item)"
 				>
 					mdi-square-edit-outline
@@ -181,7 +181,14 @@
   <style scoped>
   .green-icon {
     color: #69A5AF;
+    font-size: 24px;
   }
+  @media (max-width: 599.99px){
+    .green-icon {
+      font-size: 20px;
+    }
+}
+
   .accounttable td {
           background: #F7F7F7;
   }

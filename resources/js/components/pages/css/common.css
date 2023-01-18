@@ -92,7 +92,7 @@ a {
 /* 影付き */
 .greens-btn{
     background-color: #69A5AF;
-    box-shadow:0px 2px 10px 0px #69A5AF !important;
+    box-shadow:0px 1px 5px 0px #69A5AF !important;
     color:#F7F7F7;
 }
 .greens-btn:hover{
@@ -125,7 +125,7 @@ a {
 /* 影付き */
 .sendbacks-btn{
     background-color: #DD5D5D;
-    box-shadow:0px 2px 10px 0px #DD5D5D !important;
+    box-shadow:0px 1px 5px 0px #DD5D5D !important;
     color:#F7F7F7;
 }
 .sendbacks-btn:hover{

@@ -30,6 +30,7 @@
           maxlength="30"
           hide-details="false"
           v-model="searchText"
+          @change="getClientItemsLength()"
         />
         <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
       </form>
@@ -37,13 +38,14 @@
 
     <v-row justify="end">
       <v-col align="right" class="mr-2">
-        合計件数： {{ $store.state.announce.totalCount }}
+        合計件数： {{ dataTable }}
       </v-col>
     </v-row>
 
   <v-row>
     <v-col>
       <EasyDataTable
+        ref="dataTable"
         v-model:items-selected="selected"
         :headers="headers"
         :items="announce"
@@ -347,7 +349,7 @@ import { mapActions } from "vuex";
 
 import AnnounceListTablePagination from "./AnnounceListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
-import { mergeProps } from "vue";
+import { mergeProps,ref,computed } from "vue";
 import AnnounceDeleteConfirmModalComponent from "../../modals/AnnounceDeleteConfirmModalComponent.vue";
 import AnnounceApprovalConfirmModalComponent from "../../modals/AnnounceApprovalConfirmModalComponent.vue";
 import AnnounceApprovalReturnConfirmModalComponent from "../../modals/AnnounceApprovalReturnConfirmModalComponent.vue";
@@ -428,6 +430,8 @@ export default {
       username: null,
       searchField: "title",
       searchText: "",
+      dataTable: [],
+      clientItemsLength: null,
     };
   },
   computed: {
@@ -711,8 +715,13 @@ export default {
     setPreviewInfo(start_date,end_date,contents){
       this.start_date = start_date.slice(0,-3)
       this.end_date = end_date.slice(0,-3)
-      this.contents = contents
+      this.contents = contents 
     },
+
+    getClientItemsLength(){
+      this.dataTable = this.$refs.dataTable.clientItemsLength;
+    },
+
   },
   async mounted() {
     this.getAnnounceList();
@@ -730,10 +739,12 @@ export default {
     if(name){
         this.username = name.name;
     }
+    this.dataTable = this.$store.state.announce.totalCount
 
   },
 };
 </script>
+
 
 <!-- 共通CSS -->
 <style src="../css/common.css"></style>

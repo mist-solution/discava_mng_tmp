@@ -16,7 +16,7 @@
 
             <QuillEditor
               toolbar="full"
-              class="ql-editor"
+              class="ql-editor p-0"
               v-model="contents"
               ref="myQuillEditor"
               :options="editorOption"

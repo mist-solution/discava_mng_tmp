@@ -16,6 +16,7 @@
   </v-row> -->
 
   <!-- searchフォーム -->
+  <v-row class="pt-5 align-center justify-start">
     <v-col
       sm="4"
       cols="6"
@@ -35,6 +36,32 @@
         <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
       </form>
     </v-col>
+
+    <!-- 一括操作-実行ボタン -->
+    <v-col
+      class="d-flex align-center"
+      sm="5"
+      cols="10"
+      align="center"
+      v-if="update_auth_flg"
+    >
+<!--
+      <input type="checkbox" class="mr-5">
+-->
+      <v-select
+        dense
+        :items="items2"
+        item-title="text"
+        item-value="id"
+        label="一括操作"
+        solo
+        @update:modelValue="operateidChange"
+      ></v-select>
+      <v-btn class="green-btn mx-2" type="button" @click="allCheckedItemOperate()">
+        実行
+      </v-btn>
+    </v-col>
+  </v-row>
 
     <v-row justify="end">
       <v-col align="right" class="mr-2">
@@ -379,6 +406,10 @@ export default {
         { a: 'a' },
         { a: 'b' },
       ],
+      items2: [ 
+        {id: 1, text: "一括承認" },
+        {id: 2, text: "一括削除" }
+      ],
 
       headers: [
         {
@@ -432,6 +463,7 @@ export default {
       searchText: "",
       dataTable: [],
       clientItemsLength: null,
+      operate_id: null
     };
   },
   computed: {
@@ -722,6 +754,32 @@ export default {
       this.dataTable = this.$refs.dataTable.clientItemsLength;
     },
 
+    operateidChange: function(id) {
+      const postData = {
+        id: id,
+      };
+      this.operate_id = id;
+    },
+
+    allCheckedItemOperate(){
+      if(this.operate_id == '1'){
+        for(var i = 0;i < this.selected.length; i++){
+          if(this.selected[i].approval_status == 1){
+            axios.post("/api/announce/" + this.selected[i].id + "/approval").then((res) => {});
+          }
+        }
+        window.location.reload();
+      }else if(this.operate_id == '2'){
+        for(var i = 0;i < this.selected.length; i++){
+          axios.delete("/api/announce/" + this.selected[i].id).then((res) => {});
+        }
+        window.location.reload();
+      }else{
+        //「承認か削除を選んでください」的なモーダルを出す処理が必要か…？
+      }
+      console.log(this.selected)
+    }
+
   },
   async mounted() {
     this.getAnnounceList();
@@ -734,6 +792,9 @@ export default {
       this.create_auth_flg = authority.create_auth_flg;
       this.approval_auth_flg = authority.approval_auth_flg;
       this.request_auth_flg = authority.request_auth_flg;
+      if(!this.approval_auth_flg){
+        this.items2 = this.items2.slice(1);
+      }
     }
     let name = await this.getUserInfo();
     if(name){

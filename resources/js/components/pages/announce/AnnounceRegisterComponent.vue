@@ -207,14 +207,14 @@
     </v-form>
 
     <!--- プレビュー -->
-    <div class="ql-container">
+    <!--- <div class="ql-container">
       <p>---お知らせ詳細---</p>
       <div
         class="ql-editor"
         v-html="contents"
         @change="getQuillEditorContent()"
       ></div>
-    </div>
+    </div> -->
   </div>
 
   <!-- プレビュー画面モーダル -->

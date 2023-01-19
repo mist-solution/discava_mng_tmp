@@ -263,7 +263,7 @@
       </v-card>
     </v-form>
 
-    <div class="ql-container">
+    <!-- <div class="ql-container">
       <p>---お知らせ詳細---</p>
       <div
         class="ql-editor"
@@ -271,7 +271,7 @@
         @change="getQuillEditorContent()"
       >
       </div>
-    </div>
+    </div> -->
 
     <!-- プレビュー画面モーダル -->
     <announce-preview-modal-component

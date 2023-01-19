@@ -121,7 +121,6 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $List =  $request->all();
-        Log::info($List['shopUser'][0]);
         $update = [
             'name' => $List['name'],
             'email' => $List['email'],
@@ -133,7 +132,6 @@ class UserController extends Controller
         $user->update($update);
 
         $shopList = $List['shopList'];
-        Log::info($List['shopList']);
 
         ShopUser::where('user_id', $id)->delete();
 

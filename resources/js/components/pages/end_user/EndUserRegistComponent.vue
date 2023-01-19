@@ -159,8 +159,8 @@
     </div>
   </v-container>
 </template>
-<style src="../css/common.css" scoped></style>
-<style src="../css/input-reset.css" scoped></style>
+<style src="../css/common.css"></style>
+<style src="../css/input-reset.css"></style>
 
 <script>
 import { mapActions, mapGetters } from "vuex";

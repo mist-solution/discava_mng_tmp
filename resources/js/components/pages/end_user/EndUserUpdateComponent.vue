@@ -79,10 +79,13 @@
                         </v-col>
                       </v-row>
                       </v-form>
+                      {{ forms.shopUser }}
+                      {{ forms.shopList }}
+
   </v-container>
 </template>
-<style src="../css/common.css" scoped></style>
-<style src="../css/input-reset.css" scoped></style>
+<style src="../css/common.css"></style>
+<style src="../css/input-reset.css"></style>
 <script>
 import { mapActions, mapGetters } from "vuex";
 import TitleComponent from "../../common/TitleComponent.vue"
@@ -98,6 +101,7 @@ export default {
         name: '',
         email: '',
         shopList: null,
+        shopUser: null
       },
       rules: {
         required: value => !!value || '必須です。',
@@ -121,7 +125,7 @@ export default {
     ...mapActions('enduser', ['getUserById']),
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
     ...mapActions('authoritySet', ['fetchAllAuthoritySetDisplay']),
-    ...mapActions('shop', ['fetchShops']),
+    ...mapActions('shop', ['fetchShops', 'fetchShopUsers']),
     submit() {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
@@ -150,7 +154,7 @@ export default {
   computed: {
     ...mapGetters('customer', ['getCustomers']),
     ...mapGetters('authoritySet', ['getAuthoritySetDisplay']),
-    ...mapGetters('shop', ['getShops']),
+    ...mapGetters('shop', ['getShops', 'getShopUsers']),
   },
   async mounted() {
 //    this.getUser();
@@ -160,9 +164,10 @@ export default {
     this.authoritySet = this.getAuthoritySetDisplay;
     await this.fetchShops();
     this.forms.shopList = this.getShops;
-    await this.fetchShopUser(this.userId);
+    await this.fetchShopUsers(this.userId);
+    this.forms.shopUser = this.getShopUsers;
     this.forms.shopList.forEach(function(value){
-      value.model = { id: 'none', name: '該当なし'}; 
+      // value.model = { id:authority_set_id in this.shopUser, name:"" }; 
     });
   },
 }

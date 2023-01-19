@@ -15,7 +15,7 @@ const actions = {
         });
     },
     async fetchShopUsers(context,id) {
-        await axios.get('/api/shopusers'+ id).then((res) => {
+        await axios.get('/api/shopusers/'+ id).then((res) => {
             context.commit('setShopUsers', res.data.shopusers);
         });
     },

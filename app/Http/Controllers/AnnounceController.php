@@ -122,10 +122,16 @@ class AnnounceController extends Controller
         $announce = json_decode($data['announce'], true);
         Log::info('announce');
         Log::info(print_r($announce, true));
-        $thumbnail = $data['thumbnail_file'];
+        if (array_key_exists('thumbnail_file', $data)) {
+            $thumbnail = $data['thumbnail_file'];
+        }
         Log::info('サムネイル');
         Log::info(print_r($thumbnail, true));
-        $attachments = $data['attachments'];
+        if (array_key_exists('attachments', $data)) {
+            $attachments = $data['attachments'];
+        } else {
+            $attachments = [];
+        }
         Log::info('ファイル');
         Log::info(print_r($attachments, true));
 
@@ -142,7 +148,7 @@ class AnnounceController extends Controller
             $AuthorityController = new AuthorityController();
             $authorityList = $AuthorityController->getAuthority($request);
             $approvalAuthFlg = $authorityList->original["authority"][0]['approval_auth_flg'];
-            $regist['approval_status'] = $approvalAuthFlg = 1 ? 2 : 1;
+            $regist['approval_status'] = $approvalAuthFlg == 1 ? 2 : 1;
         } else {
             // 下書き保存の場合
             $regist['approval_status'] = 0;

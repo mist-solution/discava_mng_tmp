@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Storage;
 use App\Http\Controllers\API\AuthorityController;
+use App\Models\AnnounceAttachment;
 
 class AnnounceController extends Controller
 {
@@ -122,10 +123,16 @@ class AnnounceController extends Controller
         $announce = json_decode($data['announce'], true);
         Log::info('announce');
         Log::info(print_r($announce, true));
-        $thumbnail = $data['thumbnail_file'];
-        Log::info('サムネイル');
-        Log::info(print_r($thumbnail, true));
-        $attachments = $data['attachments'];
+        $thumbnail = null;
+        if (array_key_exists('thumbnail_file', $data)) {
+            $thumbnail = $data['thumbnail_file'];
+            Log::info('サムネイル');
+            Log::info(print_r($thumbnail, true));
+        }
+        $attachments = [];
+        if (array_key_exists('attachments', $data)) {
+            $attachments = $data['attachments'];
+        }
         Log::info('ファイル');
         Log::info(print_r($attachments, true));
 
@@ -142,7 +149,7 @@ class AnnounceController extends Controller
             $AuthorityController = new AuthorityController();
             $authorityList = $AuthorityController->getAuthority($request);
             $approvalAuthFlg = $authorityList->original["authority"][0]['approval_auth_flg'];
-            $regist['approval_status'] = $approvalAuthFlg = 1 ? 2 : 1;
+            $regist['approval_status'] = $approvalAuthFlg == 1 ? 2 : 1;
         } else {
             // 下書き保存の場合
             $regist['approval_status'] = 0;
@@ -162,7 +169,20 @@ class AnnounceController extends Controller
             Log::info('ファイル アップロード');
             $path = Storage::putFile('announce/'.$regist['shop_id']."/".$regist['id']."/attachments", $value);
             Log::info($path);
+
+            $attach = new AnnounceAttachment();
+            $attach->shop_id = $regist->shop_id;
+            $attach->announce_id = $regist->id;
+            $attach->img_path = $regist->id;
+            $attach->shop_id = $value['originalName'];
+            $attach->shop_id = $path;
+            $attach->add_account = Auth::user()->id;
+            $attach->upd_account = Auth::user()->id;
+            $attach->del_flg = false;
+
+            $attach->save();
         }
+
 
         return $regist;
     }

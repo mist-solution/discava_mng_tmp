@@ -156,8 +156,15 @@
         <!-- 操作エリア -->
         <v-row class="p-1 btn-gap mt-4 justify-center">
           <!-- プレビュー -->
-          <v-col cols="11" class="p-0 mb-sm-0 mb-2">
-            <button type="button" class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">プレビュー</button>
+          <v-col cols="11" class="p-0 mb-sm-0 mb-2 mt-5 text-center">
+            <button
+              type="button"
+              class="pr-0 pl-0 btn white-btn editBtn-widht"
+              @click="(displayAnnouncePreview = true),
+                getQuillEditorContent(),getAnnounceDate()"
+              >
+                プレビュー
+            </button>
           </v-col>
         </v-row>
         <v-row class="p-1 btn-gap mt-4 justify-center mb-3">
@@ -165,10 +172,10 @@
           <v-col
             v-if="update_auth_flg"
             cols="11"
-            class="p-0 pb-2 mb-sm-0 mb-2"
+            class="p-0 pb-2 mb-sm-0 mb-2 text-center"
           >
             <button
-              class="btn green-btn pr-0 pl-0"
+              class="btn green-btn pr-0 pl-0 editBtn-widht"
               @click="submit()"
               type="button"
             >
@@ -179,10 +186,10 @@
           <v-col
             v-if="request_auth_flg && announce.approval_status != 2"
             cols="11"
-            class="p-0 mb-sm-0 mb-2"
+            class="p-0 mb-sm-0 mb-2 text-center"
           >
             <button
-              class="btn green-btn pr-0 pl-0"
+              class="btn green-btn pr-0 pl-0 editBtn-widht"
               @click="approvalRequest(announce.id)"
               type="button"
             >
@@ -203,10 +210,10 @@
             <v-col
               v-if="announce.approval_status === 1"
               cols="11"
-              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1"
+              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1 mb-4 mb-md-0 text-center"
               >
               <button
-                class="btn greens-btn"
+                class="btn greens-btn editBtn-widht"
                 @click="approvalAnnounce(announce.id)"
                 type="button"
               >
@@ -217,20 +224,20 @@
             <v-col
               v-if="announce.approval_status === 2"
               cols="11"
-              class="pt-0 pr-0 pl-0 pb-1"
+              class="pt-0 pr-0 pl-0 pb-1 mb-2 text-center"
             >
-              <button class="btn disable-btn">承認済み</button>
+              <button class="btn disable-btn editBtn-widht">承認済み</button>
             </v-col>
             <!-- 承認ステータス 0:下書き、3:差戻し以外の場合 -->
             <v-col
               v-if="announce.approval_status != 0 && announce.approval_status != 3"
               cols="11"
-              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1"
+              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1 mb-4 mb-md-0 text-center"
             >
               <button
-                  class="btn sendbacks-btn"
                   @click="(displayAnnounceReturnApprovalConfirm = true),
                     setApprovalAnnounceId(announce.id)"
+                  class="btn sendbacks-btn editBtn-widht"
                   type="button"
               >
                 差し戻す
@@ -240,19 +247,19 @@
             <v-col
               v-if="announce.approval_status === 3"
               cols="11"
-              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1"
+              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1 mb-4 text-center"
             >
-              <button class="btn disable-btn">差戻し済み</button>
+              <button class="btn disable-btn editBtn-widht">差戻し済み</button>
             </v-col>
             <!-- 承認ステータス 0:取り下げる以外の場合 -->
             <v-col
               v-if="announce.approval_status != 0"
               cols="11"
-              class="pt-sm-3 pt-0 pr-0 pl-0 pb-5"
+              class="pt-sm-3 pt-0 pr-0 pl-0 pb-5 text-center"
             >
               <button
                 @click="approvalCancel(announce.id)"
-                class="btn sendbacks-btn"
+                class="btn sendbacks-btn editBtn-widht"
                 type="button"
               >
                 取り下げる
@@ -525,5 +532,11 @@ export default {
 
 .accept-stat{
   border-top:1px solid rgba(0,0,0,0.5);
+}
+
+@media (max-width: 599.99px){
+  .editBtn-widht {
+    width: 60% !important;
+  }
 }
 </style>

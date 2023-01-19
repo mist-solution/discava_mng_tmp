@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Storage;
 use App\Http\Controllers\API\AuthorityController;
+use App\Models\AnnounceAttachment;
 
 class AnnounceController extends Controller
 {
@@ -168,7 +169,20 @@ class AnnounceController extends Controller
             Log::info('ファイル アップロード');
             $path = Storage::putFile('announce/'.$regist['shop_id']."/".$regist['id']."/attachments", $value);
             Log::info($path);
+
+            $attach = new AnnounceAttachment();
+            $attach->shop_id = $regist->shop_id;
+            $attach->announce_id = $regist->id;
+            $attach->img_path = $regist->id;
+            $attach->shop_id = $value['originalName'];
+            $attach->shop_id = $path;
+            $attach->add_account = Auth::user()->id;
+            $attach->upd_account = Auth::user()->id;
+            $attach->del_flg = false;
+
+            $attach->save();
         }
+
 
         return $regist;
     }

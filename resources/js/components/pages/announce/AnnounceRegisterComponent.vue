@@ -47,10 +47,9 @@
             v-if="attachments.length > 0"
             :headers="headers"
             :items="attachments"
-            :items-per-page="-1"
+            :rows-per-page="100"
+            hide-footer
             dense
-            hide-default-footer
-            hide-default-header
             no-data-text=""
           >
             <template #item-action="item">
@@ -298,15 +297,14 @@ export default {
           start_date: moment(this.announce.start_date).format("yyyy-MM-DD"),
           end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
           contents: this.announce.contents,
-          thumbnail_file_name: this.announce.thumbnail_file ? this.announce.thumbnail_file["0"].name : null,
+          thumbnail_file_name: this.file ? this.file.name : null,
           regist_flg: registFlg,
         };
         formData.append("announce", JSON.stringify(item));
 
-        if (this.announce.thumbnail_file) {
-          formData.append("thumbnail_file", this.announce.thumbnail_file["0"]);
-        } else {
-          formData.append("thumbnail_file", {});
+        console.log(this.file)
+        if (this.file) {
+          formData.append("thumbnail_file", this.file);
         }
 
         for (let i = 0; i < this.attachments.length; i++) {

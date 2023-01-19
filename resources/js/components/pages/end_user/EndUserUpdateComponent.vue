@@ -80,7 +80,7 @@
                       </v-row>
                       </v-form>
                       {{ forms.shopUser }}
-                      {{ forms.shopList }}
+                      {{ forms.shop }}
 
   </v-container>
 </template>
@@ -167,7 +167,7 @@ export default {
     await this.fetchShopUsers(this.userId);
     this.forms.shopUser = this.getShopUsers;
     this.forms.shopList.forEach(function(value){
-      // value.model = { id:authority_set_id in this.shopUser, name:"" }; 
+       value.model = { id:shopList.model, name:"該当なし" }; 
     });
   },
 }

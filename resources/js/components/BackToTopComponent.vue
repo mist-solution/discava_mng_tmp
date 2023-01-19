@@ -1,20 +1,22 @@
 <template>
   <div class="container-fluid bg-light mb-3">
     <div class="container">
-      <div
-      class="back_to_top"
-      v-show="isVisible"
-      >
-        <v-icon>mdi-triangle</v-icon>
-        <v-btn
-        class="d-flex back-button"
-        color="#fed966"
-        variant="plain"
-        @click="backTop"
+      <transition>
+        <div
+        class="back_to_top"
+        v-show="isVisible"
         >
-          TOP
-        </v-btn>
-      </div>
+          <v-icon>mdi-triangle</v-icon>
+          <v-btn
+          class="d-flex back-button"
+          color="#fed966"
+          variant="plain"
+          @click="backTop"
+          >
+            TOP
+          </v-btn>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -89,5 +91,13 @@ export default {
 
 .back-button {
   height: 24px !important;
+}
+
+/* ボタンふわっと表示 */
+.v-enter-active, .v-leave-active {
+  transition: opacity 0.3s ease;
+}
+.v-enter-from, .v-leave-to {
+  opacity: 0;
 }
 </style>

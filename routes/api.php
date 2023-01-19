@@ -42,6 +42,7 @@ Route::get('/api/shopusers', [ShopUserController::class, 'getLoginUserShopList']
 Route::get('/api/shopselect', [ShopUserController::class, 'getLoginUserShopSelect']);
 Route::get('/api/shoplist/{id}', [ShopUserController::class, 'getShopListWithAuthoritySet']);
 Route::get('/api/shops', [ShopController::class, 'getShopList']);
+Route::get('/api/shopusers/{id}', [ShopController::class, 'getShopUserList']);
 
 Route::get('/api/customer', [CustomerController::class, 'index']);
 Route::get('/api/customerSession', [CustomerController::class, 'getCompanyBySession']);

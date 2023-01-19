@@ -160,8 +160,9 @@ export default {
     this.authoritySet = this.getAuthoritySetDisplay;
     await this.fetchShops();
     this.forms.shopList = this.getShops;
+    await this.fetchShopUser(this.userId);
     this.forms.shopList.forEach(function(value){
-      ;    
+      value.model = { id: 'none', name: '該当なし'}; 
     });
   },
 }

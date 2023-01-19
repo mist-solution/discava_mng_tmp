@@ -170,6 +170,8 @@ class AnnounceController extends Controller
             $path = Storage::putFile('announce/'.$regist['shop_id']."/".$regist['id']."/attachments", $value);
             Log::info($path);
 
+            Log::info($value);
+
             $attach = new AnnounceAttachment();
             $attach->shop_id = $regist->shop_id;
             $attach->announce_id = $regist->id;

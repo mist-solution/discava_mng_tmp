@@ -120,17 +120,37 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $List =  $request->all();
+        Log::info($List['shopUser'][0]);
         $update = [
-            'name' => $request->name,
-            'email' => $request->email,
+            'name' => $List['name'],
+            'email' => $List['email'],
             'upd_account' => Auth::user()->id,
+            'updated_at' => new DateTime()
         ];
 
         $user = User::find($id);
         $user->update($update);
 
-        $shopList = $request['shopList'];
-        Log::info($shopList);
+        $shopUser = $List['shopList'];
+        Log::info($List['shopList']);
+
+        ShopUser::where('user_id', $id)->delete();
+
+        for($i = 0 ; $i < count($shopUser); $i++) {
+            $shops = new ShopUser();
+            $shops['customer_id'] = Auth::user()->customer_id;
+            $shops['shop_id'] = $shopUser[$i]['id'];
+            $shops['user_id'] = $id;
+            $shops['authority_set_id'] = $shopUser[$i]['model'];
+            $shops['add_account'] = Auth::user()->id;
+            $shops['upd_account'] = Auth::user()->id;
+            $shops['del_flg'] = '0';
+            $shops['created_at'] = new DateTime();
+            $shops['updated_at'] = new DateTime();
+            $shops->save();
+        }
+
     }
 
     /**

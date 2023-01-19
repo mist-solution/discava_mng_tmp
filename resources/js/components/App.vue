@@ -13,7 +13,7 @@
       </v-container>
     </v-main>
 
-    <v-footer app class="fotter-text">
+    <v-footer app class="footer">
         <p class="m-0">
         DISCaVa MATE のご利用ありがとうございます。
       </p>
@@ -37,7 +37,7 @@ export default {
 
 <style scoped>
 /* フッター */
-.fotter-text {
+.footer {
   position: relative !important;
   justify-content: end !important;
   z-index: 998 !important;
@@ -46,7 +46,7 @@ export default {
   left: 0 !important;
 }
 @media (max-width: 600px) {
-  .fotter-text {
+  .footer {
     font-size: 10px !important;
   }
 }

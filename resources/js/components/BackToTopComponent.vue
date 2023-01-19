@@ -47,6 +47,21 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.scrollToTop);
+
+    // ボタン
+    window.addEventListener('scroll',function() {
+      let topBtn = document.querySelector('.back_to_top');
+      const scrollHeight = document.body.clientHeight;
+      const scrollPosition = window.pageYOffset;
+      const windowHeignt = window.innerHeight;
+      const footer = document.querySelector('.footer');
+      const footerHeight = footer.offsetHeight;
+      if(scrollHeight - scrollPosition - windowHeignt <= footerHeight) {
+        topBtn.style.bottom = "39px";
+      } else {
+        topBtn.style.bottom = "0";
+      }
+    });
   },
   destroyed() {
     window.removeEventListener("scroll", this.scrollToTop);
@@ -57,7 +72,6 @@ export default {
 .back_to_top {
   z-index: 999;
   position: fixed;
-  top: 85vh;
   right: 10px;
   display: flex;
   flex-direction: column;
@@ -65,6 +79,12 @@ export default {
   font-weight: 600;
   line-height: 1rem;
   align-items: center;
+  bottom: 0;
+}
+
+.back_to_top .stop {
+  position: absolute;
+  bottom: 39px;
 }
 
 @media (max-width: 600px) {

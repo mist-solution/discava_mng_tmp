@@ -61,9 +61,9 @@
         >
       </v-tabs>
 
-      <v-card-actions>
+      <!-- <v-card-actions>
         <announce-list-action-bar-conponent class="ml-3" />
-      </v-card-actions>
+      </v-card-actions> -->
 
       <v-card-text>
         <v-window v-model="tab">
@@ -92,12 +92,12 @@
 import { mapActions } from "vuex";
 
 import AnnounceListTable from "./AnnounceListTableComponent.vue";
-import AnnounceListActionBarConponent from "./AnnounceListActionBarConponent.vue";
+// import AnnounceListActionBarConponent from "./AnnounceListActionBarConponent.vue";
 import TitleComponent from "../../common/TitleComponent.vue"
 export default {
   components: {
     AnnounceListTable,
-    AnnounceListActionBarConponent,
+    // AnnounceListActionBarConponent,
     TitleComponent
   },
   data() {

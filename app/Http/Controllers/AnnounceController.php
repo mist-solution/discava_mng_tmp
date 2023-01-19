@@ -124,9 +124,9 @@ class AnnounceController extends Controller
         Log::info(print_r($announce, true));
         if (array_key_exists('thumbnail_file', $data)) {
             $thumbnail = $data['thumbnail_file'];
+            Log::info('サムネイル');
+            Log::info(print_r($thumbnail, true));
         }
-        Log::info('サムネイル');
-        Log::info(print_r($thumbnail, true));
         if (array_key_exists('attachments', $data)) {
             $attachments = $data['attachments'];
         } else {

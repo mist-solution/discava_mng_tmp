@@ -10,6 +10,9 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class ResetPasswordController extends Controller
 {
@@ -70,13 +73,27 @@ class ResetPasswordController extends Controller
      */
     public function reset(Request $request)
     {
+        // リクエストユーザを取得して、元のパスワードと検証する
+        $user = User::where('email', $request['email'])->first();
+        $request->validate([
+            // $attribute = 検証項目
+            // $value = 入力された新パスワード
+            // $fail = 結果は失敗する際のメッセージ
+            'password' => ['required', 'string', function ($attribute, $value, $fail) use ($user) {
+                if (Hash::check($value, $user->password)) {
+                    $fail('現在のパスワードとは異なるパスワードの入力をお願いします。');
+                }
+            }],
+        ]);
+
         $request->validate($this->rules(), $this->validationErrorMessages());
 
         // Here we will attempt to reset the user's password. If it is successful we
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
         $response = $this->broker()->reset(
-            $this->credentials($request), function ($user, $password) {
+            $this->credentials($request),
+            function ($user, $password) {
                 $this->resetPassword($user, $password);
             }
         );
@@ -88,7 +105,7 @@ class ResetPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $response == Password::PASSWORD_RESET
-                    ? $this->sendResetResponse($request, $response)
-                    : $this->sendResetFailedResponse($request, $response);
+            ? $this->sendResetResponse($request, $response)
+            : $this->sendResetFailedResponse($request, $response);
     }
 }

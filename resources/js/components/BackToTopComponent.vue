@@ -87,12 +87,6 @@ export default {
   bottom: 39px;
 }
 
-@media (max-width: 600px) {
-  .back_to_top {
-    top: 88vh;
-  }
-}
-
 .back-button {
   height: 24px !important;
 }

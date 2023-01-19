@@ -167,10 +167,11 @@ class AnnounceController extends Controller
 
         foreach ($attachments as $key => $value) {
             Log::info('ファイル アップロード');
+            Log::info(print_r($key, true));
+            Log::info(print_r($value, true));
+
             $path = Storage::putFile('announce/'.$regist['shop_id']."/".$regist['id']."/attachments", $value);
             Log::info($path);
-
-            Log::info($value);
 
             $attach = new AnnounceAttachment();
             $attach->shop_id = $regist->shop_id;

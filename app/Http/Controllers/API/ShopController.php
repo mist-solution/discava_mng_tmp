@@ -39,4 +39,28 @@ class ShopController extends Controller
         $response['message'] = 'success';
         return new JsonResponse($response);
     }
+        // 一覧取得
+    public function getShopUserList(Request $request, $id)
+    {
+        $response = array();
+
+        $shopuser = ShopUser::where('user_id', $id)
+            ->where('del_flg', '0')
+            ->orderBy('id')
+            ->get();
+
+        $shopUserArray = array();
+        foreach ($shops as $key => $value) {
+            $shopUserData = array();
+            $shopUserData['id'] = $value->id;
+            $shopUserData['customer_id'] = $value->customer_id;
+            $shopUserData['shop_id'] = $value->shop_id;
+            $shopUserData['user_id'] = $value->user_id;
+            $shopUserData['authority_id'] = $value->authority_id;
+            $shopUserArray[] = $shopUserData;
+        }
+        $response['shopusers'] = $shopUserArray;
+        $response['message'] = 'success';
+        return new JsonResponse($response);
+    }
 }

@@ -81,8 +81,8 @@
                       </v-form>
   </v-container>
 </template>
-<style src="../css/common.css"></style>
-<style src="../css/input-reset.css"></style>
+<style src="../css/common.css" scoped></style>
+<style src="../css/input-reset.css" scoped></style>
 <script>
 import { mapActions, mapGetters } from "vuex";
 import TitleComponent from "../../common/TitleComponent.vue"
@@ -160,8 +160,9 @@ export default {
     this.authoritySet = this.getAuthoritySetDisplay;
     await this.fetchShops();
     this.forms.shopList = this.getShops;
+    await this.fetchShopUser(this.userId);
     this.forms.shopList.forEach(function(value){
-      ;    
+      value.model = { id: 'none', name: '該当なし'}; 
     });
   },
 }

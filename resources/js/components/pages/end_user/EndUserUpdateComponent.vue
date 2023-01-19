@@ -81,8 +81,8 @@
                       </v-form>
   </v-container>
 </template>
-<style src="../css/common.css"></style>
-<style src="../css/input-reset.css"></style>
+<style src="../css/common.css" scoped></style>
+<style src="../css/input-reset.css" scoped></style>
 <script>
 import { mapActions, mapGetters } from "vuex";
 import TitleComponent from "../../common/TitleComponent.vue"

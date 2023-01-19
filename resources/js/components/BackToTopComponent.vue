@@ -58,13 +58,19 @@ export default {
   z-index: 999;
   position: fixed;
   top: 85vh;
-  left: 93vw;
+  right: 10px;
   display: flex;
   flex-direction: column;
   font-size: x-small;
   font-weight: 600;
   line-height: 1rem;
   align-items: center;
+}
+
+@media (max-width: 600px) {
+  .back_to_top {
+    top: 88vh;
+  }
 }
 
 .back-button {

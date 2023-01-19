@@ -122,15 +122,15 @@ class AnnounceController extends Controller
         $announce = json_decode($data['announce'], true);
         Log::info('announce');
         Log::info(print_r($announce, true));
+        $thumbnail = null;
         if (array_key_exists('thumbnail_file', $data)) {
             $thumbnail = $data['thumbnail_file'];
             Log::info('サムネイル');
             Log::info(print_r($thumbnail, true));
         }
+        $attachments = [];
         if (array_key_exists('attachments', $data)) {
             $attachments = $data['attachments'];
-        } else {
-            $attachments = [];
         }
         Log::info('ファイル');
         Log::info(print_r($attachments, true));

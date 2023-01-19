@@ -28,7 +28,7 @@
     },
     methods: {
       submitAction() {
-        this.deleteAnnounce(this.$store.state.aunce.deleteAnnounceId);
+        this.deleteAnnounce(this.$store.state.announce.deleteAnnounceId);
         this.closeAction();
         window.location.reload();
       },

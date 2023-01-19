@@ -132,17 +132,17 @@ class UserController extends Controller
         $user = User::find($id);
         $user->update($update);
 
-        $shopUser = $List['shopList'];
+        $shopList = $List['shopList'];
         Log::info($List['shopList']);
 
         ShopUser::where('user_id', $id)->delete();
 
-        for($i = 0 ; $i < count($shopUser); $i++) {
+        for($i = 0 ; $i < count($shopList); $i++) {
             $shops = new ShopUser();
             $shops['customer_id'] = Auth::user()->customer_id;
-            $shops['shop_id'] = $shopUser[$i]['id'];
+            $shops['shop_id'] = $shopList[$i]['id'];
             $shops['user_id'] = $id;
-            $shops['authority_set_id'] = $shopUser[$i]['model'];
+            $shops['authority_set_id'] = $shopList[$i]['model'];
             $shops['add_account'] = Auth::user()->id;
             $shops['upd_account'] = Auth::user()->id;
             $shops['del_flg'] = '0';

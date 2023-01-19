@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
+use App\Models\ShopUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,23 +41,29 @@ class ShopController extends Controller
         return new JsonResponse($response);
     }
         // 一覧取得
+        // $id : 
     public function getShopUserList(Request $request, $id)
     {
         $response = array();
-
-        $shopuser = ShopUser::where('user_id', $id)
-            ->where('del_flg', '0')
-            ->orderBy('id')
+        $shopuser = ShopUser::leftJoin('authority_sets',
+        function ($join) use ($id) {
+            $join->on('shop_users.authority_set_id', '=', 'authority_sets.id');
+        })
+        ->where('user_id', $id)
+            ->where('shop_users.del_flg', '0')
+            ->orderBy('shop_users.id')
             ->get();
 
+
         $shopUserArray = array();
-        foreach ($shops as $key => $value) {
+        foreach ($shopuser as $key => $value) {
             $shopUserData = array();
             $shopUserData['id'] = $value->id;
             $shopUserData['customer_id'] = $value->customer_id;
             $shopUserData['shop_id'] = $value->shop_id;
             $shopUserData['user_id'] = $value->user_id;
-            $shopUserData['authority_id'] = $value->authority_id;
+            $shopUserData['authority_set_id'] = $value->authority_set_id;
+            $shopUserData['authority_name'] = $value->name;
             $shopUserArray[] = $shopUserData;
         }
         $response['shopusers'] = $shopUserArray;

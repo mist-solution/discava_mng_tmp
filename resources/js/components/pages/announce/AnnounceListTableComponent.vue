@@ -889,7 +889,7 @@ export default {
   padding: 10px 30px 10px 8px;
   border-radius: 8px;
   width: 180px;
-  border: solid 2px black;
+  background-color:  #f1eeeee4;
 }
 
 @media (max-width: 599.99px){

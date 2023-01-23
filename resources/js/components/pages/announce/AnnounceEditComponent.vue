@@ -224,7 +224,7 @@
             <v-col
               v-if="announce.approval_status === 2"
               cols="11"
-              class="pt-0 pr-0 pl-0 pb-1 mb-2 text-center"
+              class="pt-0 pr-0 pl-0 pb-1 text-center"
             >
               <button class="btn disable-btn editBtn-widht">承認済み</button>
             </v-col>
@@ -247,7 +247,7 @@
             <v-col
               v-if="announce.approval_status === 3"
               cols="11"
-              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1 mb-4 text-center"
+              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1 text-center"
             >
               <button class="btn disable-btn editBtn-widht">差戻し済み</button>
             </v-col>
@@ -301,13 +301,6 @@
     />
 
 </template>
-
-<style src="../css/common.css"></style>
-<style scoped>
-.accept-stat{
-  border-top:1px solid rgba(0,0,0,0.5);
-}
-</style>
 
 <script>
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
@@ -509,34 +502,39 @@ export default {
 
 </script>
 
-<style lang="scss">
-.edit_container {
-  width: auto;
-}
-
-.ql-container {
-  height: 200px;
-}
-
-.ql-editor h2 {
-  border: none;
-}
-
-.v-dialog--fullscreen .v-overlay__content{
-    width: 100% !important;
-}
-
-.v-dialog--fullscreen .v-overlay__content .v-card{
-    padding: 0px !important;
-}
-
-.accept-stat{
-  border-top:1px solid rgba(0,0,0,0.5);
-}
-
-@media (max-width: 599.99px){
-  .editBtn-widht {
-    width: 60% !important;
+<style src="../css/common.css"></style>
+<style scoped>
+  .accept-stat{
+    border-top:1px solid rgba(0,0,0,0.5);
   }
-}
+
+  .edit_container {
+    width: auto;
+  }
+
+  .ql-container {
+    height: 200px;
+  }
+
+  .ql-editor h2 {
+    border: none;
+  }
+
+  .v-dialog--fullscreen .v-overlay__content{
+      width: 100% !important;
+  }
+
+  .v-dialog--fullscreen .v-overlay__content .v-card{
+      padding: 0px !important;
+  }
+
+  .accept-stat{
+    border-top:1px solid rgba(0,0,0,0.5);
+  }
+
+  @media (max-width: 599.99px){
+    .editBtn-widht {
+      width: 60% !important;
+    }
+  }
 </style>

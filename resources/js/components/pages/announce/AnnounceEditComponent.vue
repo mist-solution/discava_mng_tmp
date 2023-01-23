@@ -251,7 +251,7 @@
             >
               <button class="btn disable-btn editBtn-widht">差戻し済み</button>
             </v-col>
-            <!-- 承認ステータス 0:取り下げる以外の場合 -->
+            <!-- 承認ステータス 0:下書き以外の場合 -->
             <v-col
               v-if="announce.approval_status != 0"
               cols="11"

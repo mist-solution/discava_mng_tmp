@@ -22,7 +22,7 @@
       cols="6"
       class="d-flex justify-sm-end justify-start"
     >
-      <form class="searchform-list">
+      <div class="searchform-list">
         <input
           class="searchform search-box"
           type="search"
@@ -34,7 +34,7 @@
           @change="getClientItemsLength()"
         />
         <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
-      </form>
+      </div>
     </v-col>
 
     <!-- 一括操作-実行ボタン -->
@@ -904,7 +904,7 @@ export default {
   padding: 10px 30px 10px 8px;
   border-radius: 8px;
   width: 180px;
-  border: solid 2px black;
+  background-color:  #f1eeeee4;
 }
 
 @media (max-width: 599.99px){

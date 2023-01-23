@@ -163,7 +163,7 @@
                   <v-list-item-title>
                     <div
                       @click="(displayAnnounceApprovalConfirm = true),
-                        setAnnounceId(item.id)"
+                        setApprovalAnnounceId(item.id)"
                       role="button"
                     >
                       承認する

@@ -2,7 +2,7 @@
   <div class="sp_sidebar">
     <v-app-bar
      dark app
-     color = "white"
+     :color = color
      :height = header_height>
      <div v-if="shopSelection" class="company_name">
         {{companyName}} - {{shopSelection.shop_name}}
@@ -48,10 +48,10 @@
                   :prepend-icon="item.icon"
                   :title="item.title"
                   :disabled="item.disabled"
-                  color="blue lighten-5"
+                  width=200
                 ></v-list-item>
               </template>
-              <v-list-item
+              <!-- <v-list-item
                 tile
                 v-for="submenu in item.submenus"
                 :key="submenu.id"
@@ -60,7 +60,7 @@
                 :to="{ name: submenu.linkTo }"
                 :disabled="submenu.disabled"
                 @click="heightchange()"
-              ></v-list-item>
+              ></v-list-item> -->
             </v-list-group>
             <v-list-item
               tile
@@ -68,9 +68,9 @@
               :prepend-icon="item.icon"
               :title="item.title"
               link
+              color="#3990e7"
               :to="{ name: item.linkTo }"
               :disabled="item.disabled"
-              color="blue lighten-5"
               @click="heightchange()"
             ></v-list-item>
           </div>
@@ -108,6 +108,7 @@ export default {
       company_name: '',
       shopSelection: null,
       header_height:"54",
+      color:"white"
     };
   },
   methods: {
@@ -143,9 +144,11 @@ export default {
 
     heightchange: function(){
       if(this.header_height == "54"){
-        this.header_height = "1000"
+        this.header_height = "1000";
+        this.color = "#F8FFFD";
       }else if(this.header_height == "1000"){
-        this.header_height = "54"
+        this.header_height = "54";
+        this.color = "white";
       }
     }
   },
@@ -304,7 +307,7 @@ label {
   height: 100vh;
   margin: 0;
   padding: 0;
-  background-color: white;
+  background-color: #F8FFFD;
   opacity: 0;
   visibility: hidden;
   transition: all .5s ease-out;
@@ -321,7 +324,16 @@ label {
     }
 }
 
-.v-field__overlay {
-  background-color: #FFF !important;
+.bento_menu_active > .v-list{
+  width: 230px !important;
+  background-color: #F8FFFD;
+}
+
+.bento_menu_active > .v-list > div > .v-list-item--active > span{
+  display: none;
+}
+
+.bento_menu_active > .v-list > div > .v-list-item--variant-text .v-list-item__overlay{
+  display: none;
 }
 </style>

@@ -21,11 +21,11 @@
 					</router-link>
 			</template> -->
       <!-- ユーザ名（クリックで更新画面） -->
-			<template #item-name="item">
+			<!-- <template #item-name="item">
         <router-link :to="{ name: 'enduser.update', params: { userId: item.id } }">
 				{{ item.name }}
         </router-link>
-			</template>
+			</template> -->
 			<!-- 登録日 -->
 			<template #item-created_at="item">
 				{{ timestampFormat(item.created_at) }}

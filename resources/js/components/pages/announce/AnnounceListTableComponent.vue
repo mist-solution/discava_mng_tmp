@@ -91,17 +91,30 @@
             color="primary"
           />
         </template>
+        <!-- タイトル -->
         <template #item-title="item">
-          <router-link :to="{ name: 'announce.edit', params: { announceId: item.id } }" v-if="update_auth_flg">
+          <!-- タイトル - 編集権限あり -->
+          <router-link
+            v-if="update_auth_flg" 
+            :to="{ name: 'announce.edit', params: { announceId: item.id } }"
+            class="announce-title-font"
+          >
             {{ item.title }}
           </router-link>
-          <div v-if="!update_auth_flg">
+          <!-- タイトル - 編集権限なし -->
+          <div v-if="!update_auth_flg" class="announce-title-font_disable">
             {{ item.title }}
           </div>
+          <!-- カテゴリー -->
+          <p class="mb-0 announce-category-font">
+            {{ item.announce_categories.category_name }}
+          </p>
         </template>
+        <!-- 投稿日 -->
         <template #item-created_at="item">
           {{ timestampFormat(item.created_at) }}
         </template>
+        <!-- 更新日時 -->
         <template #item-updated_at="item">
           {{ timestampFormat(item.updated_at) }}
         </template>
@@ -116,10 +129,16 @@
           <div class="text-center">
             <v-menu>
               <template v-slot:activator="{ props }" v-if="update_auth_flg">
-                <button v-bind="props" class="my-3"
+                <v-btn
+                  v-bind="props"
+                  icon
+                  variant="outlined"
+                  color="#616161"
+                  size="x-small"
+                  class="my-3"
                 >
                   <v-icon x-large>mdi-dots-horizontal</v-icon>
-                </button>
+                </v-btn>
               </template>
               <v-list
               >
@@ -424,8 +443,8 @@ export default {
           sortable: false,
           value: 'imageUrl',
         },
+        { text: 'サムネイル画像', value: 'サムネイル画像' },
         { text: 'タイトル', value: 'title' },
-        { text: 'カテゴリー', value: 'announce_category.category_name' },
         { text: '投稿日', value: 'created_at' },
         { text: '最終更新', value: 'updated_at' },
         { text: '投稿者', value: 'add_account.name' },
@@ -939,5 +958,26 @@ export default {
 // 公開期間中の場合、フォントのウェイトを上げる
 .text-inReleaseFlg {
   font-weight: 600;
+}
+
+// タイトル、カテゴリーのフォント設定
+.announce-title-font {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #69A5AF;
+  transition: .4s;
+}
+.announce-title-font:hover {
+  transition: .4s;
+  color: #69A5AF;
+  opacity: .6;
+}
+.announce-title-font_disable {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #666;
+}
+.announce-category-font {
+  font-size: 0.75rem;
 }
 </style>

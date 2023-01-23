@@ -23,7 +23,7 @@
                     {{ start_date }} ～ {{ end_date }}
                 </div>
                 <div class="preview_publication_period_sp pc_disable">
-                    <div class=preview_period_toggle_button @click="openPeriod()">
+                    <div class="preview_period_toggle_button" @click="openPeriod()">
                         <a class="nav-link active" aria-current="page"><v-icon color="white">mdi-calendar-month</v-icon></a>
                         <div style="color:white;">
                             掲載期間
@@ -106,6 +106,7 @@
     display: flex;
     align-items: center;
     vertical-align:top;
+    cursor: pointer;
 }
 
 .preview_userInfo{
@@ -130,6 +131,7 @@
 .preview_period_toggle_button{
     color: white;
     display: flex;
+    cursor: pointer;
 }
 
 .period_disable{

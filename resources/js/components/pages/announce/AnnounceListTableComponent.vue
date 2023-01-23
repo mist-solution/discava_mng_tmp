@@ -609,6 +609,7 @@ export default {
           this.announce = res.data.anounce;
           this.$store.dispatch("announce/setTotalCount", res.data.count);
           this.loading = false;
+          this.getItems2List();
         });
     },
 
@@ -768,6 +769,7 @@ export default {
       this.operate_id = id;
     },
 
+    //一括操作
     allCheckedItemOperate(){
       if(this.operate_id == '1'){
         for(var i = 0;i < this.selected.length; i++){
@@ -784,8 +786,8 @@ export default {
       }else{
         //「承認か削除を選んでください」的なモーダルを出す処理が必要か…？
       }
-      console.log(this.selected)
     },
+
 
     inReleaseFlg(announce) {
       // 公開期間中 or 公開期間外判定してbooleanで返す
@@ -793,7 +795,25 @@ export default {
       let start = moment(announce.start_date)
       let end = moment(announce.end_date)
       return now.isBetween(start, end)
-    }
+    },
+
+    //一括承認を表示する/非表示にする
+    getItems2List(){
+      if(this.approval_auth_flg){
+        if(this.items2.length == 2){
+          if(this.$store.state.announce.displayAnnounceStatus == 3 || this.$store.state.announce.displayAnnounceStatus == 0){
+            this.items2 = this.items2.slice(1);
+          }
+        }else if(this.items2.length == 1){
+          if(this.$store.state.announce.displayAnnounceStatus == 1 || this.$store.state.announce.displayAnnounceStatus == 2){
+            this.items2 = [ 
+              {id: 1, text: "一括承認" },
+              {id: 2, text: "一括削除" }
+            ]
+          }
+        }
+      }
+    },
 
   },
   async mounted() {
@@ -809,6 +829,8 @@ export default {
       this.request_auth_flg = authority.request_auth_flg;
       if(!this.approval_auth_flg){
         this.items2 = this.items2.slice(1);
+      }else{
+        this.getItems2List();
       }
     }
     let name = await this.getUserInfo();

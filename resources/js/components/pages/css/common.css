@@ -7,10 +7,10 @@
     background-color: #F7F7F7;
 }
 
-/* 文字色 
+/* 文字色 */
 * {
     color:#707070;
-}*/
+}
 
 /* aタグのtext-decoration無効化 */
 a {
@@ -341,4 +341,9 @@ text-align: center;
 }
 .modal-title {
     font-weight: 600;
+}
+
+/* SPサイドバーアイコン背景色 */
+.v-field__overlay {
+    background-color: #FFF !important;
 }

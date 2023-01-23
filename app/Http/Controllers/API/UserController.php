@@ -136,22 +136,17 @@ class UserController extends Controller
         ShopUser::where('user_id', $id)->delete();
 
         for($i = 0 ; $i < count($shopList); $i++) {
-                $shops = new ShopUser();
-                $shops['customer_id'] = Auth::user()->customer_id;
-                $shops['shop_id'] = $shopList[$i]['id'];
-                $shops['user_id'] = $id;
-                $shops['authority_set_id'] = $shopList[$i]['model'];
-                $shops['add_account'] = Auth::user()->id;
-                $shops['upd_account'] = Auth::user()->id;
-                $shops['del_flg'] = '0';
-                $shops['created_at'] = new DateTime();
-                $shops['updated_at'] = new DateTime();
-
-                if($shops['authority_set_id'] === "none"){
-
-                }else{
-                    $shops->save();
-                }
+            $shops = new ShopUser();
+            $shops['customer_id'] = Auth::user()->customer_id;
+            $shops['shop_id'] = $shopList[$i]['id'];
+            $shops['user_id'] = $id;
+            $shops['authority_set_id'] = $shopList[$i]['model'];
+            $shops['add_account'] = Auth::user()->id;
+            $shops['upd_account'] = Auth::user()->id;
+            $shops['del_flg'] = '0';
+            $shops['created_at'] = new DateTime();
+            $shops['updated_at'] = new DateTime();
+            $shops->save();
         }
 
     }

@@ -57,13 +57,8 @@ class AnnounceController extends Controller
     // 承認機能（承認）
     public function approvalAnnounce(announce $announce)
     {
-        // 承認ステータスを2:承認済み、承認アカウントを更新
-        $announce->update([
-            'approval_status' => 2,
-            'approval_account' => Auth::user()->id,
-            'upd_account' => Auth::user()->id,
-            'updated_at' => new DateTime(),
-        ]);
+        // 承認ステータスを2:承認済みに更新
+        $announce->update(['approval_status' => 2]);
         return $announce;
     }
 
@@ -72,13 +67,10 @@ class AnnounceController extends Controller
     {
         // 差戻しコメント
         $approvalReturnComment = $request->input('approvalReturnComment');
-        // 承認ステータスを3:差戻し、差戻しコメントを更新
-        $announce->update([
-            'remand_comment' => $approvalReturnComment,
-            'approval_status' => 3,
-            'upd_account' => Auth::user()->id,
-            'updated_at' => new DateTime(),
-        ]);
+        // 承認ステータスを3:差戻しに更新
+        $announce->update(['approval_status' => 3]);
+        // 差戻しコメント
+        $announce->update(['remand_comment' => $approvalReturnComment]);
 
         return $announce;
     }
@@ -87,22 +79,15 @@ class AnnounceController extends Controller
     public function request(Announce $announce)
     {
         // 未承認 → 承認
-        $announce->update([
-            'approval_status' => 1,
-            'upd_account' => Auth::user()->id,
-            'updated_at' => new DateTime()
-        ]);
+        $announce->update(['approval_status' => 1]);
         return $announce;
     }
 
     // 承認機能（取り下げ）
     public function cansel(Announce $announce)
     {
-        $announce->update([
-            'approval_status' => 0,
-            'upd_account' => Auth::user()->id,
-            'updated_at' => new DateTime(),
-        ]);
+        // 未承認 → 承認
+        $announce->update(['approval_status' => 0]);
         return $announce;
     }
 
@@ -118,11 +103,7 @@ class AnnounceController extends Controller
     // お知らせ論理削除
     public function deleteAnnounce(Announce $announce)
     {
-        $announce->update([
-            'upd_account' => Auth::user()->id,
-            'updated_at' => new DateTime(),
-            'del_flg' => 1
-        ]);
+        $announce->update(['del_flg' => 1]);
         return $announce;
     }
 

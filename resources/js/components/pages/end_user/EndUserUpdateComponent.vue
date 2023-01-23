@@ -79,6 +79,9 @@
                         </v-col>
                       </v-row>
                       </v-form>
+                      {{ forms.shopUser }}
+                      {{ forms.shop }}
+
   </v-container>
 </template>
 <style src="../css/common.css"></style>
@@ -112,7 +115,7 @@ export default {
       messages: {
         checkbox: null,
       },
-      authoritySet: [],
+      authoritySet: []
     }
   },
   components: {
@@ -123,7 +126,6 @@ export default {
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
     ...mapActions('authoritySet', ['fetchAllAuthoritySetDisplay']),
     ...mapActions('shop', ['fetchShops', 'fetchShopUsers']),
-
     submit() {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
@@ -164,22 +166,9 @@ export default {
     this.forms.shopList = this.getShops;
     await this.fetchShopUsers(this.userId);
     this.forms.shopUser = this.getShopUsers;
-    let list = this.getShops;
-    let user = this.getShopUsers;
-    list.map(function(value){
-      // 権限なし店舗があった場合
-      value['model'] = "none";
-      user.map(function(value2){
-        if (value['id'] == value2['shop_id']) {
-          // alert("一致！")
-          value['model'] = value2['authority_set_id'];
-        }
-        else{
-          
-        }
-      })
-    })
-
+    this.forms.shopList.forEach(function(value){
+       value.model = { id:shopList.model, name:"該当なし" }; 
+    });
   },
 }
 </script>

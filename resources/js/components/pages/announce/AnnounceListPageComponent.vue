@@ -8,7 +8,7 @@
         <div class="btn-group ml-auto" v-if="create_auth_flg">
           <router-link v-bind:to="{ name: 'announce.register' }" class="mt-2">
             <button class="btn green-btn_toukou mr-2 px-4 justify-center">
-              <v-icon color="white" x-small class="pb-1">mdi-pencil</v-icon>
+              <v-icon color="white" class="pen-icon pb-1">mdi-pencil</v-icon>
               投稿
             </button>
           </router-link>
@@ -156,6 +156,11 @@ export default {
   .green-btn_toukou {
     color:#fff !important;
   }
+
+  .green-btn_toukou > i {
+    font-size: 18px !important;
+  }
+
   .green-btn_toukou:hover{
     opacity:.8 !important;
     box-shadow: unset !important;

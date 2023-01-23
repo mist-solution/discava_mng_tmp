@@ -472,12 +472,4 @@ export default {
     padding: 0px !important;
 }
 
-// 文字色、文字背景色のカラーピッカー位置修正（SP）
-@media (max-width: 600px){
-  .ql-snow .ql-color-picker .ql-picker-options{
-    width: 92px!important;
-    margin-left: -2rem !important;
-  }
-}
-
 </style>

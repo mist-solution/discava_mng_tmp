@@ -105,18 +105,36 @@
         <template #item-updated_at="item">
           {{ timestampFormat(item.updated_at) }}
         </template>
-        <template #item-approval_status="item">
+        <!-- 公開ステータス -->
+        <template #item-open_status="item">
+          <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg" : ""]'>
+            {{ inReleaseFlg(item)  ? "公開期間中" : "公開期間外" }}
+          </p>
+        </template>
+        <!-- 操作ボタン -->
+        <template #item-actions="item">
           <div class="text-center">
-            {{ approvalStatusFormat(item.approval_status) }}
-            <br>
             <v-menu>
               <template v-slot:activator="{ props }" v-if="update_auth_flg">
-                <v-btn   elevation="2" x-small v-bind="props">
-                  編集
-                </v-btn>
+                <button v-bind="props" class="my-3"
+                >
+                  <v-icon x-large>mdi-dots-horizontal</v-icon>
+                </button>
               </template>
               <v-list
               >
+                <v-list-item>
+                  <v-list-item-title>
+                    <div  v-if="update_auth_flg">
+                      <router-link
+                        class="text-white"
+                        :to="{ name: 'announce.edit', params: { announceId: item.id } }"
+                      >
+                        編集
+                      </router-link>
+                    </div>
+                  </v-list-item-title>
+                </v-list-item>
                 <v-list-item>
                   <v-list-item-title>
                     <div 
@@ -192,18 +210,6 @@
                 </v-list-item>
               </v-list>
             </v-menu>
-          </div>
-        </template>
-        <template #item-open_status="item">
-          <!-- on off 切り替え -->
-          <div class="toggle_switch">
-              <input type="checkbox" name="open" id="cb_toggle_switch">
-              <label for="cb_toggle_switch"></label>
-          </div>
-          <!-- 無効化 -->
-          <div class="toggle_switch disable">
-              <input type="checkbox" name="open" id="cb_toggle_switch">
-              <label for="cb_toggle_switch"></label>
           </div>
         </template>
       </EasyDataTable>
@@ -383,6 +389,7 @@ import AnnounceApprovalReturnConfirmModalComponent from "../../modals/AnnounceAp
 import AnnounceApprovalRequestConfirmModalComponent from "../../modals/AnnounceApprovalRequestConfirmModalComponent.vue"
 import AnnounceApprovalCancelConfirmModalComponent from "../../modals/AnnounceApprovalCancelConfirmModalComponent.vue"
 import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
+import moment from 'moment';
 
 export default {
   components: {
@@ -422,8 +429,8 @@ export default {
         { text: '投稿日', value: 'created_at' },
         { text: '最終更新', value: 'updated_at' },
         { text: '投稿者', value: 'add_account.name' },
-        { text: 'ステータス', value: 'approval_status' },
-        { text: '公開', value: 'open_status' },
+        { text: 'ステータス', value: 'open_status' },
+        { text: '操作', value: 'actions' },
         {
           text: '',
           sortable: false,
@@ -778,6 +785,14 @@ export default {
         //「承認か削除を選んでください」的なモーダルを出す処理が必要か…？
       }
       console.log(this.selected)
+    },
+
+    inReleaseFlg(announce) {
+      // 公開期間中 or 公開期間外判定してbooleanで返す
+      var now = moment();
+      let start = moment(announce.start_date)
+      let end = moment(announce.end_date)
+      return now.isBetween(start, end)
     }
 
   },
@@ -921,4 +936,8 @@ export default {
     padding: 0px !important;
 }
 
+// 公開期間中の場合、フォントのウェイトを上げる
+.text-inReleaseFlg {
+  font-weight: 600;
+}
 </style>

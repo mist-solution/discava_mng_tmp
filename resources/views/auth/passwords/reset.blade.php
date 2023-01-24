@@ -62,7 +62,7 @@
 
                         <div class="row mb-0 justify-content-center text-center">
                             @if (Route::has('password.request'))
-                            <a class="reset_link" href="{{ route('password.request') }}">
+                            <a class="reset_link" href="mailto:info@discava.net">
                                 {{ __('ログインに関するお問い合わせ') }}
                             </a>
                             @endif

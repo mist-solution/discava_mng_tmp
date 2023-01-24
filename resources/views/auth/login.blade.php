@@ -69,7 +69,7 @@
                             @endif
 
                             @if (Route::has('password.request'))
-                            <a class="login_link" href="{{ route('password.request') }}">
+                            <a class="login_link" href="mailto:info@discava.net">
                                 {{ __('ログインに関するお問い合わせ') }}
                             </a>
                             @endif

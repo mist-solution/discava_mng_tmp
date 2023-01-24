@@ -385,7 +385,6 @@
     :modelValue="displayAnnouncePreview"
     @update:modelValue="displayAnnouncePreview = $event"
     :closeAction="closePreview"
-    :close_flg=0
     :contents="contents"
     :start_date="start_date"
     :end_date="end_date"
@@ -629,6 +628,7 @@ export default {
           this.announce = res.data.anounce;
           this.$store.dispatch("announce/setTotalCount", res.data.count);
           this.loading = false;
+          this.getItems2List();
         });
     },
 
@@ -813,7 +813,25 @@ export default {
       let start = moment(announce.start_date)
       let end = moment(announce.end_date)
       return now.isBetween(start, end)
-    }
+    },
+
+    //一括承認を表示する/非表示にする
+    getItems2List(){
+      if(this.approval_auth_flg){
+        if(this.items2.length == 2){
+          if(this.$store.state.announce.displayAnnounceStatus == 3 || this.$store.state.announce.displayAnnounceStatus == 0){
+            this.items2 = this.items2.slice(1);
+          }
+        }else if(this.items2.length == 1){
+          if(this.$store.state.announce.displayAnnounceStatus == 1 || this.$store.state.announce.displayAnnounceStatus == 2){
+            this.items2 = [ 
+              {id: 1, text: "一括承認" },
+              {id: 2, text: "一括削除" }
+            ]
+          }
+        }
+      }
+    },
   },
   async mounted() {
     this.getAnnounceList();
@@ -828,6 +846,8 @@ export default {
       this.request_auth_flg = authority.request_auth_flg;
       if(!this.approval_auth_flg){
         this.items2 = this.items2.slice(1);
+      }else{
+        this.allCheckedItemOperate()
       }
     }
     let name = await this.getUserInfo();
@@ -923,7 +943,7 @@ export default {
   padding: 10px 30px 10px 8px;
   border-radius: 8px;
   width: 180px;
-  border: solid 2px black;
+  background-color:  #f1eeeee4;
 }
 
 @media (max-width: 599.99px){

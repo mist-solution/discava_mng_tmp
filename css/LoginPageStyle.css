@@ -182,6 +182,8 @@ html.wf-active {
 .btn_green:hover {
   color: white !important;
   background-color: #69A5AF !important;
+  transform: translate(0, 3px);
+  box-shadow: 0 2px 4px rgba(105, 165, 175, 0.56);
 }
 .btn_green:active {
   border-color: #69A5AF !important;

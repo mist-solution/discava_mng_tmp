@@ -10,6 +10,15 @@
                     <div class="offset-md-2">
                         <div class="discavaMate_title font--fammily__AN">{{ __('DISCaVa MATE') }}</div>
                     </div>
+                    <!-- エラーメッセージ -->
+                    <div class="col-md-8 offset-md-2 error-container">
+                        @if($errors->any())
+                        @foreach($errors->all() as $error)
+                        <div class="discavaMate_errorMsg">{{ $error }}</div>
+                        @endforeach
+                        @endif
+                    </div>
+
                     @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}
@@ -25,11 +34,11 @@
                             </div>
                             <div class="col-md-8 offset-md-2">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror discavaMate_textInput" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                @error('email')
+                                <!-- @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                                @enderror
+                                @enderror -->
                             </div>
                         </div>
                         <div class="mb-0 justify-content-center">

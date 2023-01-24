@@ -10,6 +10,15 @@
                     <div class="offset-md-2">
                         <div class="discavaMate_title font--fammily__AN">{{ __('DISCaVa MATE') }}</div>
                     </div>
+                    <!-- エラーメッセージ -->
+                    <div class="col-md-8 offset-md-2 error-container">
+                        @if($errors->any())
+                        @foreach($errors->all() as $error)
+                        <div class="discavaMate_errorMsg">{{ $error }}</div>
+                        @endforeach
+                        @endif
+                    </div>
+
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
 
@@ -17,35 +26,35 @@
 
                         <div class="row mb-3">
                             <div class="col-md-8 offset-md-2">
-                                <label for="email" class="col-md-8 col-form-label text-md-left">{{ __('メールアドレス') }}</label>
+                                <label for="email" class="col-md-8 col-form-label text-md-left discavaMate_colName">{{ __('メールアドレス') }}</label>
                             </div>
                             <div class="col-md-8 offset-md-2">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror discavaMate_textInput reset_textReadonly" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" readonly>
-                                @error('email')
+                                <!-- @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                                @enderror
+                                @enderror -->
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-8 offset-md-2">
-                                <label for="password" class="col-md-8 col-form-label text-md-left">{{ __('新パスワード') }}</label>
+                                <label for="password" class="col-md-8 col-form-label text-md-left discavaMate_colName">{{ __('新パスワード') }}</label>
                             </div>
                             <div class="col-md-8 offset-md-2">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror discavaMate_textInput" name="password" required autocomplete="new-password" autofocus>
-                                @error('password')
+                                <!-- @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                                @enderror
+                                @enderror -->
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-8 offset-md-2">
-                                <label for="password-confirm" class="col col-form-label text-md-left">{{ __('新パスワード（確認）') }}</label>
+                                <label for="password-confirm" class="col col-form-label text-md-left discavaMate_colName">{{ __('新パスワード（確認）') }}</label>
                             </div>
                             <div class="col-md-8 offset-md-2">
                                 <input id="password-confirm" type="password" class="form-control discavaMate_textInput" name="password_confirmation" required autocomplete="new-password">

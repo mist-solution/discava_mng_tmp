@@ -91,32 +91,70 @@
             color="primary"
           />
         </template>
+        <!-- タイトル -->
         <template #item-title="item">
-          <router-link :to="{ name: 'announce.edit', params: { announceId: item.id } }" v-if="update_auth_flg">
+          <!-- タイトル - 編集権限あり -->
+          <router-link
+            v-if="update_auth_flg" 
+            :to="{ name: 'announce.edit', params: { announceId: item.id } }"
+            class="announce-title-font"
+          >
             {{ item.title }}
           </router-link>
-          <div v-if="!update_auth_flg">
+          <!-- タイトル - 編集権限なし -->
+          <div v-if="!update_auth_flg" class="announce-title-font_disable">
             {{ item.title }}
           </div>
+          <!-- カテゴリー -->
+          <p class="mb-0 announce-category-font">
+            {{ item.announce_categories.category_name }}
+          </p>
         </template>
+        <!-- 投稿日 -->
         <template #item-created_at="item">
           {{ timestampFormat(item.created_at) }}
         </template>
+        <!-- 更新日時 -->
         <template #item-updated_at="item">
           {{ timestampFormat(item.updated_at) }}
         </template>
-        <template #item-approval_status="item">
+        <!-- 公開ステータス -->
+        <template #item-open_status="item">
+          <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg" : ""]'>
+            {{ inReleaseFlg(item)  ? "公開期間中" : "公開期間外" }}
+          </p>
+        </template>
+        <!-- 操作ボタン -->
+        <template #item-actions="item">
           <div class="text-center">
-            {{ approvalStatusFormat(item.approval_status) }}
             <br>
             <v-menu>
               <template v-slot:activator="{ props }" v-if="update_auth_flg">
-                <v-btn   elevation="2" x-small v-bind="props">
-                  編集
+                <v-btn
+                  v-bind="props"
+                  icon
+                  variant="outlined"
+                  color="#616161"
+                  size="x-small"
+                  class="my-3"
+                >
+                  <v-icon x-large>mdi-dots-horizontal</v-icon>
                 </v-btn>
               </template>
               <v-list
               >
+              <v-list-item>
+                  <v-list-item-title>
+                    <div  v-if="update_auth_flg">
+                      <router-link
+                        class="text-white"
+                        :to="{ name: 'announce.edit', params: { announceId: item.id } }"
+                      >
+                        編集
+                      </router-link>
+                    </div>
+                  </v-list-item-title>
+                </v-list-item>
                 <v-list-item>
                   <v-list-item-title>
                     <div 
@@ -145,7 +183,7 @@
                   <v-list-item-title>
                     <div
                       @click="(displayAnnounceApprovalConfirm = true),
-                        setAnnounceId(item.id)"
+                        setApprovalAnnounceId(item.id)"
                       role="button"
                     >
                       承認する
@@ -192,18 +230,6 @@
                 </v-list-item>
               </v-list>
             </v-menu>
-          </div>
-        </template>
-        <template #item-open_status="item">
-          <!-- on off 切り替え -->
-          <div class="toggle_switch">
-              <input type="checkbox" name="open" id="cb_toggle_switch">
-              <label for="cb_toggle_switch"></label>
-          </div>
-          <!-- 無効化 -->
-          <div class="toggle_switch disable">
-              <input type="checkbox" name="open" id="cb_toggle_switch">
-              <label for="cb_toggle_switch"></label>
           </div>
         </template>
       </EasyDataTable>
@@ -383,6 +409,7 @@ import AnnounceApprovalReturnConfirmModalComponent from "../../modals/AnnounceAp
 import AnnounceApprovalRequestConfirmModalComponent from "../../modals/AnnounceApprovalRequestConfirmModalComponent.vue"
 import AnnounceApprovalCancelConfirmModalComponent from "../../modals/AnnounceApprovalCancelConfirmModalComponent.vue"
 import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
+import moment from 'moment';
 
 export default {
   components: {
@@ -417,13 +444,13 @@ export default {
           sortable: false,
           value: 'imageUrl',
         },
+        { text: 'サムネイル画像', value: 'サムネイル画像' },
         { text: 'タイトル', value: 'title' },
-        { text: 'カテゴリー', value: 'announce_category.category_name' },
         { text: '投稿日', value: 'created_at' },
         { text: '最終更新', value: 'updated_at' },
         { text: '投稿者', value: 'add_account.name' },
-        { text: 'ステータス', value: 'approval_status' },
-        { text: '公開', value: 'open_status' },
+        { text: 'ステータス', value: 'open_status' },
+        { text: '操作', value: 'actions' },
         {
           text: '',
           sortable: false,
@@ -778,8 +805,15 @@ export default {
         //「承認か削除を選んでください」的なモーダルを出す処理が必要か…？
       }
       console.log(this.selected)
-    }
+    },
 
+    inReleaseFlg(announce) {
+      // 公開期間中 or 公開期間外判定してbooleanで返す
+      var now = moment();
+      let start = moment(announce.start_date)
+      let end = moment(announce.end_date)
+      return now.isBetween(start, end)
+    }
   },
   async mounted() {
     this.getAnnounceList();
@@ -921,4 +955,29 @@ export default {
     padding: 0px !important;
 }
 
+// 公開期間中の場合、フォントのウェイトを上げる
+.text-inReleaseFlg {
+  font-weight: 600;
+}
+
+// タイトル、カテゴリーのフォント設定
+.announce-title-font {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #69A5AF;
+  transition: .4s;
+}
+.announce-title-font:hover {
+  transition: .4s;
+  color: #69A5AF;
+  opacity: .6;
+}
+.announce-title-font_disable {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #666;
+}
+.announce-category-font {
+  font-size: 0.75rem;
+}
 </style>

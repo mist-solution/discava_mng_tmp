@@ -226,6 +226,9 @@ $green: #69A5AF;
         &:hover {
             color: white !important;
             background-color: $green !important;
+            -webkit-transform: translate(0, 3px);
+            transform: translate(0, 3px);
+            box-shadow: 0 2px 4px rgba(105, 165, 175, 0.56);
         }
 
         &:active {

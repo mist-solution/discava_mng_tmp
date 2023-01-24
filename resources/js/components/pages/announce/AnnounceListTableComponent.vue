@@ -107,7 +107,7 @@
           </div>
           <!-- カテゴリー -->
           <p class="mb-0 announce-category-font">
-            {{ item.announce_categories.category_name }}
+            カテゴリー：{{ item.announce_categories.category_name }}
           </p>
         </template>
         <!-- 投稿日 -->

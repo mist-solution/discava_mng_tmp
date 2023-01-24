@@ -445,8 +445,8 @@ export default {
         },
         { text: 'サムネイル画像', value: 'サムネイル画像' },
         { text: 'タイトル', value: 'title' },
-        { text: '投稿日', value: 'created_at' },
-        { text: '最終更新', value: 'updated_at' },
+        { text: '投稿日', value: 'created_at', sortable: true},
+        { text: '最終更新', value: 'updated_at', sortable: true },
         { text: '投稿者', value: 'add_account.name' },
         { text: 'ステータス', value: 'open_status' },
         { text: '操作', value: 'actions' },
@@ -1000,4 +1000,15 @@ export default {
 .announce-category-font {
   font-size: 0.75rem;
 }
+
+.vue3-easy-data-table__header th.sortable.none .sortType-icon {
+  opacity: 1 !important;
+}
+.vue3-easy-data-table__header th.sortable .sortType-icon {
+  margin-top: -6px !important;
+}
+.vue3-easy-data-table__header th.sortable.desc .sortType-icon {
+  margin-top: 5px !important;
+}
+
 </style>

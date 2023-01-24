@@ -8,13 +8,13 @@
                 <div class="preview_closeaction" @click="closeAction()" v-if="close_flg">
                     <a class="nav-link active" aria-current="page"><v-icon color="white">mdi-pencil</v-icon></a>
                     <div class="close_button sp_disable">
-                    編集画面に戻る
+                    プレビュー画面を閉じる
                     </div>
                 </div>
                 <div class="preview_closeaction" @click="closeAction()" v-if="!close_flg">
                     <a class="nav-link active" aria-current="page"><v-icon color="white">mdi-pencil</v-icon></a>
                     <div class="close_button sp_disable">
-                    記事一覧画面に戻る
+                    プレビュー画面を閉じる
                     </div>
                 </div>
                 <div class="preview_publication_period sp_disable" style="color: white;">
@@ -84,8 +84,17 @@
     padding: 0px !important;
 }
 
-.modal-header{
+@media(min-width:901px){
+    .modal-header{
+    align-items: center;
+    height: 50px;
+    }
+}
+
+@media (max-width: 900px){
+    .modal-header{
     align-items: flex-start;
+    }
 }
 
 .preview_publication_period{

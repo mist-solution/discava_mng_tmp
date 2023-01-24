@@ -91,12 +91,6 @@
                     hide-details="false"
                     v-model=shop.model
                   />
-                  {{ shop }}
-                  <br /><br />
-                  {{ authoritySet }}
-                  <br /><br />
-                  {{ shop.id }}
-                  {{ shop.model }}
                 </v-col>
               </v-row>
             </v-col>

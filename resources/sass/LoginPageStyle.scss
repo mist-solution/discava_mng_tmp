@@ -146,8 +146,8 @@ $green: #69A5AF;
         font-weight: 600;
         color: #707070;
         background-color: white;
-        margin-bottom: 3rem;
-        margin-top: 1rem;
+        margin-bottom: 2rem;
+        margin-top: 2rem;
         margin-left: 3px;
         -webkit-text-stroke: 1px #707070;
 
@@ -184,9 +184,24 @@ $green: #69A5AF;
         padding-bottom: 2.5rem;
     }
 
+    /* 入力項目名 */
+    &_colName {
+        color: #707070;
+    }
+
     /* テキストボックス */
     &_textInput {
         line-height: 1.6rem;
+    }
+
+    /* エラーメッセージ */
+    &_errorMsg {
+        border: 1px solid #c60100;
+        border-radius: 10px;
+        padding: 1rem 0.4rem;
+        margin-bottom: 2rem;
+        color: #c60100;
+        font-weight: bolder;
     }
 }
 
@@ -196,7 +211,7 @@ $green: #69A5AF;
         background-color: $green;
         color: white !important;
         font-weight: 600;
-        padding: .4rem 2.5rem;
+        padding: 0.6rem 2.5rem;
         margin-top: 2rem;
         margin-bottom: 1rem;
         width: 160px;
@@ -206,12 +221,14 @@ $green: #69A5AF;
         vertical-align: middle;
         border-color: $green;
         -webkit-box-shadow: 0 3px 4px $green;
-        box-shadow: 0 3px 4px $green;
+        box-shadow: 0 4px 8px rgba(105, 165, 175, 0.56);
 
         &:hover {
             color: white !important;
-            // background-color: #579daa !important;
             background-color: $green !important;
+            -webkit-transform: translate(0, 3px);
+            transform: translate(0, 3px);
+            box-shadow: 0 2px 4px rgba(105, 165, 175, 0.56);
         }
 
         &:active {
@@ -238,13 +255,6 @@ $green: #69A5AF;
             color: #579daa;
         }
     }
-
-    // &_errorMsg {
-    //     font-size: 12px !important;
-    //     position: relative;
-    //     top: -5rem;
-    //     margin-top: -1.5rem;
-    // }
 }
 
 /* ================================ * /

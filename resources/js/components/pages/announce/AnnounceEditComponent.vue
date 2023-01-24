@@ -278,7 +278,6 @@
       :modelValue="displayAnnouncePreview"
       @update:modelValue="displayAnnouncePreview = $event"
       :closeAction="closePreview"
-      :close_flg=1
       :contents="contents"
       :start_date="announce.start_date"
       :end_date="announce.end_date"

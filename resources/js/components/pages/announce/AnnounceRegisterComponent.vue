@@ -221,7 +221,6 @@
       :modelValue="displayAnnouncePreview"
       @update:modelValue="displayAnnouncePreview = $event"
       :closeAction="closePreview"
-      :close_flg=1
       :contents="contents"
       :start_date="announce.start_date"
       :end_date="announce.end_date"
@@ -470,6 +469,14 @@ export default {
 
 .v-dialog--fullscreen .v-overlay__content .v-card{
     padding: 0px !important;
+}
+
+// 文字色、文字背景色のカラーピッカー位置修正（SP）
+@media (max-width: 600px){
+  .ql-snow .ql-color-picker .ql-picker-options{
+    width: 92px!important;
+    margin-left: -2rem !important;
+  }
 }
 
 </style>

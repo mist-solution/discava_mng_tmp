@@ -107,7 +107,7 @@
           </div>
           <!-- カテゴリー -->
           <p class="mb-0 announce-category-font">
-            カテゴリー：{{ item.announce_categories.category_name }}
+            {{ item.announce_categories.category_name }}
           </p>
         </template>
         <!-- 投稿日 -->
@@ -385,6 +385,7 @@
     :modelValue="displayAnnouncePreview"
     @update:modelValue="displayAnnouncePreview = $event"
     :closeAction="closePreview"
+    :close_flg=0
     :contents="contents"
     :start_date="start_date"
     :end_date="end_date"
@@ -445,8 +446,8 @@ export default {
         },
         { text: 'サムネイル画像', value: 'サムネイル画像' },
         { text: 'タイトル', value: 'title' },
-        { text: '投稿日', value: 'created_at', sortable: true},
-        { text: '最終更新', value: 'updated_at', sortable: true },
+        { text: '投稿日', value: 'created_at' },
+        { text: '最終更新', value: 'updated_at' },
         { text: '投稿者', value: 'add_account.name' },
         { text: 'ステータス', value: 'open_status' },
         { text: '操作', value: 'actions' },
@@ -788,6 +789,7 @@ export default {
       this.operate_id = id;
     },
 
+    //一括操作
     allCheckedItemOperate(){
       if(this.operate_id == '1'){
         for(var i = 0;i < this.selected.length; i++){
@@ -814,7 +816,6 @@ export default {
       let end = moment(announce.end_date)
       return now.isBetween(start, end)
     },
-
     //一括承認を表示する/非表示にする
     getItems2List(){
       if(this.approval_auth_flg){
@@ -832,6 +833,7 @@ export default {
         }
       }
     },
+
   },
   async mounted() {
     this.getAnnounceList();
@@ -846,8 +848,6 @@ export default {
       this.request_auth_flg = authority.request_auth_flg;
       if(!this.approval_auth_flg){
         this.items2 = this.items2.slice(1);
-      }else{
-        this.allCheckedItemOperate()
       }
     }
     let name = await this.getUserInfo();
@@ -943,7 +943,7 @@ export default {
   padding: 10px 30px 10px 8px;
   border-radius: 8px;
   width: 180px;
-  background-color:  #f1eeeee4;
+  border: solid 2px black;
 }
 
 @media (max-width: 599.99px){
@@ -1000,15 +1000,4 @@ export default {
 .announce-category-font {
   font-size: 0.75rem;
 }
-
-.vue3-easy-data-table__header th.sortable.none .sortType-icon {
-  opacity: 1 !important;
-}
-.vue3-easy-data-table__header th.sortable .sortType-icon {
-  margin-top: -6px !important;
-}
-.vue3-easy-data-table__header th.sortable.desc .sortType-icon {
-  margin-top: 5px !important;
-}
-
 </style>

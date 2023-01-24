@@ -106,15 +106,17 @@ html.wf-active {
   /* 背景色 */
   /* card-Ml */
   /* card-body フォマート */
+  /* 入力項目名 */
   /* テキストボックス */
+  /* エラーメッセージ */
 }
 .discavaMate_title {
   font-size: 30px;
   font-weight: 600;
   color: #707070;
   background-color: white;
-  margin-bottom: 3rem;
-  margin-top: 1rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
   margin-left: 3px;
   -webkit-text-stroke: 1px #707070;
 }
@@ -146,8 +148,19 @@ html.wf-active {
   border-radius: 10px;
   padding-bottom: 2.5rem;
 }
+.discavaMate_colName {
+  color: #707070;
+}
 .discavaMate_textInput {
   line-height: 1.6rem;
+}
+.discavaMate_errorMsg {
+  border: 1px solid #c60100;
+  border-radius: 10px;
+  padding: 1rem 0.4rem;
+  margin-bottom: 2rem;
+  color: #c60100;
+  font-weight: bolder;
 }
 
 /* ボタン（グリーン） */
@@ -155,7 +168,7 @@ html.wf-active {
   background-color: #69A5AF;
   color: white !important;
   font-weight: 600;
-  padding: 0.4rem 2.5rem;
+  padding: 0.6rem 2.5rem;
   margin-top: 2rem;
   margin-bottom: 1rem;
   width: 160px;
@@ -164,11 +177,13 @@ html.wf-active {
   text-decoration: none;
   vertical-align: middle;
   border-color: #69A5AF;
-  box-shadow: 0 3px 4px #69A5AF;
+  box-shadow: 0 4px 8px rgba(105, 165, 175, 0.56);
 }
 .btn_green:hover {
   color: white !important;
   background-color: #69A5AF !important;
+  transform: translate(0, 3px);
+  box-shadow: 0 2px 4px rgba(105, 165, 175, 0.56);
 }
 .btn_green:active {
   border-color: #69A5AF !important;

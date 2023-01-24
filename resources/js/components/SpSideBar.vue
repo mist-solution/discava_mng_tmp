@@ -18,7 +18,6 @@
         item-value="shop_id"
         item-title="shop_name"
         @update:modelValue="onShopSelectionChange"
-        class="icon-background"
       ></v-select>
       </v-img>
     </v-tab>
@@ -179,9 +178,6 @@ export default {
 };
 </script>
 
-<!-- 共通CSS -->
-<style src="../components/pages/css/sidebar.css"></style>
-
 <style scoped>
 
 .sp_sidebar label .dots:nth-of-type(3n+2) {
@@ -328,6 +324,8 @@ label {
   width: 230px !important;
   background-color: #F8FFFD;
 }
+
+
 
 .bento_menu_active > .v-list > div > .v-list-item--active > span{
   display: none;

@@ -326,6 +326,15 @@ text-align: center;
     height:100%;
     background:#F7F7F7;
     text-align: center;
+    background-image: url("/images/samb-none-icon.png");
+    background-repeat: no-repeat;
+    background-size: 25%;
+    background-position: center center;
+}
+@media (max-width: 599.99px){
+    .samb-box .samb-none {
+        background-size: 18%;
+    }
 }
 .samb-box .samb-on{
     width:100%;

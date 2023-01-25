@@ -70,7 +70,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .back_to_top {
   z-index: 999;
   position: fixed;
@@ -82,6 +82,7 @@ export default {
   line-height: 1rem;
   align-items: center;
   bottom: 0;
+  color: black;
 }
 
 .back_to_top .stop {
@@ -91,6 +92,7 @@ export default {
 
 .back-button {
   height: 24px !important;
+  color: #000 !important;
 }
 
 /* ボタンふわっと表示 */

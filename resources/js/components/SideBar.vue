@@ -6,7 +6,7 @@
       permanent
     >
 
-      <v-container>
+      <v-container class="mt-5">
         <div v-if="!rail" class="logo">
           <v-row>
             <v-col align="center">
@@ -65,7 +65,8 @@
         </div>
       </div>
 
-      <div class="sidebar_list">
+      <!-- メニュー -->
+      <div class="sidebar_list sidebar_list-margin-top">
         <v-list nav dense>
 
           <div v-for="item in items" :key="item.id">
@@ -222,6 +223,10 @@ export default {
     .pc_sidebar{
         display: none;
     }
+}
+/* 店舗選択リストとメニューの間隔を開ける */
+.sidebar_list-margin-top {
+  margin-top: 2rem;
 }
 
 </style>

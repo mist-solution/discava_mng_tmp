@@ -43,7 +43,7 @@
 
         <div v-if="!rail">
           <v-row>
-            <v-col align="center">
+            <v-col class="conpanyname-font" align="center">
             {{ companyName }}
             </v-col>
           </v-row>
@@ -264,6 +264,7 @@ export default {
 
 .logo{
   font-weight:  900;
+  font-size: 1.2rem;
 }
 
 @media (max-width: 900px){
@@ -276,5 +277,8 @@ export default {
   margin-top: 2rem;
 }
 
+.conpanyname-font {
+  font-size: 1.1rem;
+}
 
 </style>

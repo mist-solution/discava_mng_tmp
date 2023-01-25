@@ -70,9 +70,9 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="row mb-0 justify-content-center text-center">
+                        <div class="row mb-0 justify-content-center text-center mt-2">
                             @if (Route::has('password.request'))
-                            <a class="login_link" href="{{ route('password.request') }}">
+                            <a class="login_link mb-3 mb-sm-2" href="{{ route('password.request') }}">
                                 {{ __('パスワードを忘れた場合はこちら') }}
                             </a>
                             @endif

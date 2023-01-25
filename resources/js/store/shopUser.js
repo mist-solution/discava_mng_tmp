@@ -17,7 +17,7 @@ const actions = {
     async fetchShopUsersWithLogout(context) {
         await axios.get('/api/shopusers').then((res) => {
             context.commit('setShopUsers', res.data.shopUsers);
-            state.shopUsers.push({ shop_id: 'logout', shop_name: 'ログアウト'});
+            //state.shopUsers.push({ shop_id: 'logout', shop_name: 'ログアウト'});
         });
     },
     async getShopSelection(context){

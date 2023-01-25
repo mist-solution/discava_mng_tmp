@@ -18,7 +18,17 @@
         item-value="shop_id"
         item-title="shop_name"
         @update:modelValue="onShopSelectionChange"
-      ></v-select>
+      ><template v-slot:append-item>
+          <v-divider class="mb-2" style="color: white;"></v-divider>
+          <v-list-item @click="logout">
+            <v-list-content>
+              <v-list-title style="color: white;">
+                ログアウト
+              </v-list-title>
+            </v-list-content>
+          </v-list-item>
+        </template>
+      </v-select>
       </v-img>
     </v-tab>
     <input id="navi" type="checkbox" @click="heightchange()"/>
@@ -149,7 +159,18 @@ export default {
         this.header_height = "54";
         this.color = "white";
       }
-    }
+    },
+
+    logout(){
+      this.$axios.post("/logout")
+        .then(response => {
+          localStorage.removeItem("auth");
+          window.location.href = "/login"
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   },
   computed: {
     ...mapGetters("shopUser", ["shopUsers"]),

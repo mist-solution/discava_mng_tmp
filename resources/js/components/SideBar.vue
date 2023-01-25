@@ -51,7 +51,18 @@
             item-value="shop_id"
             item-title="shop_name"
             @update:modelValue="onShopSelectionChange"
-          ></v-select>
+          >
+          <template v-slot:append-item>
+            <v-divider class="mb-2" style="color: white;"></v-divider>
+            <v-list-item @click="logout">
+              <v-list-content>
+                <v-list-title style="color: white;">
+                  ログアウト
+                </v-list-title>
+              </v-list-content>
+            </v-list-item>
+          </template>
+          </v-select>
         </div>
         <div v-if="rail" class="shopsel_min">
           <v-select
@@ -61,7 +72,17 @@
             item-value="shop_id"
             item-title="shop_name"
             @update:modelValue="onShopSelectionChange"
-          ></v-select>
+          >
+          <template v-slot:append-item>
+            <v-divider class="mb-2" style="color: white;"></v-divider>
+            <v-list-item @click="logout">
+              <v-list-content>
+                <v-list-title style="color: white;">
+                  ログアウト
+                </v-list-title>
+              </v-list-content>
+            </v-list-item>
+          </template></v-select>
         </div>
       </div>
 
@@ -181,6 +202,17 @@ export default {
           });
       }
     },
+
+    logout(){
+      this.$axios.post("/logout")
+        .then(response => {
+          localStorage.removeItem("auth");
+          window.location.href = "/login"
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   },
   computed: {
     ...mapGetters("shopUser", ["shopUsers"]),
@@ -228,5 +260,6 @@ export default {
 .sidebar_list-margin-top {
   margin-top: 2rem;
 }
+
 
 </style>

@@ -32,7 +32,7 @@
       </v-img>
     </v-tab>
     <input id="navi" type="checkbox" @click="heightchange()"/>
-      <label for="navi" v-bind:class="{'bento-active':header_height == 1000}">
+      <label for="navi" v-bind:class="{'bento-active':header_height == 1500}">
         <div class="dots"></div>
         <div class="dots"></div>
         <div class="dots"></div>
@@ -43,7 +43,7 @@
         <div class="dots"></div>
         <div class="dots"></div>
       </label>
-    <div class="bento_menu" v-bind:class="{'bento_menu_active':header_height == 1000}">
+    <div class="bento_menu" v-bind:class="{'bento_menu_active':header_height == 1500}">
       <v-list nav dense>
         <div v-for="item in items" :key="item.id">
             <v-list-group
@@ -153,9 +153,9 @@ export default {
 
     heightchange: function(){
       if(this.header_height == "54"){
-        this.header_height = "1000";
+        this.header_height = "1500";
         this.color = "#F8FFFD";
-      }else if(this.header_height == "1000"){
+      }else if(this.header_height == "1500"){
         this.header_height = "54";
         this.color = "white";
       }
@@ -198,6 +198,9 @@ export default {
   },
 };
 </script>
+
+<!-- 共通CSS -->
+<style src="../components/pages/css/spsidebar.css"></style>
 
 <style scoped>
 
@@ -344,15 +347,5 @@ label {
 .bento_menu_active > .v-list{
   width: 230px !important;
   background-color: #F8FFFD;
-}
-
-
-
-.bento_menu_active > .v-list > div > .v-list-item--active > span{
-  display: none;
-}
-
-.bento_menu_active > .v-list > div > .v-list-item--variant-text .v-list-item__overlay{
-  display: none;
 }
 </style>

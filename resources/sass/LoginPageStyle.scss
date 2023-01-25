@@ -222,12 +222,14 @@ $green: #69A5AF;
         border-color: $green;
         -webkit-box-shadow: 0 3px 4px $green;
         box-shadow: 0 4px 8px rgba(105, 165, 175, 0.56);
+        transition: .3s;
 
         &:hover {
             color: white !important;
             background-color: $green !important;
             -webkit-transform: translate(0, 3px);
             transform: translate(0, 3px);
+            transition: .3s;
             box-shadow: 0 2px 4px rgba(105, 165, 175, 0.56);
         }
 

@@ -211,13 +211,16 @@ a {
 
 .art-flex{
 display: flex;
-justify-content: space-around;
+justify-content: flex-start;
 flex-wrap: wrap;
 row-gap:16px;
 }
 .art-flex .main-cont:nth-child(1){
-width:78%;
+width:70%;
 height: fit-content;
+width: 70%;
+max-width: 75%;
+margin: 0px 30px;
 }
 .art-flex .main-cont:nth-child(2){
 width:180px;
@@ -228,10 +231,25 @@ font-size:.85rem;
 margin:0;
 }
 
+@media (min-width: 1500px){
+    .art-flex .main-cont:nth-child(1){
+        width:80%;
+        max-width: 85%;
+    }
+}
+@media (max-width: 1070px){
+    .art-flex {
+        justify-content: center;
+    }
+}
+
 @media (max-width: 599.99px){
+
 .art-flex .main-cont:nth-child(1){
     width:95%;
-    }
+    max-width: none;
+    margin: 0;
+}
     .art-flex .main-cont:nth-child(2){
     width:95%;
     }
@@ -369,4 +387,22 @@ text-align: center;
 
 .ql-toolbar.ql-snow+.ql-container.ql-snow {
     border: solid #d1d5db !important;
+}
+
+/* 記事編集画面タイトル部 */
+.edit-title {
+    color: #707070;
+    width: 80%;
+    margin-left: 30px;
+}
+@media (max-width: 599.99px){
+    .edit-title {
+    margin-left: 14px;
+    width: 100%;
+    }
+}
+@media (min-width: 1450px){
+    .edit-title {
+    margin-left: 28px;
+    }
 }

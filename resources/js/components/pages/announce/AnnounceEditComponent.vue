@@ -524,23 +524,6 @@ export default {
     border-top:1px solid rgba(0,0,0,0.5);
   }
 
-  .edit-title {
-    color: #707070;
-    width: 80%;
-    margin-left: 24px;
-  }
-  @media (max-width: 599.99px){
-    .edit-title {
-      margin-left: 10px;
-      width: 100%;
-    }
-  }
-  @media (min-width: 1450px){
-    .edit-title {
-      margin-left: 28px;
-    }
-  }
-
   @media (max-width: 599.99px){
     .editBtn-widht {
       width: 60% !important;

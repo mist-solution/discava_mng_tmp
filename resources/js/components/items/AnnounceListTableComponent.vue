@@ -64,7 +64,7 @@
   </v-row>
 
     <v-row justify="end">
-      <v-col align="right" class="mr-2">
+      <v-col align="right" class="mr-2 text-gray">
         合計件数： {{ dataTable }}
       </v-col>
     </v-row>

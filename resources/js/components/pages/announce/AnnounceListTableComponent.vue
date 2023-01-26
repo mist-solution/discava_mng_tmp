@@ -64,7 +64,7 @@
   </v-row>
 
     <v-row justify="end">
-      <v-col align="right" class="mr-2">
+      <v-col align="right" class="mr-2 text-gray">
         合計件数： {{ dataTable }}
       </v-col>
     </v-row>
@@ -1017,11 +1017,6 @@ export default {
 }
 .vue3-easy-data-table__header th.sortable.desc .sortType-icon {
   margin-top: 5px !important;
-}
-
-// テーブルヘッダーセンタリング
-.vue3-easy-data-table__header th .header.direction-left {
-  justify-content: center !important;
 }
 
 // テーブル要素センタリング、色指定

@@ -12,7 +12,7 @@
       </router-link>
     </div>
     <v-card>
-      <v-tabs v-model="tab" fixed-tabs class="mx-auto" dark>
+      <v-tabs v-model="tab" fixed-tabs class="mx-auto text-gray" dark>
         <v-tab
           value="one"
           @click="

@@ -7,6 +7,10 @@
     background-color: #F7F7F7;
 }
 
+/* フォント→英数字：Arial　日本語：Macヒラギノ角ゴ,Windows源ノ角ゴシック(300,400,500,700,900) */
+body {
+    font-family: "Arial","Hiragino Kaku Gothic ProN","source-han-sans-japanese", sans-serif;
+}
 /* 文字色(#707070) */
 .text-gray {
     color:#707070;

@@ -27,6 +27,10 @@
 				{{ item.name }}
         </router-link>
 			</template>
+      <!-- メールアドレス -->
+			<template #item-mail="item">
+				{{ item.email }}
+			</template>
 			<!-- 登録日 -->
 			<template #item-created_at="item">
 				{{ timestampFormat(item.created_at) }}
@@ -90,6 +94,7 @@
         selected: [],
         headers: [
           { text: 'ユーザ名', value: 'name' },
+          { text: 'メールアドレス', value: 'mail' },
           { text: '登録日時', value: 'created_at' },
           { text: '更新日時', value: 'updated_at' },
           {

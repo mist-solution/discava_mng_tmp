@@ -6,12 +6,16 @@
   <!-- タブ部分 -->
   <v-row class="pt-5 align-center justify-start mx-1">
 
-    <router-link v-bind:to="{ name: 'enduser.register' }" v-if="approval_auth_flg">
-      <v-btn class="green-btn mx-2">
-        アカウント登録
-      </v-btn>
+    <!-- 追加するボタン -->
+    <router-link v-bind:to="{ name: 'enduser.register' }" class="mt-2">
+      <button class="btn green-btn_tuika mr-2 px-4 justify-center">
+        <v-icon color="white" x-small class="pb-1">mdi-pencil</v-icon>
+        追加する
+      </button>
     </router-link>
+  </v-row>
 
+  <v-row>
     <!-- searchフォーム -->
     <v-col
       sm="4"
@@ -174,4 +178,41 @@ export default {
   font-size:14px;
   right: 10px;
 }
+
+  /* 追加するボタン */
+  .green-btn_tuika {
+    border-radius: 5px;
+    background-color: #69A5AF;
+    box-shadow:0px 1px 5px 0px #69A5AF !important;
+    font-size: large;
+    font-weight: 400;
+    box-shadow: 0 4px 8px rgba(105, 165, 175, 0.56);
+    transition: 0.3s;
+  }
+  .green-btn_tuika:hover {
+  color: white !important;
+  background-color: #69A5AF !important;
+  transform: translate(0, 3px);
+  transition: 0.3s;
+  box-shadow: 0 2px 4px rgba(105, 165, 175, 0.56) !important;
+}
+  .green-btn_tuika:active {
+    border-color: #69A5AF !important;
+  }
+  .green-btn_tuika .v-btn__content{
+    color:#fff !important;
+  }
+  .green-btn_tuika {
+    color:#fff !important;
+  }
+  .green-btn_tuika:hover{
+    opacity:.8 !important;
+    box-shadow: unset !important;
+    background-color: #69A5AF !important;
+    color:#fff !important;
+  }
+
+  .green-btn_tuika > i {
+    font-size: 18px !important;
+  }
 </style>

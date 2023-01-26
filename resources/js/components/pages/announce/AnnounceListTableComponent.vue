@@ -17,7 +17,7 @@
 
   <!-- searchフォーム -->
   <v-row class="pt-5 align-center justify-start">
-    <v-col
+    <!-- <v-col
       sm="4"
       cols="6"
       class="d-flex justify-sm-end justify-start"
@@ -35,7 +35,7 @@
         />
         <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
       </form>
-    </v-col>
+    </v-col> -->
 
     <!-- 一括操作-実行ボタン -->
     <v-col

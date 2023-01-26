@@ -7,10 +7,10 @@
     background-color: #F7F7F7;
 }
 
-/* 文字色 
-* {
+/* 文字色(#707070) */
+.text-gray {
     color:#707070;
-}*/
+}
 
 /* aタグのtext-decoration無効化 */
 a {

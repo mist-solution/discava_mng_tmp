@@ -157,7 +157,14 @@
         <v-row class="p-1 btn-gap mt-4 justify-center">
           <!-- プレビュー -->
           <v-col cols="11" class="p-0 mb-sm-0 mb-2">
-            <button type="button" class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">プレビュー</button>
+            <button
+              type="button"
+              class="pr-0 pl-0 btn white-btn"
+              @click="(displayAnnouncePreview = true),
+              getQuillEditorContent(),getAnnounceDate()"
+            >
+              プレビュー
+            </button>
           </v-col>
         </v-row>
         <v-row class="p-1 btn-gap mt-4 justify-center mb-3">
@@ -165,7 +172,7 @@
           <v-col
             v-if="update_auth_flg"
             cols="11"
-            class="p-0 pb-2 mb-sm-0 mb-2"
+            class="p-0 mb-sm-0 mb-2"
           >
             <button
               class="btn green-btn pr-0 pl-0"
@@ -187,6 +194,21 @@
               type="button"
             >
               申請する
+            </button>
+          </v-col>
+          <!-- 更新権限があるかつ、承認ステータス 0:取り下げる以外の場合 -->
+          <v-col
+            v-if="update_auth_flg &&
+              (announce.approval_status === 1 || announce.approval_status === 2)"
+            cols="11"
+            class="pt-sm-3 pt-0 pr-0 pl-0 pb-5"
+            >
+            <button
+                @click="approvalCancel(announce.id)"
+                class="btn sendbacks-btn"
+                type="button"
+              >
+                取り下げる
             </button>
           </v-col>
         </v-row>
@@ -243,20 +265,6 @@
               class="pt-sm-3 pt-0 pr-0 pl-0 pb-1 text-center"
             >
               <button class="btn disable-btn">差戻し済み</button>
-            </v-col>
-            <!-- 承認ステータス 0:取り下げる以外の場合 -->
-            <v-col
-              v-if="announce.approval_status != 0"
-              cols="11"
-              class="pt-sm-3 pt-0 pr-0 pl-0 pb-5"
-            >
-              <button
-                @click="approvalCancel(announce.id)"
-                class="btn sendbacks-btn"
-                type="button"
-              >
-                取り下げる
-              </button>
             </v-col>
           </v-row>
         </div>

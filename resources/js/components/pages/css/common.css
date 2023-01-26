@@ -59,10 +59,11 @@ a {
     color:#fff !important;
 }
 .green-btn:hover{
-    opacity:.8 !important;
     box-shadow: unset !important;
     background-color: #69A5AF !important;
     color:#fff !important;
+    transform: translate(0, 3px);
+    transition: 0.3s;
 }
 
 /* 灰色のボタン */
@@ -122,6 +123,10 @@ a {
     color:#69A5AF !important;
     border:#69A5AF 2px solid !important;
 }
+.white-btn:hover {
+    transform: translate(0, 3px);
+    transition: 0.3s;
+}
 
 /* 赤いボタン */
 .sendback-btn{
@@ -143,9 +148,10 @@ a {
     color:#F7F7F7;
 }
 .sendbacks-btn:hover{
-    opacity:.8 !important;
     background-color: #DD5D5D !important;
     color:#fff !important;
+    transform: translate(0, 3px);
+    transition: 0.3s;
 }
 
 /* 無効化ボタン */

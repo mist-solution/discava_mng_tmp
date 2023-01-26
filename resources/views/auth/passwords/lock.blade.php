@@ -8,7 +8,7 @@
             <div class="card card_modify">
                 <div class="card-body discavaMate_cardBody">
                     <div class="offset-md-2 offset-1">
-                        <div class="discavaMate_title font--fammily__AN">{{ __('DISCaVa MATE') }}</div>
+                        <div class="discavaMate_title">{{ __('DISCaVa MATE') }}</div>
                     </div>
                     @csrf
                     <div class="row mb-3 col-10 col-md-8 offset-1 offset-md-2 lock_alertBorder">

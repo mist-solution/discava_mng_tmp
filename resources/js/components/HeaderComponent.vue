@@ -12,7 +12,7 @@
                   aria-current="page"
                   @click="(displayDevelopMentModal = true)"
                 >
-                  <v-icon>mdi-cog</v-icon>
+                  <v-icon color="#B5B5B5">mdi-cog</v-icon>
                 </a>
               </li>
               <li class="nav-item">
@@ -21,7 +21,7 @@
                   aria-current="page"
                   @click="(displayDevelopMentModal = true)"
                 >
-                  <v-icon>mdi-bell</v-icon>
+                  <v-icon color="#B5B5B5">mdi-bell</v-icon>
                 </a>
               </li>
             </ul>

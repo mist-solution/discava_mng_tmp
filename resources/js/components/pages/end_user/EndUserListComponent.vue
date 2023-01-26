@@ -4,7 +4,7 @@
     name = "アカウント一覧"
   />
   <!-- タブ部分 -->
-  <v-row class="pt-5 align-center justify-start">
+  <v-row class="pt-5 align-center justify-start mx-1">
 
     <router-link v-bind:to="{ name: 'enduser.register' }" v-if="approval_auth_flg">
       <v-btn class="green-btn mx-2">

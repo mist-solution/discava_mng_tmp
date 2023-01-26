@@ -9,6 +9,7 @@
 			:items="users"
 			:theme-color="themeColor"
 			alternating
+      table-class-name="customize-table"
 			buttons-pagination
 			dense
 			:search-field="searchField"
@@ -213,5 +214,4 @@
     /* フッターフォントサイズ */
     --easy-table-footer-font-size: 14px;
   }
-  
-  </style>
+</style>

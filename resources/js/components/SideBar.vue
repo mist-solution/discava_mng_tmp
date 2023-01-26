@@ -4,6 +4,7 @@
       v-model="drawer"
       :rail="rail"
       permanent
+      class="text-gray"
     >
 
       <v-container class="mt-5">
@@ -147,6 +148,7 @@
     </div>
 
     <v-btn
+      class="rail_toggle"
       variant="text"
       icon="mdi-arrow-collapse"
       @click.stop="rail = !rail"

@@ -8,7 +8,7 @@
             <div class="card card_modify">
                 <div class="card-body discavaMate_cardBody">
                     <div class="offset-md-2">
-                        <div class="discavaMate_title font--fammily__AN">{{ __('DISCaVa MATE') }}</div>
+                        <div class="discavaMate_title">{{ __('DISCaVa MATE') }}</div>
                     </div>
                     <!-- エラーメッセージ -->
                     <div class="col-md-8 offset-md-2 error-container">

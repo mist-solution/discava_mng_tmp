@@ -64,7 +64,7 @@
   </v-row>
 
     <v-row justify="end">
-      <v-col align="right" class="mr-2">
+      <v-col align="right" class="mr-2 text-gray">
         合計件数： {{ dataTable }}
       </v-col>
     </v-row>
@@ -886,6 +886,9 @@ export default {
 
   /* フッターフォントサイズ */
   --easy-table-footer-font-size: 14px;
+
+  /* ヘッダーカラー */
+  --easy-table-header-font-color: #707070;
 }
 /* open button */
 .toggle_switch {

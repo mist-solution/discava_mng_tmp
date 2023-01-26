@@ -124,5 +124,15 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes: routes,
+    // 画面遷移時トップへ・戻る場合は位置そのまま
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+            } else {
+            return {
+                top: 0
+            }
+        }
+    },
 })
 export default router;

@@ -106,24 +106,12 @@ html.wf-active {
 
 /* ウェブフォント読み込み時の修正 END */
 
-/* フォントを設定 */
-.font {
-    &--fammily {
+// フォント設定
+* {
+    font-family: "Arial","Hiragino Kaku Gothic ProN","source-han-sans-japanese", sans-serif;
+    font-style: normal;
 
-        /* ヒラギノ角ゴシック */
-        &__HN {
-            font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
-            font-style: normal;
-        }
-
-        /* Avenir Next、使用：「DISCaVa MATE」タイトルのみ */
-        &__AN {
-            font-family: 'AvenirNextLTPro-Regular';
-            font-style: normal;
-        }
-    }
 }
-
 /* ================================ * /
         共通コンポーネント 設定
 ==================================== */

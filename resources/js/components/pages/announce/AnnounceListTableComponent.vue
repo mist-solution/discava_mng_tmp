@@ -940,6 +940,12 @@ export default {
 
   /* フッターフォントサイズ */
   --easy-table-footer-font-size: 14px;
+
+  /* ヘッダーカラー */
+  --easy-table-header-font-color: #707070;
+
+  /* アイテムフォントカラー */
+  --easy-table-body-row-font-color: #707070;
 }
 /* open button */
 .toggle_switch {
@@ -1117,8 +1123,10 @@ thead {
 }
 
 // テーブル要素センタリング
+// テーブル要素センタリング、色指定
 .vue3-easy-data-table__body td.direction-left {
   text-align: center !important;
+  color: #707070 !important;
 }
 
 // テーブル要素タイトルのみ左寄せ

@@ -16,8 +16,8 @@
   </v-row> -->
 
   <!-- searchフォーム -->
-  <v-row class="pt-5 align-center justify-start">
-    <!-- <v-col
+  <!-- <v-row class="pt-5 align-center justify-start">
+    <v-col
       sm="4"
       cols="6"
       class="d-flex justify-sm-end justify-start"
@@ -35,42 +35,11 @@
         />
         <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
       </form>
-    </v-col> -->
-
-    <!-- 一括操作-実行ボタン -->
-    <v-col
-      class="d-flex align-center"
-      sm="5"
-      cols="10"
-      align="center"
-      v-if="update_auth_flg"
-    >
-<!--
-      <input type="checkbox" class="mr-5">
--->
-      <v-select
-        dense
-        :items="items2"
-        item-title="text"
-        item-value="id"
-        label="一括操作"
-        solo
-        @update:modelValue="operateidChange"
-      ></v-select>
-      <v-btn class="green-btn mx-2" type="button" @click="allCheckedItemOperate()">
-        実行
-      </v-btn>
     </v-col>
-  </v-row>
-
-    <v-row justify="end">
-      <v-col align="right" class="mr-2">
-        合計件数： {{ dataTable }}
-      </v-col>
-    </v-row>
+  </v-row> -->
 
   <v-row>
-    <v-col>
+    <v-col class="pt-0">
       <EasyDataTable
         ref="dataTable"
         v-model:items-selected="selected"
@@ -91,37 +60,66 @@
             color="primary"
           />
         </template>
-        <!-- サムネイル画像 -->
-        <template #item-thumbnail_image="item">
-          <img
-            v-if="item.thumbnail_img_path"
-            :src="item.thumbnail_img_path"
-            class="thumbnail-image my-4"
-          >
-          <img
-            v-if="!item.thumbnail_img_path"
-            src="/images/samb-none-image.jpg"
-            class="thumbnail-image my-4"
-          >
+
+        <!-- ヘッダー行に一括操作を追加 -->
+        <template v-slot:header-title="{ }" v-if="update_auth_flg"> 
+          <div class="d-flex align-center w-100">
+            <v-select
+              outlined
+              :items="items2"
+              item-title="text"
+              item-value="id"
+              label="一括操作"
+              solo
+              bg-color="white"
+              @update:modelValue="operateidChange"
+              class="w-100 my-2 action-select"
+            ></v-select>
+            <button
+              class="green-btn mx-2 px-3 py-2"
+              type="button"
+              @click="allCheckedItemOperate()"
+            >
+              実行
+            </button>
+          </div>
         </template>
+
+        <!-- サムネイル画像 + タイトル -->
         <template #item-title="item">
           <div class="headtitle-left">
-            <!-- タイトル - 編集権限あり -->
-            <router-link
-              v-if="update_auth_flg"
-              :to="{ name: 'announce.edit', params: { announceId: item.id } }"
-              class="announce-title-font"
-            >
-              {{ item.title }}
-            </router-link>
-            <!-- タイトル - 編集権限なし -->
-            <div v-if="!update_auth_flg" class="announce-title-font_disable">
-              {{ item.title }}
-            </div>
-            <!-- カテゴリー -->
-            <p class="mb-0 announce-category-font">
-              カテゴリー：{{ item.announce_categories.category_name }}
-            </p>
+            <v-row>
+              <v-col>
+                <img
+                  v-if="item.thumbnail_img_path"
+                  :src="item.thumbnail_img_path"
+                  class="thumbnail-image my-4"
+                >
+                <img
+                  v-if="!item.thumbnail_img_path"
+                  src="/images/samb-none-image.jpg"
+                  class="thumbnail-image my-4"
+                >
+              </v-col>
+              <v-col class="detaTable-header_title">
+              <!-- タイトル - 編集権限あり -->
+                <router-link
+                  v-if="update_auth_flg"
+                  :to="{ name: 'announce.edit', params: { announceId: item.id } }"
+                  class="announce-title-font"
+                >
+                  {{ item.title }}
+                </router-link>
+                <!-- タイトル - 編集権限なし -->
+                <div v-if="!update_auth_flg" class="announce-title-font_disable">
+                  {{ item.title }}
+                </div>
+                <!-- カテゴリー -->
+                <p class="mb-0 announce-category-font">
+                  カテゴリー：{{ item.announce_categories.category_name }}
+                </p>
+              </v-col>
+            </v-row>
           </div>
         </template>
         <!-- 投稿日 -->
@@ -132,8 +130,17 @@
         <template #item-updated_at="item">
           {{ timestampFormat(item.updated_at) }}
         </template>
-        <!-- 公開ステータス -->
+        <!-- ステータス - 「全ての投稿」タブにのみ表示 -->
         <template #item-open_status="item">
+          <!-- 公開期間 -->
+          <p
+            v-if="$store.state.announce.displayAnnounceStatus == null"
+            class="mb-1"
+            :class="getApprovalStatusColor(item.approval_status)"
+          >
+            {{ getApprovalStatus(item.approval_status) }}
+          </p>
+          <!-- 公開期間 -->
           <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg" : ""]'>
             {{ inReleaseFlg(item)  ? "公開期間中" : "公開期間外" }}
           </p>
@@ -457,8 +464,7 @@ export default {
           sortable: false,
           value: 'imageUrl',
         },
-        { text: 'サムネイル画像', value: 'thumbnail_image' },
-        { text: 'タイトル', value: 'title' },
+        { text: '', value: 'title' },
         { text: '投稿日', value: 'created_at', sortable: true},
         { text: '最終更新', value: 'updated_at', sortable: true },
         { text: '投稿者', value: 'add_account.name' },
@@ -503,7 +509,7 @@ export default {
       searchText: "",
       dataTable: [],
       clientItemsLength: null,
-      operate_id: null
+      operate_id: null,
     };
   },
   computed: {
@@ -846,6 +852,40 @@ export default {
         }
       }
     },
+
+    // 承認ステータスに応じて文字を返す
+    getApprovalStatus(status) {
+      if (status === 0) {
+        // 0:下書きの場合
+        return "下書き"
+      } else if (status === 1) {
+        // 1:承認待ちの場合
+        return "承認待ち"
+      } else if (status === 2) {
+        // 2:承認済みの場合
+        return "承認済み"
+      } else if (status === 3) {
+        // 3:差戻しの場合
+        return "差戻し"
+      }
+    },
+
+    // 承認ステータスに応じて文字色を返す
+    getApprovalStatusColor(status) {
+      if (status === 0) {
+        // 0:下書きの場合
+        return "stastus-font__grey"
+      } else if (status === 1) {
+        // 1:承認待ちの場合
+        return "stastus-font__orange"
+      } else if (status === 2) {
+        // 2:承認済みの場合
+        return "stastus-font__green"
+      } else if (status === 3) {
+        // 3:差戻しの場合
+        return "stastus-font__red"
+      }
+    }
   },
   async mounted() {
     this.getAnnounceList();
@@ -1000,6 +1040,7 @@ export default {
   font-size: 1rem;
   color: #69A5AF;
   transition: .4s !important;
+  white-space: pre-line;
 }
 .announce-title-font:hover {
   transition: .4s;
@@ -1010,6 +1051,7 @@ export default {
   font-weight: 600;
   font-size: 1rem;
   color: #666;
+  white-space: pre-line;
 }
 .announce-category-font {
   font-size: 0.75rem;
@@ -1030,8 +1072,43 @@ export default {
   width: auto;
 }
 
+// お知らせテーブル サムネイルをSPで非表示にする
+@media (max-width: 599.99px){
+  .thumbnail-image {
+    display: none;
+  }
+}
+
+.detaTable-header_title {
+  align-content: center;
+  align-items: center;
+  display: grid;
+}
+
+// ヘッダーの背景色消す&ホバー時の背景色を薄く
 .customize-table {
   --easy-table-body-row-hover-background-color: rgba(238, 238, 238, .1);
+  --easy-table-header-background-color: #ffffff !important;
+}
+thead {
+  border-bottom: 1px solid #eee;
+}
+
+// 一括処理のセレクトボックス
+.action-select .v-field--variant-filled  {
+  border: #eee 1px solid !important;
+  border-radius: 8px;
+  height: 56px;
+}
+
+// テーブルのスクロールを消す
+.vue3-easy-data-table__main {
+  overflow: visible !important;
+}
+
+// 外枠を消す
+.vue3-easy-data-table {
+  border: none !important;
 }
 
 // テーブルヘッダーセンタリング
@@ -1049,4 +1126,25 @@ export default {
   text-align: left !important;
 }
 
+// 承認ステータス用のフォントカラー
+// 承認待ち
+.stastus-font__orange {
+  color: orange;
+  font-weight: 600;
+}
+// 差戻し
+.stastus-font__red {
+  color: #D32F2F;
+  font-weight: 600;
+}
+// 承認済み
+.stastus-font__green {
+  color: #69A5AF;
+  font-weight: 600;
+}
+// 下書き
+.stastus-font__grey {
+  color: grey;
+  font-weight: 600;
+}
 </style>

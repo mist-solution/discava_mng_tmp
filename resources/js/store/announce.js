@@ -3,7 +3,7 @@ const state = {
     displayLimit: 10,
     displaySort: "id",
     displayPage: 1,
-    displayAnnounceStatus: 1,
+    displayAnnounceStatus: null,
     displayAnnounceAddAccount: "",
     displayCheckedItems: [],
     displaySearchAddDateBegin: "",

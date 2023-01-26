@@ -1,26 +1,31 @@
 <template>
-    <v-card class="main-cont sp-title mb-0 mb-sm-5">
+  <div>
+    <v-row>
+      <!-- タイトル -->
+      <v-col>
+        <v-card-title class="pl-0">
+          <h3 class="p-3 pl-0 m-0 pl-0 font-weight-bold title-name">{{ name }}</h3>
+        </v-card-title>
+      </v-col>
+    </v-row>
+    <v-card class="main-cont mb-0 mb-sm-5">
       <v-row>
-        <!-- タイトル -->
-        <v-col cols="4">
-          <v-card-title class="pl-0 pl-sm-4">
-            <h3 class="p-3 pl-0 pl-sm-4 m-0 font-weight-bold title-name">{{ name }}</h3>
-          </v-card-title>
-        </v-col>
         <!-- お知らせ一覧 タブ -->
-        <v-col cols="8" v-if="tabFlg" class="tab-posision">
-          <v-tabs v-model="tab" fixed-tabs class="text-left mr-2" color="#69A5AF">
+        <v-col v-if="tabFlg" class="tab-posision mx-auto">
+          <v-tabs v-model="tab" fixed-tabs class="" color="#69A5AF">
             <v-tab
-              value="one"
-              @click="announceStatus();
-                setSelectTab(1);"
+              value="two"
+              @click="announceStatus(0);
+                setSelectTab(2);"
+              class="px-2"
             >
               全ての投稿
             </v-tab>
             <v-tab
-              value="two"
+              value="one"
               @click="announceStatus(1);
-                setSelectTab(2);"
+                setSelectTab(1);"
+              class="px-2"
             >
               承認待ち
             </v-tab>
@@ -28,6 +33,7 @@
               value="three"
               @click="announceStatus(3);
                 setSelectTab(3);"
+              class="px-2"
             >
               差戻し
             </v-tab>
@@ -35,17 +41,20 @@
               value="four"
               @click="announceStatus(4);
                 setSelectTab(4);"
+              class="px-2"
             >
               承認済み
             </v-tab>
           </v-tabs>
         </v-col>
       </v-row>
-
-  </v-card>
+    </v-card>
+  </div>
 </template>
 
 <script>
+import { tr } from 'date-fns/locale';
+
 export default {
   props:{
     name: String,
@@ -65,11 +74,11 @@ export default {
     setSelectTab(key) {
       let tabName = "";
       if (key == 1) {
-        // 全ての投稿
-        tabName = "allLists";
-      } else if (key == 2) {
         // 承認待ち
         tabName = "notCheckLists";
+      } else if (key == 2) {
+        // 全ての投稿
+        tabName = "allLists";
       } else if (key == 3) {
         // 差戻し
         tabName = "sendBackLists";
@@ -88,17 +97,7 @@ export default {
   color: #707070;
   font-size: clamp(1.25rem, 1.159rem + 0.45vw, 1.5rem);
 }
-@media (max-width: 599.9px){
-  .sp-title{
-    box-shadow: unset;
-    background: unset;
-  }
-}
-.tab-posision {
-  align-content: center;
-  align-items: center;
-  display: grid;
-}
+
 /* セレクトタブの下線を消す */
 .v-tab--selected .v-tab__slider {
   opacity: 0 !important;

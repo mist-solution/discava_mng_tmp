@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5 ml-5">投稿者　の投稿記事を編集</h3>
+    <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5 ml-5 font-weight-bold">投稿者　の投稿記事を編集</h3>
   </div>
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">

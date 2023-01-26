@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+.bento_menu_active > .v-list > div > .v-list-item--active > span{
+    display: none;
+  }
+  
+.bento_menu_active > .v-list > div > .v-list-item--variant-text .v-list-item__overlay{
+    display: none;
+}
+
+.bento_menu_active > .v-list > div > .v-list-item--disabled > .v-list-item__prepend{
+    color: grey;
+}
+
+.bento_menu_active > .v-list > div > .v-list-item--disabled > .v-list-item__content{
+    color: grey;
+}
+
+.bento_menu_active > .v-list{
+    transform: scale(1.2);
+    top: 70px;
+}

@@ -356,3 +356,13 @@ text-align: center;
 .modal-title {
     font-weight: 600;
 }
+
+/* エディターCSS*/
+/* ディターツールバー枠の修正 */
+.ql-toolbar.ql-snow {
+    border: 0px solid #d1d5db !important;
+}
+
+.ql-toolbar.ql-snow+.ql-container.ql-snow {
+    border: solid #d1d5db !important;
+}

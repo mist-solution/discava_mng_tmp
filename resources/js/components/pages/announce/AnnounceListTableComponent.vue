@@ -105,22 +105,24 @@
           >
         </template>
         <template #item-title="item">
-          <!-- タイトル - 編集権限あり -->
-          <router-link
-            v-if="update_auth_flg" 
-            :to="{ name: 'announce.edit', params: { announceId: item.id } }"
-            class="announce-title-font"
-          >
-            {{ item.title }}
-          </router-link>
-          <!-- タイトル - 編集権限なし -->
-          <div v-if="!update_auth_flg" class="announce-title-font_disable">
-            {{ item.title }}
+          <div class="headtitle-left">
+            <!-- タイトル - 編集権限あり -->
+            <router-link
+              v-if="update_auth_flg"
+              :to="{ name: 'announce.edit', params: { announceId: item.id } }"
+              class="announce-title-font"
+            >
+              {{ item.title }}
+            </router-link>
+            <!-- タイトル - 編集権限なし -->
+            <div v-if="!update_auth_flg" class="announce-title-font_disable">
+              {{ item.title }}
+            </div>
+            <!-- カテゴリー -->
+            <p class="mb-0 announce-category-font">
+              カテゴリー：{{ item.announce_categories.category_name }}
+            </p>
           </div>
-          <!-- カテゴリー -->
-          <p class="mb-0 announce-category-font">
-            カテゴリー：{{ item.announce_categories.category_name }}
-          </p>
         </template>
         <!-- 投稿日 -->
         <template #item-created_at="item">
@@ -1031,4 +1033,20 @@ export default {
 .customize-table {
   --easy-table-body-row-hover-background-color: rgba(238, 238, 238, .1);
 }
+
+// テーブルヘッダーセンタリング
+.vue3-easy-data-table__header th .header.direction-left {
+  justify-content: center !important;
+}
+
+// テーブル要素センタリング
+.vue3-easy-data-table__body td.direction-left {
+  text-align: center !important;
+}
+
+// テーブル要素タイトルのみ左寄せ
+.headtitle-left {
+  text-align: left !important;
+}
+
 </style>

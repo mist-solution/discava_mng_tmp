@@ -14,7 +14,8 @@
             </v-col>
           </v-row>
         </div>
-
+        
+        <div v-if="!rail">
         <v-row>
           <v-col align="center">
             <v-img
@@ -25,17 +26,31 @@
             </v-img>
           </v-col>
         </v-row>
+        </div>
+
+        <div v-if="rail" class="min_icon">
+        <v-row>
+          <v-col align="center">
+            <v-img
+              src="/images/user-icon/kkrn_icon_user_11.png"
+              max-height="96"
+              max-width="96"
+              contain>
+            </v-img>
+          </v-col>
+        </v-row>
+        </div>
 
         <div v-if="!rail">
           <v-row>
-            <v-col align="center">
+            <v-col class="conpanyname-font" align="center">
             {{ companyName }}
             </v-col>
           </v-row>
         </div>
-        <div v-if="rail">
+        <div v-if="rail" class="min_select">
           <v-row>
-            <v-col align="center">
+            <v-col align="center"  v-bind:class="{'longname':shopSelection.shop_name.length > 3}">
             {{ shopSelection.shop_name }}
             </v-col>
           </v-row>
@@ -249,6 +264,7 @@ export default {
 
 .logo{
   font-weight:  900;
+  font-size: 1.2rem;
 }
 
 @media (max-width: 900px){
@@ -261,5 +277,8 @@ export default {
   margin-top: 2rem;
 }
 
+.conpanyname-font {
+  font-size: 1.1rem;
+}
 
 </style>

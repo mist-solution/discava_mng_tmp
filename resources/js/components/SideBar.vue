@@ -4,6 +4,7 @@
       v-model="drawer"
       :rail="rail"
       permanent
+      class="text-gray"
     >
 
       <v-container class="mt-5">

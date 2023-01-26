@@ -18,3 +18,31 @@
     justify-content: space-evenly !important;
 }
 
+.vue3-easy-data-table__header th .header.direction-left {
+    justify-content: center !important;
+}
+
+.vue3-easy-data-table__body td.direction-left {
+    text-align: center !important;
+}
+
+.customize-table {
+    /* 表の罫線 */
+    --easy-table-row-border: none;
+
+    /* 表の背景色 */
+    --easy-table-header-background-color: #F7F7F7;
+
+    /* フッターのpadding追加 */
+    --easy-table-footer-padding: 1.5rem;
+
+    /* フッターフォントサイズ */
+    --easy-table-footer-font-size: 14px;
+
+    /* ヘッダーカラー */
+    --easy-table-header-font-color: #707070;
+
+    /* アイテムフォントカラー */
+    --easy-table-body-row-font-color: #707070;
+}
+

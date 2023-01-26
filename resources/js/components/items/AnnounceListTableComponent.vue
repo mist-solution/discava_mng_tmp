@@ -886,6 +886,9 @@ export default {
 
   /* フッターフォントサイズ */
   --easy-table-footer-font-size: 14px;
+
+  /* ヘッダーカラー */
+  --easy-table-header-font-color: #707070;
 }
 /* open button */
 .toggle_switch {

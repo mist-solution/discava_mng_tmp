@@ -42,6 +42,7 @@ export default {
   justify-content: end !important;
   z-index: 998 !important;
   background-color: #F7F7F7;
+  color: #707070;
   width: 100% !important;
   left: 0 !important;
 }

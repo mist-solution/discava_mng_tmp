@@ -3,29 +3,15 @@
     <title-component
       name = "投稿記事一覧"
     />
+    <div class="btn-group ml-1 mb-5" v-if="create_auth_flg">
+      <router-link v-bind:to="{ name: 'announce.register' }" class="mt-2">
+        <button class="btn green-btn_toukou mr-2 px-4 justify-center">
+          <v-icon color="white" x-small class="pb-1">mdi-pencil</v-icon>
+          投稿
+        </button>
+      </router-link>
+    </div>
     <v-card>
-      <v-card-title class="ml-2" width="80%">
-        <div class="btn-group ml-auto" v-if="create_auth_flg">
-          <router-link v-bind:to="{ name: 'announce.register' }" class="mt-2">
-            <button class="btn green-btn_toukou mr-2 px-4 justify-center">
-              <v-icon color="white" x-small class="pb-1">mdi-pencil</v-icon>
-              投稿
-            </button>
-          </router-link>
-  <!--
-          <router-link v-bind:to="{ name: 'task.list' }">
-            <button class="btn btn-success mr-2">TASK List</button>
-          </router-link>
-          <router-link v-bind:to="{ name: 'task.create' }">
-            <button class="btn btn-success mr-2">ADD</button>
-          </router-link>
-          <router-link v-bind:to="{ name: 'quilleditor' }">
-            <button class="btn btn-success">Announce</button>
-          </router-link>
-  -->
-        </div>
-      </v-card-title>
-      <v-divider />
       <v-tabs v-model="tab" fixed-tabs class="mx-auto" dark>
         <v-tab
           value="one"
@@ -149,6 +135,18 @@ export default {
     box-shadow: unset;
     font-size: large;
     font-weight: 600;
+    box-shadow: 0 4px 8px rgba(105, 165, 175, 0.56);
+    transition: 0.3s;
+  }
+  .green-btn_toukou:hover {
+  color: white !important;
+  background-color: #69A5AF !important;
+  transform: translate(0, 3px);
+  transition: 0.3s;
+  box-shadow: 0 2px 4px rgba(105, 165, 175, 0.56) !important;
+}
+  .green-btn_toukou:active {
+    border-color: #69A5AF !important;
   }
   .green-btn_toukou .v-btn__content{
     color:#fff !important;
@@ -162,4 +160,9 @@ export default {
     background-color: #69A5AF !important;
     color:#fff !important;
   }
+
+  .green-btn_toukou > i {
+    font-size: 18px !important;
+  }
+
 </style>

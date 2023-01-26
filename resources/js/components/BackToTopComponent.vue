@@ -6,9 +6,9 @@
         class="back_to_top"
         v-show="isVisible"
         >
-          <v-icon>mdi-triangle</v-icon>
+          <v-icon class="text-gray">mdi-triangle</v-icon>
           <v-btn
-          class="d-flex back-button"
+          class="d-flex back-button text-gray"
           color="#fed966"
           variant="plain"
           @click="backTop"

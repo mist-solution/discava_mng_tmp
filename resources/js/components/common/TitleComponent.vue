@@ -8,7 +8,7 @@
 <style scoped>
 .title-name {
   color: #707070;
-  font-size: clamp(1.25rem, 1.159rem + 0.45vw, 1.5rem);
+  font-size: clamp(1.375rem, 1.33rem + 0.23vw, 1.5rem);
 }
 @media (max-width: 599.9px){
   .sp-title{

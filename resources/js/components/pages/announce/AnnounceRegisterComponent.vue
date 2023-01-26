@@ -1,8 +1,8 @@
 
 <template>
   <div>
-    <div>
-      <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5 ml-5  font-weight-bold">新規投稿</h3>
+    <div class="edit-title">
+      <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5 text-gray font-weight-bold">新規投稿</h3>
     </div>
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">
@@ -69,12 +69,12 @@
       <v-card class="main-cont mt-5 mt-sm-0 p-3">
         <v-row>
           <v-col cols="3" sm="12" class="mb-4 mb-sm-0 pb-3 pb-sm-0">
-            <p class="mt-1 mt-sm-0 mb-1 font-weight-bold">掲載期間</p>
+            <p class="mt-1 mt-sm-0 mb-1 font-weight-bold text-gray">掲載期間</p>
           </v-col>
           <v-col cols="9" sm="12" class="pt-3 pt-sm-2">
             <v-row align="center" class="mb-3">
               <v-col cols="3" class="pr-0 pb-0">
-                <p class="mb-0">開始</p>
+                <p class="mb-0 text-gray">開始</p>
               </v-col>
               <v-col cols="9" class="pl-0 pb-0">
                 <DatePicker
@@ -97,7 +97,7 @@
                     />
                   </v-col>
                   <v-col cols="2" class="p-0">
-                    <p>時</p>
+                    <p class="text-gray">時</p>
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <v-text-field
@@ -106,14 +106,14 @@
                     />
                   </v-col>
                   <v-col cols="2" class="p-0">
-                    <p>分</p>
+                    <p class="text-gray">分</p>
                   </v-col>
                 </v-row>
               </v-col>
             </v-row>
             <v-row align="center" class="mb-3">
                 <v-col cols="3" class="pr-0 pb-0">
-                  <p class="mb-0">終了</p>
+                  <p class="mb-0 text-gray">終了</p>
                 </v-col>
                 <v-col cols="9" class="pl-0 pb-0">
 
@@ -136,7 +136,7 @@
                         hide-details="false"
                     />
                   </v-col>
-                  <v-col cols="2" class="p-0">
+                  <v-col cols="2" class="p-0 text-gray">
                     <p>時</p>
                   </v-col>
                   <v-col cols="2" class="p-0">
@@ -145,7 +145,7 @@
                         hide-details="false"
                     />
                   </v-col>
-                  <v-col cols="2" class="p-0">
+                  <v-col cols="2" class="p-0 text-gray">
                     <p>分</p>
                   </v-col>
                 </v-row>
@@ -155,7 +155,7 @@
         </v-row>
         <v-row>
           <v-col cols="3" sm="12" class="pt-3 pb-3 pr-0 mb-4 mb-sm-0 pt-sm-0 pb-sm-0">
-            <p class="mt-2 mt-sm-4 mb-1 font-weight-bold">カテゴリー</p>
+            <p class="mt-2 mt-sm-4 mb-1 font-weight-bold text-gray">カテゴリー</p>
           </v-col>
           <v-col cols="9" sm="12" class="pt-3 pt-sm-2">
             <v-select
@@ -172,7 +172,7 @@
         </v-row>
         <v-row>
           <v-col cols="3" sm="12" class="pr-0 pb-3 pb-sm-0">
-            <p class=" mt-2 mt-sm-4 mb-1 font-weight-bold">サムネイル画像</p>
+            <p class=" mt-2 mt-sm-4 mb-1 font-weight-bold text-gray">サムネイル画像</p>
           </v-col>
           <v-col cols="9" sm="12" class="pt-3 pt-sm-2">
             <div class="samb-box">

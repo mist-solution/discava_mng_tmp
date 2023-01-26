@@ -363,6 +363,7 @@ text-align: center;
     background-repeat: no-repeat;
     background-size: 25%;
     background-position: center center;
+    cursor: pointer;
 }
 @media (max-width: 599.99px){
     .samb-box .samb-none {
@@ -375,6 +376,7 @@ text-align: center;
     opacity: 0;
     position: absolute;
     top:0;
+    cursor: pointer;
 }
 
 /* モーダルの制御 */

@@ -1,8 +1,8 @@
 
 <template>
   <div>
-    <div>
-      <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5 ml-5 text-gray">新規投稿</h3>
+    <div class="edit-title">
+      <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5 text-gray">新規投稿</h3>
     </div>
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">

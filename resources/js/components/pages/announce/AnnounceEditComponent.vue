@@ -1,7 +1,7 @@
 
 <template>
-  <div>
-    <h3 class="edit-title mb-2 mb-sm-5 mt-2 mt-sm-5 ml-5 text-gray">投稿者　の投稿記事を編集</h3>
+  <div class="edit-title">
+    <h3 class="mb-2 mb-sm-5 mt-2 mt-sm-5">投稿者　の投稿記事を編集</h3>
   </div>
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">
@@ -526,6 +526,19 @@ export default {
 
   .edit-title {
     color: #707070;
+    width: 80%;
+    margin-left: 24px;
+  }
+  @media (max-width: 599.99px){
+    .edit-title {
+      margin-left: 10px;
+      width: 100%;
+    }
+  }
+  @media (min-width: 1450px){
+    .edit-title {
+      margin-left: 28px;
+    }
   }
 
   @media (max-width: 599.99px){

@@ -147,6 +147,7 @@
     </div>
 
     <v-btn
+      class="rail_toggle"
       variant="text"
       icon="mdi-arrow-collapse"
       @click.stop="rail = !rail"

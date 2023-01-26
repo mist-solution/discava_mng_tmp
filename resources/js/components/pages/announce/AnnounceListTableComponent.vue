@@ -91,7 +91,19 @@
             color="primary"
           />
         </template>
-        <!-- タイトル -->
+        <!-- サムネイル画像 -->
+        <template #item-thumbnail_image="item">
+          <img
+            v-if="item.thumbnail_img_path"
+            :src="item.thumbnail_img_path"
+            class="thumbnail-image my-4"
+          >
+          <img
+            v-if="!item.thumbnail_img_path"
+            src="/images/samb-none-image.jpg"
+            class="thumbnail-image my-4"
+          >
+        </template>
         <template #item-title="item">
           <!-- タイトル - 編集権限あり -->
           <router-link
@@ -126,7 +138,7 @@
         </template>
         <!-- 操作ボタン -->
         <template #item-actions="item">
-          <div class="text-center">
+          <div class="text-center d-flex">
             <br>
             <v-menu>
               <template v-slot:activator="{ props }" v-if="update_auth_flg">
@@ -443,7 +455,7 @@ export default {
           sortable: false,
           value: 'imageUrl',
         },
-        { text: 'サムネイル画像', value: 'サムネイル画像' },
+        { text: 'サムネイル画像', value: 'thumbnail_image' },
         { text: 'タイトル', value: 'title' },
         { text: '投稿日', value: 'created_at', sortable: true},
         { text: '最終更新', value: 'updated_at', sortable: true },
@@ -985,12 +997,12 @@ export default {
   font-weight: 600;
   font-size: 1rem;
   color: #69A5AF;
-  transition: .4s;
+  transition: .4s !important;
 }
 .announce-title-font:hover {
   transition: .4s;
   color: #69A5AF;
-  opacity: .6;
+  opacity: .6 !important;
 }
 .announce-title-font_disable {
   font-weight: 600;
@@ -1011,4 +1023,12 @@ export default {
   margin-top: 5px !important;
 }
 
+.thumbnail-image {
+  height: 5rem;
+  width: auto;
+}
+
+.customize-table {
+  --easy-table-body-row-hover-background-color: rgba(238, 238, 238, .1);
+}
 </style>

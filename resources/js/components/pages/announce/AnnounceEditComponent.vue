@@ -195,7 +195,7 @@
         <div v-if="approval_auth_flg && announce.approval_status != 0">
           <!-- 区切り線-->
           <hr class="text-center">
-          <p class="pt-3 mt-3 mb-4 font-weight-bold text-center text-gray">
+          <p class="pt-3 mt-3 mb-4 font-weight-bold text-left text-gray">
             承認ステータス
           </p>
           <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0 pb-5">

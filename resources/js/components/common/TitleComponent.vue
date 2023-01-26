@@ -2,7 +2,7 @@
     <v-card class="main-cont sp-title mb-0 mb-sm-5">
       <v-row>
         <!-- タイトル -->
-        <v-col cols="4">
+        <v-col sm="4" cols="12">
           <v-card-title class="pl-0 pl-sm-4">
             <h3 class="p-3 pl-0 pl-sm-4 m-0 font-weight-bold title-name">{{ name }}</h3>
           </v-card-title>

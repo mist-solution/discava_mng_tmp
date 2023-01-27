@@ -1,42 +1,5 @@
 <template>
   <back-to-top-component />
-  <!-- <v-row v-show="loading">
-    <v-col>
-      <v-progress-linear
-        indeterminate
-        class="mx-auto"
-        color="primary"
-      ></v-progress-linear>
-    </v-col>
-  </v-row>
-  <v-row v-show="!loading && getAnnounceLength() == 0">
-    <v-col>
-      お知らせがありません。
-    </v-col>
-  </v-row> -->
-
-  <!-- searchフォーム -->
-  <!-- <v-row class="pt-5 align-center justify-start">
-    <v-col
-      sm="4"
-      cols="6"
-      class="d-flex justify-sm-end justify-start"
-    >
-      <form class="searchform-list">
-        <input
-          class="searchform search-box"
-          type="search"
-          placeholder="検索"
-          aria-label="Search"
-          maxlength="30"
-          hide-details="false"
-          v-model="searchText"
-          @change="getClientItemsLength()"
-        />
-        <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
-      </form>
-    </v-col>
-  </v-row> -->
 
   <v-row>
     <v-col class="pt-0">
@@ -89,20 +52,10 @@
         <template #item-title="item">
           <div class="headtitle-left">
             <v-row>
-              <v-col>
-                <img
-                  v-if="item.thumbnail_img_path"
-                  :src="item.thumbnail_img_path"
-                  class="thumbnail-image my-4"
-                >
-                <img
-                  v-if="!item.thumbnail_img_path"
-                  src="/images/samb-none-image.jpg"
-                  class="thumbnail-image my-4"
-                >
-              </v-col>
-              <v-col class="detaTable-header_title">
-              <!-- タイトル - 編集権限あり -->
+
+              <!-- タイトル -->
+              <v-col cols="7" class="detaTable-header_title my-3">
+                <!-- タイトル - 編集権限あり -->
                 <router-link
                   v-if="update_auth_flg"
                   :to="{ name: 'announce.edit', params: { announceId: item.id } }"
@@ -119,247 +72,131 @@
                   カテゴリー：{{ item.announce_categories.category_name }}
                 </p>
               </v-col>
-            </v-row>
-          </div>
-        </template>
-        <!-- 投稿日 -->
-        <template #item-created_at="item">
-          {{ timestampFormat(item.created_at) }}
-        </template>
-        <!-- 更新日時 -->
-        <template #item-updated_at="item">
-          {{ timestampFormat(item.updated_at) }}
-        </template>
-        <!-- ステータス - 「全ての投稿」タブにのみ表示 -->
-        <template #item-open_status="item">
-          <!-- 承認ステータス -->
-          <p
-            v-if="$store.state.announce.displayAnnounceStatus == null"
-            class="mb-1"
-            :class="getApprovalStatusColor(item.approval_status)"
-          >
-            {{ getApprovalStatus(item.approval_status) }}
-          </p>
-          <!-- 公開期間 -->
-          <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg" : ""]'>
-            {{ inReleaseFlg(item)  ? "公開期間中" : "公開期間外" }}
-          </p>
-        </template>
-        <!-- 操作ボタン -->
-        <template #item-actions="item">
-          <div class="text-center d-flex">
-            <br>
-            <v-menu>
-              <template v-slot:activator="{ props }" v-if="update_auth_flg">
-                <v-btn
-                  v-bind="props"
-                  icon
-                  variant="outlined"
-                  color="#616161"
-                  size="x-small"
-                  class="my-3"
+
+              <v-col cols="3" class="detaTable-header_title text-center">
+                <!-- 承認ステータス -->
+                <p
+                  v-if="$store.state.announce.displayAnnounceStatus == null"
+                  class="mb-1"
+                  :class="getApprovalStatusColor(item.approval_status)"
                 >
-                  <v-icon x-large>mdi-dots-horizontal</v-icon>
-                </v-btn>
-              </template>
-              <v-list
-              >
-              <v-list-item>
-                  <v-list-item-title>
-                    <div  v-if="update_auth_flg">
-                      <router-link
-                        class="text-white"
-                        :to="{ name: 'announce.edit', params: { announceId: item.id } }"
+                  {{ getApprovalStatus(item.approval_status) }}
+                </p>
+              </v-col>
+
+              <!-- 操作 -->
+              <v-col cols="2" class="detaTable-header_title">
+                <div class="text-center d-flex">
+                <v-menu>
+                  <template v-slot:activator="{ props }" v-if="update_auth_flg">
+                    <button
+                      v-bind="props"
+                      icon
+                      color="#616161"
+                      size="x-small"
+                      class="my-3"
+                      type="button"
+                    >
+                      <v-icon x-large>mdi-dots-horizontal</v-icon>
+                    </button>
+                  </template>
+                  <v-list>
+                    <v-list-item>
+                        <v-list-item-title>
+                          <div  v-if="update_auth_flg">
+                            <router-link
+                              class="text-white"
+                              :to="{ name: 'announce.edit', params: { announceId: item.id } }"
+                            >
+                              編集
+                            </router-link>
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>
+                          <div 
+                            @click="(displayAnnouncePreview = true),
+                            setPreviewInfo(item.start_date,item.end_date,item.contents)" role="button">
+                            プレビュー
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <!-- 申請する - ユーザに申請権限があるかつ、お知らせの承認ステータスか0:下書きもしくは3:差戻しの場合表示 -->
+                      <v-list-item v-if="request_auth_flg &&
+                        (item.approval_status === 0 || item.approval_status === 3)"
                       >
-                        編集
-                      </router-link>
-                    </div>
-                  </v-list-item-title>
-                </v-list-item>
-                <v-list-item>
-                  <v-list-item-title>
-                    <div 
-                      @click="(displayAnnouncePreview = true),
-                       setPreviewInfo(item.start_date,item.end_date,item.contents)" role="button">
-                      プレビュー
-                    </div>
-                  </v-list-item-title>
-                </v-list-item>
-                <!-- 申請する - ユーザに申請権限があるかつ、お知らせの承認ステータスか0:下書きもしくは3:差戻しの場合表示 -->
-                <v-list-item v-if="request_auth_flg &&
-                  (item.approval_status === 0 || item.approval_status === 3)"
-                >
-                  <v-list-item-title>
-                    <div
-                      @click="(displayAnnounceRequestConfirm = true),
-                        setApprovalAnnounceId(item.id)"
-                      role="button"
-                    >
-                      申請する
-                    </div>
-                  </v-list-item-title>
-                </v-list-item>
-                <!-- 承認する - ユーザに承認権限があるかつ、お知らせの承認ステータスか1:承認待ちの場合表示 -->
-                <v-list-item v-if="approval_auth_flg && item.approval_status === 1">
-                  <v-list-item-title>
-                    <div
-                      @click="(displayAnnounceApprovalConfirm = true),
-                        setApprovalAnnounceId(item.id)"
-                      role="button"
-                    >
-                      承認する
-                    </div>
-                  </v-list-item-title>
-                </v-list-item>
-                <!-- 差し戻す - ユーザに承認権限があるかつ、お知らせの承認ステータスか1:承認待ちもしくは2:承認済みの場合表示 -->
-                <v-list-item v-if="approval_auth_flg &&
-                  (item.approval_status === 1 || item.approval_status === 2)"
-                >
-                  <v-list-item-title>
-                    <div
-                      @click="(displayAnnounceReturnApprovalConfirm = true),
-                        setApprovalAnnounceId(item.id)"
-                      role="button"
-                    >
-                      差し戻す
-                    </div>
-                  </v-list-item-title>
-                </v-list-item>
-                <!-- 取り下げる - ユーザに申請権限があるかつ、お知らせの承認ステータスか0:下書き以外の場合表示 -->
-                <v-list-item v-if="request_auth_flg && item.approval_status != 0">
-                  <v-list-item-title>
-                    <div
-                      @click="(displayAnnounceCancelConfirm = true),
-                        setApprovalAnnounceId(item.id)"
-                      role="button"
-                    >
-                      取り下げる
-                    </div>
-                  </v-list-item-title>
-                </v-list-item>
-                <!-- 削除 - ユーザに削除権限がある場合表示 -->
-                <v-list-item v-if="delete_auth_flg">
-                  <v-list-item-title>
-                    <div
-                      @click="(displayAnnounceDeleteConfirm = true),
-                        setDeleteAnnounceId(item.id)"
-                      role="button"
-                    >
-                      削除
-                    </div>
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
+                        <v-list-item-title>
+                          <div
+                            @click="(displayAnnounceRequestConfirm = true),
+                              setApprovalAnnounceId(item.id)"
+                            role="button"
+                          >
+                            申請する
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <!-- 承認する - ユーザに承認権限があるかつ、お知らせの承認ステータスか1:承認待ちの場合表示 -->
+                      <v-list-item v-if="approval_auth_flg && item.approval_status === 1">
+                        <v-list-item-title>
+                          <div
+                            @click="(displayAnnounceApprovalConfirm = true),
+                              setApprovalAnnounceId(item.id)"
+                            role="button"
+                          >
+                            承認する
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <!-- 差し戻す - ユーザに承認権限があるかつ、お知らせの承認ステータスか1:承認待ちもしくは2:承認済みの場合表示 -->
+                      <v-list-item v-if="approval_auth_flg &&
+                        (item.approval_status === 1 || item.approval_status === 2)"
+                      >
+                        <v-list-item-title>
+                          <div
+                            @click="(displayAnnounceReturnApprovalConfirm = true),
+                              setApprovalAnnounceId(item.id)"
+                            role="button"
+                          >
+                            差し戻す
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <!-- 取り下げる - ユーザに申請権限があるかつ、お知らせの承認ステータスか0:下書き以外の場合表示 -->
+                      <v-list-item v-if="request_auth_flg && item.approval_status != 0">
+                        <v-list-item-title>
+                          <div
+                            @click="(displayAnnounceCancelConfirm = true),
+                              setApprovalAnnounceId(item.id)"
+                            role="button"
+                          >
+                            取り下げる
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <!-- 削除 - ユーザに削除権限がある場合表示 -->
+                      <v-list-item v-if="delete_auth_flg">
+                        <v-list-item-title>
+                          <div
+                            @click="(displayAnnounceDeleteConfirm = true),
+                              setDeleteAnnounceId(item.id)"
+                            role="button"
+                          >
+                            削除
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                </v-menu>
+              </div>
+              </v-col>
+
+            </v-row>
           </div>
         </template>
       </EasyDataTable>
     </v-col>
   </v-row>
-
-  <!-- <v-row
-    v-for="item in announce"
-    :key="item.id"
-    dense
-    v-show="!loading && getAnnounceLength() != 0"
-  >
-    <v-col>
-      <v-card>
-        <v-row>
-          <v-col :cols="1">
-            ID:{{ item.id }}
-            <v-checkbox
-              v-model="select"
-              :value="item.id"
-              @change="setSelectItems"
-              v-if="item.approval_status != 1 && item.approval_status != 9"
-            ></v-checkbox>
-          </v-col>
-          <v-col :cols="1">
-            <v-img
-              :src="item.imageUrl"
-              height="125"
-              width="175"
-              class="bg-grey-lighten-2"
-            ></v-img>
-          </v-col>
-          <v-col :cols="10">
-            <v-row>
-              <v-col class="mt-3">
-                <v-card-subtitle class="ml-3">
-                  {{ approvalStatusFormat(item.approval_status) }}
-                </v-card-subtitle>
-                <v-card-title class="ml-2">
-                  <router-link :to="{ name: 'announce.edit', params: { announceId: item.id } }">
-                    {{ item.title }}
-                  </router-link>
-                </v-card-title>
-                <v-card-subtitle class="ml-2">
-                  {{ item.announce_category.category }}
-                </v-card-subtitle>
-              </v-col>
-              <v-col :cols="2">
-                <v-menu :close-on-content-click="true">
-                  <template v-slot:activator="{ props }">
-                    <v-btn
-                      color="primary"
-                      v-bind="props"
-                      icon="mdi-dots-horizontal"
-                    >
-                    </v-btn>
-                  </template>
-
-                  <v-card>
-                    <v-list>
-                      <v-list-item
-                        color="black"
-                        v-bind:to="{
-                          name: listItems[index].link,
-                          params: { announceId: item.id },
-                        }"
-                      >
-                        <v-list-item-title>
-                          {{ listItems[index].title }}
-                        </v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-
-                    <v-divider></v-divider>
-                    
-                    <v-list>
-                      <v-list-item
-                        color="red"
-                        @click.stop="(displayAnnounceDeleteConfirm = true), setDeleteAnnounceId(item.id)"
-                      >
-                        <v-list-item-title>
-                          {{ menuDeleteAnnounce[index].title }}
-                        </v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                  </v-card>
-                </v-menu>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-card-text>
-                  登録日：{{ timestampFormat(item.created_at) }}<br/>
-                  登録者：{{ item.add_account.name }}
-                </v-card-text>
-              </v-col>
-              <v-col>
-                <v-card-text>
-                  更新日：{{ timestampFormat(item.updated_at) }}<br/>
-                  更新者：{{ item.upd_account.name }}
-                </v-card-text>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-card>
-    </v-col>
-  </v-row> -->
-
 
   <!-- 申請モーダル -->
   <announce-approval-request-confirm-modal-component
@@ -459,22 +296,12 @@ export default {
       ],
 
       headers: [
-        {
-          text: '',
-          sortable: false,
-          value: 'imageUrl',
-        },
         { text: '', value: 'title' },
-        { text: '投稿日', value: 'created_at', sortable: true},
-        { text: '最終更新', value: 'updated_at', sortable: true },
-        { text: '投稿者', value: 'add_account.name' },
-        { text: 'ステータス', value: 'open_status' },
-        { text: '操作', value: 'actions' },
-        {
-          text: '',
-          sortable: false,
-          value: 'button',
-        },
+        // { text: '投稿日', value: 'created_at', sortable: true},
+        // { text: '最終更新', value: 'updated_at', sortable: true },
+        // { text: '投稿者', value: 'add_account.name' },
+        // { text: 'ステータス', value: 'open_status' },
+        // { text: '操作', value: 'actions' },
       ],
       test: [],
       announce: [],

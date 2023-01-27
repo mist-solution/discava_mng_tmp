@@ -33,7 +33,7 @@
             </v-tab>
             <v-tab
               value="four"
-              @click="announceStatus(4);
+              @click="announceStatus(2);
                 setSelectTab(4);"
             >
               承認済み

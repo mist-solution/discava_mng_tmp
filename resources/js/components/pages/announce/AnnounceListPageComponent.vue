@@ -39,19 +39,23 @@
       <v-card-text>
         <v-window v-model="tab">
           <v-window-item value="one">
-            <announce-list-table />
+            <announce-list-table v-if="!moblieFlg()"/>
+            <announce-list-table-sp v-if="moblieFlg()"/>
           </v-window-item>
 
           <v-window-item value="two">
-            <announce-list-table />
+            <announce-list-table v-if="!moblieFlg()"/>
+            <announce-list-table-sp v-if="moblieFlg()"/>
           </v-window-item>
 
           <v-window-item value="three">
-            <announce-list-table />
+            <announce-list-table v-if="!moblieFlg()"/>
+            <announce-list-table-sp v-if="moblieFlg()"/>
           </v-window-item>
 
           <v-window-item value="four">
-            <announce-list-table />
+            <announce-list-table v-if="!moblieFlg()"/>
+            <announce-list-table-sp v-if="moblieFlg()"/>
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -63,6 +67,7 @@
 import { mapActions } from "vuex";
 
 import AnnounceListTable from "./AnnounceListTableComponent.vue";
+import AnnounceListTableSp from "./AnnounceListTableComponentSp.vue";
 // import AnnounceListActionBarConponent from "./AnnounceListActionBarConponent.vue";
 import TitleComponent from "../../common/TitleComponent.vue"
 import SpAnnounceTitleComponent from "../../common/SpAnnounceTitleComponent.vue"
@@ -72,6 +77,7 @@ export default {
     // AnnounceListActionBarConponent,
     TitleComponent,
     SpAnnounceTitleComponent,
+    AnnounceListTableSp,
   },
   data() {
     return {

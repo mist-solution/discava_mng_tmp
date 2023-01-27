@@ -14,17 +14,17 @@
         <v-col v-if="tabFlg" class="tab-posision mx-auto">
           <v-tabs v-model="tab" fixed-tabs class="" color="#69A5AF">
             <v-tab
-              value="two"
-              @click="announceStatus(0);
-                setSelectTab(2);"
+              value="one"
+              @click="announceStatus();
+                setSelectTab(1);"
               class="px-2"
             >
               全ての投稿
             </v-tab>
             <v-tab
-              value="one"
+              value="two"
               @click="announceStatus(1);
-                setSelectTab(1);"
+                setSelectTab(2);"
               class="px-2"
             >
               承認待ち
@@ -39,7 +39,7 @@
             </v-tab>
             <v-tab
               value="four"
-              @click="announceStatus(4);
+              @click="announceStatus(2);
                 setSelectTab(4);"
               class="px-2"
             >

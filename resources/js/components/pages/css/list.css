@@ -61,3 +61,37 @@
     --easy-table-footer-font-color: #707070;
 }
 
+/* 検索フォーム */
+.searchform {
+    height: 45px !important;
+}
+
+.searchform-list {
+    position: relative;
+    max-width: 300px;
+}
+
+.searchform-list > .search-box {
+    padding: 0px 30px 0px 8px;
+    border-radius: 8px;
+    width: 180px;
+}
+
+@media (max-width: 599.99px){
+    .searchform-list > .search-box{
+        width: 150px;
+    }
+}
+
+.searchform-list > .serch-btn {
+    height:50px;
+    position:absolute;
+    top:-2px;
+    background:none;
+    color:#666;
+    border:none;
+    font-size:14px;
+    right: 10px;
+}
+
+

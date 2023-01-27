@@ -103,3 +103,9 @@
     left: 0px;
     bottom: 0px;
 }
+
+.v-select__selection {
+    display: inline !important;
+    width: 100%;
+    text-align: center;
+}

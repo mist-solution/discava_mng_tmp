@@ -151,16 +151,14 @@
             <br>
             <v-menu>
               <template v-slot:activator="{ props }" v-if="update_auth_flg">
-                <v-btn
+                <button
                   v-bind="props"
                   icon
-                  variant="outlined"
-                  color="#616161"
-                  size="x-small"
                   class="my-3"
+                  type="button"
                 >
-                  <v-icon x-large>mdi-dots-horizontal</v-icon>
-                </v-btn>
+                  <v-icon class="announce_action-btn">mdi-dots-horizontal</v-icon>
+                </button>
               </template>
               <v-list
               >
@@ -1154,5 +1152,10 @@ thead {
 .stastus-font__grey {
   color: grey;
   font-weight: 600;
+}
+
+// 操作ボタンのアイコンサイズ
+.announce_action-btn {
+  font-size: 1.5rem;
 }
 </style>

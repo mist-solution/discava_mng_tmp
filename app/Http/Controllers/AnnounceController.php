@@ -28,8 +28,9 @@ class AnnounceController extends Controller
         $searchAnnounceCol = $request->input('searchAnnounceCol');
         $searchAnnounce = $request->input('searchAnnounce');
         $searchCategory = $request->input('searchCategory');
+        $searchRelease = $request->input('searchRelease');
         $shop_id = $request->session()->get('shop_id');
-        $announce = Announce::getAnnounce($offset, $limit, $sort, $announceStatus, $announceAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchAnnounceCol, $searchAnnounce, $searchCategory, $shop_id);
+        $announce = Announce::getAnnounce($offset, $limit, $sort, $announceStatus, $announceAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchAnnounceCol, $searchAnnounce, $searchCategory, $searchRelease, $shop_id);
         return $announce;
     }
 
@@ -224,5 +225,11 @@ class AnnounceController extends Controller
 
         Log::info('お知らせ更新');
         Log::debug(print_r($update, true));
+    }
+
+    public function oldestAnnounce(Request $request){
+        $shop_id = $request->session()->get('shop_id');
+        $oldestData = Announce::getOldestTime($shop_id);
+        return $oldestData;
     }
 }

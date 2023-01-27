@@ -37,7 +37,7 @@
       </form>
     </v-col>
   </v-row> -->
-
+  
   <v-row>
     <v-col class="pt-0">
       <EasyDataTable
@@ -422,7 +422,7 @@ import { mapActions } from "vuex";
 
 import AnnounceListTablePagination from "./AnnounceListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
-import { mergeProps,ref,computed } from "vue";
+import { mergeProps } from "vue";
 import AnnounceDeleteConfirmModalComponent from "../../modals/AnnounceDeleteConfirmModalComponent.vue";
 import AnnounceApprovalConfirmModalComponent from "../../modals/AnnounceApprovalConfirmModalComponent.vue";
 import AnnounceApprovalReturnConfirmModalComponent from "../../modals/AnnounceApprovalReturnConfirmModalComponent.vue";
@@ -546,6 +546,9 @@ export default {
     displaySearchCategory() {
       return this.$store.state.announce.displaySearchCategory;
     },
+    displaySearchRelease() {
+      return this.$store.state.announce.displaySearchRelease;
+    },
     displayPage() {
       return this.$store.state.announce.displayPage;
     },
@@ -584,6 +587,9 @@ export default {
     displaySearchCategory() {
       this.getAnnounceList();
     },
+    displaySearchRelease() {
+      this.getAnnounceList();
+    },
     displayPage() {
       this.getAnnounceList();
     },
@@ -591,6 +597,7 @@ export default {
   methods: {
     ...mapActions('authority', ['fetchAllAuthority']),
     ...mapActions('enduser', ['getUserInfo']),
+    ...mapActions('announceCategory', ['fetchCategories']),
     mergeProps,
     // モーダルを閉じる
     closeRequest() {
@@ -642,6 +649,8 @@ export default {
               this.$store.state.announce.displaySearchAnnounce,
             searchCategory:
               this.$store.state.announce.displaySearchCategory,
+            searchRelease:
+              this.$store.state.announce.displaySearchRelease,
           },
         })
         .then((res) => {
@@ -656,7 +665,6 @@ export default {
       if (!this.announce) {
         return 0;
       }
-      console.log(this.announce.length)
       return this.announce.length;
     },
 
@@ -797,6 +805,7 @@ export default {
       this.contents = contents 
     },
 
+    //検索件数
     getClientItemsLength(){
       this.dataTable = this.$refs.dataTable.clientItemsLength;
     },
@@ -808,6 +817,7 @@ export default {
       this.operate_id = id;
     },
 
+    //一括操作
     allCheckedItemOperate(){
       if(this.operate_id == '1'){
         for(var i = 0;i < this.selected.length; i++){
@@ -824,7 +834,6 @@ export default {
       }else{
         //「承認か削除を選んでください」的なモーダルを出す処理が必要か…？
       }
-      console.log(this.selected)
     },
 
     inReleaseFlg(announce) {

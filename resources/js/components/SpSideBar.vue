@@ -9,7 +9,7 @@
      </div>
     <v-tab class="shop_choice">
       <v-img
-        src="/images/user-icon/kkrn_icon_user_11.png"
+        src="/images/user-icon/kkrn_icon_user_3.png"
         max-height="54"
         max-width="54"
         contain>

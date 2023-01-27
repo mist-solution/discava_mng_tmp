@@ -13,6 +13,7 @@ const state = {
     displaySearchAnnounceCol: "",
     displaySearchAnnounce: "",
     displaySearchCategory: "",
+    displaySearchRelease: "",
     displayListsItemKey: "notCheckLists",
     deleteAnnounceId: "",
     approvalProcessKey: "",
@@ -38,6 +39,7 @@ const getters = {
     displaySearchAnnounceCol: (state) => state.displaySearchAnnounceCol,
     displaySearchAnnounce: (state) => state.displaySearchAnnounce,
     displaySearchCategory: (state) => state.displaySearchCategory,
+    displaySearchRelease: (state) => state.displaySearchRelease,
     displayListsItemKey: (state) => state.displayListsItemKey,
     deleteAnnounceId: (state) => state.deleteAnnounceId,
     approvalProcessKey: (state) => state.approvalProcessKey,
@@ -89,6 +91,9 @@ const mutations = {
     },
     setDisplaySearchCategory(state, searchCategory) {
         state.displaySearchCategory = searchCategory;
+    },
+    setDisplaySearchRelease(state, searchRelease) {
+        state.displaySearchRelease = searchRelease;
     },
     setDisplayListsItemKey(state, listsItemKey) {
         state.displayListsItemKey = listsItemKey;
@@ -155,6 +160,9 @@ const actions = {
     },
     setDisplaySearchCategory(context, searchCategory) {
         context.commit('setDisplaySearchCategory', searchCategory);
+    },
+    setDisplaySearchRelease(context, searchRelease) {
+        context.commit('setDisplaySearchRelease', searchRelease);
     },
     setDisplayListsItemKey(context, listsItemKey) {
         context.commit('setDisplayListsItemKey', listsItemKey);

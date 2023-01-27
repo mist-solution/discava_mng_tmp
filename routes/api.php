@@ -85,6 +85,8 @@ Route::put('/api/announce/{announce}/cansel', [AnnounceController::class, 'canse
 // お知らせカテゴリ取得
 Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
 
+Route::get('/api/oldestAnnounce', [AnnounceController::class, 'oldestAnnounce']);
+
 //------------------------------------------------
 // WebAPI関連
 //------------------------------------------------

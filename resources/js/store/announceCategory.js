@@ -24,6 +24,12 @@ const actions = {
             context.commit('setCategories', res.data.announceCategories);
         })
     },
+    async fetchCategoriesWithAll(context) {
+        await axios.get('/api/announceCategory').then((res) => {
+            context.commit('setCategories', res.data.announceCategories);
+            state.categories.unshift({ id: 0, category_name: '全て'});
+        });
+    },
 }
 const mutations = {
     setCategories(state, categories) {

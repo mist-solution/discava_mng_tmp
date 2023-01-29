@@ -291,11 +291,11 @@ export default {
         }
         let formData = new FormData();
         const item = {
-          title: this.announce.title,
+          title: encodeURIComponent(this.announce.title),
           announce_category_id: this.announce.announce_category_id,
           start_date: moment(this.announce.start_date).format("yyyy-MM-DD"),
           end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
-          contents: this.announce.contents,
+          contents: encodeURIComponent(this.announce.contents),
           thumbnail_file_name: this.file ? this.file.name : null,
           regist_flg: registFlg,
         };

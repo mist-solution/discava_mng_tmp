@@ -156,11 +156,13 @@ class AnnounceController extends Controller
         Log::info('ファイル');
         Log::info(print_r($attachments, true));
 
-        $regist['title'] = $announce['title'];
+	// multipart/form-dataだとマルチバイトが文字化けする対応
+	// VueでHTMLエンコード→PHPでHTMLデコードする。
+        $regist['title'] = urldecode($announce['title']);
         $regist['announce_category_id'] = $announce['announce_category_id'];
         $regist['start_date'] = $announce['start_date'];
         $regist['end_date'] = $announce['end_date'];
-        $regist['contents'] = $announce['contents'];
+        $regist['contents'] = urldecode($announce['contents']);
 
         // 登録(1) or 下書き保存(2)
         if ($announce['regist_flg'] == 1) {

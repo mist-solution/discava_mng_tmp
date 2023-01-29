@@ -15,6 +15,7 @@
         :search-field="searchField"
   			:search-value="searchText"
         dense
+        class="announce-table"
       >
         <template #loading>
           <v-progress-linear
@@ -297,11 +298,6 @@ export default {
 
       headers: [
         { text: '', value: 'title' },
-        // { text: '投稿日', value: 'created_at', sortable: true},
-        // { text: '最終更新', value: 'updated_at', sortable: true },
-        // { text: '投稿者', value: 'add_account.name' },
-        // { text: 'ステータス', value: 'open_status' },
-        // { text: '操作', value: 'actions' },
       ],
       test: [],
       announce: [],
@@ -900,18 +896,6 @@ export default {
   margin-top: 5px !important;
 }
 
-.thumbnail-image {
-  height: 5rem;
-  width: auto;
-}
-
-// お知らせテーブル サムネイルをSPで非表示にする
-@media (max-width: 599.99px){
-  .thumbnail-image {
-    display: none;
-  }
-}
-
 .detaTable-header_title {
   align-content: center;
   align-items: center;
@@ -935,7 +919,7 @@ thead {
 }
 
 // テーブルのスクロールを消す
-.vue3-easy-data-table__main {
+.announce-table .vue3-easy-data-table__main {
   overflow: visible !important;
 }
 

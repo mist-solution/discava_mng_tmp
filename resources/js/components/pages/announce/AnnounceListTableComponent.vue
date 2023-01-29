@@ -52,6 +52,7 @@
         :search-field="searchField"
   			:search-value="searchText"
         dense
+        class="announce-table"
       >
         <template #loading>
           <v-progress-linear
@@ -89,16 +90,16 @@
         <template #item-title="item">
           <div class="headtitle-left">
             <v-row>
-              <v-col>
+              <v-col class="d-flex">
                 <img
                   v-if="item.thumbnail_img_path"
                   :src="item.thumbnail_img_path"
-                  class="thumbnail-image my-4"
+                  class="thumbnail-image my-4 mx-auto"
                 >
                 <img
                   v-if="!item.thumbnail_img_path"
                   src="/images/samb-none-image.jpg"
-                  class="thumbnail-image my-4"
+                  class="thumbnail-image my-4 mx-auto"
                 >
               </v-col>
               <v-col class="detaTable-header_title">
@@ -751,7 +752,6 @@ export default {
     approvalAnnounce(announce) {
       axios.post("/api/announce/" + announce + "/approval")
       .then((res) => {});
-      window.location.reload();
     },
 
     // 差戻し処理
@@ -1072,15 +1072,8 @@ export default {
 }
 
 .thumbnail-image {
-  height: 5rem;
+  height: 6rem;
   width: auto;
-}
-
-// お知らせテーブル サムネイルをSPで非表示にする
-@media (max-width: 599.99px){
-  .thumbnail-image {
-    display: none;
-  }
 }
 
 .detaTable-header_title {
@@ -1106,7 +1099,7 @@ thead {
 }
 
 // テーブルのスクロールを消す
-.vue3-easy-data-table__main {
+.announce-table .vue3-easy-data-table__main {
   overflow: visible !important;
 }
 

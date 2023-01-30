@@ -60,6 +60,7 @@ class ShopUserController extends Controller
             $shopSelectData['user_id'] = $value->user_id;
             $shopSelectData['authority_set_id'] = $value->authority_set_id;
             $shopSelectData['shop_name'] = $value->shop->shop_name;
+            $shopSelectData['website_url'] = $value->shop->website_url;
             $shopSelectArray[] = $shopSelectData;
         }
 

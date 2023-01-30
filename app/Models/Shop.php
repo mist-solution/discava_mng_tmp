@@ -21,6 +21,7 @@ class Shop extends Model
         'tel',
         'fax',
         'webapi_token',
+        'website_url',
         'add_account',
         'upd_account',
         'del_flg',

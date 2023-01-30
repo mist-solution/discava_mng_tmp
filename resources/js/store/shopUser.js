@@ -29,6 +29,7 @@ const actions = {
         if (shopSelect) {
             response['shop_id'] = shopSelect.shop_id;
             response['shop_name'] = shopSelect.shop_name;
+            response['website_url'] = shopSelect.website_url;
             return response;
         } else {
             return null;

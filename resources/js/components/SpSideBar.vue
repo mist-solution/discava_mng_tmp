@@ -46,43 +46,31 @@
     <div class="bento_menu" v-bind:class="{'bento_menu_active':header_height == 1500}">
       <v-list nav dense>
         <div v-for="item in items" :key="item.id">
-            <v-list-group
-              v-if="item.group"
-              :value="item.title"
-            >
-              <template v-slot:activator="{ props }">
-                <v-list-item
-                  tile
-                  v-bind="props"
-                  :prepend-icon="item.icon"
-                  :title="item.title"
-                  :disabled="item.disabled"
-                  width=200
-                ></v-list-item>
-              </template>
-              <!-- <v-list-item
-                tile
-                v-for="submenu in item.submenus"
-                :key="submenu.id"
-                :title="submenu.title"
-                link
-                :to="{ name: submenu.linkTo }"
-                :disabled="submenu.disabled"
-                @click="heightchange()"
-              ></v-list-item> -->
-            </v-list-group>
-            <v-list-item
-              tile
-              v-else
-              :prepend-icon="item.icon"
-              :title="item.title"
-              link
-              color="#3990e7"
-              :to="{ name: item.linkTo }"
-              :disabled="item.disabled"
-              @click="heightchange()"
-            ></v-list-item>
-          </div>
+          <v-list-item
+            tile
+            :prepend-icon="item.icon"
+            :title="item.title"
+            link
+            color="#3990e7"
+            :to="{ name: item.linkTo }"
+            :disabled="item.disabled"
+            @click="heightchange()"
+          ></v-list-item>
+        </div>
+        <div>
+          <v-list-item
+            tile
+            prepend-icon="mdi-tab"
+            title="WEBサイトへ"
+            link
+            color="#3990e7"
+            :href="shopSelection.website_url"
+            :disabled="false"
+            @click="heightchange()"
+            target="_blank"
+            rel="noopener"
+          ></v-list-item>
+        </div>
       </v-list>
     </div>
     </v-app-bar>
@@ -97,27 +85,19 @@ export default {
     return {
       drawer: true,
       items: [
-        { id: 1, title: "投稿管理", icon: "mdi-bullhorn-variant-outline", linkTo: "announce.list", disabled: false, group: false, },
-        { id: 2, title: "ギャラリー管理", icon: "mdi-image-outline", linkTo: "", disabled: true, group: false, },
-        { id: 3, title: "アクセス情報", icon: "mdi-chart-bar", linkTo: "", disabled: true, group: false, },
-        { id: 4, title: "アカウント管理", icon: "mdi-account", linkTo: "enduser.list", disabled: false, group: false, },
-/*
-        { id: 4, title: "アカウント管理", icon: "mdi-account", linkTo: "enduser.list", disabled: false, group: true,
-          submenus: [
-            { id: 401, title: "アカウント一覧", linkTo: "enduser.list", disabled: false, },
-            { id: 402, title: "アカウント登録", linkTo: "enduser.register", disabled: false, },
-          ],
-        },
-*/
-        { id: 5, title: "契約情報", icon: "mdi-file-document-edit-outline", linkTo: "", disabled: true, group: false, },
-        { id: 6, title: "サイト更新依頼", icon: "mdi-refresh", linkTo: "", disabled: true, group: false, },
-        { id: 7, title: "WEBサイトへ", icon: "mdi-tab", linkTo: "", disabled: true, group: false, },
+        { id: 1, title: "投稿管理", icon: "mdi-bullhorn-variant-outline", linkTo: "announce.list", disabled: false, },
+        { id: 2, title: "ギャラリー管理", icon: "mdi-image-outline", linkTo: "", disabled: true, },
+        { id: 3, title: "アクセス情報", icon: "mdi-chart-bar", linkTo: "", disabled: true, },
+        { id: 4, title: "アカウント管理", icon: "mdi-account", linkTo: "enduser.list", disabled: false, },
+        { id: 5, title: "契約情報", icon: "mdi-file-document-edit-outline", linkTo: "", disabled: true, },
+        { id: 6, title: "サイト更新依頼", icon: "mdi-refresh", linkTo: "", disabled: true, },
       ],
       right: null,
       company_name: '',
       shopSelection: null,
       header_height:"54",
-      color:"white"
+      color:"white",
+      shopSelection: [],
     };
   },
   methods: {

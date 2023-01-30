@@ -46,7 +46,7 @@ class AnnounceDetailContoller extends Controller
         $records = Shop::all();
         $response = array();
         foreach($records as $key => $value) {
-            if (password_verify($token, $value->webapi_token)) {
+            if ($token == $value->webapi_token) {
                 $shopId = $value->id;
                 break;
             }

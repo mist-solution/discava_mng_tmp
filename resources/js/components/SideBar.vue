@@ -105,37 +105,9 @@
       <!-- メニュー -->
       <div class="sidebar_list sidebar_list-margin-top">
         <v-list nav dense>
-
           <div v-for="item in items" :key="item.id">
-
-            <v-list-group
-              v-if="item.group"
-              :value="item.title"
-            >
-              <template v-slot:activator="{ props }">
-                <v-list-item
-                  tile
-                  v-bind="props"
-                  :prepend-icon="item.icon"
-                  :title="item.title"
-                  :disabled="item.disabled"
-                  color="blue lighten-5"
-                ></v-list-item>
-              </template>
-              <v-list-item
-                tile
-                v-for="submenu in item.submenus"
-                :key="submenu.id"
-                :title="submenu.title"
-                link
-                :to="{ name: submenu.linkTo }"
-                :disabled="submenu.disabled"
-              ></v-list-item>
-            </v-list-group>
-
             <v-list-item
               tile
-              v-else
               :prepend-icon="item.icon"
               :title="item.title"
               link
@@ -143,6 +115,19 @@
               :disabled="item.disabled"
               color="blue lighten-5"
             ></v-list-item>
+          </div>
+          <div>
+            <v-list-item
+              tile
+              prepend-icon="mdi-tab"
+              title="WEBサイトへ"
+              link
+              :href="shopSelection.website_url"
+              :disabled="false"
+              color="blue lighten-5"
+              target="_blank"
+              rel="noopener"
+              ></v-list-item>
           </div>
       </v-list>
     </div>
@@ -166,27 +151,18 @@ export default {
     return {
       drawer: true,
       items: [
-        { id: 1, title: "投稿管理", icon: "mdi-bullhorn-variant-outline", linkTo: "announce.list", disabled: false, group: false, },
-        { id: 2, title: "ギャラリー管理", icon: "mdi-image-outline", linkTo: "", disabled: true, group: false, },
-        { id: 3, title: "アクセス情報", icon: "mdi-chart-bar", linkTo: "", disabled: true, group: false, },
-        { id: 4, title: "アカウント管理", icon: "mdi-account", linkTo: "enduser.list", disabled: false, group: false, },
-/*
-        { id: 4, title: "アカウント管理", icon: "mdi-account", linkTo: "enduser.list", disabled: false, group: true,
-          submenus: [
-            { id: 401, title: "アカウント一覧", linkTo: "enduser.list", disabled: false, },
-            { id: 402, title: "アカウント登録", linkTo: "enduser.register", disabled: false, },
-          ],
-        },
-*/
-        { id: 5, title: "契約情報", icon: "mdi-file-document-edit-outline", linkTo: "", disabled: true, group: false, },
-        { id: 6, title: "サイト更新依頼", icon: "mdi-refresh", linkTo: "", disabled: true, group: false, },
-        { id: 7, title: "WEBサイトへ", icon: "mdi-tab", linkTo: "", disabled: true, group: false, },
+        { id: 1, title: "投稿管理", icon: "mdi-bullhorn-variant-outline", linkTo: "announce.list", disabled: false,},
+        { id: 2, title: "ギャラリー管理", icon: "mdi-image-outline", linkTo: "", disabled: true,},
+        { id: 3, title: "アクセス情報", icon: "mdi-chart-bar", linkTo: "", disabled: true,},
+        { id: 4, title: "アカウント管理", icon: "mdi-account", linkTo: "enduser.list", disabled: false,},
+        { id: 5, title: "契約情報", icon: "mdi-file-document-edit-outline", linkTo: "", disabled: true,},
+        { id: 6, title: "サイト更新依頼", icon: "mdi-refresh", linkTo: "", disabled: true,},
       ],
       right: null,
       drawer: true,
       rail: false,
       company_name: '',
-      shopSelection: null,
+      shopSelection: [],
     };
   },
   methods: {

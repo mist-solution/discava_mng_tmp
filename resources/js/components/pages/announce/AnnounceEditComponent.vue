@@ -182,9 +182,10 @@
               更新する
             </button>
           </v-col>
-          <!-- 申請する - ユーザに申請権限がある場合かつ、承認ステータス 2:承認済み以外の場合-->
+          <!-- 申請する - ユーザに申請権限がある場合かつ、承認ステータス 2:承認済み、1:承認待ち 以外の場合、-->
           <v-col
-            v-if="request_auth_flg && announce.approval_status != 2"
+            v-if="request_auth_flg &&
+              (announce.approval_status === 0 || announce.approval_status === 3)"
             cols="11"
             class="p-0 mb-sm-0 mb-2"
           >

@@ -165,13 +165,11 @@
               >
               <v-list-item>
                   <v-list-item-title>
-                    <div  v-if="update_auth_flg">
-                      <router-link
-                        class="text-white"
-                        :to="{ name: 'announce.edit', params: { announceId: item.id } }"
-                      >
-                        編集
-                      </router-link>
+                    <div
+                      v-if="update_auth_flg"
+                      @click="toEditPage(item.id)" role="button"
+                    >
+                      編集
                     </div>
                   </v-list-item-title>
                 </v-list-item>
@@ -883,6 +881,11 @@ export default {
         // 3:差戻しの場合
         return "stastus-font__red"
       }
+    },
+
+    // 編集ページへ画面遷移
+    toEditPage(id) {
+      this.$router.push({name: 'announce.edit', params: { announceId: id }})
     }
   },
   async mounted() {
@@ -1150,5 +1153,9 @@ thead {
 // 操作ボタンのアイコンサイズ
 .announce_action-btn {
   font-size: 1.5rem;
+}
+
+.announce-edit_btn {
+  cursor: pointer;
 }
 </style>

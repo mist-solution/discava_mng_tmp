@@ -368,6 +368,9 @@ export default {
     displaySearchCategory() {
       return this.$store.state.announce.displaySearchCategory;
     },
+    displaySearchRelease() {
+      return this.$store.state.announce.displaySearchRelease;
+    },
     displayPage() {
       return this.$store.state.announce.displayPage;
     },
@@ -404,6 +407,9 @@ export default {
       this.getAnnounceList();
     },
     displaySearchCategory() {
+      this.getAnnounceList();
+    },
+    displaySearchRelease() {
       this.getAnnounceList();
     },
     displayPage() {
@@ -464,6 +470,8 @@ export default {
               this.$store.state.announce.displaySearchAnnounce,
             searchCategory:
               this.$store.state.announce.displaySearchCategory,
+            searchRelease:
+              this.$store.state.announce.displaySearchRelease,
           },
         })
         .then((res) => {

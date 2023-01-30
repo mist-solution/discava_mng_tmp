@@ -25,7 +25,14 @@
           </button>
         </router-link>
       </div>
+      <!-- 検索ボタン（spのみ） -->
+      <div class="btn-group ml-auto" @click="(displayAnnounceFilter = true)" v-if="moblieFlg()">
+        <button class="btn filterbtn mr-2 px-4 justify-center">
+          <v-icon color="black" x-small class="pb-1">mdi-magnify</v-icon>
+        </button>
+      </div>
     </v-card-title>
+
 
     <!-- 表示件数 -->
     <v-row justify="end">
@@ -118,6 +125,17 @@
       </v-card-text>
     </v-card>
   </v-container>
+
+  <!-- 検索モーダル -->
+  <announce-filter-sp-confirm-modal-component
+    :modelValue="displayAnnounceFilter"
+    @update:modelValue="displayAnnounceFilter = $event"
+    :closeAction="closeFilter"
+    :items="items"
+    :items2="items2"
+    :categories="categories"
+    :users="users"
+  />
 </template>
 
 <script>
@@ -128,7 +146,8 @@ import AnnounceListTableSp from "./AnnounceListTableComponentSp.vue";
 // import AnnounceListActionBarConponent from "./AnnounceListActionBarConponent.vue";
 import TitleComponent from "../../common/TitleComponent.vue"
 import SpAnnounceTitleComponent from "../../common/SpAnnounceTitleComponent.vue"
-import moment from 'moment';
+import AnnounceFilterSpConfirmModalComponent from "../../modals/AnnounceFilterSpConfirmModalComponent.vue"
+// import moment from 'moment';
 export default {
   components: {
     AnnounceListTable,
@@ -136,6 +155,7 @@ export default {
     TitleComponent,
     SpAnnounceTitleComponent,
     AnnounceListTableSp,
+    AnnounceFilterSpConfirmModalComponent,
   },
   data() {
     return {
@@ -156,6 +176,7 @@ export default {
       categories_id: "",
       user_id: "",
       release_id: "",
+      displayAnnounceFilter: false,
     };
   },
   computed:{
@@ -192,24 +213,21 @@ export default {
       let id = 1
       let yearlist = this.year
       let monthlist = this.month
-      /*axios
+      axios
         .get("/api/oldestAnnounce", {
           })
           .then((res) => {
             this.oldtime = res.data.created_at;
           });
-      let oldestyear = moment(this.oldtime).format("YYYY");
+      /*let oldestyear = moment(this.oldtime).format("YYYY");
       let oldestmonth = moment(this.oldtime).format("MM");*/
       let oldestyear = 2022
       let oldestmonth = 12
-      for(var i = 1; i < 12; i++){
+      for(var i = 1; i < 120; i++){
         if(yearlist == oldestyear || monthlist == oldestmonth){
           this.items2[i] = {id: id, text: yearlist + "年" + monthlist + "月", year: yearlist, month: monthlist}
           break;
         }else{
-          //this.items2[i].id = id;
-          //this.items2[i].year = yearlist;
-          //this.items2[i].month = monthlist;
           this.items2[i] = {id: id, text: yearlist + "年" + monthlist + "月", year: yearlist, month: monthlist}
           id = id + 1
           monthlist = monthlist - 1;
@@ -238,7 +256,6 @@ export default {
         id: id,
       };
       this.categories_id = id;
-      console.log(this.categories_id)
     },
     userChange: function(id) {
       const postData = {
@@ -256,11 +273,11 @@ export default {
       //投稿月検索
       if(this.created_id != 0){
         if(this.created_id == 1){
-          var start = new Date(items2[this.created_id].year,items2[this.created_id].month,1)
+          let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
           this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
         }else{
-          var start = new Date(items2[this.created_id].year , items2[this.created_id], 1)
-          var end = new Date(items2[this.created_id - 1].year , items2[this.created_id - 1].month , 1)
+          let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
+          let end = new Date(this.items2[this.created_id - 1].year + "-" + this.items2[this.created_id - 1].month + "-1")
           this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
           this.$store.dispatch("announce/setDisplaySearchAddDateEnd", end);
         }
@@ -271,13 +288,13 @@ export default {
       //更新月検索
       if(this.updated_id != 0){
         if(this.updated_id == 1){
-          var start = new Date(items2[this.updated_id].year + "/" + items2[this.updated_id].month + "/01 00:00:00")
-          this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
+          let start = new Date(this.items2[this.updated_id].year.toString() + "-" + this.items2[this.updated_id].month.toString() + "-1")
+          this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
         }else{
-          var start = new Date(items2[this.updated_id].year + "/" + items2[this.updated_id].month + "/01 00:00:00")
-          var end = new Date(items2[this.updated_id - 1].year + "/" + items2[this.updated_id - 1].month + "/01 00:00:00")
-          this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
-          this.$store.dispatch("announce/setDisplaySearchAddDateEnd", end);
+          let start = new Date(this.items2[this.updated_id].year.toString() + "-" + this.items2[this.updated_id].month.toString() + "-1")
+          let end = new Date(this.items2[this.updated_id - 1].year.toString() + "-" + this.items2[this.updated_id - 1].month.toString() + "-1")
+          this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
+          this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", end);
         }
       }else{
         this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", null);
@@ -298,6 +315,10 @@ export default {
       //公開/非公開検索
       this.$store.dispatch("announce/setDisplaySearchRelease", this.release_id);
     },
+
+    closeFilter(){
+      this.displayAnnounceFilter = false;
+    },
   },
   async created(){
     this.fetchCategoriesWithAll();
@@ -316,6 +337,8 @@ export default {
 };
 </script>
 
+<style src="../css/dropdown.css"></style>
+<style src="../css/common.css"></style>
 <style scoped>
   /* 投稿ボタン */
   .green-btn_toukou {
@@ -352,6 +375,11 @@ export default {
 
   .green-btn_toukou > i {
     font-size: 18px !important;
+  }
+
+  .filterbtn{
+    color: white;
+    border: solid 1px black;
   }
 
 </style>

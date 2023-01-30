@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
+use DateTime;
 
 class Announce extends Model
 {
@@ -45,7 +46,7 @@ class Announce extends Model
         return $this->belongsTo(AnnounceCategory::class, 'announce_category_id');
     }
 
-    public static function getAnnounce($offset, $limit, $sort, $announceStatus, $announceAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchAnnounceCol, $searchAnnounce, $searchCategory, $shop_id)
+    public static function getAnnounce($offset, $limit, $sort, $announceStatus, $announceAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchAnnounceCol, $searchAnnounce, $searchCategory, $searchRelease, $shop_id)
     {
         $announceModel = Announce::with('add_account', 'upd_account', 'announce_categories')
             ->where('del_flg', false)
@@ -69,7 +70,7 @@ class Announce extends Model
             // 表示条件：全ては条件追加しない
         }
 
-        // 自分の投稿記事取得
+        // 投稿記事検索
         if ($announceAddAccount != "") {
             $announceModel = $announceModel->where('add_account', $announceAddAccount);
         }
@@ -79,7 +80,7 @@ class Announce extends Model
             if ($searchAddDateEnd) {
                 $announceModel = $announceModel
                     ->where("created_at", '>=', $searchAddDateBegin)
-                    ->where("created_at", '<=', $searchAddDateEnd);
+                    ->where("created_at", '<', $searchAddDateEnd);
             }
             $announceModel = $announceModel
                 ->where("created_at", '>=', $searchAddDateBegin);
@@ -90,7 +91,7 @@ class Announce extends Model
             if ($searchUpdDateEnd) {
                 $announceModel = $announceModel
                     ->where("updated_at", '>=', $searchUpdDateBegin)
-                    ->where("updated_at", '<=', $searchUpdDateEnd);
+                    ->where("updated_at", '<', $searchUpdDateEnd);
             }
             $announceModel = $announceModel
                 ->where("updated_at", '>=', $searchUpdDateBegin);
@@ -104,6 +105,20 @@ class Announce extends Model
         // 検索：お知らせカテゴリ
         if ($searchCategory) {
             $announceModel = $announceModel->where("announce_category_id", $searchCategory);
+        }
+
+        //検索：公開/非公開
+        //1なら公開を検索　2は非公開を検索　0は全件表示
+        if($searchRelease != 0){
+            $now = new DateTime();
+            if($searchRelease == 1){
+                $announceModel = $announceModel
+                        ->where("start_date", '<=', $now)
+                        ->where("end_date", '>=', $now);
+            }else if($searchRelease == 2){
+                $announceModel = $announceModel
+                        ->where("start_date", '>=', $now ,"or" , "end_date" , '<=', $now);
+            }
         }
 
         // 並び順処理
@@ -125,5 +140,15 @@ class Announce extends Model
             ->get();
 
         return $announce;
+    }
+
+    public static function getOldestTime($shop_id){
+        $oldestData = Announce::where('del_flg', false)
+        ->where('shop_id', $shop_id)
+        ->orderBy('created_at','asc')
+        ->first();
+
+        return $oldestData;
+
     }
 }

@@ -105,7 +105,6 @@ export default {
     if(authority){
       this.approval_auth_flg = authority.approval_auth_flg;
     }
-    console.log(this.approval_auth_flg)
   },
 }
 </script>

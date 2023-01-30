@@ -158,7 +158,7 @@
                   class="my-3"
                   type="button"
                 >
-                  <v-icon class="announce_action-btn">mdi-dots-horizontal</v-icon>
+                  <v-icon class="announce_action-btn" color="#69a5af">mdi-dots-horizontal</v-icon>
                 </button>
               </template>
               <v-list

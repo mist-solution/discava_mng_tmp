@@ -93,12 +93,12 @@
                     <button
                       v-bind="props"
                       icon
-                      color="#616161"
+                      color="#69a5af"
                       size="x-small"
                       class="my-3"
                       type="button"
                     >
-                      <v-icon x-large>mdi-dots-horizontal</v-icon>
+                      <v-icon x-large color="#69a5af">mdi-dots-horizontal</v-icon>
                     </button>
                   </template>
                   <v-list>

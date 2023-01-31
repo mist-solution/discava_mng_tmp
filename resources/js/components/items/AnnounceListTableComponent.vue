@@ -638,6 +638,8 @@ export default {
           this.$store.dispatch("announce/setTotalCount", res.data.count);
           this.loading = false;
           this.getItems2List();
+          // バリデーションのメッセージを初期化する
+          this.$store.dispatch("announce/setAnnounceErrorMessages", "");
         });
     },
 

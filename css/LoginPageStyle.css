@@ -76,17 +76,8 @@ html.wf-active {
 }
 
 /* ウェブフォント読み込み時の修正 END */
-/* フォントを設定 */
-.font--fammily {
-  /* ヒラギノ角ゴシック */
-  /* Avenir Next、使用：「DISCaVa MATE」タイトルのみ */
-}
-.font--fammily__HN {
-  font-family: "Hiragino Kaku Gothic ProN", sans-serif;
-  font-style: normal;
-}
-.font--fammily__AN {
-  font-family: "AvenirNextLTPro-Regular";
+* {
+  font-family: "Arial", "Hiragino Kaku Gothic ProN", "source-han-sans-japanese", sans-serif;
   font-style: normal;
 }
 
@@ -119,6 +110,7 @@ html.wf-active {
   margin-top: 2rem;
   margin-left: 3px;
   -webkit-text-stroke: 1px #707070;
+  letter-spacing: 1.3px;
 }
 @media (min-width: 280px) and (max-width: 600px) {
   .discavaMate_title {

@@ -11,7 +11,7 @@
           v-model="announce.title"
           :rules="[rules.required]"
           hide-details="false"
-          label="タイトルを入力"
+          placeholder="タイトルを入力"
         />
 
         <QuillEditor

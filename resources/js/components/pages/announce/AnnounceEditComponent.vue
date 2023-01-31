@@ -466,7 +466,7 @@ export default {
         };
 
         this.$axios.put('/api/announce/' + this.announce.id + '/update',
-          postData,
+          formData,
           { headers: { "Content-type": "multipart/form-data", }}
         ).then(response => {
           this.openSuccess('更新しました');

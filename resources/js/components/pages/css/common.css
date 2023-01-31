@@ -114,6 +114,8 @@ a {
     opacity:.8 !important;
     background-color: #69A5AF !important;
     color:#fff !important;
+    transform: translate(0, 3px);
+    transition: 0.3s;
 }
 
 /* 白いボタン */

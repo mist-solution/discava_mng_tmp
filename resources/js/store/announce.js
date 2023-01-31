@@ -21,6 +21,7 @@ const state = {
     approvalAnnounceStatus: "",
     approvalReturnComment: "",
     totalCount: 0,
+    announceErrorMessages: null,
 }
 const getters = {
     getAnnounce: (state) => {
@@ -116,6 +117,9 @@ const mutations = {
     setTotalCount(state, count) {
         state.totalCount = count;
     },
+    setAnnounceErrorMessages(state, messages) {
+        state.announceErrorMessages = messages;
+    }
 }
 const actions = {
     async getAnnounce(context, id) {
@@ -184,7 +188,10 @@ const actions = {
     },
     setTotalCount(context, count) {
         context.commit('setTotalCount', count)
-    }
+    },
+    setAnnounceErrorMessages(context, messages) {
+        context.commit('setAnnounceErrorMessages', messages)
+    },
 }
 
 export default {

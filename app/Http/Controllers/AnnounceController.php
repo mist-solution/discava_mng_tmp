@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Storage;
 use App\Http\Controllers\API\AuthorityController;
 use App\Models\AnnounceAttachment;
+use App\Http\Requests\AnnounceRequest;
 
 class AnnounceController extends Controller
 {
@@ -156,8 +157,8 @@ class AnnounceController extends Controller
         Log::info('ファイル');
         Log::info(print_r($attachments, true));
 
-	// multipart/form-dataだとマルチバイトが文字化けする対応
-	// VueでHTMLエンコード→PHPでHTMLデコードする。
+        // multipart/form-dataだとマルチバイトが文字化けする対応
+        // VueでHTMLエンコード→PHPでHTMLデコードする。
         $regist['title'] = urldecode($announce['title']);
         $regist['announce_category_id'] = $announce['announce_category_id'];
         $regist['start_date'] = $announce['start_date'];
@@ -181,7 +182,7 @@ class AnnounceController extends Controller
 
         if ($thumbnail) {
             Log::info('サムネイル アップロード');
-            $path = Storage::putFile('announce/'.$regist['shop_id']."/".$regist['id']."/thumbnail", $thumbnail);
+            $path = Storage::putFile('announce/' . $regist['shop_id'] . "/" . $regist['id'] . "/thumbnail", $thumbnail);
             Log::info($path);
             $regist['thumbnail_img_path'] = $path;
             $regist->save();
@@ -192,7 +193,7 @@ class AnnounceController extends Controller
             Log::info(print_r($key, true));
             Log::info(print_r($value, true));
 
-            $path = Storage::putFile('announce/'.$regist['shop_id']."/".$regist['id']."/attachments", $value);
+            $path = Storage::putFile('announce/' . $regist['shop_id'] . "/" . $regist['id'] . "/attachments", $value);
             Log::info($path);
 
             $attach = new AnnounceAttachment();
@@ -229,9 +230,17 @@ class AnnounceController extends Controller
         Log::debug(print_r($update, true));
     }
 
-    public function oldestAnnounce(Request $request){
+    public function oldestAnnounce(Request $request)
+    {
         $shop_id = $request->session()->get('shop_id');
         $oldestData = Announce::getOldestTime($shop_id);
         return $oldestData;
+    }
+
+    // バリデーションリクエスト
+    public function store(AnnounceRequest $request)
+    {
+        log::info("REQUEST OK");
+        return true;
     }
 }

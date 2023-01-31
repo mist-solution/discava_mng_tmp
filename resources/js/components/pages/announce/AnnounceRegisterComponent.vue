@@ -3,6 +3,8 @@
   <div>
     <div class="edit-title">
       <h3 class="h4 mb-2 mb-sm-5 mt-2 mt-sm-5 text-gray font-weight-bold">新規投稿</h3>
+      <!-- エラーメッセージ -->
+      <validation-errors :errors="validationErrors" v-if="validationErrors"/>
     </div>
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">
@@ -231,13 +233,14 @@
 <style src="../css/common.css"></style>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import DatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
 import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
+import ValidationErrors from "../../ValidationErrors.vue";
 
 export default {
   
@@ -245,6 +248,7 @@ export default {
     QuillEditor,
     DatePicker,
     AnnouncePreviewModalComponent,
+    ValidationErrors,
   },
   data() {
     return {
@@ -286,6 +290,31 @@ export default {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
         if (!res.valid) {
+          // 必須項目を取得
+          if (this.announce.contents === "<p><br></p>"){
+            this.announce.contents = null
+          }
+          const validateItem = {
+            title: this.announce.title,
+            announce_category_id: this.announce.announce_category_id,
+            start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : '',
+            end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
+            contents: this.announce.contents,
+            thumbnail_file_name: this.file ? this.file.name : null,
+          };
+
+          // 必須項目を検証する
+          axios.post('/api/announce/validation',validateItem )
+          .then(response => {
+              console.log(response);
+          })
+          .catch(error => {
+            if (error.response.status !== 422) {
+              console.error(error);
+            } else {
+              this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+            }
+          });
           console.log("invalid!");
           return;
         }
@@ -323,6 +352,9 @@ export default {
             this.openSuccess('登録しました');
             // お知らせ一覧画面に遷移
             this.$router.push({ name: 'announce.list' })
+
+            // バリデーションのメッセージを初期化する
+            this.$store.dispatch("announce/setAnnounceErrorMessages", "");
           })
           .catch(error => {
             console.log(error);
@@ -424,6 +456,9 @@ export default {
   },
   computed: {
     ...mapGetters("announceCategory", ["getCategories"]),
+    ...mapState({
+      validationErrors: state => state.announce.announceErrorMessages
+    }),
     editor() {
       return this.$refs.myQuillEditor.quill;
     },

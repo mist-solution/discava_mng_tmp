@@ -82,10 +82,12 @@ Route::put('/api/announce/{id}/update', [AnnounceController::class, 'update']);
 Route::put('/api/announce/{announce}/request', [AnnounceController::class, 'request']);
 // 取り下げる
 Route::put('/api/announce/{announce}/cansel', [AnnounceController::class, 'cansel']);
-// お知らせカテゴリ取得
 Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
 
 Route::get('/api/oldestAnnounce', [AnnounceController::class, 'oldestAnnounce']);
+
+// お知らせ新規登録・編集のバリデーションAPI
+Route::post('/api/announce/validation', [AnnounceController::class, 'store']);
 
 //------------------------------------------------
 // WebAPI関連

@@ -53,6 +53,10 @@ Route::post('/api/enduser', [UserController::class, 'register']);
 Route::put('/api/enduser/{id}', [UserController::class, 'update']);
 Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
 Route::delete('/api/enduser/{id}', [UserController::class, 'deleteAccount']);
+// アカウント新規登録・編集のバリデーションAPI
+Route::post('/api/enduser/registValidation', [UserController::class, 'registStore']);
+Route::post('/api/enduser/updateValidation', [UserController::class, 'updateStore']);
+
 Route::get('/api/loginuserinfo', [UserController::class, 'getUserInfo']);
 
 Route::get('/api/authoritySet', [AuthoritySetController::class, 'getAll']);

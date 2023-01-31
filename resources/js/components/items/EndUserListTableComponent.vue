@@ -133,6 +133,8 @@
   					// this.$store.dispatch("announce/setTotalCount", res.data.count);
   					// this.loading = false;
           });
+        // バリデーションのメッセージを初期化する
+        this.$store.dispatch("enduser/setEndUserErrorMessages", "");
       },
       // 選択した記事をstoreに設定
       setSelectItems() {

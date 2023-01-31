@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\EndUserRegistRequest;
+use App\Http\Requests\EndUserUpdateRequest;
 
 class UserController extends Controller
 {
@@ -69,7 +71,7 @@ class UserController extends Controller
     public function register(Request $request)
     {
         \Debugbar::info("info");
-//        log::info("呼ばれてる");
+        //        log::info("呼ばれてる");
         $password = Hash::make($request['password']);
 
         $user = new User();
@@ -90,15 +92,15 @@ class UserController extends Controller
 
         $user->save();
 
-//        log::info("ユーザー登録完了");
+        //        log::info("ユーザー登録完了");
         $shopList = $request['shopList'];
 
-//        Log::info($shopList);
-        for($i = 0 ; $i < count($shopList); $i++) {
+        //        Log::info($shopList);
+        for ($i = 0; $i < count($shopList); $i++) {
             $shopUser = new ShopUser();
 
             // 該当なしはスキップ
-            if(strcmp($shopList[$i]['model'], "none") == 0) {
+            if (strcmp($shopList[$i]['model'], "none") == 0) {
                 continue;
             }
 
@@ -140,25 +142,23 @@ class UserController extends Controller
 
         ShopUser::where('user_id', $id)->delete();
 
-        for($i = 0 ; $i < count($shopList); $i++) {
-                $shops = new ShopUser();
-                $shops['customer_id'] = Auth::user()->customer_id;
-                $shops['shop_id'] = $shopList[$i]['id'];
-                $shops['user_id'] = $id;
-                $shops['authority_set_id'] = $shopList[$i]['model'];
-                $shops['add_account'] = Auth::user()->id;
-                $shops['upd_account'] = Auth::user()->id;
-                $shops['del_flg'] = '0';
-                $shops['created_at'] = new DateTime();
-                $shops['updated_at'] = new DateTime();
+        for ($i = 0; $i < count($shopList); $i++) {
+            $shops = new ShopUser();
+            $shops['customer_id'] = Auth::user()->customer_id;
+            $shops['shop_id'] = $shopList[$i]['id'];
+            $shops['user_id'] = $id;
+            $shops['authority_set_id'] = $shopList[$i]['model'];
+            $shops['add_account'] = Auth::user()->id;
+            $shops['upd_account'] = Auth::user()->id;
+            $shops['del_flg'] = '0';
+            $shops['created_at'] = new DateTime();
+            $shops['updated_at'] = new DateTime();
 
-                if($shops['authority_set_id'] === "none"){
-
-                }else{
-                    $shops->save();
-                }
+            if ($shops['authority_set_id'] === "none") {
+            } else {
+                $shops->save();
+            }
         }
-
     }
 
     /**
@@ -174,7 +174,7 @@ class UserController extends Controller
         ShopUser::whereIn('user_id', $user_ids)->delete();
 
         // 対象ユーザの論理削除
-        for($i = 0; $i < count($user_ids); $i++) {
+        for ($i = 0; $i < count($user_ids); $i++) {
             // ユーザ情報を取得
             $user = User::where('id', $user_ids[$i])->first();
             // 誤って削除した場合など、同じメールアドレスを再使用することが考えられるため、IDとタイムスタンプで更新する。
@@ -188,7 +188,7 @@ class UserController extends Controller
         Log::debug(print_r($user_ids, true));
     }
 
-        /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -212,23 +212,35 @@ class UserController extends Controller
     }
 
     //sessionのUser_idからログインユーザーの情報取得
-    public function getUserInfo(Request $request){
+    public function getUserInfo(Request $request)
+    {
         $userId = $request->session()->get('user_id');
         $response = array();
-        
-        $UserInfo = User::where('id',$userId)
+
+        $UserInfo = User::where('id', $userId)
             ->get();
-        
+
         $userInfoArray = array();
         foreach ($UserInfo as $key => $value) {
             $userData = array();
             $userData['name'] = $value->name;
             $userInfoArray[] = $userData;
         }
-        
+
         $response['userInfo'] = $userInfoArray;
         $response['message'] = 'success_ui';
         return new JsonResponse($response);
+    }
 
+    // バリデーションリクエスト(アカウント追加)
+    public function registStore(EndUserRegistRequest $request)
+    {
+        return true;
+    }
+
+    // バリデーションリクエスト(アカウント更新)
+    public function updateStore(EndUserUpdateRequest $request)
+    {
+        return true;
     }
 }

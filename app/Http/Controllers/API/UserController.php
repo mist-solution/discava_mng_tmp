@@ -97,6 +97,11 @@ class UserController extends Controller
         for($i = 0 ; $i < count($shopList); $i++) {
             $shopUser = new ShopUser();
 
+            // 該当なしはスキップ
+            if(strcmp($shopList[$i]['model'], "none") == 0) {
+                continue;
+            }
+
             $shopUser['customer_id'] = Auth::user()->customer_id;
             $shopUser['shop_id'] = $shopList[$i]['id'];
             $shopUser['user_id'] = DB::table('users')->latest('id')->first()->id;

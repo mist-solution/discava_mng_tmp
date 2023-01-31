@@ -211,11 +211,11 @@ export default {
           this.openSuccess('登録しました');
           this.$router.push('/enduser');
 //          this.fetchUsers();
-       })
+        })
         .catch(error => {
           console.log(error);
         });
-       });
+      });
     },
     // 入力内容と検証エラーをリセットするメソッド
     reset() {
@@ -248,7 +248,7 @@ export default {
     await this.fetchShops();
     this.forms.shopList = this.getShops;
     this.forms.shopList.forEach(function(value){
-      value.model = { id: 'none', name: '該当なし'};
+      value.model = 'none';
     });
   },
 }

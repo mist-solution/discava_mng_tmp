@@ -16,7 +16,7 @@
     />
 
     <!-- 投稿ボタン -->
-    <v-card-title class="ml-0 pl-0" width="80%">
+    <v-card-title class="ml-0 pl-0 pc_btn" width="80%" v-if="!moblieFlg()">
       <div class="btn-group ml-auto" v-if="create_auth_flg">
         <router-link v-bind:to="{ name: 'announce.register' }" class="mt-2">
           <button class="btn green-btn_toukou mr-2 px-4 justify-center">
@@ -25,23 +25,25 @@
           </button>
         </router-link>
       </div>
-      <!-- 検索ボタン（spのみ） -->
-      <div class="btn-group ml-auto" @click="(displayAnnounceFilter = true)" v-if="moblieFlg()">
-        <button class="btn filterbtn mr-2 px-4 justify-center">
-          <v-icon color="black" x-small class="pb-1">mdi-magnify</v-icon>
-        </button>
-      </div>
+      <v-col align="right" class="mr-2 displaycount">
+        <input
+          class="LimitCount"
+          type="number"
+          Style="text-align:right"
+          aria-label="Search"
+          maxlength="2"
+          hide-details="false"
+          v-model="perRowPage"
+          @change = "RowPageChange"
+        />件表示
+      </v-col>
     </v-card-title>
 
-
-    <!-- 表示件数 -->
-    <v-row justify="end">
-      <v-col align="right" class="mr-2">
-        合計件数： {{  $store.state.announce.totalCount }}
-      </v-col>
-    </v-row>
-
     <v-row v-if="!moblieFlg()">
+      <v-col align="left">
+        全 {{  $store.state.announce.totalCount }} 件
+      </v-col>
+
       <v-select
         dense
         :items="items2"
@@ -94,8 +96,43 @@
         type="button"
         @click="FilterAnnounce()"
       >
-        実行
+        検索
       </button>
+    </v-row>
+
+    <v-row v-if="moblieFlg()" class="sp_btn">
+      <!-- 検索ボタン（spのみ） -->
+      <v-col>
+        <div class="btn-group ml-auto" @click="(displayAnnounceFilter = true)">
+          <button class="btn filterbtn mr-2 px-4 justify-center">
+            <v-icon color="black" x-small class="pb-1">mdi-magnify</v-icon>
+          </button>
+        </div>
+      </v-col>
+
+      <v-col>
+        <input
+          class="LimitCount"
+          type="number"
+          aria-label="Search"
+          maxlength="2"
+          hide-details="false"
+          Style="text-align:right"
+          v-model="perRowPage"
+          @change = "RowPageChange"
+        /> / {{  $store.state.announce.totalCount }} 件
+      </v-col>
+
+        <v-card-title class="ml-0 pl-0" width="60%">
+        <div class="btn-group ml-auto" v-if="create_auth_flg">
+          <router-link v-bind:to="{ name: 'announce.register' }" class="mt-2">
+            <button class="btn green-btn_toukou mr-2 px-4 justify-center">
+              <v-icon color="white" x-small class="pb-1">mdi-pencil</v-icon>
+              投稿
+            </button>
+          </router-link>
+        </div>
+        </v-card-title>
     </v-row>
 
     <!-- テーブル -->
@@ -177,6 +214,7 @@ export default {
       user_id: "",
       release_id: "",
       displayAnnounceFilter: false,
+      perRowPage: 25,
     };
   },
   computed:{
@@ -319,6 +357,11 @@ export default {
     closeFilter(){
       this.displayAnnounceFilter = false;
     },
+    
+    RowPageChange(){
+      this.$store.dispatch("announce/setDisplayLimit", this.perRowPage);
+    }
+    
   },
   async created(){
     this.fetchCategoriesWithAll();
@@ -380,6 +423,24 @@ export default {
   .filterbtn{
     color: white;
     border: solid 1px black;
+  }
+
+  .LimitCount{
+    background-color: white;
+    border: solid 1px black;
+    width: 50px
+  }
+
+  .pc_btn{
+    display: flex;
+  }
+
+  .sp_btn{
+    align-items: flex-end;
+  }
+
+  .displaycount{
+    transform: scale(85%);
   }
 
 </style>

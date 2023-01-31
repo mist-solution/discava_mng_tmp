@@ -5,6 +5,7 @@ const state = {
     deleteUserId: "",
     userInfo: null,
     endUserErrorMessages: null,
+    displayLimit: 10,
 }
 const getters = {
     getUsers: (state) => {
@@ -12,7 +13,8 @@ const getters = {
     },
     getUserInfo: (state) => {
         return state.userInfo;
-    }
+    },
+    displayLimit: (state) => state.displayLimit,
     //    getUserById: (state) => (id) => {
     //        const user = state.users.find((user) => {
     //            return user.id == id
@@ -29,6 +31,9 @@ const actions = {
         axios.get('/api/enduser').then((res) => {
             context.commit('setUsers', res.data.users);
         })
+    },
+    setDisplayLimit(context, count) {
+        context.commit('setDisplayLimit', count);
     },
     setDeleteUserId(context, deleteUserId) {
         context.commit('setDeleteUserId', deleteUserId);
@@ -66,7 +71,10 @@ const mutations = {
     },
     setEndUserErrorMessages(state, messages) {
         state.endUserErrorMessages = messages;
-    }
+    },
+    setDisplayLimit(state, count) {
+        state.displayLimit = count;
+    },
 }
 
 export default {

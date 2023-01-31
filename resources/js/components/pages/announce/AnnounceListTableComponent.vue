@@ -41,6 +41,7 @@
   <v-row>
     <v-col class="pt-0">
       <EasyDataTable
+        v-if="reset"
         ref="dataTable"
         v-model:items-selected="selected"
         :headers="headers"
@@ -52,6 +53,7 @@
         :search-field="searchField"
   			:search-value="searchText"
         dense
+        :rowsPerPage="rowsPerPage"
         class="announce-table"
       >
         <template #loading>
@@ -507,6 +509,8 @@ export default {
       dataTable: [],
       clientItemsLength: null,
       operate_id: null,
+      rowsPerPage: 25,
+      reset: true,
     };
   },
   computed: {
@@ -552,7 +556,10 @@ export default {
   },
   watch: {
     displayLimit() {
+      this.rowsPerPage = this.$store.state.announce.displayLimit;
       this.getAnnounceList();
+      this.reset = false;
+      this.$nextTick(() => (this.reset = true));
     },
     displaySort() {
       this.getAnnounceList();

@@ -5,6 +5,8 @@
                 name = "アカウント更新"
               />
             </div>
+            <!-- エラーメッセージ -->
+            <validation-errors :errors="validationErrors" v-if="validationErrors"/>
                     <v-form ref="form" v-model="valid">
                       <div class="card main-cont pr-md-12 pl-md-12 pr-5 pl-5 pt-6 pb-10 auth-re text-gray">
                           <v-row align-sm="center" class="mb-4">
@@ -84,8 +86,10 @@
 <style src="../css/common.css"></style>
 <style src="../css/input-reset.css"></style>
 <script>
-import { mapActions, mapGetters } from "vuex";
-import TitleComponent from "../../common/TitleComponent.vue"
+import { mapActions, mapGetters, mapState } from "vuex";
+import TitleComponent from "../../common/TitleComponent.vue";
+import ValidationErrors from "../../ValidationErrors.vue";
+
 export default {
   props: {
     userId: String,
@@ -116,7 +120,8 @@ export default {
     }
   },
   components: {
-        TitleComponent
+        TitleComponent,
+        ValidationErrors,
       },
   methods: {
     ...mapActions('enduser', ['getUserById']),
@@ -128,6 +133,26 @@ export default {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
         if (!res.valid) {
+          // 必須項目を取得
+          const validateItem = {
+            name: this.forms.name,
+            email: this.forms.email,
+            shopList:this.forms.shopList,
+          };
+          console.log(validateItem);
+
+          // 必須項目を検証する
+          axios.post('/api/enduser/updateValidation',validateItem )
+          .then(response => {
+              console.log(response);
+          })
+          .catch(error => {
+            if (error.response.status !== 422) {
+              console.error(error);
+            } else {
+              this.$store.dispatch("enduser/setEndUserErrorMessages", error.response.data.errors);
+            }
+          });
           console.log("invalid!");
           return;
         }
@@ -135,6 +160,8 @@ export default {
             .then(response => {
                 this.openSuccess('更新しました');
                 this.$router.push('/enduser');
+                // バリデーションのメッセージを初期化する
+                this.$store.dispatch("enduser/setEndUserErrorMessages", "");
             })
             .catch(error => {
                 console.log(error);
@@ -153,6 +180,9 @@ export default {
     ...mapGetters('customer', ['getCustomers']),
     ...mapGetters('authoritySet', ['getAuthoritySetDisplay']),
     ...mapGetters('shop', ['getShops', 'getShopUsers']),
+    ...mapState({
+      validationErrors: state => state.enduser.endUserErrorMessages
+    }),
   },
   async mounted() {
 //    this.getUser();

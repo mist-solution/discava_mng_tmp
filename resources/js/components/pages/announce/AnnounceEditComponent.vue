@@ -1,32 +1,71 @@
 
 <template>
-  <div class="edit-title mt-5">
-    <h3 class="my-5 font-weight-bold">投稿者　の投稿記事を編集</h3>
-  </div>
+  <div>
+    <div class="edit-title mt-5">
+      <h3 class="my-5 font-weight-bold">投稿者　の投稿記事を編集</h3>
+      <!-- エラーメッセージ -->
+    <validation-errors :errors="validationErrors" v-if="validationErrors"/>
+    </div>
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">
+        <v-text-field
+          dense
+          v-model="announce.title"
+          :rules="[rules.required]"
+          hide-details="false"
+          placeholder="タイトルを入力"
+        />
+        <QuillEditor
+          toolbar="full"
+          class="ql-editor p-0"
+          v-model="contents"
+          ref="myQuillEditor"
+          :options="editorOption"
+          :rules="[rules.required]"
+          @blur="onEditorBlur($event)"
+          @focus="onEditorFocus($event)"
+          @change="onEditorChange($event)"
+        >
+        </QuillEditor>
 
-            <v-text-field
-              dense
-              v-model="announce.title"
-              :rules="[rules.required]"
-              hide-details="false"
-              placeholder="タイトルを入力"
-            />
-
-            <QuillEditor
-              toolbar="full"
-              class="ql-editor p-0"
-              v-model="contents"
-              ref="myQuillEditor"
-              :options="editorOption"
-              :rules="[rules.required]"
-              @blur="onEditorBlur($event)"
-              @focus="onEditorFocus($event)"
-              @change="onEditorChange($event)"
+        <!-- 添付ファイルのドラッグ＆ドロップ -->
+        <!-- ドラッグ＆ドロップでのファイル複数指定に対応のため dragover.prevent でイベントを無くす -->
+        <div class="p-3" @dragover.prevent="over" @dragleave.prevent="leave" @drop.prevent="upload($event)">
+            <!-- 添付ファイルをここにドラッグ＆ドロップ または -->
+            <!-- ファイルを追加 -->
+            <v-btn
+                depressed
+                small
+                elevation=1
+                @click="selectfile()"
             >
-            </QuillEditor>
-
+            ファイル選択
+            </v-btn>
+            <input id="file_input" type="file" accept="image/*" hidden multiple @change.prevent="addfile()">
+        </div>
+        <div class="p-3">
+          <EasyDataTable
+            v-if="attachments.length > 0"
+            :headers="headers"
+            :items="attachments"
+            :rows-per-page="100"
+            hide-footer
+            dense
+            no-data-text=""
+          >
+            <template #item-action="item">
+              <!-- 削除ボタン -->
+              <v-btn
+                x-small
+                dark
+                elevation=0
+                @click="deletefile()"
+              >
+                <v-icon>mdi-trash-can-outline</v-icon>
+              </v-btn>
+            </template>
+          </EasyDataTable>
+        </div>
       </v-card>
       <v-card class="main-cont mt-5 mt-sm-0 p-3">
         <v-row>
@@ -98,8 +137,8 @@
                         hide-details="false"
                     />
                   </v-col>
-                  <v-col cols="2" class="p-0">
-                    <p class="text-gray">時</p>
+                  <v-col cols="2" class="p-0 text-gray">
+                    <p>時</p>
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <v-text-field
@@ -107,8 +146,8 @@
                         hide-details="false"
                     />
                   </v-col>
-                  <v-col cols="2" class="p-0">
-                    <p class="text-gray">分</p>
+                  <v-col cols="2" class="p-0 text-gray">
+                    <p>分</p>
                   </v-col>
                 </v-row>
               </v-col>
@@ -279,34 +318,34 @@
         v-html="contents"
         @change="getQuillEditorContent()"
       >
-      </div>
-    </div> -->
+      </div> -->
+  </div>
 
-    <!-- プレビュー画面モーダル -->
-    <announce-preview-modal-component
-      :modelValue="displayAnnouncePreview"
-      @update:modelValue="displayAnnouncePreview = $event"
-      :closeAction="closePreview"
-      :contents="contents"
-      :start_date="announce.start_date"
-      :end_date="announce.end_date"
-      :username="username"
-    />
+  <!-- プレビュー画面モーダル -->
+  <announce-preview-modal-component
+    :modelValue="displayAnnouncePreview"
+    @update:modelValue="displayAnnouncePreview = $event"
+    :closeAction="closePreview"
+    :contents="contents"
+    :start_date="announce.start_date"
+    :end_date="announce.end_date"
+    :username="username"
+  />
 
-    <!-- 差し戻しモーダル -->
-    <announce-approval-return-confirm-modal-component
-      :modelValue="displayAnnounceReturnApprovalConfirm"
-      @update:modelValue="displayAnnounceReturnApprovalConfirm = $event"
-      :closeAction="closeReturn"
-      :approvalReturn="approvalReturn"
-    />
+  <!-- 差し戻しモーダル -->
+  <announce-approval-return-confirm-modal-component
+    :modelValue="displayAnnounceReturnApprovalConfirm"
+    @update:modelValue="displayAnnounceReturnApprovalConfirm = $event"
+    :closeAction="closeReturn"
+    :approvalReturn="approvalReturn"
+  />
 
 </template>
 
 <script>
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import DatePicker from '@vuepic/vue-datepicker';
@@ -314,6 +353,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
 import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue";
 import AnnounceApprovalReturnConfirmModalComponent from "../../modals/AnnounceApprovalReturnConfirmModalComponent.vue";
+import ValidationErrors from "../../ValidationErrors.vue";
 
 export default {
   components: {
@@ -322,6 +362,7 @@ export default {
     'vue-ctk-date-time-picker': VueCtkDateTimePicker,
     AnnouncePreviewModalComponent,
     AnnounceApprovalReturnConfirmModalComponent,
+    ValidationErrors,
   },
   props: {
     announceId: String,
@@ -344,6 +385,11 @@ export default {
       displayAnnouncePreview: false,
       displayAnnounceReturnApprovalConfirm: false,
       username: null,
+      attachments: [],
+      headers: [
+          { text: 'ファイル名', value: 'name', align: 'left', class: 'no-wrap', sortable: false },
+          { text: '', value: 'action', align: 'right', class: 'action', sortable: false },
+      ],
     };
   },
   methods: {
@@ -363,25 +409,75 @@ export default {
       console.log(localStorage.getItem('auth'));
       validateRes.then(res => {
         if (!res.valid) {
+          // 必須項目を取得
+          if (this.announce.contents === "<p><br></p>"){
+            this.announce.contents = null
+          }
+          const validateItem = {
+            title: this.announce.title,
+            announce_category_id: this.announce.announce_category_id,
+            start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : '',
+            end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
+            contents: this.announce.contents,
+            thumbnail_file_name: this.file ? this.file.name : null,
+          };
+
+          // 必須項目を検証する
+          axios.post('/api/announce/validation',validateItem )
+          .then(response => {
+              console.log(response);
+          })
+          .catch(error => {
+            if (error.response.status !== 422) {
+              console.error(error);
+            } else {
+              this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+            }
+          });
           console.log("invalid!");
           return;
         }
-        const postData = {
-          title: this.announce.title,
+        let formData = new FormData();
+        const item = {
+          title: encodeURIComponent(this.announce.title),
           announce_category_id: this.announce.announce_category_id,
           start_date: moment(this.announce.start_date).format("yyyy-MM-DD"),
           end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
-          contents: this.announce.contents,
+          contents: encodeURIComponent(this.announce.contents),
+          thumbnail_file_name: this.file ? this.file.name : null,
         }
-        this.$axios.put('/api/announce/' + this.announce.id + '/update', postData)
-          .then(response => {
-            this.openSuccess('更新しました');
-            // お知らせ一覧画面に遷移
-            this.$router.push({ name: 'announce.list' })
-          })
-          .catch(error => {
-            console.log(error);
-          });
+        formData.append("announce", JSON.stringify(item));
+
+        console.log(this.file)
+        if (this.file) {
+          formData.append("thumbnail_file", this.file);
+        }
+
+        for (let i = 0; i < this.attachments.length; i++) {
+          formData.append('attachments[' + i + ']', this.attachments[i]);
+        }
+        console.log(formData)
+
+        const config = {
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        };
+
+        this.$axios.put('/api/announce/' + this.announce.id + '/update',
+          formData,
+          { headers: { "Content-type": "multipart/form-data", }}
+        ).then(response => {
+          this.openSuccess('更新しました');
+          // お知らせ一覧画面に遷移
+          this.$router.push({ name: 'announce.list' })
+
+            // バリデーションのメッセージを初期化する
+            this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+        })
+        .catch(error => {
+          console.log(error);
+        });
       });
     },
     readImage() {
@@ -421,15 +517,57 @@ export default {
       this.announce.start_date = start;
       this.announce.end_date = end;
       this.username = this.username;
-      },
+    },
+
+    format(date) {
+      return moment(date).format('yyyy/MM/DD');
+    },
 
     // プレビュー画面を閉じる
     closePreview(){
       this.displayAnnouncePreview = false;
     },
 
-    format(date) {
-      return moment(date).format('yyyy/MM/DD');
+    // ドラッグ＆ドロップでファイルを追加
+    upload: function(event) {
+        const files = event.dataTransfer.files;
+        for (const file of files) {
+          this.attachments.push(file);
+        }
+        this.leave(event);
+    },
+    // ファイルを追加ボタン押下
+    selectfile: function() {
+        const fileInput = document.getElementById("file_input")
+        if (fileInput != null) {
+            fileInput.click()
+        }
+    },
+    // ファイルを追加ボタンでファイルを追加
+    addfile: function() {
+        const fileInput = document.getElementById("file_input")
+        for (const file of fileInput.files) {
+          this.attachments.push(file);
+          // 表示用タグとして本文に追加
+          let text = this.$refs.myQuillEditor.getText();
+          text = text + '\n' + '[['+file.name+']]';
+          this.$refs.myQuillEditor.setText(text);
+        }
+    },
+    // 削除ボタン押下
+    deletefile: function(item) {
+      const index = this.attachments.indexOf(item);
+      this.attachments.splice(index, 1);
+    },
+    over: function(event) {
+        if (event.target.classList && event.target.classList.contains("file-upload")) {
+            event.target.style.backgroundColor = '#CE93D8'
+        }
+    },
+    leave: function(event) {
+        if (event.target.classList && event.target.classList.contains("file-upload")) {
+            event.target.style.backgroundColor = ''
+        }
     },
 
     // 差戻し確認ダイアログに渡すIDをstoreに設定
@@ -472,6 +610,9 @@ export default {
   },
   computed: {
     ...mapGetters("announceCategory", ["getCategories"]),
+    ...mapState({
+      validationErrors: state => state.announce.announceErrorMessages
+    }),
     editor() {
       return this.$refs.myQuillEditor.quill;
     },

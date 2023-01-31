@@ -14,7 +14,8 @@
 			dense
 			:search-field="searchField"
 			:search-value="searchValue"
-			:rows-per-page=10
+			:rows-per-page="rowsPerPage"
+      v-if="reset"
 		>
 			<!-- <template #item-title="item">
 					<router-link :to="{ name: 'enduser.edit', params: { announceId: item.id } }">
@@ -110,11 +111,21 @@
         themeColor: "#69A5AF",
         searchField: "name",
         approval_auth_flg: null,
+        rowsPerPage: 10,
+        reset: true,
       };
     },
     computed: {
+      displayLimit() {
+        return this.$store.state.enduser.displayLimit;
+      },
     },
     watch: {
+      displayLimit() {
+        this.rowsPerPage = this.$store.state.enduser.displayLimit;
+        this.reset = false;
+        this.$nextTick(() => (this.reset = true));
+      },
     },
     methods: {
       ...mapActions('authority', ['fetchAllAuthority']),
@@ -133,6 +144,8 @@
   					// this.$store.dispatch("announce/setTotalCount", res.data.count);
   					// this.loading = false;
           });
+        // バリデーションのメッセージを初期化する
+        this.$store.dispatch("enduser/setEndUserErrorMessages", "");
       },
       // 選択した記事をstoreに設定
       setSelectItems() {

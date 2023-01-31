@@ -3,6 +3,8 @@
   <div>
     <div class="edit-title">
       <h3 class="h4 my-5 text-gray font-weight-bold">新規投稿</h3>
+      <!-- エラーメッセージ -->
+      <validation-errors :errors="validationErrors" v-if="validationErrors"/>
     </div>
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">
@@ -191,16 +193,19 @@
           </v-col>
         </v-row>
 
-          <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-4">
-            <v-col cols="11" class="pt-0 px-0">
-              <button class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">プレビュー</button>
-            </v-col>
-            <v-col cols="11" class="pt-0 px-0">
-              <button class="btn green-btn pr-0 pl-0" @click="submit(2)">下書き保存</button>
-            </v-col>
-            <v-col cols="11" class="pt-0 px-0">
-              <button class="btn green-btn" @click="submit(1)">登録する</button>
-            </v-col>
+        <!-- 操作エリア -->
+        <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-4">
+          <v-col cols="11" class="pt-0 px-0">
+            <button class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">
+              プレビュー
+            </button>
+          </v-col>
+          <v-col cols="11" class="pt-0 px-0">
+            <button class="btn green-btn pr-0 pl-0" @click="submit(2)">下書き保存</button>
+          </v-col>
+          <v-col cols="11" class="pt-0 px-0">
+            <button class="btn green-btn" @click="submit(1)">登録する</button>
+          </v-col>
         </v-row>
       </v-card>
     </v-form>
@@ -217,27 +222,28 @@
   </div>
 
   <!-- プレビュー画面モーダル -->
-    <announce-preview-modal-component
-      :modelValue="displayAnnouncePreview"
-      @update:modelValue="displayAnnouncePreview = $event"
-      :closeAction="closePreview"
-      :contents="contents"
-      :start_date="announce.start_date"
-      :end_date="announce.end_date"
-      :username="username"
-    />
+  <announce-preview-modal-component
+    :modelValue="displayAnnouncePreview"
+    @update:modelValue="displayAnnouncePreview = $event"
+    :closeAction="closePreview"
+    :contents="contents"
+    :start_date="announce.start_date"
+    :end_date="announce.end_date"
+    :username="username"
+  />
 </template>
 
 <style src="../css/common.css"></style>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import DatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
 import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
+import ValidationErrors from "../../ValidationErrors.vue";
 
 export default {
   
@@ -245,6 +251,7 @@ export default {
     QuillEditor,
     DatePicker,
     AnnouncePreviewModalComponent,
+    ValidationErrors,
   },
   data() {
     return {
@@ -286,6 +293,31 @@ export default {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
         if (!res.valid) {
+          // 必須項目を取得
+          if (this.announce.contents === "<p><br></p>"){
+            this.announce.contents = null
+          }
+          const validateItem = {
+            title: this.announce.title,
+            announce_category_id: this.announce.announce_category_id,
+            start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : '',
+            end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
+            contents: this.announce.contents,
+            thumbnail_file_name: this.file ? this.file.name : null,
+          };
+
+          // 必須項目を検証する
+          axios.post('/api/announce/validation',validateItem )
+          .then(response => {
+              console.log(response);
+          })
+          .catch(error => {
+            if (error.response.status !== 422) {
+              console.error(error);
+            } else {
+              this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+            }
+          });
           console.log("invalid!");
           return;
         }
@@ -318,15 +350,20 @@ export default {
         };
 
         // axios.post('/api/announce', formData, config)
-        axios.post('/api/announce/regist', formData, { headers: { "Content-type": "multipart/form-data", }})
-          .then(response => {
-            this.openSuccess('登録しました');
-            // お知らせ一覧画面に遷移
-            this.$router.push({ name: 'announce.list' })
-          })
-          .catch(error => {
-            console.log(error);
-          });
+        axios.post('/api/announce/regist',
+          formData,
+          { headers: { "Content-type": "multipart/form-data", }}
+        ).then(response => {
+          this.openSuccess('登録しました');
+          // お知らせ一覧画面に遷移
+          this.$router.push({ name: 'announce.list' })
+
+            // バリデーションのメッセージを初期化する
+            this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+        })
+        .catch(error => {
+          console.log(error);
+        });
       });
     },
     readImage() {
@@ -367,11 +404,11 @@ export default {
       this.username = this.username;
     },
 
-    click() {
-      console.log("click!");
-      console.log(this.announce.thumbnail_file);
-      console.log(this.announce.thumbnail_file["0"].name);
-    },
+    // click() {
+    //   console.log("click!");
+    //   console.log(this.announce.thumbnail_file);
+    //   console.log(this.announce.thumbnail_file["0"].name);
+    // },
 
     format(date) {
       return moment(date).format('yyyy/MM/DD');
@@ -424,6 +461,9 @@ export default {
   },
   computed: {
     ...mapGetters("announceCategory", ["getCategories"]),
+    ...mapState({
+      validationErrors: state => state.announce.announceErrorMessages
+    }),
     editor() {
       return this.$refs.myQuillEditor.quill;
     },

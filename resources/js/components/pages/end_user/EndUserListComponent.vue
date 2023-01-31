@@ -70,6 +70,18 @@
       <p class="m-0 px-2">件表示</p>
     </v-col>
 -->
+    <v-col align="right" class="mr-2">
+      <input
+        class="LimitCount"
+        type="number"
+        Style="text-align:right"
+        aria-label="Search"
+        maxlength="2"
+        hide-details="false"
+        v-model="perRowPage"
+        @change = "RowPageChange"
+      />件表示
+    </v-col>
   </v-row>
 
   <!-- アカウント一覧 -->
@@ -95,10 +107,15 @@ export default {
       searchText: "",
       items: [ "アカウント一括削除", "権限一括付与", "権限一括削除",],
       approval_auth_flg: null,
+      perRowPage: 10,
     }
   },
   methods: {
     ...mapActions('authority', ['fetchAllAuthority']),
+    RowPageChange(){
+      this.$store.dispatch("enduser/setDisplayLimit", this.perRowPage);
+      console.log(this.perRowPage)
+    }
   },
   async mounted() {
     let authority = await this.fetchAllAuthority();
@@ -213,5 +230,11 @@ export default {
 
   .green-btn_tuika > i {
     font-size: 18px !important;
+  }
+
+  .LimitCount{
+    background-color: white;
+    border: solid 1px black;
+    width: 50px
   }
 </style>

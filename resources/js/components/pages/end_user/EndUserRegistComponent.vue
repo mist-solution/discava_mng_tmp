@@ -5,6 +5,8 @@
         name = "アカウント登録"
       />
     </div>
+    <!-- エラーメッセージ -->
+    <validation-errors :errors="validationErrors" v-if="validationErrors"/>
     <div class="p-0">
       <v-form ref="form" v-model="valid">
         <div class="card main-cont pr-md-12 pl-md-12 pr-5 pl-5 pt-6 pb-10 auth-re text-gray">
@@ -47,7 +49,6 @@
                 v-bind:type="toggle.type"
                 @click:append="showPassword = !showPassword"
                 :append-icon="toggle.icon"
-                :rules="[rules.required, rules.password]"
                 hide-details="false"
                 autocomplete="new-password"
               />
@@ -65,7 +66,6 @@
                 v-bind:type="toggle.confType"
                 @click:append="showPwdConfirm = !showPwdConfirm"
                 :append-icon="toggle.confIcon"
-                :rules="[rules.required, rules.password]"
                 hide-details="false"
                 autocomplete="new-password"
               />
@@ -157,8 +157,9 @@
 <style src="../css/input-reset.css"></style>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import TitleComponent from "../../common/TitleComponent.vue"
+import ValidationErrors from "../../ValidationErrors.vue";
 
 export default {
   data() {
@@ -178,7 +179,7 @@ export default {
         max_16: value => value.length <= 16 || '16文字以内です。',
         max_100: value => value.length <= 100 || '100文字以内です。',
         email: value => /.+@.+\..+/.test(value) || '正しい書式ではありません',
-        password: value => /^[\w-]{8,72}$/.test(value) || '8文字以上。半角英数字、ﾊｲﾌﾝ、ｱﾝﾀﾞｰﾊﾞｰが使えます',
+        password: value => /^[\w-]{12,72}$/.test(value) || '12文字以上。半角英数字、ﾊｲﾌﾝ、ｱﾝﾀﾞｰﾊﾞｰが使えます',
       },
       errors: {
         checlbox: false,
@@ -191,6 +192,7 @@ export default {
   },
   components: {
     TitleComponent,
+    ValidationErrors,
   },
   methods: {
     ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
@@ -201,6 +203,28 @@ export default {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
         if (!res.valid) {
+          // 必須項目を取得
+          const validateItem = {
+            name: this.forms.name,
+            email: this.forms.email,
+            password:this.forms.password,
+            password_confirmation:this.forms.password_confirmation,
+            shopList:this.forms.shopList,
+          };
+          console.log(validateItem);
+
+          // 必須項目を検証する
+          axios.post('/api/enduser/registValidation',validateItem )
+          .then(response => {
+              console.log(response);
+          })
+          .catch(error => {
+            if (error.response.status !== 422) {
+              console.error(error);
+            } else {
+              this.$store.dispatch("enduser/setEndUserErrorMessages", error.response.data.errors);
+            }
+          });
           console.log("invalid!");
           return;
         }
@@ -211,11 +235,13 @@ export default {
           this.openSuccess('登録しました');
           this.$router.push('/enduser');
 //          this.fetchUsers();
-       })
+          // バリデーションのメッセージを初期化する
+          this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+        })
         .catch(error => {
           console.log(error);
         });
-       });
+      });
     },
     // 入力内容と検証エラーをリセットするメソッド
     reset() {
@@ -233,6 +259,9 @@ export default {
     ...mapGetters('customer', ['getCustomers']),
     ...mapGetters('authoritySet', ['getAuthoritySetDisplay']),
     ...mapGetters('shop', ['getShops']),
+    ...mapState({
+      validationErrors: state => state.enduser.endUserErrorMessages
+    }),
     toggle () {
       const icon = this.showPassword ? 'mdi-eye' : 'mdi-eye-off'
       const type = this.showPassword ? 'text' : 'password'
@@ -248,7 +277,7 @@ export default {
     await this.fetchShops();
     this.forms.shopList = this.getShops;
     this.forms.shopList.forEach(function(value){
-      value.model = { id: 'none', name: '該当なし'};
+      value.model = 'none';
     });
   },
 }

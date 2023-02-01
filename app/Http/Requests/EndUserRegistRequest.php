@@ -27,13 +27,13 @@ class EndUserRegistRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|max:16|regex:/^[\x{4e00}-\x{9fa5}\x{3040}-\x{309f}\x{30a0}-\x{30ff}A-Za-z ]+$/u',
             'name' => 'required|max:16',
             'email' => 'required|email',
             'password'  => array_merge(
                 [
                     'required',
                     'between:12,72',
+                    'confirmed:password_confirmation',
                 ],
                 array_map(
                     function ($requirement) {
@@ -50,8 +50,7 @@ class EndUserRegistRequest extends FormRequest
                     ])
                 )
             ),
-
-            'password_confirmation' => 'required|confirmed:password',
+            'password_confirmation' => 'required',
             'shopList' => 'required',
         ];
     }

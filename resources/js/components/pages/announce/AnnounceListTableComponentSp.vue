@@ -1007,7 +1007,7 @@ thead {
 }
 // 承認済み
 .stastus-font__green {
-  color: #69A5AF;
+  color: #94CAB1;
   font-weight: 600;
 }
 // 下書き

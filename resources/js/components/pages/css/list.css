@@ -5,11 +5,6 @@
     display: none !important;
 }
 
-/* 文字数の黒 */
-.vue3-easy-data-table__body td.direction-left {
-    color: #000 !important;
-}
-
 .vue3-easy-data-table__header th,td {
     white-space: nowrap  !important;
 }
@@ -32,10 +27,6 @@
 
 .vue3-easy-data-table__header th .header.direction-left {
     justify-content: center !important;
-}
-
-.vue3-easy-data-table__body td.direction-left {
-    text-align: center !important;
 }
 
 .customize-table {

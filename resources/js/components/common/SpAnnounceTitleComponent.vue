@@ -95,7 +95,8 @@ export default {
 <style scoped>
 .title-name {
   color: #707070;
-  font-size: clamp(1.25rem, 1.159rem + 0.45vw, 1.5rem);
+  font-size: clamp(1.438rem, 1.369rem + 0.34vw, 1.625rem);
+  padding-top: 0 !important;
 }
 
 /* セレクトタブの下線を消す */

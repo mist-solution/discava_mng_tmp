@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="edit-title mt-5">
-      <h3 class="mb-2 mb-sm-5 mt-2 mt-sm-5 font-weight-bold">投稿者　の投稿記事を編集</h3>
+      <h3 class="my-5 font-weight-bold">投稿者　の投稿記事を編集</h3>
       <!-- エラーメッセージ -->
     <validation-errors :errors="validationErrors" v-if="validationErrors"/>
     </div>
@@ -13,9 +13,8 @@
           v-model="announce.title"
           :rules="[rules.required]"
           hide-details="false"
-          label="タイトルを入力"
+          placeholder="タイトルを入力"
         />
-
         <QuillEditor
           toolbar="full"
           class="ql-editor p-0"

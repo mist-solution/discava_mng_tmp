@@ -285,6 +285,9 @@ margin:0;
 .Date-time .v-input{
 border:unset;
 }
+.Date-time .v-input__control:focus-within{
+border-color:red;
+}
 .Date-time .v-input--density-default .v-field--variant-filled {
 --v-input-control-height: 24px;
 }

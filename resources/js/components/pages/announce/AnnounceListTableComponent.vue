@@ -765,7 +765,7 @@ export default {
       setTimeout(() => {
         this.closeAction();
         window.location.reload();
-      }, 1500);
+      }, 1000);
     },
 
     // 承認処理
@@ -778,7 +778,7 @@ export default {
       setTimeout(() => {
         this.closeAction();
         window.location.reload();
-      }, 1500);
+      }, 1000);
     },
 
     // 差戻し処理
@@ -787,15 +787,14 @@ export default {
           announce: this.announce,
           approvalReturnComment:
           this.$store.state.announce.approvalReturnComment,
-      })
-      .then((res) => {
+      }).then((res) => {
         this.openSuccess('差戻しました')
       });
       // スナックバーの表示時間が経ってから実行
       setTimeout(() => {
         this.closeAction();
         window.location.reload();
-      }, 1500);
+      }, 1000);
     },
 
     // 取り下げ処理
@@ -807,7 +806,7 @@ export default {
       setTimeout(() => {
         this.closeAction();
         window.location.reload();
-      }, 1500);
+      }, 1000);
     },
 
     // 削除処理
@@ -819,7 +818,7 @@ export default {
       setTimeout(() => {
         this.closeAction();
         window.location.reload();
-      }, 1500);
+      }, 1000);
     },
 
     timestampFormat(timestamp) {

@@ -442,7 +442,6 @@ export default {
     },
     closeAction() {
       this.displayAnnounceDeleteConfirm = false;
-      // window.location.reload();
     },
     closePreview(){
       this.displayAnnouncePreview = false;
@@ -582,15 +581,27 @@ export default {
     // 申請処理
     approvalRequest(announceId) {
       axios.put("/api/announce/" + announceId + "/request")
-      .then((res) => {});
-      window.location.reload();
+      .then((res) => {
+        this.openSuccess('申請しました')
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        this.closeAction();
+        window.location.reload();
+      }, 1500);
     },
 
     // 承認処理
     approvalAnnounce(announce) {
       axios.post("/api/announce/" + announce + "/approval")
-      .then((res) => {});
-      window.location.reload();
+      .then((res) => {
+        this.openSuccess('承認しました')
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        this.closeAction();
+        window.location.reload();
+      }, 1500);
     },
 
     // 差戻し処理
@@ -600,20 +611,38 @@ export default {
           approvalReturnComment:
           this.$store.state.announce.approvalReturnComment,
       })
-      .then((res) => {});
-      window.location.reload();
+      .then((res) => {
+        this.openSuccess('差戻しました')
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        this.closeAction();
+        window.location.reload();
+      }, 1500);
     },
 
     // 取り下げ処理
     approvalCancel(announceId) {
-      axios.put("/api/announce/" + announceId + "/cansel").then((res) => {});
-      window.location.reload();
+      axios.put("/api/announce/" + announceId + "/cansel").then((res) => {
+        this.openSuccess('取り下げました')
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        this.closeAction();
+        window.location.reload();
+      }, 1500);
     },
 
     // 削除処理
     deleteAnnounce(announceId) {
-      axios.delete("/api/announce/" + announceId).then((res) => {});
-      window.location.reload();
+      axios.delete("/api/announce/" + announceId).then((res) => {
+        this.openSuccess('取り下げました')
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        this.closeAction();
+        window.location.reload();
+      }, 1500);
     },
 
     timestampFormat(timestamp) {

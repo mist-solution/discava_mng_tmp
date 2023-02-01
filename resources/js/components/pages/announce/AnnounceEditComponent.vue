@@ -467,7 +467,7 @@ export default {
         ).then(response => {
           this.openSuccess('更新しました');
           // お知らせ一覧画面に遷移
-          this.$router.push({ name: 'announce.list' })
+          // this.$router.push({ name: 'announce.list' })
 
             // バリデーションのメッセージを初期化する
             this.$store.dispatch("announce/setAnnounceErrorMessages", "");

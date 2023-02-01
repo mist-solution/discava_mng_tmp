@@ -26,7 +26,7 @@ class EndUserRegistRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => 'required|max:16',
             'email' => 'required|email',
             'password'  => array_merge(
@@ -51,18 +51,31 @@ class EndUserRegistRequest extends FormRequest
                 )
             ),
             'password_confirmation' => 'required',
-            'shopList' => 'required',
         ];
+
+        foreach ($this->input('shopList') as $index => $detail) {
+            if ($detail['model'] == 'none') {
+                $rules["shopList.$index.model"] = 'required|not_in:none';
+            }
+        }
+        return $rules;
     }
 
     public function attributes()
     {
-        return [
+        $attributes = [
             'name' => 'ユーザ名',
             'email' => 'メールアドレス',
             'password' => 'パスワード',
             'password_confirmation' => 'パスワード確認',
-            'shopList' => '権限グループ',
         ];
+
+        foreach ($this->input('shopList') as $index => $detail) {
+            if ($detail['model'] == 'none') {
+                $attributes["shopList.$index.model"] = $detail["shop_name"];
+            }
+        }
+
+        return $attributes;
     }
 }

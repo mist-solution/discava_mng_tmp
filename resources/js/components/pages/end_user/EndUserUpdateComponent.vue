@@ -58,8 +58,9 @@
                                     :items="authoritySet"
                                     item-value="id"
                                     item-title="name"
+                                    :rules="[rules.required, rules.required_model]"
                                     hide-details="false"
-                                    v-model=shop.model
+                                    v-model="shop.model"
                                   />
                                 </v-col>
                               </v-row>
@@ -81,6 +82,7 @@
                         </v-col>
                       </v-row>
                       </v-form>
+                      {{this.forms.shopList}}
   </v-container>
 </template>
 <style src="../css/common.css"></style>
@@ -109,6 +111,7 @@ export default {
         max_16: value => value.length <= 16 || '16文字以内です。',
         max_100: value => value.length <= 100 || '100文字以内です。',
         email: value => /.+@.+\..+/.test(value) || '正しい書式ではありません',
+        required_model: value => value >= 1 || '必須です。',
       },
       errors: {
         checlbox: false,
@@ -137,7 +140,7 @@ export default {
           const validateItem = {
             name: this.forms.name,
             email: this.forms.email,
-            shopList:this.forms.shopList,
+            shopList: this.forms.shopList,
           };
           console.log(validateItem);
 

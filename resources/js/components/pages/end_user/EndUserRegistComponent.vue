@@ -92,8 +92,9 @@
                     :items="authoritySet"
                     item-value="id"
                     item-title="name"
+                    :rules="[rules.required, rules.required_model]"
                     hide-details="false"
-                    v-model=shop.model
+                    v-model="shop.model"
                   />
                 </v-col>
               </v-row>
@@ -162,7 +163,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
-import TitleComponent from "../../common/TitleComponent.vue"
+import TitleComponent from "../../common/TitleComponent.vue";
 import ValidationErrors from "../../ValidationErrors.vue";
 
 export default {
@@ -183,7 +184,8 @@ export default {
         max_16: value => value.length <= 16 || '16文字以内です。',
         max_72: value => value.length <= 72 || '72文字以内です。',
         email: value => /.+@.+\..+/.test(value) || '正しい書式ではありません',
-        password: value => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[-_%$#])[A-Za-z\d-_%$#]{12,72}$/.test(value) || '12文字以上。半角英数字、ﾊｲﾌﾝ、ｱﾝﾀﾞｰﾊﾞｰが使えます。'
+        password: value => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[-_%$#])[A-Za-z\d-_%$#]{12,72}$/.test(value) || '12文字以上。半角英数字、ﾊｲﾌﾝ、ｱﾝﾀﾞｰﾊﾞｰが使えます。',
+        required_model: value => value >= 1 || '必須です。',
       },
       errors: {
         checlbox: false,

@@ -140,6 +140,7 @@ return [
         '属性名' => [
             'ルール名' => 'カスタムメッセージ',
         ],
+        'shopList.*.model.not_in' => ':attributeの権限は「該当なし」以外に指定してください。',
     ],
 
     /*
@@ -159,5 +160,4 @@ return [
         'password' => 'パスワード',
         'password_confirmation' => 'パスワード（確認）',
     ],
-
 ];

@@ -9,12 +9,12 @@
           よろしければ「取り下げ」ボタンを<br />
           押下してください。
         </v-card-text>
-        <!-- 差戻しコメント -->
+        <!-- 取り下げコメント -->
         <v-textarea
           outlined
           v-model="returnComment"
           name="returnComment"
-          label="差戻しコメント"
+          label="取り下げコメント"
           class="mx-md-4 mb-4"
         >
         </v-textarea>
@@ -22,7 +22,7 @@
         <v-card-actions class="justify-center">
           <!-- 閉じるボタン -->
           <v-btn @click="closeAction()" class="gray-btn mx-2">閉じる</v-btn>
-          <!-- 差戻しボタン -->
+          <!-- 取り下げボタン -->
           <v-btn @click="submitAction()" class="green-btn mx-2">取り下げ</v-btn>
         </v-card-actions>
       </v-card>

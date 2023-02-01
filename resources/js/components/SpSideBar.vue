@@ -9,9 +9,9 @@
      </div>
     <v-tab class="shop_choice">
       <v-img
-        src="/images/user-icon/kkrn_icon_user_3.png"
-        max-height="54"
-        max-width="54"
+        src="/images/user-icon/icon.png"
+        max-height="42"
+        max-width="42"
         contain>
       <v-select
         :items="usershops"

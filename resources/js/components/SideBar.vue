@@ -20,7 +20,7 @@
         <v-row>
           <v-col align="center">
             <v-img
-              src="/images/user-icon/kkrn_icon_user_3.png"
+              src="/images/user-icon/icon.png"
               max-height="96"
               max-width="96"
               contain>
@@ -33,7 +33,7 @@
         <v-row>
           <v-col align="center">
             <v-img
-              src="/images/user-icon/kkrn_icon_user_3.png"
+              src="/images/user-icon/icon.png"
               max-height="96"
               max-width="96"
               contain>

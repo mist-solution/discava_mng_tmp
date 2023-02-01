@@ -53,7 +53,7 @@
           label="一括操作"
           solo
       ></v-select>
-      <v-btn class="green-btn mx-2">
+      <v-btn class="green-btn_noTransform mx-2">
         実行
       </v-btn>
     </v-col>

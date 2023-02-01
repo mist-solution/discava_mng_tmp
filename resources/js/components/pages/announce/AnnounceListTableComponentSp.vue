@@ -42,7 +42,7 @@
               class="w-100 my-2 action-select"
             ></v-select>
             <button
-              class="green-btn mx-2 px-3 py-2"
+              class="green-btn_noTransform mx-2 px-3 py-2"
               type="button"
               @click="allCheckedItemOperate()"
             >

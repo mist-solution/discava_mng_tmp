@@ -41,7 +41,7 @@ return [
     'digits_between'       => ':attributeは:min桁から:max桁の間で指定してください。',
     'dimensions'           => ':attributeの図形サイズが正しくありません。',
     'distinct'             => ':attributeには異なった値を指定してください。',
-    'email'                => ':attributeには、有効なメールアドレスを指定してください。',
+    'email'                => ':attributeには、有効なメールアドレスを入力してください。',
     'ends_with'            => ':attributeには、:valuesのどれかで終わる値を指定してください。',
     'exists'               => '選択された:attributeは正しくありません。',
     'file'                 => ':attributeにはファイルを指定してください。',
@@ -81,7 +81,7 @@ return [
     'max'                  => [
         'numeric' => ':attributeには、:max以下の数字を指定してください。',
         'file'    => ':attributeには、:max kB以下のファイルを指定してください。',
-        'string'  => ':attributeは、:max文字以下で指定してください。',
+        'string'  => ':attributeは、:max文字以下で入力してください。',
         'array'   => ':attributeは:max個以下指定してください。',
     ],
     'mimes'                => ':attributeには:valuesタイプのファイルを指定してください。',
@@ -140,6 +140,21 @@ return [
         '属性名' => [
             'ルール名' => 'カスタムメッセージ',
         ],
+
+        // 投稿管理関連
+        'title.required'                       => ':attributeは必ず入力してください。',
+        'contents.required'                    => ':attributeは必ず入力してください。',
+        'announce_category_id.required'        => ':attributeは必ず選択してください。',
+        'start_date.required'                  => ':attributeは必ず選択してください。',
+        'end_date.required'                    => ':attributeは必ず選択してください。',
+
+        // アカウント管理関連
+        'name.required'                        => ':attributeは必ず入力してください。',
+        'email.required'                       => ':attributeは必ず入力してください。',
+        'password.required'                    => ':attributeは必ず入力してください。',
+        'password_confirmation.required'       => ':attributeは必ず入力してください。',
+        'shopList.*.model.not_in'              => ':attributeの権限は「該当なし」以外に選択してください。',
+
     ],
 
     /*
@@ -159,5 +174,4 @@ return [
         'password' => 'パスワード',
         'password_confirmation' => 'パスワード（確認）',
     ],
-
 ];

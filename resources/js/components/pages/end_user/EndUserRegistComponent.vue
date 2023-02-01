@@ -49,8 +49,10 @@
                 v-bind:type="toggle.type"
                 @click:append="showPassword = !showPassword"
                 :append-icon="toggle.icon"
+                :rules="[rules.required, rules.max_72]"
                 hide-details="false"
                 autocomplete="new-password"
+                required
               />
               <p class="text-caption mt-2 mb-2">半角英数字及び記号（「-」「_」「%」「$」「#」）を含む、12文字以上を入力してください</p>
             </v-col>
@@ -66,8 +68,10 @@
                 v-bind:type="toggle.confType"
                 @click:append="showPwdConfirm = !showPwdConfirm"
                 :append-icon="toggle.confIcon"
+                :rules="[rules.required, rules.max_72]"
                 hide-details="false"
                 autocomplete="new-password"
+                required
               />
               <p class="text-caption mt-2">確認の為もう一度入力</p>
             </v-col>
@@ -88,8 +92,9 @@
                     :items="authoritySet"
                     item-value="id"
                     item-title="name"
+                    :rules="[rules.required, rules.required_model]"
                     hide-details="false"
-                    v-model=shop.model
+                    v-model="shop.model"
                   />
                 </v-col>
               </v-row>
@@ -158,7 +163,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
-import TitleComponent from "../../common/TitleComponent.vue"
+import TitleComponent from "../../common/TitleComponent.vue";
 import ValidationErrors from "../../ValidationErrors.vue";
 
 export default {
@@ -177,9 +182,10 @@ export default {
       rules: {
         required: value => !!value || '必須です。',
         max_16: value => value.length <= 16 || '16文字以内です。',
-        max_100: value => value.length <= 100 || '100文字以内です。',
+        max_72: value => value.length <= 72 || '72文字以内です。',
         email: value => /.+@.+\..+/.test(value) || '正しい書式ではありません',
-        password: value => /^[\w-]{12,72}$/.test(value) || '12文字以上。半角英数字、ﾊｲﾌﾝ、ｱﾝﾀﾞｰﾊﾞｰが使えます',
+        password: value => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[-_%$#])[A-Za-z\d-_%$#]{12,72}$/.test(value) || '12文字以上。半角英数字、ﾊｲﾌﾝ、ｱﾝﾀﾞｰﾊﾞｰが使えます。',
+        required_model: value => value >= 1 || '必須です。',
       },
       errors: {
         checlbox: false,

@@ -82,6 +82,8 @@ a {
     box-shadow: unset !important;
     background-color: #69A5AF !important;
     color:#fff !important;
+    opacity:.8 !important;
+    transition: .4s;
 }
 
 /* 灰色のボタン */

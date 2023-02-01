@@ -98,7 +98,7 @@
       />
 
       <button
-        class="green-btn mx-2 px-3 py-2"
+        class="green-btn_noTransform mx-2 px-3 py-2"
         type="button"
         @click="FilterAnnounce()"
       >

@@ -22,6 +22,7 @@ const state = {
     approvalReturnComment: "",
     totalCount: 0,
     announceErrorMessages: null,
+    loadingCircular: false,
 }
 const getters = {
     getAnnounce: (state) => {
@@ -48,6 +49,7 @@ const getters = {
     approvalAnnounceStatus: (state) => state.approvalAnnounceStatus,
     approvalReturnComment: (state) => state.approvalReturnComment,
     totalCount: (state) => state.totalCount,
+    loadingCircular: (state) => state.loadingCircular,
 }
 
 const mutations = {
@@ -119,6 +121,9 @@ const mutations = {
     },
     setAnnounceErrorMessages(state, messages) {
         state.announceErrorMessages = messages;
+    },
+    setLoadingCircular(state, loadingCircular) {
+        state.loadingCircular = loadingCircular;
     }
 }
 const actions = {
@@ -191,6 +196,9 @@ const actions = {
     },
     setAnnounceErrorMessages(context, messages) {
         context.commit('setAnnounceErrorMessages', messages)
+    },
+    setLoadingCircular(context, loadingCircular) {
+        context.commit('setLoadingCircular', loadingCircular)
     },
 }
 

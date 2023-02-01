@@ -41,7 +41,7 @@ return [
     'digits_between'       => ':attributeは:min桁から:max桁の間で指定してください。',
     'dimensions'           => ':attributeの図形サイズが正しくありません。',
     'distinct'             => ':attributeには異なった値を指定してください。',
-    'email'                => ':attributeには、有効なメールアドレスを指定してください。',
+    'email'                => ':attributeには、有効なメールアドレスを入力してください。',
     'ends_with'            => ':attributeには、:valuesのどれかで終わる値を指定してください。',
     'exists'               => '選択された:attributeは正しくありません。',
     'file'                 => ':attributeにはファイルを指定してください。',
@@ -81,7 +81,7 @@ return [
     'max'                  => [
         'numeric' => ':attributeには、:max以下の数字を指定してください。',
         'file'    => ':attributeには、:max kB以下のファイルを指定してください。',
-        'string'  => ':attributeは、:max文字以下で指定してください。',
+        'string'  => ':attributeは、:max文字以下で入力してください。',
         'array'   => ':attributeは:max個以下指定してください。',
     ],
     'mimes'                => ':attributeには:valuesタイプのファイルを指定してください。',

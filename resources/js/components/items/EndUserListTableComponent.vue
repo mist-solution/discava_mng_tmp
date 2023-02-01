@@ -130,7 +130,8 @@
     watch: {
       displayLimit() {
         this.rowsPerPage = this.$store.state.enduser.displayLimit;
-        this.PageLastIndex = this.$refs.dataTable.maxPaginationNumber;
+        let a = this.$refs.dataTable.clientItemsLength;
+        this.PageLastIndex = Math.ceil(a/this.rowsPerPage)
         this.$emit("LastPageChange",this.PageLastIndex)
         this.reset = false;
         this.$nextTick(() => (this.reset = true));

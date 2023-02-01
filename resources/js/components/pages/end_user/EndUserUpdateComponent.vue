@@ -82,7 +82,6 @@
                         </v-col>
                       </v-row>
                       </v-form>
-                      {{this.forms.shopList}}
   </v-container>
 </template>
 <style src="../css/common.css"></style>

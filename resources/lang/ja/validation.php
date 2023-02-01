@@ -140,7 +140,21 @@ return [
         '属性名' => [
             'ルール名' => 'カスタムメッセージ',
         ],
-        'shopList.*.model.not_in' => ':attributeの権限は「該当なし」以外に指定してください。',
+
+        // 投稿管理関連
+        'title.required'                       => ':attributeは必ず入力してください。',
+        'contents.required'                    => ':attributeは必ず入力してください。',
+        'announce_category_id.required'        => ':attributeは必ず選択してください。',
+        'start_date.required'                  => ':attributeは必ず選択してください。',
+        'end_date.required'                    => ':attributeは必ず選択してください。',
+
+        // アカウント管理関連
+        'name.required'                        => ':attributeは必ず入力してください。',
+        'email.required'                       => ':attributeは必ず入力してください。',
+        'password.required'                    => ':attributeは必ず入力してください。',
+        'password_confirmation.required'       => ':attributeは必ず入力してください。',
+        'shopList.*.model.not_in'              => ':attributeの権限は「該当なし」以外に選択してください。',
+
     ],
 
     /*

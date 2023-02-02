@@ -369,6 +369,8 @@ export default {
     background-color: #fff;
     box-shadow: unset;
     border: none !important;
+    font-weight: 600;
+    letter-spacing: 1.3px;
   }
 
   .white-btn .v-btn__content{

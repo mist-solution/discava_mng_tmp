@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Storage;
 use App\Http\Controllers\API\AuthorityController;
 use App\Models\AnnounceAttachment;
-use App\Http\Requests\AnnounceRequest;
+use App\Http\Requests\AnnounceRegistRequest;
+use App\Http\Requests\AnnounceTempRequest;
 
 class AnnounceController extends Controller
 {
@@ -237,10 +238,19 @@ class AnnounceController extends Controller
         return $oldestData;
     }
 
-    // バリデーションリクエスト
-    public function store(AnnounceRequest $request)
+    // バリデーションリクエスト(お知らせ登録)
+    public function registStore(AnnounceRegistRequest $request)
     {
-        log::info("REQUEST OK");
-        return true;
+        if (!$request->validated()) {
+            return redirect()->back()->withInput()->withErrors($request->errors());
+        }
+    }
+
+    // バリデーションリクエスト(お知らせ下書き)
+    public function tempStore(AnnounceTempRequest $request)
+    {
+        if (!$request->validated()) {
+            return redirect()->back()->withInput()->withErrors($request->errors());
+        }
     }
 }

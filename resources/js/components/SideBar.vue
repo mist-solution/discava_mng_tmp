@@ -69,8 +69,7 @@
             @update:modelValue="onShopSelectionChange"
           >
           <template v-slot:append-item>
-            <v-divider class="mb-2" style="color: white;"></v-divider>
-            <v-list-item @click="logout">
+            <v-list-item @click="logout" class="whiteline">
               <v-list-content>
                 <v-list-title style="color: white;">
                   ログアウト
@@ -90,8 +89,7 @@
             @update:modelValue="onShopSelectionChange"
           >
           <template v-slot:append-item>
-            <v-divider class="mb-2" style="color: white;"></v-divider>
-            <v-list-item @click="logout">
+            <v-list-item @click="logout" class="whiteline">
               <v-list-content>
                 <v-list-title style="color: white;">
                   ログアウト

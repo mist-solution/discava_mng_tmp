@@ -17,3 +17,7 @@
 .filter-btn > .v-input__control > .v-field > .v-field__overlay{
     display: none;
 }
+
+.whiteline{
+    border-top: 1px solid white;
+}

@@ -53,8 +53,9 @@ Route::post('/api/enduser', [UserController::class, 'register']);
 Route::put('/api/enduser/{id}', [UserController::class, 'update']);
 Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
 Route::delete('/api/enduser/{id}', [UserController::class, 'deleteAccount']);
-// アカウント新規登録・編集のバリデーションAPI
+// アカウント新規登録のバリデーションAPI
 Route::post('/api/enduser/registValidation', [UserController::class, 'registStore']);
+// アカウント編集のバリデーションAPI
 Route::post('/api/enduser/updateValidation', [UserController::class, 'updateStore']);
 
 Route::get('/api/loginuserinfo', [UserController::class, 'getUserInfo']);
@@ -90,8 +91,10 @@ Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']
 
 Route::get('/api/oldestAnnounce', [AnnounceController::class, 'oldestAnnounce']);
 
-// お知らせ新規登録・編集のバリデーションAPI
-Route::post('/api/announce/validation', [AnnounceController::class, 'store']);
+// お知らせ新規登録のバリデーションAPI
+Route::post('/api/announce/registValidation', [AnnounceController::class, 'registStore']);
+// お知らせ新規編集のバリデーションAPI
+Route::post('/api/announce/tempValidation', [AnnounceController::class, 'tempStore']);
 
 //------------------------------------------------
 // WebAPI関連

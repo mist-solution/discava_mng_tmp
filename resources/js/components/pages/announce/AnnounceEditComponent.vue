@@ -9,6 +9,7 @@
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">
         <v-text-field
+          class="text-gray"
           dense
           v-model="announce.title"
           :rules="[rules.required]"
@@ -34,6 +35,7 @@
             <!-- 添付ファイルをここにドラッグ＆ドロップ または -->
             <!-- ファイルを追加 -->
             <v-btn
+                class="button-text"
                 depressed
                 small
                 elevation=1
@@ -226,7 +228,7 @@
             v-if="request_auth_flg &&
               (announce.approval_status === 0 || announce.approval_status === 3)"
             cols="11"
-            class="p-0 mb-sm-0 mb-2"
+            class="p-0 mb-sm-0 mb-2 mt-3"
           >
             <button
               class="btn green-btn pr-0 pl-0"
@@ -642,6 +644,7 @@ export default {
 </script>
 
 <style src="../css/common.css"></style>
+<style src="../css/dropdown.css"></style>
 <style scoped>
   .accept-stat{
     border-top:1px solid rgba(0,0,0,0.5);
@@ -671,6 +674,7 @@ export default {
     border-top:1px solid rgba(0,0,0,0.5);
   }
 
+  
   @media (max-width: 599.99px){
     .editBtn-widht {
       width: 60% !important;

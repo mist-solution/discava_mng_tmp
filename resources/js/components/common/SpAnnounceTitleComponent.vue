@@ -17,7 +17,7 @@
               value="one"
               @click="announceStatus();
                 setSelectTab(1);"
-              class="px-2"
+              class="px-2 tab-text"
             >
               全ての投稿
             </v-tab>
@@ -25,7 +25,7 @@
               value="two"
               @click="announceStatus(1);
                 setSelectTab(2);"
-              class="px-2"
+              class="px-2 tab-text"
             >
               承認待ち
             </v-tab>
@@ -33,7 +33,7 @@
               value="three"
               @click="announceStatus(3);
                 setSelectTab(3);"
-              class="px-2"
+              class="px-2 tab-text"
             >
               差戻し
             </v-tab>
@@ -41,7 +41,7 @@
               value="four"
               @click="announceStatus(2);
                 setSelectTab(4);"
-              class="px-2"
+              class="px-2 tab-text"
             >
               承認済み
             </v-tab>
@@ -99,6 +99,13 @@ export default {
   padding-top: 0 !important;
 }
 
+.tab-text {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #707070 !important;
+}
+
+
 /* セレクトタブの下線を消す */
 .v-tab--selected .v-tab__slider {
   opacity: 0 !important;
@@ -110,5 +117,6 @@ export default {
 }
 .v-tab--selected {
   font-weight: 600 !important;
+  color: rgb(105, 165, 175) !important;
 }
 </style>

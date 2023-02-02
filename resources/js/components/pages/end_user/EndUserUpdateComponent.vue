@@ -86,6 +86,7 @@
 </template>
 <style src="../css/common.css"></style>
 <style src="../css/input-reset.css"></style>
+<style src="../css/dropdown.css"></style>
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
 import TitleComponent from "../../common/TitleComponent.vue";

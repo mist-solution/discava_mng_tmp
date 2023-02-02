@@ -235,6 +235,8 @@ export default {
 
 <!-- 共通CSS -->
 <style src="../css/common.css"></style>
+<style src="../css/sidebar.css"></style>
+<style src="../css/dropdown.css"></style>
 
 <!-- 固有CSS -->
 <style scoped>
@@ -311,6 +313,8 @@ export default {
     font-weight: 400;
     box-shadow: 0 4px 8px rgba(105, 165, 175, 0.56);
     transition: 0.3s;
+    font-weight: 600;
+    letter-spacing: 1.4px;
   }
   .green-btn_tuika:hover {
   color: white !important;
@@ -367,6 +371,8 @@ export default {
     background-color: #fff;
     box-shadow: unset;
     border: none !important;
+    font-weight: 600;
+    letter-spacing: 1.3px;
   }
 
   .white-btn .v-btn__content{
@@ -397,5 +403,9 @@ export default {
       color:rgb(172, 171, 171) !important;
       border: solid 0.5px rgb(172, 171, 171);
       transform: none !important;
+  }
+
+  .v-menu .v-overlay__content > .v-list{
+    background-color: #7B7B7B;
   }
 </style>

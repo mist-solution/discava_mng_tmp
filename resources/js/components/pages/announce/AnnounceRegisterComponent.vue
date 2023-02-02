@@ -9,6 +9,7 @@
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">
         <v-text-field
+          class="text-gray"
           dense
           v-model="announce.title"
           :rules="[rules.required]"
@@ -35,6 +36,7 @@
             <!-- 添付ファイルをここにドラッグ＆ドロップ または -->
             <!-- ファイルを追加 -->
             <v-btn
+                class="button-text"
                 depressed
                 small
                 elevation=1
@@ -293,31 +295,59 @@ export default {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
         if (!res.valid) {
-          // 必須項目を取得
-          if (this.announce.contents === "<p><br></p>"){
-            this.announce.contents = null
-          }
-          const validateItem = {
-            title: this.announce.title,
-            announce_category_id: this.announce.announce_category_id,
-            start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : '',
-            end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
-            contents: this.announce.contents,
-            thumbnail_file_name: this.file ? this.file.name : null,
-          };
-
-          // 必須項目を検証する
-          axios.post('/api/announce/validation',validateItem )
-          .then(response => {
-              console.log(response);
-          })
-          .catch(error => {
-            if (error.response.status !== 422) {
-              console.error(error);
-            } else {
-              this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+          if(registFlg == 1) {
+            // 登録必須項目を取得
+            if (this.announce.contents === "<p><br></p>"){
+              this.announce.contents = null
             }
-          });
+            const validateItem = {
+              title: this.announce.title,
+              announce_category_id: this.announce.announce_category_id,
+              start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : '',
+              end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
+              contents: this.announce.contents,
+              thumbnail_file_name: this.file ? this.file.name : null,
+            };
+
+            // 必須項目を検証する
+            axios.post('/api/announce/registValidation',validateItem )
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+              if (error.response.status !== 422) {
+                console.error(error);
+              } else {
+                this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+              }
+            });
+          }else if (registFlg == 2){
+            // 下書きの必須項目を取得
+            if (this.announce.contents === "<p><br></p>"){
+              this.announce.contents = null
+            }
+            const validateItem = {
+              title: this.announce.title,
+              announce_category_id: this.announce.announce_category_id,
+              start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : '',
+              end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
+              contents: this.announce.contents,
+              thumbnail_file_name: this.file ? this.file.name : null,
+            };
+
+            // 必須項目を検証する
+            axios.post('/api/announce/tempValidation',validateItem )
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+              if (error.response.status !== 422) {
+                console.error(error);
+              } else {
+                this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+              }
+            });
+          }
           console.log("invalid!");
           return;
         }
@@ -490,6 +520,7 @@ export default {
 };
 </script>
 
+<style src="../css/dropdown.css"></style>
 <style lang="scss">
 .edit_container {
   width: auto;

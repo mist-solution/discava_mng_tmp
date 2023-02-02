@@ -11,6 +11,7 @@
         <v-col cols="8" v-if="tabFlg" class="tab-posision">
           <v-tabs v-model="tab" fixed-tabs class="text-left mr-2" color="#69A5AF">
             <v-tab
+              class="tab-text"
               value="one"
               @click="announceStatus();
                 setSelectTab(1);"
@@ -104,6 +105,7 @@ export default {
 }
 
 .tab-text {
+  font-size: 16px !important;
   font-weight: 700 !important;
   color: #707070 !important;
 }
@@ -119,5 +121,6 @@ export default {
 }
 .v-tab--selected {
   font-weight: 600 !important;
+  color: rgb(105, 165, 175) !important;
 }
 </style>

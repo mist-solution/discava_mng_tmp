@@ -228,7 +228,7 @@
             v-if="request_auth_flg &&
               (announce.approval_status === 0 || announce.approval_status === 3)"
             cols="11"
-            class="p-0 mb-sm-0 mb-2"
+            class="p-0 mb-sm-0 mb-2 mt-3"
           >
             <button
               class="btn green-btn pr-0 pl-0"

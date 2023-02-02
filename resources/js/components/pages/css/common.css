@@ -470,3 +470,7 @@ text-align: center;
 .ql-snow.ql-toolbar {
     filter: invert(46%) sepia(0%) saturate(1368%) hue-rotate(192deg) brightness(93%) contrast(85%) !important;
 }
+
+.ql-editor {
+    color: #707070;
+}

@@ -9,6 +9,7 @@
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">
         <v-text-field
+          class="text-gray"
           dense
           v-model="announce.title"
           :rules="[rules.required]"

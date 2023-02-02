@@ -116,3 +116,7 @@
     padding-left: 1.7rem;
 }
 
+/* メニュー内テキスト */
+.v-list-item-title {
+    font-weight: 700 !important;
+}

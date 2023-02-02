@@ -34,6 +34,7 @@
             <!-- 添付ファイルをここにドラッグ＆ドロップ または -->
             <!-- ファイルを追加 -->
             <v-btn
+                class="button-text"
                 depressed
                 small
                 elevation=1

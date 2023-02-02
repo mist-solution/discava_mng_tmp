@@ -432,6 +432,8 @@ export default {
     font-weight: 400;
     box-shadow: 0 4px 8px rgba(105,165,175,0.56);
     transition: 0.3s;
+    font-weight: 600;
+    letter-spacing: 1.4px;
   }
   .green-btn_toukou:hover {
   color: white !important;

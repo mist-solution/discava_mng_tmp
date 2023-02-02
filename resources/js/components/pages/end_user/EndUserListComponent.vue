@@ -311,6 +311,8 @@ export default {
     font-weight: 400;
     box-shadow: 0 4px 8px rgba(105, 165, 175, 0.56);
     transition: 0.3s;
+    font-weight: 600;
+    letter-spacing: 1.4px;
   }
   .green-btn_tuika:hover {
   color: white !important;
@@ -367,6 +369,8 @@ export default {
     background-color: #fff;
     box-shadow: unset;
     border: none !important;
+    font-weight: 600;
+    letter-spacing: 1.3px;
   }
 
   .white-btn .v-btn__content{

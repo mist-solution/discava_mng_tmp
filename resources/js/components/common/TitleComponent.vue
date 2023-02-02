@@ -18,6 +18,7 @@
               全ての投稿
             </v-tab>
             <v-tab
+              class="tab-text"
               value="two"
               @click="announceStatus(1);
                 setSelectTab(2);"
@@ -25,6 +26,7 @@
               承認待ち
             </v-tab>
             <v-tab
+              class="tab-text"
               value="three"
               @click="announceStatus(3);
                 setSelectTab(3);"
@@ -32,6 +34,7 @@
               差戻し
             </v-tab>
             <v-tab
+              class="tab-text"
               value="four"
               @click="announceStatus(2);
                 setSelectTab(4);"
@@ -99,6 +102,12 @@ export default {
   align-items: center;
   display: grid;
 }
+
+.tab-text {
+  font-weight: 700 !important;
+  color: #707070 !important;
+}
+
 /* セレクトタブの下線を消す */
 .v-tab--selected .v-tab__slider {
   opacity: 0 !important;

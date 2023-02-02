@@ -261,9 +261,10 @@
             承認ステータス
           </p>
           <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0 pb-5">
-            <!-- 承認する - 承認ステータス 1:承認待ちの場合 -->
+            <!-- 承認する - 承認ステータス 2:承認済み以外の場合 -->
             <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0 pb-1 mb-3" >
               <button
+                v-if="announce.approval_status != 2"
                 class="btn greens-btn"
                 @click="approvalAnnounce(announce.id)"
                 type="button"

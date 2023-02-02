@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Validator;
 
-class AnnounceRequest extends FormRequest
+class AnnounceRegistRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,13 +25,16 @@ class AnnounceRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'title' => 'required|max:255',
             'contents' => 'required',
             'announce_category_id' => 'required',
-            'start_date' => 'required|date|before:end_date',
-            'end_date' => 'required|date',
+            'start_date' => 'required|date',
         ];
+        if ($this->filled('end_date')) {
+            $rules['end_date'] = 'date|after:start_date';
+        }
+        return $rules;
     }
 
     public function attributes()

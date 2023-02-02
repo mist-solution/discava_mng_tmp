@@ -208,7 +208,7 @@ a {
   }
   .dp__input_icons {
     width:.8rem;
-    padding: 0 7px;
+    padding: 0 7px !important;
   }
 .dp__main{
     max-width:124px;

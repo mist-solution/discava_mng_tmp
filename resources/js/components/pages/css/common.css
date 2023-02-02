@@ -286,7 +286,7 @@ margin:0;
 border:unset;
 }
 .Date-time .v-input__control:focus-within{
-border-color:red;
+border-color:#94CAB1;
 }
 .Date-time .v-input--density-default .v-field--variant-filled {
 --v-input-control-height: 24px;

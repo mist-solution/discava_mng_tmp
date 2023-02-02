@@ -674,6 +674,7 @@ export default {
     border-top:1px solid rgba(0,0,0,0.5);
   }
 
+  
   @media (max-width: 599.99px){
     .editBtn-widht {
       width: 60% !important;

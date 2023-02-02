@@ -117,7 +117,10 @@ class Announce extends Model
                         ->where("end_date", '>=', $now);
             }else if($searchRelease == 2){
                 $announceModel = $announceModel
-                        ->where("start_date", '>=', $now ,"or" , "end_date" , '<=', $now);
+                        ->where(function($query) use ($now){
+                            $query->orWhere("start_date", '>=', $now )
+                                  ->orWhere("end_date" , '<=', $now);
+                        });
             }
         }
 

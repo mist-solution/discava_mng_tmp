@@ -643,6 +643,7 @@ export default {
 </script>
 
 <style src="../css/common.css"></style>
+<style src="../css/dropdown.css"></style>
 <style scoped>
   .accept-stat{
     border-top:1px solid rgba(0,0,0,0.5);

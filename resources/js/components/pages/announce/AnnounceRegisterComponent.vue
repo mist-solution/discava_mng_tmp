@@ -492,6 +492,7 @@ export default {
 };
 </script>
 
+<style src="../css/dropdown.css"></style>
 <style lang="scss">
 .edit_container {
   width: auto;

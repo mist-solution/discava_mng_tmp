@@ -340,6 +340,9 @@ text-align: center;
     height: fit-content !important;
     min-height:250px !important;
 }
+.v-tab--selected .v-tab__slider {
+    opacity: 0;
+}
 
 @media (max-width: 900px){
     .v-main{ 

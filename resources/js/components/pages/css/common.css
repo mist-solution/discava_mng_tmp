@@ -229,14 +229,13 @@ flex-wrap: wrap;
 row-gap:16px;
 }
 .art-flex .main-cont:nth-child(1){
-width:70%;
+width:69%;
 height: fit-content;
-width: 70%;
 max-width: 75%;
 margin: 0px 30px;
 }
 .art-flex .main-cont:nth-child(2){
-width:180px;
+width:195px;
 height:fit-content;
 }
 .art-flex p{

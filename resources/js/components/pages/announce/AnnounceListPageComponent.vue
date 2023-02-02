@@ -52,6 +52,7 @@
         label="投稿月"
         item-value="id"
         item-title="text"
+        v-model="createdmodel"
         @update:modelValue="createdChange"
       />
 
@@ -62,6 +63,7 @@
         label="更新月"
         item-value="id"
         item-title="text"
+        v-model="updatedmodel"
         @update:modelValue="updatedChange"
       />
 
@@ -73,6 +75,7 @@
         item-title="category_name"
         label="カテゴリー"
         hide-details="false"
+        v-model="categoriesmodel"
         @update:modelValue="categoriesChange"
       />
 
@@ -84,6 +87,7 @@
         item-value="id"
         item-title="name"
         hide-details="false"
+        v-model="usermodel"
         @update:modelValue="userChange"
       />
 
@@ -94,6 +98,7 @@
         label="公開状態"
         item-title="text"
         item-value="id"
+        v-model="releasemodel"
         @update:modelValue="releaseChange"
       />
 
@@ -103,6 +108,14 @@
         @click="FilterAnnounce()"
       >
         検索
+      </button>
+
+      <button
+        class="green-btn mx-2 px-3 py-2"
+        type="button"
+        @click="resetFilterAnnounce()"
+      >
+        リセット
       </button>
     </v-row>
 
@@ -222,6 +235,11 @@ export default {
       release_id: "",
       displayAnnounceFilter: false,
       perRowPage: 25,
+      createdmodel: null,
+      updatedmodel: null,
+      categoriesmodel: null,
+      usermodel: null,
+      releasemodel: null,
     };
   },
   computed:{
@@ -361,14 +379,30 @@ export default {
       this.$store.dispatch("announce/setDisplaySearchRelease", this.release_id);
     },
 
+    //検索条件リセット
+    resetFilterAnnounce(){
+      this.created_id = 0;
+      this.updated_id = 0;
+      this.categories_id = 0;
+      this.user_id = 0;
+      this.release_id = 0;
+      this.createdmodel = null;
+      this.updatedmodel = null;
+      this.categoriesmodel = null;
+      this.usermodel = null;
+      this.releasemodel = null;
+      this.FilterAnnounce();
+    },
+
+    //検索モーダルを閉じる（SP  ）
     closeFilter(){
       this.displayAnnounceFilter = false;
     },
-    
+
+    //表示件数変更
     RowPageChange(){
       this.$store.dispatch("announce/setDisplayLimit", this.perRowPage);
-    }
-    
+    },
   },
   async created(){
     this.fetchCategoriesWithAll();

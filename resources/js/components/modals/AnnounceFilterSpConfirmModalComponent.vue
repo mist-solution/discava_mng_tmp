@@ -3,6 +3,7 @@
       <v-card class="p-3">
         <v-select
         dense
+        v-model="createdmodel"
         :items="items2"
         label="投稿月"
         item-value="id"
@@ -12,6 +13,7 @@
 
       <v-select
         dense
+        v-model="updatedmodel"
         :items="items2"
         label="更新月"
         item-value="id"
@@ -21,6 +23,7 @@
 
       <v-select
         dense
+        v-model="categoriesmodel"
         :items="categories"
         item-value="id"
         item-title="category_name"
@@ -31,6 +34,7 @@
 
       <v-select
         dense
+        v-model="usermodel"
         :items="users"
         label="投稿者名"
         item-value="id"
@@ -41,6 +45,7 @@
 
       <v-select
         dense
+        v-model="releasemodel"
         :items="items"
         label="公開状態"
         item-title="text"
@@ -51,6 +56,8 @@
         <v-card-actions class="justify-center">
           <!-- 検索ボタン -->
           <v-btn @click="searchAction()" class="green-btn mx-2">検索</v-btn>
+          <!-- リセットボタン -->
+           <v-btn @click="resetFilterAnnounce()" class="green-btn mx-2">リセット</v-btn>
           <!-- キャンセルボタン -->
           <v-btn @click="closeAction()" class="gray-btn mx-2">キャンセル</v-btn>
         </v-card-actions>
@@ -69,6 +76,11 @@
         categories_id: "",
         user_id: "",
         release_id: "",
+        createdmodel: null,
+        updatedmodel: null,
+        categoriesmodel: null,
+        usermodel: null,
+        releasemodel: null,
       };
     },
     methods: {
@@ -80,7 +92,7 @@
             this.created_id = id;
         },
         updatedChange: function(id) {
-            const postData = {
+            const postData = { 
                 id: id,
             };
             this.updated_id = id;
@@ -107,13 +119,13 @@
         //投稿月検索
             if(this.created_id != 0){
                 if(this.created_id == 1){
-                let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
-                this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
+                  let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
+                  this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
                 }else{
-                let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
-                let end = new Date(this.items2[this.created_id - 1].year + "-" + this.items2[this.created_id - 1].month + "-1")
-                this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
-                this.$store.dispatch("announce/setDisplaySearchAddDateEnd", end);
+                  let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
+                  let end = new Date(this.items2[this.created_id - 1].year + "-" + this.items2[this.created_id - 1].month + "-1")
+                  this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
+                  this.$store.dispatch("announce/setDisplaySearchAddDateEnd", end);
                 }
             }else{
                 this.$store.dispatch("announce/setDisplaySearchAddDateBegin", null);
@@ -122,13 +134,13 @@
             //更新月検索
             if(this.updated_id != 0){
                 if(this.updated_id == 1){
-                let start = new Date(this.items2[this.updated_id].year.toString() + "-" + this.items2[this.updated_id].month.toString() + "-1")
-                this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
+                  let start = new Date(this.items2[this.updated_id].year.toString() + "-" + this.items2[this.updated_id].month.toString() + "-1")
+                  this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
                 }else{
-                let start = new Date(this.items2[this.updated_id].year.toString() + "-" + this.items2[this.updated_id].month.toString() + "-1")
-                let end = new Date(this.items2[this.updated_id - 1].year.toString() + "-" + this.items2[this.updated_id - 1].month.toString() + "-1")
-                this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
-                this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", end);
+                  let start = new Date(this.items2[this.updated_id].year.toString() + "-" + this.items2[this.updated_id].month.toString() + "-1")
+                  let end = new Date(this.items2[this.updated_id - 1].year.toString() + "-" + this.items2[this.updated_id - 1].month.toString() + "-1")
+                  this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
+                  this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", end);
                 }
             }else{
                 this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", null);
@@ -149,9 +161,23 @@
             //公開/非公開検索
             this.$store.dispatch("announce/setDisplaySearchRelease", this.release_id);
         },
+        //検索条件リセット
+        resetFilterAnnounce(){
+          this.created_id = 0;
+          this.updated_id = 0;
+          this.categories_id = 0;
+          this.user_id = 0;
+          this.release_id = 0;
+          this.createdmodel = null;
+          this.updatedmodel = null;
+          this.categoriesmodel = null;
+          this.usermodel = null;
+          this.releasemodel = null;
+          this.FilterAnnounce();
+        },
         searchAction(){
-            this.FilterAnnounce();
-            this.closeAction();
+          this.FilterAnnounce();
+          this.closeAction();
         }
     },
     mounted() {},

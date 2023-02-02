@@ -4,6 +4,7 @@
 		<back-to-top-component />
 		<!-- データテーブル -->
 		<EasyDataTable
+      ref="dataTable"
 			v-model:items-selected="selected"
 			:headers="headers"
 			:items="users"
@@ -16,6 +17,7 @@
 			:search-value="searchValue"
 			:rows-per-page="rowsPerPage"
       v-if="reset"
+      :hide-footer="true"
 		>
 			<!-- <template #item-title="item">
 					<router-link :to="{ name: 'enduser.edit', params: { announceId: item.id } }">
@@ -113,19 +115,32 @@
         approval_auth_flg: null,
         rowsPerPage: 10,
         reset: true,
+        page: 1,
+        PageLastIndex: "",
       };
     },
     computed: {
       displayLimit() {
         return this.$store.state.enduser.displayLimit;
       },
+      displayPage() {
+        return this.$store.state.enduser.displayPage;
+      },
     },
     watch: {
       displayLimit() {
         this.rowsPerPage = this.$store.state.enduser.displayLimit;
+        let a = this.$refs.dataTable.clientItemsLength;
+        this.PageLastIndex = Math.ceil(a/this.rowsPerPage)
+        this.$emit("LastPageChange",this.PageLastIndex)
         this.reset = false;
         this.$nextTick(() => (this.reset = true));
       },
+      displayPage() {
+        this.page = this.$store.state.enduser.displayPage;
+        this.$refs.dataTable.updatePage(this.page);
+      },
+      
     },
     methods: {
       ...mapActions('authority', ['fetchAllAuthority']),
@@ -192,6 +207,8 @@
           this.headers[3].text = "";
         }
       }
+      this.PageLastIndex = this.$refs.dataTable.maxPaginationNumber;
+      this.$emit("LastPageChange",this.PageLastIndex)
     },
   };
   </script>

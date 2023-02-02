@@ -235,12 +235,16 @@ class UserController extends Controller
     // バリデーションリクエスト(アカウント追加)
     public function registStore(EndUserRegistRequest $request)
     {
-        return true;
+        if (!$request->validated()) {
+            return redirect()->back()->withInput()->withErrors($request->errors());
+        }
     }
 
     // バリデーションリクエスト(アカウント更新)
     public function updateStore(EndUserUpdateRequest $request)
     {
-        return true;
+        if (!$request->validated()) {
+            return redirect()->back()->withInput()->withErrors($request->errors());
+        }
     }
 }

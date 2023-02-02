@@ -29,8 +29,6 @@
     methods: {
       submitAction() {
         this.deleteAnnounce(this.$store.state.announce.deleteAnnounceId);
-        this.closeAction();
-        window.location.reload();
       },
     },
     mounted() {},

@@ -6,6 +6,7 @@ const state = {
     userInfo: null,
     endUserErrorMessages: null,
     displayLimit: 10,
+    displayPage: 1,
 }
 const getters = {
     getUsers: (state) => {
@@ -15,6 +16,7 @@ const getters = {
         return state.userInfo;
     },
     displayLimit: (state) => state.displayLimit,
+    displayPage: (state) => state.displayPage,
     //    getUserById: (state) => (id) => {
     //        const user = state.users.find((user) => {
     //            return user.id == id
@@ -34,6 +36,9 @@ const actions = {
     },
     setDisplayLimit(context, count) {
         context.commit('setDisplayLimit', count);
+    },
+    setDisplayPage(context, page) {
+        context.commit('setDisplayPage', page);
     },
     setDeleteUserId(context, deleteUserId) {
         context.commit('setDeleteUserId', deleteUserId);
@@ -75,6 +80,10 @@ const mutations = {
     setDisplayLimit(state, count) {
         state.displayLimit = count;
     },
+    setDisplayPage(state, page) {
+        state.displayPage = page;
+    },
+    
 }
 
 export default {

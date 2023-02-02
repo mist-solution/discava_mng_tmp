@@ -32,6 +32,7 @@
           Style="text-align:right"
           aria-label="Search"
           maxlength="2"
+          min="1"
           hide-details="false"
           v-model="perRowPage"
           @change = "RowPageChange"
@@ -46,6 +47,7 @@
 
       <v-select
         dense
+        class="filter-btn"
         :items="items2"
         label="投稿月"
         item-value="id"
@@ -55,6 +57,7 @@
 
       <v-select
         dense
+        class="filter-btn"
         :items="items2"
         label="更新月"
         item-value="id"
@@ -64,6 +67,7 @@
 
       <v-select
         dense
+        class="filter-btn"
         :items="categories"
         item-value="id"
         item-title="category_name"
@@ -74,6 +78,7 @@
 
       <v-select
         dense
+        class="filter-btn"
         :items="users"
         label="投稿者名"
         item-value="id"
@@ -84,6 +89,7 @@
 
       <v-select
         dense
+        class="filter-btn"
         :items="items"
         label="公開状態"
         item-title="text"
@@ -104,7 +110,7 @@
       <!-- 検索ボタン（spのみ） -->
       <v-col>
         <div class="btn-group ml-auto" @click="(displayAnnounceFilter = true)">
-          <button class="btn filterbtn mr-2 px-4 justify-center">
+          <button class="btn filterbtn-sp mr-2 px-4 justify-center">
             <v-icon color="black" x-small class="pb-1">mdi-magnify</v-icon>
           </button>
         </div>
@@ -116,6 +122,7 @@
           type="number"
           aria-label="Search"
           maxlength="2"
+          min="1"
           hide-details="false"
           Style="text-align:right"
           v-model="perRowPage"
@@ -421,14 +428,15 @@ export default {
     font-size: 18px !important;
   }
 
-  .filterbtn{
+  .filterbtn-sp{
     color: white;
     border: solid 1px black;
   }
 
   .LimitCount{
+    border-radius: 5px;
     background-color: white;
-    border: solid 1px black;
+    border: none !important;
     width: 50px
   }
 
@@ -442,6 +450,11 @@ export default {
 
   .displaycount{
     transform: scale(85%);
+  }
+
+  .filter-btn{
+    background-color: #fff;
+    border-radius: 10px;
   }
 
 </style>

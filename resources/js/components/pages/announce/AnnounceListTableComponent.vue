@@ -79,7 +79,7 @@
               class="w-100 my-2 action-select"
             ></v-select>
             <button
-              class="green-btn mx-2 px-3 py-2"
+              class="green-btn_noTransform mx-2 px-3 py-2"
               type="button"
               @click="allCheckedItemOperate()"
             >
@@ -91,20 +91,20 @@
         <!-- サムネイル画像 + タイトル -->
         <template #item-title="item">
           <div class="headtitle-left">
-            <v-row>
-              <v-col class="d-flex">
+            <v-row class="d-flex">
+              <div class="my-4 py-4">
                 <img
                   v-if="item.thumbnail_img_path"
                   :src="item.thumbnail_img_path"
-                  class="thumbnail-image my-4 mx-auto"
+                  class="thumbnail-image"
                 >
                 <img
                   v-if="!item.thumbnail_img_path"
                   src="/images/samb-none-image.jpg"
-                  class="thumbnail-image my-4 mx-auto"
+                  class="thumbnail-image"
                 >
-              </v-col>
-              <v-col class="detaTable-header_title">
+              </div>
+              <div class="detaTable-header_title ml-4">
               <!-- タイトル - 編集権限あり -->
                 <router-link
                   v-if="update_auth_flg"
@@ -121,7 +121,7 @@
                 <p class="mb-0 announce-category-font">
                   カテゴリー：{{ item.announce_categories.category_name }}
                 </p>
-              </v-col>
+              </div>
             </v-row>
           </div>
         </template>
@@ -602,6 +602,7 @@ export default {
     ...mapActions('authority', ['fetchAllAuthority']),
     ...mapActions('enduser', ['getUserInfo']),
     ...mapActions('announceCategory', ['fetchCategories']),
+    ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
     mergeProps,
     // モーダルを閉じる
     closeRequest() {
@@ -757,14 +758,27 @@ export default {
     // 申請処理
     approvalRequest(announceId) {
       axios.put("/api/announce/" + announceId + "/request")
-      .then((res) => {});
-      window.location.reload();
+      .then((res) => {
+        this.openSuccess('申請しました')
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        this.closeAction();
+        window.location.reload();
+      }, 1000);
     },
 
     // 承認処理
     approvalAnnounce(announce) {
       axios.post("/api/announce/" + announce + "/approval")
-      .then((res) => {});
+      .then((res) => {
+        this.openSuccess('承認しました')
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        this.closeAction();
+        window.location.reload();
+      }, 1000);
     },
 
     // 差戻し処理
@@ -773,21 +787,38 @@ export default {
           announce: this.announce,
           approvalReturnComment:
           this.$store.state.announce.approvalReturnComment,
-      })
-      .then((res) => {});
-      window.location.reload();
+      }).then((res) => {
+        this.openSuccess('差戻しました')
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        this.closeAction();
+        window.location.reload();
+      }, 1000);
     },
 
     // 取り下げ処理
     approvalCancel(announceId) {
-      axios.put("/api/announce/" + announceId + "/cansel").then((res) => {});
-      window.location.reload();
+      axios.put("/api/announce/" + announceId + "/cansel").then((res) => {
+        this.openSuccess('取り下げました')
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        this.closeAction();
+        window.location.reload();
+      }, 1000);
     },
 
     // 削除処理
     deleteAnnounce(announceId) {
-      axios.delete("/api/announce/" + announceId).then((res) => {});
-      window.location.reload();
+      axios.delete("/api/announce/" + announceId).then((res) => {
+        this.openSuccess('削除しました')
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        this.closeAction();
+        window.location.reload();
+      }, 1000);
     },
 
     timestampFormat(timestamp) {
@@ -1159,7 +1190,7 @@ thead {
 }
 // 承認済み
 .stastus-font__green {
-  color: #69A5AF;
+  color: #94CAB1;
   font-weight: 600;
 }
 // 下書き

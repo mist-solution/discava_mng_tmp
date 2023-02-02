@@ -66,6 +66,24 @@ a {
     transition: 0.3s;
 }
 
+/* 碧色のボタン - 沈む動きなし */
+.green-btn_noTransform {
+    border-radius: 5px;
+    background-color: #69A5AF;
+    box-shadow: unset;
+}
+.green-btn_noTransform .v-btn__content{
+    color:#fff !important;
+}
+.green-btn_noTransform {
+    color:#fff !important;
+}
+.green-btn_noTransform:hover{
+    box-shadow: unset !important;
+    background-color: #69A5AF !important;
+    color:#fff !important;
+}
+
 /* 灰色のボタン */
 .gray-btn {
     border-radius: 5px;
@@ -114,6 +132,8 @@ a {
     opacity:.8 !important;
     background-color: #69A5AF !important;
     color:#fff !important;
+    transform: translate(0, 3px);
+    transition: 0.3s;
 }
 
 /* 白いボタン */

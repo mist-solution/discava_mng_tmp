@@ -254,7 +254,7 @@
         </v-row>
 
         <!-- ユーザに承認権限がある場合かつ、承認ステータス 0:下書き以外の場合 -->
-        <div v-if="approval_auth_flg && announce.approval_status != 0">
+        <div v-if="approval_auth_flg">
           <!-- 区切り線-->
           <hr class="text-center">
           <p class="pt-3 mt-3 mb-4 font-weight-bold text-left text-gray">
@@ -262,11 +262,7 @@
           </p>
           <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0 pb-5">
             <!-- 承認する - 承認ステータス 1:承認待ちの場合 -->
-            <v-col
-              v-if="announce.approval_status === 1"
-              cols="11"
-              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1"
-              >
+            <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0 pb-1 mb-3" >
               <button
                 class="btn greens-btn"
                 @click="approvalAnnounce(announce.id)"
@@ -470,7 +466,7 @@ export default {
         ).then(response => {
           this.openSuccess('更新しました');
           // お知らせ一覧画面に遷移
-          this.$router.push({ name: 'announce.list' })
+          // this.$router.push({ name: 'announce.list' })
 
             // バリデーションのメッセージを初期化する
             this.$store.dispatch("announce/setAnnounceErrorMessages", "");

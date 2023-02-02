@@ -12,9 +12,9 @@
         <!-- 操作 -->
         <v-card-actions class="justify-center">
           <!-- 閉じるボタン -->
-          <v-btn @click="closeAction()" class="gray-btn mx-2">閉じる</v-btn>
+          <v-btn @click="closeAction()" type="button" class="gray-btn mx-2">閉じる</v-btn>
           <!-- 承認ボタン -->
-          <v-btn @click="submitAction()" class="green-btn mx-2">承認</v-btn>
+          <v-btn @click="submitAction()" type="button" class="green-btn mx-2">承認</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -29,8 +29,6 @@
     methods: {
       submitAction() {
         this.approvalAnnounce(this.$store.state.announce.approvalAnnounceId);
-        this.closeAction();
-        window.location.reload();
       },
     },
     mounted() {},

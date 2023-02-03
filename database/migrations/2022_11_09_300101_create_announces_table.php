@@ -18,8 +18,8 @@ class CreateAnnouncesTable extends Migration
 
             $table->id()->comment('ID');
             $table->unsignedBigInteger('shop_id')->comment('店舗ID');
-            $table->unsignedBigInteger('announce_category_id')->comment('お知らせカテゴリID');
-            $table->dateTime('start_date')->comment('掲載開始日');
+            $table->unsignedBigInteger('announce_category_id')->nullable()->comment('お知らせカテゴリID');
+            $table->dateTime('start_date')->nullable()->comment('掲載開始日');
             $table->dateTime('end_date')->nullable()->comment('掲載終了日');
             $table->string('title', 255)->comment('タイトル');
             $table->string('thumbnail_img_path', 128)->nullable()->comment('サムネイル画像パス');

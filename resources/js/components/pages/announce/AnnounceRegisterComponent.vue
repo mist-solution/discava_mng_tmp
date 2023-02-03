@@ -391,16 +391,16 @@ export default {
             this.openSuccess('下書き保存しました')
           // バリデーションのメッセージを初期化する
           this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+          // スナックバーの表示時間が経ってから実行
+          setTimeout(() => {
+            registFlg === 1 ?
+              this.$router.push({ name: 'announce.list' }) :
+              this.$router.push({name: 'announce.edit', params: { announceId: this.responseId }})
+          }, 1000);
         })
         .catch(error => {
           console.log(error);
         });
-        // スナックバーの表示時間が経ってから実行
-        setTimeout(() => {
-          registFlg === 1 ?
-            this.$router.push({ name: 'announce.list' }) :
-            this.$router.push({name: 'announce.edit', params: { announceId: this.responseId }})
-        }, 1000);
       });
     },
     readImage() {

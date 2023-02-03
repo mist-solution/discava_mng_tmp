@@ -164,15 +164,15 @@ export default {
                 this.openSuccess('更新しました');
                 // バリデーションのメッセージを初期化する
                 this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+                // スナックバーの表示時間が経ってから実行
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
             })
             .catch(error => {
                 console.log(error);
             });
       });
-      // スナックバーの表示時間が経ってから実行
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
     },
 //    getUser: function() {
 //      const user_id = this.$route.params.user_id;

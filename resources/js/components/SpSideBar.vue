@@ -283,6 +283,7 @@ label {
 .sp_sidebar .company_name{
   position: fixed;
   left: 15px;
+  color: #707070;
 }
 
 .sp_sidebar .v-tab{

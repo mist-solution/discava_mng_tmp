@@ -59,18 +59,7 @@
     </v-col>
 
     <!-- 件数表示 -->
-<!--
-    <v-col
-      sm="3"
-      cols="6"
-      class="usercount-list p-0 justify-sm-center justify-start"
-    >
-      <p class="m-0 px-3">全16件</p>
-      <p class="countnum m-0">10</p>
-      <p class="m-0 px-2">件表示</p>
-    </v-col>
--->
-    <v-col align="right" class="mr-2">
+    <v-col align="right" class="mr-2 text-gray">
       <input
         class="LimitCount"
         type="number"
@@ -349,6 +338,7 @@ export default {
     width: 45px;
     border-radius: 5px;
     border: none !important;
+    color: #707070 !important;
   }
 
   .pagenation{

@@ -41,7 +41,7 @@
     </v-card-title>
 
     <v-row v-if="!moblieFlg()">
-      <v-col align="left">
+      <v-col class="text-gray" align="left">
         全 {{  $store.state.announce.totalCount }} 件
       </v-col>
 
@@ -471,7 +471,8 @@ export default {
     border-radius: 5px;
     background-color: white;
     border: none !important;
-    width: 50px
+    width: 50px;
+    color: #707070;
   }
 
   .pc_btn{
@@ -484,6 +485,7 @@ export default {
 
   .displaycount{
     transform: scale(85%);
+    color: #707070;
   }
 
   .filter-btn{

@@ -1168,8 +1168,8 @@ thead {
 .vue3-easy-data-table__body td.direction-left {
   text-align: center !important;
   color: #707070 !important;
-  font-weight: 600;
-
+  font-weight: 400 !important;
+  font-size: 16px !important;
 }
 
 // テーブル要素タイトルのみ左寄せ

@@ -86,7 +86,7 @@
                   placeholder="掲載開始日"
                   :format="format"
                   :enableTimePicker="false"
-                  :required="true"
+                  :required="false"
                   selectText="確認"
                   cancelText="キャンセル"
                 />
@@ -168,9 +168,9 @@
               :items="categories"
               item-value="id"
               item-title="category_name"
-              :rules="[rules.required]"
               class="cat-tag"
               hide-details="false"
+              :required="false"
             />
           </v-col>
         </v-row>
@@ -334,6 +334,7 @@ export default {
               contents: this.announce.contents,
               thumbnail_file_name: this.file ? this.file.name : null,
             };
+            console.log(validateItem);
 
             // 必須項目を検証する
             axios.post('/api/announce/tempValidation',validateItem )
@@ -386,13 +387,13 @@ export default {
         ).then(response => {
           this.openSuccess('登録しました');
           // お知らせ一覧画面に遷移
-          this.$router.push({ name: 'announce.list' })
+          // this.$router.push({ name: 'announce.list' })
 
             // バリデーションのメッセージを初期化する
             this.$store.dispatch("announce/setAnnounceErrorMessages", "");
-        })
-        .catch(error => {
-          console.log(error);
+        // })
+        // .catch(error => {
+        //   console.log(error);
         });
       });
     },

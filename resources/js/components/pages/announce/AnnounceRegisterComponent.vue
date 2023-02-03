@@ -86,7 +86,7 @@
                   placeholder="掲載開始日"
                   :format="format"
                   :enableTimePicker="false"
-                  :required="true"
+                  :required="false"
                   selectText="確認"
                   cancelText="キャンセル"
                 />
@@ -168,9 +168,9 @@
               :items="categories"
               item-value="id"
               item-title="category_name"
-              :rules="[rules.required]"
               class="cat-tag"
               hide-details="false"
+              :required="false"
             />
           </v-col>
         </v-row>

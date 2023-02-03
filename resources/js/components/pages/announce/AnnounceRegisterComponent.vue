@@ -203,10 +203,10 @@
             </button>
           </v-col>
           <v-col cols="11" class="pt-0 px-0">
-            <button class="btn green-btn pr-0 pl-0" @click="submit(2)">下書き保存</button>
+            <button class="btn green-btn pr-0 pl-0" type="button" @click="submit(2)">下書き保存</button>
           </v-col>
           <v-col cols="11" class="pt-0 px-0">
-            <button class="btn green-btn" @click="submit(1)">登録する</button>
+            <button class="btn green-btn" type="button" @click="submit(1)">登録する</button>
           </v-col>
         </v-row>
       </v-card>
@@ -271,6 +271,7 @@ export default {
         start_date: null,
         end_date: null,
         contents: null,
+        responseId: null,
       },
       attachments: [],
       rules: {
@@ -384,16 +385,22 @@ export default {
           formData,
           { headers: { "Content-type": "multipart/form-data", }}
         ).then(response => {
-          this.openSuccess('登録しました');
-          // お知らせ一覧画面に遷移
-          this.$router.push({ name: 'announce.list' })
-
-            // バリデーションのメッセージを初期化する
-            this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+          this.responseId = response.data.id
+          registFlg === 1 ?
+            this.openSuccess('登録しました') :
+            this.openSuccess('下書き保存しました')
+          // バリデーションのメッセージを初期化する
+          this.$store.dispatch("announce/setAnnounceErrorMessages", "");
         })
         .catch(error => {
           console.log(error);
         });
+        // スナックバーの表示時間が経ってから実行
+        setTimeout(() => {
+          registFlg === 1 ?
+            this.$router.push({ name: 'announce.list' }) :
+            this.$router.push({name: 'announce.edit', params: { announceId: this.responseId }})
+        }, 1000);
       });
     },
     readImage() {

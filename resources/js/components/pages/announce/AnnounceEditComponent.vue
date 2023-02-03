@@ -286,7 +286,7 @@
             <v-col
               v-if="announce.approval_status != 0 && announce.approval_status != 3"
               cols="11"
-              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1"
+              class="pt-0 pr-0 pl-0 pb-1"
             >
               <button
                   class="btn sendbacks-btn"
@@ -468,15 +468,15 @@ export default {
           { headers: { "Content-type": "multipart/form-data", }}
         ).then(response => {
           this.openSuccess('更新しました');
-          // お知らせ一覧画面に遷移
-          // this.$router.push({ name: 'announce.list' })
-
-            // バリデーションのメッセージを初期化する
-            this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+          this.$store.dispatch("announce/setAnnounceErrorMessages", "");
         })
         .catch(error => {
           console.log(error);
         });
+        // スナックバーの表示時間が経ってから実行
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       });
     },
     readImage() {
@@ -582,14 +582,24 @@ export default {
     // 申請処理
     approvalRequest(announceId) {
       axios.put("/api/announce/" + announceId + "/request")
-      .then((res) => {});
-      window.location.reload();
+      .then((res) => {
+        this.openSuccess('申請しました');
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     },
     // 承認処理
     approvalAnnounce(announce) {
       axios.post("/api/announce/" + announce + "/approval")
-      .then((res) => {});
-      window.location.reload();
+      .then((res) => {
+        this.openSuccess('承認しました');
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     },
     // 差戻し処理
     approvalReturn(announceId) {
@@ -598,13 +608,23 @@ export default {
           approvalReturnComment:
           this.$store.state.announce.approvalReturnComment,
       })
-      .then((res) => {});
-      window.location.reload();
+      .then((res) => {
+        this.openSuccess('差戻しました');
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     },
     // 取り下げ処理
     approvalCancel(announceId) {
-      axios.put("/api/announce/" + announceId + "/cansel").then((res) => {});
-      window.location.reload();
+      axios.put("/api/announce/" + announceId + "/cansel").then((res) => {
+        this.openSuccess('取り下げました');
+      });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     },
   },
   computed: {

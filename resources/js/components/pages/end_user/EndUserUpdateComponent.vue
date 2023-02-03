@@ -162,7 +162,6 @@ export default {
         this.$axios.put('/api/enduser/' + this.forms.id, this.forms)
             .then(response => {
                 this.openSuccess('更新しました');
-                this.$router.push('/enduser');
                 // バリデーションのメッセージを初期化する
                 this.$store.dispatch("enduser/setEndUserErrorMessages", "");
             })
@@ -170,6 +169,10 @@ export default {
                 console.log(error);
             });
       });
+      // スナックバーの表示時間が経ってから実行
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     },
 //    getUser: function() {
 //      const user_id = this.$route.params.user_id;

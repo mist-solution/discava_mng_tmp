@@ -16,7 +16,6 @@
           hide-details="false"
           placeholder="タイトルを入力"
         />
-
         <QuillEditor
           toolbar="full"
           class="ql-editor p-0"
@@ -61,7 +60,7 @@
                 x-small
                 dark
                 elevation=0
-                @click="deletefile()"
+                @click="deletefile(item)"
               >
                 <v-icon>mdi-trash-can-outline</v-icon>
               </v-btn>
@@ -490,8 +489,7 @@ export default {
     },
     // 削除ボタン押下
     deletefile: function(item) {
-      const index = this.attachments.indexOf(item);
-      this.attachments.splice(index, 1);
+      this.attachments = this.attachments.filter(a => a.name !== item.name);
     },
     over: function(event) {
         if (event.target.classList && event.target.classList.contains("file-upload")) {

@@ -61,7 +61,7 @@
                 x-small
                 dark
                 elevation=0
-                @click="deletefile()"
+                @click="deletefile(item)"
               >
                 <v-icon>mdi-trash-can-outline</v-icon>
               </v-btn>
@@ -385,12 +385,16 @@ export default {
       displayAnnounceReturnApprovalConfirm: false,
       username: null,
       attachments: [],
+      loadAttachments: [],
+      insertAttachments: [],
+      deleteAttachments: [],
       headers: [
           { text: 'ファイル名', value: 'name', align: 'left', class: 'no-wrap', sortable: false },
           { text: '', value: 'action', align: 'right', class: 'action', sortable: false },
       ],
     };
   },
+
   methods: {
     ...mapActions('announceCategory', ['fetchCategories']),
     ...mapActions('announce', ['getAnnounce']),
@@ -403,9 +407,6 @@ export default {
       this.announce.contents = html;
 
       const validateRes = this.$refs.form.validate();
-      console.log('localStorage');
-      console.log(localStorage);
-      console.log(localStorage.getItem('auth'));
       validateRes.then(res => {
         if (!res.valid) {
           // 必須項目を取得
@@ -447,23 +448,20 @@ export default {
         }
         formData.append("announce", JSON.stringify(item));
 
-        console.log(this.file)
         if (this.file) {
           formData.append("thumbnail_file", this.file);
         }
 
-        for (let i = 0; i < this.attachments.length; i++) {
-          formData.append('attachments[' + i + ']', this.attachments[i]);
+        for (let i = 0; i < this.insertAttachments.length; i++) {
+          formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
         }
-        console.log(formData)
 
-        const config = {
-          headers: {
-            "Content-type": "multipart/form-data",
-          },
-        };
+        for (let i = 0; i < this.deleteAttachments.length; i++) {
+          formData.append('deleteAttachments[' + i + ']', JSON.stringify(this.deleteAttachments[i]));
+        }
 
-        this.$axios.put('/api/announce/' + this.announce.id + '/update',
+        // Larabel は multipart/form-data を put で処理できないため post
+        axios.post('/api/announce/' + this.announce.id + '/update',
           formData,
           { headers: { "Content-type": "multipart/form-data", }}
         ).then(response => {
@@ -546,7 +544,14 @@ export default {
     addfile: function() {
         const fileInput = document.getElementById("file_input")
         for (const file of fileInput.files) {
+          const sameNameFiles = this.attachments.filter(a => a.name == file.name);
+          if(sameNameFiles.length > 0) {
+            // 同名ファイルの追加は行えない
+            continue;
+          }
+
           this.attachments.push(file);
+          this.insertAttachments.push(file);
           // 表示用タグとして本文に追加
           let text = this.$refs.myQuillEditor.getText();
           text = text + '\n' + '[['+file.name+']]';
@@ -555,8 +560,12 @@ export default {
     },
     // 削除ボタン押下
     deletefile: function(item) {
-      const index = this.attachments.indexOf(item);
-      this.attachments.splice(index, 1);
+      this.attachments = this.attachments.filter(a => a.name !== item.name);
+
+      const deleteFiles = this.loadAttachments.filter(a => a.img_filename == item.name);
+      if (deleteFiles.length > 0) {
+        this.deleteAttachments.push(deleteFiles[0]);
+      }
     },
     over: function(event) {
         if (event.target.classList && event.target.classList.contains("file-upload")) {
@@ -623,6 +632,10 @@ export default {
   },
   async mounted() {
     this.announce = await this.getAnnounce(this.announceId);
+    this.loadAttachments = this.announce.attachments;
+    this.loadAttachments.forEach(attachment => {
+      this.attachments.push({ name: attachment.img_filename });
+    });
     this.$refs.myQuillEditor.pasteHTML(this.announce.contents);
     // ユーザの権限セットを取得
     let authority = await this.fetchAllAuthority();

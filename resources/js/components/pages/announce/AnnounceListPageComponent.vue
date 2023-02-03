@@ -337,10 +337,14 @@ export default {
       if(this.created_id != 0){
         if(this.created_id == 1){
           let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
+          start.setHours(start.getHours() + 9);
           this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
+          this.$store.dispatch("announce/setDisplaySearchAddDateEnd", null);
         }else{
           let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
           let end = new Date(this.items2[this.created_id - 1].year + "-" + this.items2[this.created_id - 1].month + "-1")
+          start.setHours(start.getHours() + 9);
+          end.setHours(end.getHours() + 9);
           this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
           this.$store.dispatch("announce/setDisplaySearchAddDateEnd", end);
         }
@@ -351,11 +355,15 @@ export default {
       //更新月検索
       if(this.updated_id != 0){
         if(this.updated_id == 1){
-          let start = new Date(this.items2[this.updated_id].year.toString() + "-" + this.items2[this.updated_id].month.toString() + "-1")
+          let start = new Date(this.items2[this.updated_id].year + "-" + this.items2[this.updated_id].month + "-1")
+          start.setHours(start.getHours() + 9);
           this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
+          this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", null);
         }else{
-          let start = new Date(this.items2[this.updated_id].year.toString() + "-" + this.items2[this.updated_id].month.toString() + "-1")
-          let end = new Date(this.items2[this.updated_id - 1].year.toString() + "-" + this.items2[this.updated_id - 1].month.toString() + "-1")
+          let start = new Date(this.items2[this.updated_id].year + "-" + this.items2[this.updated_id].month + "-1")
+          let end = new Date(this.items2[this.updated_id - 1].year + "-" + this.items2[this.updated_id - 1].month + "-1")
+          start.setHours(start.getHours() + 9);
+          end.setHours(end.getHours() + 9);
           this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
           this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", end);
         }

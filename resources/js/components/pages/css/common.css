@@ -34,8 +34,10 @@ a {
     margin-top: -16px;
 }
 
-.v-main > .v-container > .v-container{
+@media (min-width: 901px){
+    .v-main > .v-container > .v-container{
     margin-left: 35px;
+    }
 }
 
 /* メインの入れ物 (主にcardでまとめる)*/

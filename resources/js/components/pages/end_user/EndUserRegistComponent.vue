@@ -92,7 +92,7 @@
                     :items="authoritySet"
                     item-value="id"
                     item-title="name"
-                    :rules="[rules.required, rules.required_model]"
+                    :rules="[rules.required]"
                     hide-details="false"
                     v-model="shop.model"
                   />
@@ -186,7 +186,6 @@ export default {
         max_72: value => value.length <= 72 || '72文字以内です。',
         email: value => /.+@.+\..+/.test(value) || '正しい書式ではありません',
         password: value => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[-_%$#])[A-Za-z\d-_%$#]{12,72}$/.test(value) || '12文字以上。半角英数字、ﾊｲﾌﾝ、ｱﾝﾀﾞｰﾊﾞｰが使えます。',
-        required_model: value => value >= 1 || '必須です。',
       },
       errors: {
         checlbox: false,

@@ -137,7 +137,7 @@
         <!-- ToDo:権限は要検討 -->
         <v-row justify="center" class="mt-4 btn-list">
           <v-col cols="12" sm="3" class="p-0 m-2">
-            <v-btn class="green-btn" @click="submit">
+            <v-btn class="green-btn" @click.prevent="submit">
               アカウント追加
             </v-btn>
           </v-col>
@@ -206,19 +206,24 @@ export default {
     ...mapActions('authoritySet', ['fetchAllAuthoritySetDisplay']),
     ...mapActions('shop', ['fetchShops']),
     submit() {
+      // 必須項目を取得
+      const validateItem = {
+        name: this.forms.name,
+        email: this.forms.email,
+        password:this.forms.password,
+        password_confirmation:this.forms.password_confirmation,
+        shopList:this.forms.shopList,
+      };
+      console.log(validateItem);
+      console.log (validateItem.shopList[0].model);
+      console.log (validateItem.shopList[1].model);
+      let shopListModel = "";
+      if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
+        shopListModel = false;
+      }
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if (!res.valid) {
-          // 必須項目を取得
-          const validateItem = {
-            name: this.forms.name,
-            email: this.forms.email,
-            password:this.forms.password,
-            password_confirmation:this.forms.password_confirmation,
-            shopList:this.forms.shopList,
-          };
-          console.log(validateItem);
-
+        if (!res.valid || shopListModel == false) {
           // 必須項目を検証する
           axios.post('/api/enduser/registValidation',validateItem )
           .then(response => {

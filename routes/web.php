@@ -64,4 +64,4 @@ Route::get('password/sendmail', 'Auth\SendMailController@showSendmailForm')->nam
 // それ以外
 Route::get('{any}', function () {
     return view('app');
-})->where('any', '.*');
+})->where('any', '.*')->middleware('auth');

@@ -477,3 +477,9 @@ text-align: center;
 .ql-editor {
     color: #707070;
 }
+
+@media(max-width: 900px){
+    .v-main > div >div .navbar{
+        display: none
+    }
+}

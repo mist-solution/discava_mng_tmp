@@ -69,6 +69,7 @@ export default {
     // お知らせの承認ステータス
     announceStatus(announceStatus) {
       this.$store.dispatch("announce/setDisplayAnnounceStatus", announceStatus);
+      this.$store.dispatch("announce/setDisplayPage", 1);
     },
     // 選択したタブをstoreに設定
     setSelectTab(key) {

@@ -53,7 +53,7 @@
         item-value="id"
         item-title="text"
         v-model="createdmodel"
-        @update:modelValue="createdChange"
+        @update:modelValue='createdChange'
       />
 
       <v-select
@@ -64,7 +64,7 @@
         item-value="id"
         item-title="text"
         v-model="updatedmodel"
-        @update:modelValue="updatedChange"
+        @update:modelValue='updatedChange'
       />
 
       <v-select
@@ -76,7 +76,7 @@
         label="カテゴリー"
         hide-details="false"
         v-model="categoriesmodel"
-        @update:modelValue="categoriesChange"
+        @update:modelValue='categoriesChange'
       />
 
       <v-select
@@ -88,7 +88,7 @@
         item-title="name"
         hide-details="false"
         v-model="usermodel"
-        @update:modelValue="userChange"
+        @update:modelValue='userChange'
       />
 
       <v-select
@@ -99,16 +99,8 @@
         item-title="text"
         item-value="id"
         v-model="releasemodel"
-        @update:modelValue="releaseChange"
+        @update:modelValue='releaseChange'
       />
-
-      <button
-        class="green-btn_noTransform mx-2 px-3 py-2"
-        type="button"
-        @click="FilterAnnounce()"
-      >
-        検索
-      </button>
 
       <button
         class="green-btn mx-2 px-3 py-2"
@@ -307,30 +299,35 @@ export default {
         id: id,
       };
       this.created_id = id;
+      this.FilterAnnounce()
     },
     updatedChange: function(id) {
       const postData = {
         id: id,
       };
       this.updated_id = id;
+      this.FilterAnnounce()
     },
     categoriesChange: function(id) {
       const postData = {
         id: id,
       };
       this.categories_id = id;
+      this.FilterAnnounce()
     },
     userChange: function(id) {
       const postData = {
         id: id,
       };
       this.user_id = id;
+      this.FilterAnnounce()
     },
     releaseChange: function(id) {
       const postData = {
         id: id,
       };
       this.release_id = id;
+      this.FilterAnnounce()
     },
     FilterAnnounce(){
       //投稿月検索

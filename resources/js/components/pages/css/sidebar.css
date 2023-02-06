@@ -112,7 +112,7 @@
 
 .rail_toggle{
     position: fixed;
-    left: 7px;
+    left: 12px;
     bottom: 8px;
 }
 
@@ -134,5 +134,5 @@
 }
 
 .v-list-item__prepend{
-    padding-left: 4px !important;
+    padding-left: 9px !important;
 }

@@ -214,9 +214,6 @@ export default {
         password_confirmation:this.forms.password_confirmation,
         shopList:this.forms.shopList,
       };
-      console.log(validateItem);
-      console.log (validateItem.shopList[0].model);
-      console.log (validateItem.shopList[1].model);
       let shopListModel = "";
       if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
         shopListModel = false;

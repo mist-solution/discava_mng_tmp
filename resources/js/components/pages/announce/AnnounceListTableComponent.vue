@@ -118,7 +118,7 @@
                   {{ item.title }}
                 </div>
                 <!-- カテゴリー -->
-                <p class="mb-0 announce-category-font">
+                <p class="mb-0 announce-category-font" v-if="item.announce_category_id">
                   カテゴリー：{{ item.announce_categories.category_name }}
                 </p>
               </div>

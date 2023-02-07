@@ -214,19 +214,26 @@ export default {
         password_confirmation:this.forms.password_confirmation,
         shopList:this.forms.shopList,
       };
-      let shopListModel = "";
+      let shopListModel = true;
       if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
         shopListModel = false;
+        console.log("shopListModel");
+        console.log(shopListModel);
+        console.log(validateItem.shopList[0].model);
+        console.log(validateItem.shopList[1].model);
       }
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
         if (!res.valid || shopListModel == false) {
           // 必須項目を検証する
-          axios.post('/api/enduser/registValidation',validateItem )
+          axios.post('/api/enduser/registValidation', validateItem )
           .then(response => {
               console.log(response);
           })
           .catch(error => {
+            console.log("ERROR");
+            console.log(validateItem.shopList[0].model);
+            console.log(validateItem.shopList[1].model);
             if (error.response.status !== 422) {
               console.error(error);
             } else {

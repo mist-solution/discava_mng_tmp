@@ -141,14 +141,24 @@ export default {
       };
       console.log(validateItem);
 
+      let shopListModel = true;
+      if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
+        shopListModel = false;
+        console.log("shopListModel");
+        console.log(shopListModel);
+        console.log(validateItem.shopList[0].model);
+        console.log(validateItem.shopList[1].model);
+      }
       validateRes.then(res => {
-        // if (!res.valid) {
-          // 必須項目を検証する
-          axios.post('/api/enduser/updateValidation',validateItem )
+        if (!res.valid || shopListModel == false) {          // 必須項目を検証する
+          axios.post('/api/enduser/updateValidation', validateItem )
           .then(response => {
               console.log(response);
           })
           .catch(error => {
+            console.log("ERROR");
+            console.log(validateItem.shopList[0].model);
+            console.log(validateItem.shopList[1].model);
             if (error.response.status !== 422) {
               console.error(error);
             } else {
@@ -157,9 +167,7 @@ export default {
           });
           console.log("invalid!");
           return;
-        // }else{
-
-        // }
+        }
         this.$axios.put('/api/enduser/' + this.forms.id, this.forms)
             .then(response => {
                 this.openSuccess('更新しました');

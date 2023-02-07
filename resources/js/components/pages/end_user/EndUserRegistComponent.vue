@@ -137,7 +137,7 @@
         <!-- ToDo:権限は要検討 -->
         <v-row justify="center" class="mt-4 btn-list">
           <v-col cols="12" sm="3" class="p-0 m-2">
-            <v-btn class="green-btn" @click.prevent="submit">
+            <v-btn class="green-btn" type="button" @click.prevent="submit">
               アカウント追加
             </v-btn>
           </v-col>
@@ -236,10 +236,12 @@ export default {
             .then(response => {
               this.reset();
               this.openSuccess('登録しました');
-              this.$router.push('/enduser');
-              // this.fetchUsers();
               // バリデーションのメッセージを初期化する
               this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+              // スナックバーの表示時間が経ってから実行
+              setTimeout(() => {
+                this.$router.push({name: 'enduser.list'})
+              }, 1000);
         })
         .catch(error => {
           console.log(error);

@@ -201,10 +201,10 @@
             </button>
           </v-col>
           <v-col cols="11" class="pt-0 px-0">
-            <button class="btn green-btn pr-0 pl-0" @click.prevent="submit(2)">下書き保存</button>
+            <button class="btn green-btn pr-0 pl-0" type="button" @click.prevent="submit(2)">下書き保存</button>
           </v-col>
           <v-col cols="11" class="pt-0 px-0">
-            <button class="btn green-btn" @click.prevent="submit(1)">登録する</button>
+            <button class="btn green-btn" type="button" @click.prevent="submit(1)">登録する</button>
           </v-col>
         </v-row>
       </v-card>
@@ -269,6 +269,7 @@ export default {
         start_date: null,
         end_date: null,
         contents: null,
+        responseId: null,
       },
       attachments: [],
       rules: {

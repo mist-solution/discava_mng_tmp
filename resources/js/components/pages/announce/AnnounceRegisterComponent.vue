@@ -315,10 +315,57 @@ export default {
       // 必須項目を検証する
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if (!res.valid || validateItem.contents == null) {
+        // if (!res.valid || validateItem.contents == null) {
           if(registFlg == 1) {
             axios.post('/api/announce/registValidation', validateItem )
             .then(response => {
+              let formData = new FormData();
+              const item = {
+                title: encodeURIComponent(this.announce.title),
+                announce_category_id: this.announce.announce_category_id,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+                contents: encodeURIComponent(this.announce.contents),
+                thumbnail_file_name: this.file ? this.file.name : null,
+                regist_flg: registFlg,
+              };
+              formData.append("announce", JSON.stringify(item));
+
+              console.log(this.file)
+              if (this.file) {
+                formData.append("thumbnail_file", this.file);
+              }
+
+              for (let i = 0; i < this.attachments.length; i++) {
+                formData.append('attachments[' + i + ']', this.attachments[i]);
+              }
+              console.log(formData)
+
+              const config = {
+                headers: {
+                  "Content-type": "multipart/form-data",
+                },
+              };
+
+              // axios.post('/api/announce', formData, config)
+              axios.post('/api/announce/regist',
+                formData,
+                { headers: { "Content-type": "multipart/form-data", }}
+              ).then(response => {
+                if(registFlg == 1){
+                  this.openSuccess('登録しました');
+                }else if(registFlg == 2){
+                  this.openSuccess('保存しました');
+                }
+                // お知らせ一覧画面に遷移
+                this.$router.push({ name: 'announce.list' })
+
+                  // バリデーションのメッセージを初期化する
+                  this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+              })
+              .catch(error => {
+                console.log(error);
+              });
             })
             .catch(error => {
               if (error.response.status !== 422) {
@@ -330,6 +377,53 @@ export default {
           }else if (registFlg == 2){
             axios.post('/api/announce/tempValidation', validateItem )
             .then(response => {
+              let formData = new FormData();
+              const item = {
+                title: encodeURIComponent(this.announce.title),
+                announce_category_id: this.announce.announce_category_id,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+                contents: encodeURIComponent(this.announce.contents),
+                thumbnail_file_name: this.file ? this.file.name : null,
+                regist_flg: registFlg,
+              };
+              formData.append("announce", JSON.stringify(item));
+
+              console.log(this.file)
+              if (this.file) {
+                formData.append("thumbnail_file", this.file);
+              }
+
+              for (let i = 0; i < this.attachments.length; i++) {
+                formData.append('attachments[' + i + ']', this.attachments[i]);
+              }
+              console.log(formData)
+
+              const config = {
+                headers: {
+                  "Content-type": "multipart/form-data",
+                },
+              };
+
+              // axios.post('/api/announce', formData, config)
+              axios.post('/api/announce/regist',
+                formData,
+                { headers: { "Content-type": "multipart/form-data", }}
+              ).then(response => {
+                if(registFlg == 1){
+                  this.openSuccess('登録しました');
+                }else if(registFlg == 2){
+                  this.openSuccess('保存しました');
+                }
+                // お知らせ一覧画面に遷移
+                this.$router.push({ name: 'announce.list' })
+
+                  // バリデーションのメッセージを初期化する
+                  this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+              })
+              .catch(error => {
+                console.log(error);
+              });
             })
             .catch(error => {
               if (error.response.status !== 422) {
@@ -341,54 +435,8 @@ export default {
           }
           console.log("invalid!");
           return;
-        }
-        let formData = new FormData();
-        const item = {
-          title: encodeURIComponent(this.announce.title),
-          announce_category_id: this.announce.announce_category_id,
-          start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
-          end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
-          contents: encodeURIComponent(this.announce.contents),
-          thumbnail_file_name: this.file ? this.file.name : null,
-          regist_flg: registFlg,
-        };
-        formData.append("announce", JSON.stringify(item));
-
-        console.log(this.file)
-        if (this.file) {
-          formData.append("thumbnail_file", this.file);
-        }
-
-        for (let i = 0; i < this.attachments.length; i++) {
-          formData.append('attachments[' + i + ']', this.attachments[i]);
-        }
-        console.log(formData)
-
-        const config = {
-          headers: {
-            "Content-type": "multipart/form-data",
-          },
-        };
-
-        // axios.post('/api/announce', formData, config)
-        axios.post('/api/announce/regist',
-          formData,
-          { headers: { "Content-type": "multipart/form-data", }}
-        ).then(response => {
-          if(registFlg == 1){
-            this.openSuccess('登録しました');
-          }else if(registFlg == 2){
-            this.openSuccess('保存しました');
-          }
-          // お知らせ一覧画面に遷移
-          this.$router.push({ name: 'announce.list' })
-
-            // バリデーションのメッセージを初期化する
-            this.$store.dispatch("announce/setAnnounceErrorMessages", "");
-        })
-        .catch(error => {
-          console.log(error);
-        });
+        // }
+        
       });
     },
     readImage() {

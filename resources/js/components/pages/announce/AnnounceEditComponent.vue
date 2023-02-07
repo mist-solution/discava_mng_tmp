@@ -429,10 +429,48 @@ export default {
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
         console.log(res);
-        if (!res.valid || validateItem.contents == null) {
+        // if (!res.valid || validateItem.contents == null) {
           if(this.announce.approval_status != 0) {
             axios.post('/api/announce/registValidation', validateItem )
             .then(response => {
+              let formData = new FormData();
+              const item = {
+                title: encodeURIComponent(this.announce.title),
+                announce_category_id: this.announce.announce_category_id,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+                contents: encodeURIComponent(this.announce.contents),
+                thumbnail_file_name: this.file ? this.file.name : null,
+              }
+              formData.append("announce", JSON.stringify(item));
+
+              if (this.file) {
+                formData.append("thumbnail_file", this.file);
+              }
+
+              for (let i = 0; i < this.insertAttachments.length; i++) {
+                formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
+              }
+
+              for (let i = 0; i < this.deleteAttachments.length; i++) {
+                formData.append('deleteAttachments[' + i + ']', JSON.stringify(this.deleteAttachments[i]));
+              }
+
+              // Larabel は multipart/form-data を put で処理できないため post
+              axios.post('/api/announce/' + this.announce.id + '/update',
+                formData,
+                { headers: { "Content-type": "multipart/form-data", }}
+              ).then(response => {
+                this.openSuccess('更新しました');
+                // お知らせ一覧画面に遷移
+                this.$router.push({ name: 'announce.list' })
+
+                // バリデーションのメッセージを初期化する
+                this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+              })
+              .catch(error => {
+                console.log(error);
+              });
             })
             .catch(error => {
               if (error.response.status !== 422) {
@@ -444,6 +482,44 @@ export default {
           } else {
             axios.post('/api/announce/tempValidation', validateItem )
             .then(response => {
+              let formData = new FormData();
+              const item = {
+                title: encodeURIComponent(this.announce.title),
+                announce_category_id: this.announce.announce_category_id,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+                contents: encodeURIComponent(this.announce.contents),
+                thumbnail_file_name: this.file ? this.file.name : null,
+              }
+              formData.append("announce", JSON.stringify(item));
+
+              if (this.file) {
+                formData.append("thumbnail_file", this.file);
+              }
+
+              for (let i = 0; i < this.insertAttachments.length; i++) {
+                formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
+              }
+
+              for (let i = 0; i < this.deleteAttachments.length; i++) {
+                formData.append('deleteAttachments[' + i + ']', JSON.stringify(this.deleteAttachments[i]));
+              }
+
+              // Larabel は multipart/form-data を put で処理できないため post
+              axios.post('/api/announce/' + this.announce.id + '/update',
+                formData,
+                { headers: { "Content-type": "multipart/form-data", }}
+              ).then(response => {
+                this.openSuccess('更新しました');
+                // お知らせ一覧画面に遷移
+                this.$router.push({ name: 'announce.list' })
+
+                // バリデーションのメッセージを初期化する
+                this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+              })
+              .catch(error => {
+                console.log(error);
+              });
             })
             .catch(error => {
               if (error.response.status !== 422) {
@@ -455,45 +531,7 @@ export default {
           }
           console.log("invalid!");
           return;
-        }
-        let formData = new FormData();
-        const item = {
-          title: encodeURIComponent(this.announce.title),
-          announce_category_id: this.announce.announce_category_id,
-          start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
-          end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
-          contents: encodeURIComponent(this.announce.contents),
-          thumbnail_file_name: this.file ? this.file.name : null,
-        }
-        formData.append("announce", JSON.stringify(item));
-
-        if (this.file) {
-          formData.append("thumbnail_file", this.file);
-        }
-
-        for (let i = 0; i < this.insertAttachments.length; i++) {
-          formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
-        }
-
-        for (let i = 0; i < this.deleteAttachments.length; i++) {
-          formData.append('deleteAttachments[' + i + ']', JSON.stringify(this.deleteAttachments[i]));
-        }
-
-        // Larabel は multipart/form-data を put で処理できないため post
-        axios.post('/api/announce/' + this.announce.id + '/update',
-          formData,
-          { headers: { "Content-type": "multipart/form-data", }}
-        ).then(response => {
-          this.openSuccess('更新しました');
-          // お知らせ一覧画面に遷移
-          this.$router.push({ name: 'announce.list' })
-
-          // バリデーションのメッセージを初期化する
-          this.$store.dispatch("announce/setAnnounceErrorMessages", "");
-        })
-        .catch(error => {
-          console.log(error);
-        });
+        // }
       });
     },
     readImage() {

@@ -85,7 +85,7 @@
                   placeholder="掲載開始日"
                   :format="format"
                   :enableTimePicker="false"
-                  :required="true"
+                  :required="isRequired ? ['rules.required'] : []"
                   selectText="確認"
                   cancelText="キャンセル"
                 />
@@ -167,7 +167,6 @@
               :items="categories"
               item-value="id"
               item-title="category_name"
-              :rules="[rules.required]"
               class="cat-tag"
               hide-details="false"
             />
@@ -217,7 +216,7 @@
           >
             <button
               class="btn green-btn pr-0 pl-0"
-              @click="submit()"
+              @click.prevent="submit()"
               type="button"
             >
               更新する
@@ -392,6 +391,7 @@ export default {
           { text: 'ファイル名', value: 'name', align: 'left', class: 'no-wrap', sortable: false },
           { text: '', value: 'action', align: 'right', class: 'action', sortable: false },
       ],
+      isRequired: false,
     };
   },
 
@@ -406,34 +406,53 @@ export default {
       const html = this.$refs.myQuillEditor.getHTML();
       this.announce.contents = html;
 
+      if (this.announce.contents === "<p><br></p>"){
+        this.announce.contents = null
+      }
+      // 検証項目
+      const validateItem = {
+        title: this.announce.title,
+        announce_category_id: this.announce.announce_category_id,
+        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
+        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+        contents: this.announce.contents,
+        thumbnail_file_name: this.file ? this.file.name : null,
+      };
+
+      // 下書き保存と登録する場合による、必須項目をTrueにする
+      if(this.announce.approval_status != 0){
+        this.isRequired = true;
+      }else{
+        this.isRequired = false;
+      }
+
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if (!res.valid) {
-          // 必須項目を取得
-          if (this.announce.contents === "<p><br></p>"){
-            this.announce.contents = null
+        console.log(res);
+        if (!res.valid || validateItem.contents == null) {
+          if(this.announce.approval_status != 0) {
+            axios.post('/api/announce/registValidation', validateItem )
+            .then(response => {
+            })
+            .catch(error => {
+              if (error.response.status !== 422) {
+                console.error(error);
+              } else {
+                this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+              }
+            });
+          } else {
+            axios.post('/api/announce/tempValidation', validateItem )
+            .then(response => {
+            })
+            .catch(error => {
+              if (error.response.status !== 422) {
+                console.error(error);
+              } else {
+                this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+              }
+            });
           }
-          const validateItem = {
-            title: this.announce.title,
-            announce_category_id: this.announce.announce_category_id,
-            start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : '',
-            end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
-            contents: this.announce.contents,
-            thumbnail_file_name: this.file ? this.file.name : null,
-          };
-
-          // 必須項目を検証する
-          axios.post('/api/announce/validation',validateItem )
-          .then(response => {
-              console.log(response);
-          })
-          .catch(error => {
-            if (error.response.status !== 422) {
-              console.error(error);
-            } else {
-              this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
-            }
-          });
           console.log("invalid!");
           return;
         }
@@ -441,8 +460,8 @@ export default {
         const item = {
           title: encodeURIComponent(this.announce.title),
           announce_category_id: this.announce.announce_category_id,
-          start_date: moment(this.announce.start_date).format("yyyy-MM-DD"),
-          end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
+          start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+          end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
           contents: encodeURIComponent(this.announce.contents),
           thumbnail_file_name: this.file ? this.file.name : null,
         }
@@ -467,10 +486,10 @@ export default {
         ).then(response => {
           this.openSuccess('更新しました');
           // お知らせ一覧画面に遷移
-          // this.$router.push({ name: 'announce.list' })
+          this.$router.push({ name: 'announce.list' })
 
-            // バリデーションのメッセージを初期化する
-            this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+          // バリデーションのメッセージを初期化する
+          this.$store.dispatch("announce/setAnnounceErrorMessages", "");
         })
         .catch(error => {
           console.log(error);

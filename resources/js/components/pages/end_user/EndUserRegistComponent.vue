@@ -215,25 +215,24 @@ export default {
         shopList:this.forms.shopList,
       };
       let shopListModel = true;
+      let passwordCheck = false;
+
       if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
         shopListModel = false;
-        console.log("shopListModel");
-        console.log(shopListModel);
-        console.log(validateItem.shopList[0].model);
-        console.log(validateItem.shopList[1].model);
+       
+      }
+      if (validateItem.password != "" && validateItem.password == validateItem.password_confirmation){
+        passwordCheck = true;
       }
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if (!res.valid || shopListModel == false) {
+        if (!res.valid || shopListModel == false || passwordCheck == false) {
           // 必須項目を検証する
           axios.post('/api/enduser/registValidation', validateItem )
           .then(response => {
               console.log(response);
           })
           .catch(error => {
-            console.log("ERROR");
-            console.log(validateItem.shopList[0].model);
-            console.log(validateItem.shopList[1].model);
             if (error.response.status !== 422) {
               console.error(error);
             } else {

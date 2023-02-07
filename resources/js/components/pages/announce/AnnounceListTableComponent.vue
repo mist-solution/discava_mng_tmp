@@ -88,24 +88,27 @@
           </div>
         </template>
 
-        <!-- サムネイル画像 + タイトル -->
+        <!-- サムネイル画像 + タイトル + プレビュー -->
         <template #item-title="item">
           <div class="headtitle-left">
             <v-row class="d-flex">
-              <div class="my-4 py-4">
-                <img
-                  v-if="item.thumbnail_img_path"
-                  :src="item.thumbnail_img_path"
-                  class="thumbnail-image"
-                >
-                <img
-                  v-if="!item.thumbnail_img_path"
-                  src="/images/samb-none-image.jpg"
-                  class="thumbnail-image"
-                >
-              </div>
-              <div class="detaTable-header_title ml-4">
+              <!-- プレビュー画像 -->
+              <v-col cols="4">
+                <div class="my-4 py-4 detaTable-header_img">
+                  <img
+                    v-if="item.thumbnail_img_path"
+                    :src="item.thumbnail_img_path"
+                    class="thumbnail-image"
+                  >
+                  <img
+                    v-if="!item.thumbnail_img_path"
+                    src="/images/samb-none-image.jpg"
+                    class="thumbnail-image"
+                  >
+                </div>
+              </v-col>
               <!-- タイトル - 編集権限あり -->
+              <v-col cols="5" class="detaTable-header_title ml-2">
                 <router-link
                   v-if="update_auth_flg"
                   :to="{ name: 'announce.edit', params: { announceId: item.id } }"
@@ -121,7 +124,18 @@
                 <p class="mb-0 announce-category-font">
                   カテゴリー：{{ item.announce_categories.category_name }}
                 </p>
-              </div>
+              </v-col>
+              <!-- プレビュー -->
+              <v-col cols="1" class="detaTable-header_preview">
+                <button
+                  @click="(displayAnnouncePreview = true),
+                  setPreviewInfo(item.start_date,item.end_date,item.contents)"
+                  type="button"
+                >
+                  <v-icon color="#69A5AF" large>mdi-eye</v-icon>
+                  <p class="mb-0">プレビュー</p>
+                </button>
+              </v-col>
             </v-row>
           </div>
         </template>
@@ -1122,14 +1136,22 @@ export default {
 }
 
 .thumbnail-image {
-  height: 6rem;
+  height: 5rem;
   width: auto;
 }
 
 .detaTable-header_title {
-  align-content: center;
-  align-items: center;
   display: grid;
+}
+
+.detaTable-header_preview {
+  display: grid;
+  margin-left: 1rem;
+}
+
+.detaTable-header_preview > button > p {
+  color: #69A5AF;
+  font-size: .5rem;
 }
 
 // ヘッダーの背景色消す&ホバー時の背景色を薄く

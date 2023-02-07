@@ -246,8 +246,8 @@ export default {
           // スナックバーの表示時間が経ってから実行
           setTimeout(() => {
             this.$router.push({name: 'enduser.list'})
-            }, 1000);
-          })
+          }, 1000);
+        })
         .catch(error => {
           console.log(error);
         });

@@ -29,6 +29,7 @@
     methods: {
       submitAction() {
         this.approvalAnnounce(this.$store.state.announce.approvalAnnounceId);
+        this.closeAction();
       },
     },
     mounted() {},

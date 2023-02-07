@@ -135,30 +135,34 @@ export default {
       const validateRes = this.$refs.form.validate();
       // 必須項目を取得
       const validateItem = {
+        id: this.forms.id,
         name: this.forms.name,
         email: this.forms.email,
         shopList: this.forms.shopList,
       };
-      console.log(validateItem);
 
-      let shopListModel = true;
-      if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
-        shopListModel = false;
-        console.log("shopListModel");
-        console.log(shopListModel);
-        console.log(validateItem.shopList[0].model);
-        console.log(validateItem.shopList[1].model);
-      }
+      // let shopListModel = true;
+      // if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
+      //   shopListModel = false;
+      // }
       validateRes.then(res => {
-        if (!res.valid || shopListModel == false) {          // 必須項目を検証する
+        // if (!res.valid || shopListModel == false) {
+          // 必須項目を検証する
           axios.post('/api/enduser/updateValidation', validateItem )
           .then(response => {
               console.log(response);
+              this.$axios.put('/api/enduser/' + this.forms.id, this.forms)
+              .then(response => {
+                  this.openSuccess('更新しました');
+                  this.$router.push('/enduser');
+                  // バリデーションのメッセージを初期化する
+                  this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+              })
+              .catch(error => {
+                  console.log(error);
+              });
           })
           .catch(error => {
-            console.log("ERROR");
-            console.log(validateItem.shopList[0].model);
-            console.log(validateItem.shopList[1].model);
             if (error.response.status !== 422) {
               console.error(error);
             } else {
@@ -167,17 +171,7 @@ export default {
           });
           console.log("invalid!");
           return;
-        }
-        this.$axios.put('/api/enduser/' + this.forms.id, this.forms)
-            .then(response => {
-                this.openSuccess('更新しました');
-                this.$router.push('/enduser');
-                // バリデーションのメッセージを初期化する
-                this.$store.dispatch("enduser/setEndUserErrorMessages", "");
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        // }
       });
     },
 //    getUser: function() {

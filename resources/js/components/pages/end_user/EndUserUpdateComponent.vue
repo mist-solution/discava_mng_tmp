@@ -58,7 +58,7 @@
                                     :items="authoritySet"
                                     item-value="id"
                                     item-title="name"
-                                    :rules="[rules.required, rules.required_model]"
+                                    :rules="[rules.required]"
                                     hide-details="false"
                                     v-model="shop.model"
                                   />
@@ -111,7 +111,6 @@ export default {
         max_16: value => value.length <= 16 || '16文字以内です。',
         max_100: value => value.length <= 100 || '100文字以内です。',
         email: value => /.+@.+\..+/.test(value) || '正しい書式ではありません',
-        required_model: value => value >= 1 || '必須です。',
       },
       errors: {
         checlbox: false,
@@ -134,22 +133,32 @@ export default {
 
     submit() {
       const validateRes = this.$refs.form.validate();
-      validateRes.then(res => {
-        if (!res.valid) {
-          // 必須項目を取得
-          const validateItem = {
-            name: this.forms.name,
-            email: this.forms.email,
-            shopList: this.forms.shopList,
-          };
-          console.log(validateItem);
+      // 必須項目を取得
+      const validateItem = {
+        name: this.forms.name,
+        email: this.forms.email,
+        shopList: this.forms.shopList,
+      };
+      console.log(validateItem);
 
-          // 必須項目を検証する
-          axios.post('/api/enduser/updateValidation',validateItem )
+      let shopListModel = true;
+      if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
+        shopListModel = false;
+        console.log("shopListModel");
+        console.log(shopListModel);
+        console.log(validateItem.shopList[0].model);
+        console.log(validateItem.shopList[1].model);
+      }
+      validateRes.then(res => {
+        if (!res.valid || shopListModel == false) {          // 必須項目を検証する
+          axios.post('/api/enduser/updateValidation', validateItem )
           .then(response => {
               console.log(response);
           })
           .catch(error => {
+            console.log("ERROR");
+            console.log(validateItem.shopList[0].model);
+            console.log(validateItem.shopList[1].model);
             if (error.response.status !== 422) {
               console.error(error);
             } else {

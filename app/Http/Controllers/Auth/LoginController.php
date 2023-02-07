@@ -63,7 +63,8 @@ class LoginController extends Controller
         $request->session()->put('user_id', $shopuser->user_id);
 
         // ログイン後のリダイレクト
-        return redirect()->intended($this->redirectPath());
+        // return redirect()->intended($this->redirectPath());
+        return redirect('/');
     }
 
     /**

@@ -31,6 +31,15 @@ class Announce extends Model
         'del_flg',
     ];
 
+    /**
+     * 添付ファイル
+     * @return array
+     */
+    public function attachments()
+    {
+        return $this->hasMany('App\Models\AnnounceAttachment', 'announce_id', 'id');
+    }
+
     public function add_account()
     {
         return $this->belongsTo(User::class, 'add_account');

@@ -18,6 +18,8 @@ class AnnounceController extends Controller
     // 一覧取得
     public function getAnnounce(Request $request)
     {
+        Log::info('一覧取得');
+
         $limit = $request->input('limit');
         $offset = $request->input('offset');
         $sort = $request->input('sort');
@@ -36,9 +38,13 @@ class AnnounceController extends Controller
         return $announce;
     }
 
+    
     // 詳細取得
-    public function showAnnounce(Announce $announce)
+    public function showAnnounce($id)
     {
+        $announce =  Announce::with('attachments')->where('id', '=', $id)->firstOrFail();
+        Log::info('詳細取得');
+
         // 有効フラグ判断
         if ($announce->del_flg == 1) {
             return 1;
@@ -216,19 +222,78 @@ class AnnounceController extends Controller
     // 更新
     public function update(Request $request, $id)
     {
+        $data = $request->all();
+        Log::info('data');
+        Log::info(print_r($data, true));
+        $announce = json_decode($data['announce'], true);
+        Log::info('announce');
+        Log::info(print_r($announce, true));
+        $thumbnail = null;
+        if (array_key_exists('thumbnail_file', $data)) {
+            $thumbnail = $data['thumbnail_file'];
+            Log::info('サムネイル');
+            Log::info(print_r($thumbnail, true));
+        }
+        $insertAttachments = [];
+        if (array_key_exists('insertAttachments', $data)) {
+            $insertAttachments = $data['insertAttachments'];
+        }
+        Log::info('追加ファイル');
+        Log::info(print_r($insertAttachments, true));
+        $deleteAttachments = [];
+        if (array_key_exists('deleteAttachments', $data)) {
+            $deleteAttachments = $data['deleteAttachments'];
+        }
+        Log::info('削除ファイル');
+        Log::info(print_r($deleteAttachments, true));
+
         $update = [
-            'title' => $request->title,
-            'announce_category_id' => $request->announce_category_id,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'contents' => $request->contents,
+            'title' => urldecode($announce['title']),
+            'announce_category_id' => $announce['announce_category_id'],
+            'start_date' => $announce['start_date'],
+            'end_date' => $announce['end_date'],
+            'contents' => urldecode($announce['contents']),
             'upd_account' => Auth::user()->id,
         ];
-        $announce = Announce::find($id);
-        $announce->update($update);
+        $model = Announce::find($id);
+        $model->update($update);
+
+        foreach ($insertAttachments as $key => $value) {
+            Log::info('ファイル アップロード');
+            Log::info(print_r($key, true));
+            Log::info(print_r($value, true));
+
+            $path = Storage::putFile('announce/' . $model->shop_id . "/" . $model->id . "/attachments", $value);
+            Log::info($path);
+
+            $attach = new AnnounceAttachment();
+            $attach->shop_id = $model->shop_id;
+            $attach->announce_id = $model->id;
+            $attach->img_filename = $value->getClientOriginalName();
+            $attach->img_path = $path;
+            $attach->add_account = Auth::user()->id;
+            $attach->upd_account = Auth::user()->id;
+            $attach->del_flg = false;
+
+            $attach->save();
+        }
+
+        foreach ($deleteAttachments as $key => $value) {
+            $deleteAttachment = json_decode($value, true);
+            Log::info('ファイル 削除');
+            Log::info(print_r($key, true));
+            Log::info(print_r($value, true));
+            Log::info(print_r($deleteAttachment, true));
+
+            $fileDelete = Storage::delete($deleteAttachment["img_path"]);
+            Log::info($fileDelete);
+
+            $dbDelete = AnnounceAttachment::where('id', $deleteAttachment["id"])->delete();
+            Log::info($dbDelete);
+        }
 
         Log::info('お知らせ更新');
-        Log::debug(print_r($update, true));
+        Log::debug(print_r($model, true));
     }
 
     public function oldestAnnounce(Request $request)

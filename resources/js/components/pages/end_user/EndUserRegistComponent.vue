@@ -92,7 +92,7 @@
                     :items="authoritySet"
                     item-value="id"
                     item-title="name"
-                    :rules="[rules.required, rules.required_model]"
+                    :rules="[rules.required]"
                     hide-details="false"
                     v-model="shop.model"
                   />
@@ -137,7 +137,7 @@
         <!-- ToDo:権限は要検討 -->
         <v-row justify="center" class="mt-4 btn-list">
           <v-col cols="12" sm="3" class="p-0 m-2">
-            <v-btn class="green-btn" @click="submit">
+            <v-btn class="green-btn" @click.prevent="submit">
               アカウント追加
             </v-btn>
           </v-col>
@@ -186,7 +186,6 @@ export default {
         max_72: value => value.length <= 72 || '72文字以内です。',
         email: value => /.+@.+\..+/.test(value) || '正しい書式ではありません',
         password: value => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[-_%$#])[A-Za-z\d-_%$#]{12,72}$/.test(value) || '12文字以上。半角英数字、ﾊｲﾌﾝ、ｱﾝﾀﾞｰﾊﾞｰが使えます。',
-        required_model: value => value >= 1 || '必須です。',
       },
       errors: {
         checlbox: false,
@@ -207,25 +206,34 @@ export default {
     ...mapActions('authoritySet', ['fetchAllAuthoritySetDisplay']),
     ...mapActions('shop', ['fetchShops']),
     submit() {
+      // 必須項目を取得
+      const validateItem = {
+        name: this.forms.name,
+        email: this.forms.email,
+        password:this.forms.password,
+        password_confirmation:this.forms.password_confirmation,
+        shopList:this.forms.shopList,
+      };
+      let shopListModel = true;
+      if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
+        shopListModel = false;
+        console.log("shopListModel");
+        console.log(shopListModel);
+        console.log(validateItem.shopList[0].model);
+        console.log(validateItem.shopList[1].model);
+      }
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if (!res.valid) {
-          // 必須項目を取得
-          const validateItem = {
-            name: this.forms.name,
-            email: this.forms.email,
-            password:this.forms.password,
-            password_confirmation:this.forms.password_confirmation,
-            shopList:this.forms.shopList,
-          };
-          console.log(validateItem);
-
+        if (!res.valid || shopListModel == false) {
           // 必須項目を検証する
-          axios.post('/api/enduser/registValidation',validateItem )
+          axios.post('/api/enduser/registValidation', validateItem )
           .then(response => {
               console.log(response);
           })
           .catch(error => {
+            console.log("ERROR");
+            console.log(validateItem.shopList[0].model);
+            console.log(validateItem.shopList[1].model);
             if (error.response.status !== 422) {
               console.error(error);
             } else {

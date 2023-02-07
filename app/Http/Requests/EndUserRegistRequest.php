@@ -28,7 +28,7 @@ class EndUserRegistRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|max:16',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password'  => array_merge(
                 [
                     'required',
@@ -53,11 +53,12 @@ class EndUserRegistRequest extends FormRequest
             'password_confirmation' => 'required',
         ];
 
-        foreach ($this->input('shopList') as $index => $detail) {
-            if ($detail['model'] == 'none') {
-                $rules["shopList.$index.model"] = 'required|not_in:none';
-            }
+        $shopList = $this->input('shopList');
+        if ($shopList[0]['model'] == 'none' && $shopList[1]['model'] == 'none') {
+            $rules["shopList.0.model"] = 'required|not_in:none';
+            $rules["shopList.1.model"] = 'required|not_in:none';
         }
+
         return $rules;
     }
 
@@ -77,5 +78,23 @@ class EndUserRegistRequest extends FormRequest
         }
 
         return $attributes;
+    }
+
+    public function messages()
+    {
+        $attributeArray = [];
+        foreach ($this->input('shopList') as $index => $detail) {
+            if ($detail['model'] == 'none') {
+                if (!in_array($detail["shop_name"], $attributeArray)) {
+                    array_push($attributeArray, $detail["shop_name"]);
+                }
+            }
+        }
+        $attribute = implode('または', $attributeArray);
+
+        return [
+            'shopList.0.model.not_in' => $attribute . 'いずれかの権限は「該当なし」以外を選択してください。',
+            'shopList.1.model.not_in' => '',
+        ];
     }
 }

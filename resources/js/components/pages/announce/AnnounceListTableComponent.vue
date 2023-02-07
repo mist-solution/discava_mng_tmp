@@ -566,6 +566,7 @@ export default {
     },
     displayAnnounceStatus() {
       this.getAnnounceList();
+      this.$refs.dataTable.updatePage(this.$store.state.announce.displayPage)
     },
     displayAnnounceAddAccount() {
       this.getAnnounceList();

@@ -112,8 +112,8 @@
 
 .rail_toggle{
     position: fixed;
-    left: 0px;
-    bottom: 0px;
+    left: 12px;
+    bottom: 8px;
 }
 
 /* サイドバー店舗名ドロップダウン */
@@ -131,4 +131,8 @@
 /* メニュー内テキスト */
 .v-list-item-title {
     font-weight: 700 !important;
+}
+
+.v-list-item__prepend{
+    padding-left: 9px !important;
 }

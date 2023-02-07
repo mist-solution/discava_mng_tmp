@@ -49,7 +49,7 @@
                 v-bind:type="toggle.type"
                 @click:append="showPassword = !showPassword"
                 :append-icon="toggle.icon"
-                :rules="[rules.required, rules.max_72]"
+                :rules="[rules.required, rules.max_72, rules.password]"
                 hide-details="false"
                 autocomplete="new-password"
                 required
@@ -68,7 +68,7 @@
                 v-bind:type="toggle.confType"
                 @click:append="showPwdConfirm = !showPwdConfirm"
                 :append-icon="toggle.confIcon"
-                :rules="[rules.required, rules.max_72]"
+                :rules="[rules.required, rules.max_72, rules.password]"
                 hide-details="false"
                 autocomplete="new-password"
                 required
@@ -226,11 +226,24 @@ export default {
       }
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if (!res.valid || shopListModel == false || passwordCheck == false) {
+        // if (!res.valid || shopListModel == false || passwordCheck == false) {
           // 必須項目を検証する
           axios.post('/api/enduser/registValidation', validateItem )
           .then(response => {
-              console.log(response);
+            console.log(response);
+            console.log(this.forms);
+            this.$axios.post('/api/enduser', this.forms)
+            .then(response => {
+              this.reset();
+              this.openSuccess('登録しました');
+              this.$router.push('/enduser');
+              // this.fetchUsers();
+              // バリデーションのメッセージを初期化する
+              this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+        })
+        .catch(error => {
+          console.log(error);
+        });
           })
           .catch(error => {
             if (error.response.status !== 422) {
@@ -241,20 +254,7 @@ export default {
           });
           console.log("invalid!");
           return;
-        }
-        console.log(this.forms);
-        this.$axios.post('/api/enduser', this.forms)
-        .then(response => {
-          this.reset();
-          this.openSuccess('登録しました');
-          this.$router.push('/enduser');
-//          this.fetchUsers();
-          // バリデーションのメッセージを初期化する
-          this.$store.dispatch("enduser/setEndUserErrorMessages", "");
-        })
-        .catch(error => {
-          console.log(error);
-        });
+        // }
       });
     },
     // 入力内容と検証エラーをリセットするメソッド

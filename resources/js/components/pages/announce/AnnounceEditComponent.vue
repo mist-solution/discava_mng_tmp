@@ -61,7 +61,7 @@
                 x-small
                 dark
                 elevation=0
-                @click="deletefile()"
+                @click="deletefile(item)"
               >
                 <v-icon>mdi-trash-can-outline</v-icon>
               </v-btn>
@@ -85,7 +85,7 @@
                   placeholder="掲載開始日"
                   :format="format"
                   :enableTimePicker="false"
-                  :required="true"
+                  :required="isRequired ? ['rules.required'] : []"
                   selectText="確認"
                   cancelText="キャンセル"
                 />
@@ -167,7 +167,6 @@
               :items="categories"
               item-value="id"
               item-title="category_name"
-              :rules="[rules.required]"
               class="cat-tag"
               hide-details="false"
             />
@@ -217,7 +216,7 @@
           >
             <button
               class="btn green-btn pr-0 pl-0"
-              @click="submit()"
+              @click.prevent="submit()"
               type="button"
             >
               更新する
@@ -385,12 +384,17 @@ export default {
       displayAnnounceReturnApprovalConfirm: false,
       username: null,
       attachments: [],
+      loadAttachments: [],
+      insertAttachments: [],
+      deleteAttachments: [],
       headers: [
           { text: 'ファイル名', value: 'name', align: 'left', class: 'no-wrap', sortable: false },
           { text: '', value: 'action', align: 'right', class: 'action', sortable: false },
       ],
+      isRequired: false,
     };
   },
+
   methods: {
     ...mapActions('announceCategory', ['fetchCategories']),
     ...mapActions('announce', ['getAnnounce']),
@@ -402,37 +406,53 @@ export default {
       const html = this.$refs.myQuillEditor.getHTML();
       this.announce.contents = html;
 
-      const validateRes = this.$refs.form.validate();
-      console.log('localStorage');
-      console.log(localStorage);
-      console.log(localStorage.getItem('auth'));
-      validateRes.then(res => {
-        if (!res.valid) {
-          // 必須項目を取得
-          if (this.announce.contents === "<p><br></p>"){
-            this.announce.contents = null
-          }
-          const validateItem = {
-            title: this.announce.title,
-            announce_category_id: this.announce.announce_category_id,
-            start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : '',
-            end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
-            contents: this.announce.contents,
-            thumbnail_file_name: this.file ? this.file.name : null,
-          };
+      if (this.announce.contents === "<p><br></p>"){
+        this.announce.contents = null
+      }
+      // 検証項目
+      const validateItem = {
+        title: this.announce.title,
+        announce_category_id: this.announce.announce_category_id,
+        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
+        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+        contents: this.announce.contents,
+        thumbnail_file_name: this.file ? this.file.name : null,
+      };
 
-          // 必須項目を検証する
-          axios.post('/api/announce/validation',validateItem )
-          .then(response => {
-              console.log(response);
-          })
-          .catch(error => {
-            if (error.response.status !== 422) {
-              console.error(error);
-            } else {
-              this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
-            }
-          });
+      // 下書き保存と登録する場合による、必須項目をTrueにする
+      if(this.announce.approval_status != 0){
+        this.isRequired = true;
+      }else{
+        this.isRequired = false;
+      }
+
+      const validateRes = this.$refs.form.validate();
+      validateRes.then(res => {
+        console.log(res);
+        if (!res.valid || validateItem.contents == null) {
+          if(this.announce.approval_status != 0) {
+            axios.post('/api/announce/registValidation', validateItem )
+            .then(response => {
+            })
+            .catch(error => {
+              if (error.response.status !== 422) {
+                console.error(error);
+              } else {
+                this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+              }
+            });
+          } else {
+            axios.post('/api/announce/tempValidation', validateItem )
+            .then(response => {
+            })
+            .catch(error => {
+              if (error.response.status !== 422) {
+                console.error(error);
+              } else {
+                this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+              }
+            });
+          }
           console.log("invalid!");
           return;
         }
@@ -440,30 +460,27 @@ export default {
         const item = {
           title: encodeURIComponent(this.announce.title),
           announce_category_id: this.announce.announce_category_id,
-          start_date: moment(this.announce.start_date).format("yyyy-MM-DD"),
-          end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
+          start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+          end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
           contents: encodeURIComponent(this.announce.contents),
           thumbnail_file_name: this.file ? this.file.name : null,
         }
         formData.append("announce", JSON.stringify(item));
 
-        console.log(this.file)
         if (this.file) {
           formData.append("thumbnail_file", this.file);
         }
 
-        for (let i = 0; i < this.attachments.length; i++) {
-          formData.append('attachments[' + i + ']', this.attachments[i]);
+        for (let i = 0; i < this.insertAttachments.length; i++) {
+          formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
         }
-        console.log(formData)
 
-        const config = {
-          headers: {
-            "Content-type": "multipart/form-data",
-          },
-        };
+        for (let i = 0; i < this.deleteAttachments.length; i++) {
+          formData.append('deleteAttachments[' + i + ']', JSON.stringify(this.deleteAttachments[i]));
+        }
 
-        this.$axios.put('/api/announce/' + this.announce.id + '/update',
+        // Larabel は multipart/form-data を put で処理できないため post
+        axios.post('/api/announce/' + this.announce.id + '/update',
           formData,
           { headers: { "Content-type": "multipart/form-data", }}
         ).then(response => {
@@ -546,7 +563,14 @@ export default {
     addfile: function() {
         const fileInput = document.getElementById("file_input")
         for (const file of fileInput.files) {
+          const sameNameFiles = this.attachments.filter(a => a.name == file.name);
+          if(sameNameFiles.length > 0) {
+            // 同名ファイルの追加は行えない
+            continue;
+          }
+
           this.attachments.push(file);
+          this.insertAttachments.push(file);
           // 表示用タグとして本文に追加
           let text = this.$refs.myQuillEditor.getText();
           text = text + '\n' + '[['+file.name+']]';
@@ -555,8 +579,12 @@ export default {
     },
     // 削除ボタン押下
     deletefile: function(item) {
-      const index = this.attachments.indexOf(item);
-      this.attachments.splice(index, 1);
+      this.attachments = this.attachments.filter(a => a.name !== item.name);
+
+      const deleteFiles = this.loadAttachments.filter(a => a.img_filename == item.name);
+      if (deleteFiles.length > 0) {
+        this.deleteAttachments.push(deleteFiles[0]);
+      }
     },
     over: function(event) {
         if (event.target.classList && event.target.classList.contains("file-upload")) {
@@ -643,6 +671,10 @@ export default {
   },
   async mounted() {
     this.announce = await this.getAnnounce(this.announceId);
+    this.loadAttachments = this.announce.attachments;
+    this.loadAttachments.forEach(attachment => {
+      this.attachments.push({ name: attachment.img_filename });
+    });
     this.$refs.myQuillEditor.pasteHTML(this.announce.contents);
     // ユーザの権限セットを取得
     let authority = await this.fetchAllAuthority();

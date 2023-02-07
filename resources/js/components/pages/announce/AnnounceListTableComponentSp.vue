@@ -391,6 +391,7 @@ export default {
     },
     displayAnnounceStatus() {
       this.getAnnounceList();
+      this.$refs.dataTable.updatePage(this.$store.state.announce.displayPage)
     },
     displayAnnounceAddAccount() {
       this.getAnnounceList();
@@ -492,7 +493,6 @@ export default {
       if (!this.announce) {
         return 0;
       }
-      console.log(this.announce.length)
       return this.announce.length;
     },
 

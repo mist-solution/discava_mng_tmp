@@ -34,6 +34,12 @@ a {
     margin-top: -16px;
 }
 
+@media (min-width: 901px){
+    .v-main > .v-container > .v-container{
+    margin-left: 14px;
+    }
+}
+
 /* メインの入れ物 (主にcardでまとめる)*/
 .main-cont{
     border-radius: 5px;
@@ -47,12 +53,6 @@ a {
     margin-right: 0px;
 
 }
-@media (min-width: 576px){
-    .v-container{
-       
-    }
-}
-
 /* 碧色のボタン */
 .green-btn {
     border-radius: 5px;
@@ -373,6 +373,7 @@ text-align: center;
     .sp_sidebar .v-toolbar{
         left: 0px !important;
         width: calc((100% - 0px) - 0px) !important;
+        box-shadow: 0px 2px 4px rgb(0 0 0 / 11%) !important;
     }
 }
 
@@ -475,4 +476,10 @@ text-align: center;
 
 .ql-editor {
     color: #707070;
+}
+
+@media(max-width: 900px){
+    .v-main > div >div .navbar{
+        display: none
+    }
 }

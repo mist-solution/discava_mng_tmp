@@ -153,7 +153,7 @@ return [
         'email.required'                       => ':attributeは必ず入力してください。',
         'password.required'                    => ':attributeは必ず入力してください。',
         'password_confirmation.required'       => ':attributeは必ず入力してください。',
-        'shopList.*.model.not_in'              => ':attributeの権限は「該当なし」以外に選択してください。',
+        // 'shopList.*.model.not_in'              => ':attributeの権限は「該当なし」以外を選択してください。',
 
     ],
 

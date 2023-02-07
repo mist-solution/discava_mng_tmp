@@ -33,6 +33,7 @@
           this.$store.state.announce.approvalAnnounceId,
           this.$store.state.announce.approvalAnnounceStatus
         );
+        this.closeAction();
       },
     },
     mounted() {},

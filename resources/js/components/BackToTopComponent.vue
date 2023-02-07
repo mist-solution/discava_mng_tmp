@@ -46,27 +46,30 @@ export default {
         that.isVisible = false;
       }
     },
+    scrollStop() {
+      let topBtn = document.querySelector('.back_to_top');
+      if (topBtn != null) {
+        topBtn.style.bottom = "0";
+        const scrollHeight = document.body.clientHeight;
+        const scrollPosition = window.pageYOffset;
+        const windowHeignt = window.innerHeight;
+        const footer = document.querySelector('.footer');
+        const footerHeight = footer.offsetHeight;
+        if(scrollHeight - scrollPosition - windowHeignt <= footerHeight) {
+          topBtn.style.bottom = "39px";
+        } else {
+          topBtn.style.bottom = "0";
+        }
+      }
+    }
   },
   mounted() {
     window.addEventListener("scroll", this.scrollToTop);
-
-    // ボタン
-    window.addEventListener('scroll',function() {
-      let topBtn = document.querySelector('.back_to_top');
-      const scrollHeight = document.body.clientHeight;
-      const scrollPosition = window.pageYOffset;
-      const windowHeignt = window.innerHeight;
-      const footer = document.querySelector('.footer');
-      const footerHeight = footer.offsetHeight;
-      if(scrollHeight - scrollPosition - windowHeignt <= footerHeight) {
-        topBtn.style.bottom = "39px";
-      } else {
-        topBtn.style.bottom = "0";
-      }
-    });
+    window.addEventListener("scroll", this.scrollStop);
   },
   destroyed() {
     window.removeEventListener("scroll", this.scrollToTop);
+    window.removeEventListener("scroll", this.scrollStop);
   },
 };
 </script>

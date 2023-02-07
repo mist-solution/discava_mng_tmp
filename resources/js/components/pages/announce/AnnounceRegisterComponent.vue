@@ -16,14 +16,12 @@
           hide-details="false"
           placeholder="タイトルを入力"
         />
-
         <QuillEditor
           toolbar="full"
           class="ql-editor p-0"
           v-model="contents"
           ref="myQuillEditor"
           :options="editorOption"
-          :rules="[rules.required]"
           @blur="onEditorBlur($event)"
           @focus="onEditorFocus($event)"
           @change="onEditorChange($event)"
@@ -62,7 +60,7 @@
                 x-small
                 dark
                 elevation=0
-                @click="deletefile()"
+                @click="deletefile(item)"
               >
                 <v-icon>mdi-trash-can-outline</v-icon>
               </v-btn>
@@ -86,7 +84,7 @@
                   placeholder="掲載開始日"
                   :format="format"
                   :enableTimePicker="false"
-                  :required="false"
+                  :required="isRequired ? ['rules.required'] : []"
                   selectText="確認"
                   cancelText="キャンセル"
                 />
@@ -170,7 +168,7 @@
               item-title="category_name"
               class="cat-tag"
               hide-details="false"
-              :required="false"
+              :rules="isRequired ? ['rules.required'] : []"
             />
           </v-col>
         </v-row>
@@ -281,6 +279,7 @@ export default {
           { text: 'ファイル名', value: 'name', align: 'left', class: 'no-wrap', sortable: false },
           { text: '', value: 'action', align: 'right', class: 'action', sortable: false },
       ],
+      isRequired: false,
     };
   },
   methods: {
@@ -293,27 +292,34 @@ export default {
       const html = this.$refs.myQuillEditor.getHTML();
       this.announce.contents = html;
 
+      if (this.announce.contents === "<p><br></p>"){
+        this.announce.contents = null
+      }
+
+      // 検証項目
+      const validateItem = {
+        title: this.announce.title,
+        announce_category_id: this.announce.announce_category_id,
+        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
+        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+        contents: this.announce.contents,
+        thumbnail_file_name: this.file ? this.file.name : null,
+      };
+
+      // 下書き保存と登録する場合による、必須項目をTrueにする
+      if(registFlg == 1){
+        this.isRequired = true;
+      }else if(registFlg == 2){
+        this.isRequired = false
+      }
+
+      // 必須項目を検証する
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if (!res.valid) {
+        if (!res.valid || validateItem.contents == null) {
           if(registFlg == 1) {
-            // 登録必須項目を取得
-            if (this.announce.contents === "<p><br></p>"){
-              this.announce.contents = null
-            }
-            const validateItem = {
-              title: this.announce.title,
-              announce_category_id: this.announce.announce_category_id,
-              start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : '',
-              end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
-              contents: this.announce.contents,
-              thumbnail_file_name: this.file ? this.file.name : null,
-            };
-
-            // 必須項目を検証する
-            axios.post('/api/announce/registValidation',validateItem )
+            axios.post('/api/announce/registValidation', validateItem )
             .then(response => {
-                console.log(response);
             })
             .catch(error => {
               if (error.response.status !== 422) {
@@ -323,23 +329,8 @@ export default {
               }
             });
           }else if (registFlg == 2){
-            // 下書きの必須項目を取得
-            if (this.announce.contents === "<p><br></p>"){
-              this.announce.contents = null
-            }
-            const validateItem = {
-              title: this.announce.title,
-              announce_category_id: this.announce.announce_category_id,
-              start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : '',
-              end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
-              contents: this.announce.contents,
-              thumbnail_file_name: this.file ? this.file.name : null,
-            };
-
-            // 必須項目を検証する
-            axios.post('/api/announce/tempValidation',validateItem )
+            axios.post('/api/announce/tempValidation', validateItem )
             .then(response => {
-                console.log(response);
             })
             .catch(error => {
               if (error.response.status !== 422) {
@@ -356,8 +347,8 @@ export default {
         const item = {
           title: encodeURIComponent(this.announce.title),
           announce_category_id: this.announce.announce_category_id,
-          start_date: moment(this.announce.start_date).format("yyyy-MM-DD"),
-          end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
+          start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
+          end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
           contents: encodeURIComponent(this.announce.contents),
           thumbnail_file_name: this.file ? this.file.name : null,
           regist_flg: registFlg,
@@ -482,8 +473,7 @@ export default {
     },
     // 削除ボタン押下
     deletefile: function(item) {
-      const index = this.attachments.indexOf(item);
-      this.attachments.splice(index, 1);
+      this.attachments = this.attachments.filter(a => a.name !== item.name);
     },
     over: function(event) {
         if (event.target.classList && event.target.classList.contains("file-upload")) {

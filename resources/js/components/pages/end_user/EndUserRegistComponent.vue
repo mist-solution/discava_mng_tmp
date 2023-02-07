@@ -49,7 +49,7 @@
                 v-bind:type="toggle.type"
                 @click:append="showPassword = !showPassword"
                 :append-icon="toggle.icon"
-                :rules="[rules.required, rules.max_72]"
+                :rules="[rules.required, rules.max_72, rules.password]"
                 hide-details="false"
                 autocomplete="new-password"
                 required
@@ -68,7 +68,7 @@
                 v-bind:type="toggle.confType"
                 @click:append="showPwdConfirm = !showPwdConfirm"
                 :append-icon="toggle.confIcon"
-                :rules="[rules.required, rules.max_72]"
+                :rules="[rules.required, rules.max_72, rules.password]"
                 hide-details="false"
                 autocomplete="new-password"
                 required
@@ -92,7 +92,7 @@
                     :items="authoritySet"
                     item-value="id"
                     item-title="name"
-                    :rules="[rules.required, rules.required_model]"
+                    :rules="[rules.required]"
                     hide-details="false"
                     v-model="shop.model"
                   />
@@ -186,7 +186,6 @@ export default {
         max_72: value => value.length <= 72 || '72文字以内です。',
         email: value => /.+@.+\..+/.test(value) || '正しい書式ではありません',
         password: value => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[-_%$#])[A-Za-z\d-_%$#]{12,72}$/.test(value) || '12文字以上。半角英数字、ﾊｲﾌﾝ、ｱﾝﾀﾞｰﾊﾞｰが使えます。',
-        required_model: value => value >= 1 || '必須です。',
       },
       errors: {
         checlbox: false,
@@ -207,23 +206,46 @@ export default {
     ...mapActions('authoritySet', ['fetchAllAuthoritySetDisplay']),
     ...mapActions('shop', ['fetchShops']),
     submit() {
+      // 必須項目を取得
+      const validateItem = {
+        name: this.forms.name,
+        email: this.forms.email,
+        password:this.forms.password,
+        password_confirmation:this.forms.password_confirmation,
+        shopList:this.forms.shopList,
+      };
+      let shopListModel = true;
+      let passwordCheck = false;
+
+      if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
+        shopListModel = false;
+       
+      }
+      if (validateItem.password != "" && validateItem.password == validateItem.password_confirmation){
+        passwordCheck = true;
+      }
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if (!res.valid) {
-          // 必須項目を取得
-          const validateItem = {
-            name: this.forms.name,
-            email: this.forms.email,
-            password:this.forms.password,
-            password_confirmation:this.forms.password_confirmation,
-            shopList:this.forms.shopList,
-          };
-          console.log(validateItem);
-
+        // if (!res.valid || shopListModel == false || passwordCheck == false) {
           // 必須項目を検証する
-          axios.post('/api/enduser/registValidation',validateItem )
+          axios.post('/api/enduser/registValidation', validateItem )
           .then(response => {
-              console.log(response);
+            console.log(response);
+            console.log(this.forms);
+            this.$axios.post('/api/enduser', this.forms)
+            .then(response => {
+              this.reset();
+              this.openSuccess('登録しました');
+              // バリデーションのメッセージを初期化する
+              this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+              // スナックバーの表示時間が経ってから実行
+              setTimeout(() => {
+                this.$router.push({name: 'enduser.list'})
+              }, 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
           })
           .catch(error => {
             if (error.response.status !== 422) {
@@ -234,23 +256,7 @@ export default {
           });
           console.log("invalid!");
           return;
-        }
-        console.log(this.forms);
-
-        this.$axios.post('/api/enduser', this.forms)
-        .then(response => {
-          this.reset();
-          this.openSuccess('登録しました');
-          // バリデーションのメッセージを初期化する
-          this.$store.dispatch("enduser/setEndUserErrorMessages", "");
-          // スナックバーの表示時間が経ってから実行
-          setTimeout(() => {
-            this.$router.push({name: 'enduser.list'})
-          }, 1000);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+        // }
       });
     },
     // 入力内容と検証エラーをリセットするメソッド

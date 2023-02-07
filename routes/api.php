@@ -70,7 +70,7 @@ Route::get('/api/authority', [AuthorityController::class, 'getAuthority']);
 // 一覧取得
 Route::get('/api/announce', [AnnounceController::class, 'getAnnounce']);
 // 詳細取得
-Route::get('/api/announce/{announce}', [AnnounceController::class, 'showAnnounce']);
+Route::get('/api/announce/{id}', [AnnounceController::class, 'showAnnounce']);
 // 一括承認
 Route::put('/api/announce/{announce}', [AnnounceController::class, 'approvalAllAnnounce']);
 // 承認する
@@ -82,7 +82,7 @@ Route::delete('/api/announce/{announce}', [AnnounceController::class, 'deleteAnn
 // 新規登録
 Route::post('/api/announce/regist', [AnnounceController::class, 'register']);
 // 編集
-Route::put('/api/announce/{id}/update', [AnnounceController::class, 'update']);
+Route::post('/api/announce/{id}/update', [AnnounceController::class, 'update']);
 // 申請
 Route::put('/api/announce/{announce}/request', [AnnounceController::class, 'request']);
 // 取り下げる
@@ -95,6 +95,7 @@ Route::get('/api/oldestAnnounce', [AnnounceController::class, 'oldestAnnounce'])
 Route::post('/api/announce/registValidation', [AnnounceController::class, 'registStore']);
 // お知らせ新規編集のバリデーションAPI
 Route::post('/api/announce/tempValidation', [AnnounceController::class, 'tempStore']);
+
 
 //------------------------------------------------
 // WebAPI関連

@@ -121,7 +121,7 @@
                   {{ item.title }}
                 </div>
                 <!-- カテゴリー -->
-                <p class="mb-0 announce-category-font">
+                <p class="mb-0 announce-category-font" v-if="item.announce_category_id">
                   カテゴリー：{{ item.announce_categories.category_name }}
                 </p>
               </v-col>
@@ -580,6 +580,7 @@ export default {
     },
     displayAnnounceStatus() {
       this.getAnnounceList();
+      this.$refs.dataTable.updatePage(this.$store.state.announce.displayPage)
     },
     displayAnnounceAddAccount() {
       this.getAnnounceList();
@@ -947,6 +948,13 @@ export default {
     // 編集ページへ画面遷移
     toEditPage(id) {
       this.$router.push({name: 'announce.edit', params: { announceId: id }})
+    },
+
+    //操作後、操作したページにお知らせが無くなった場合に1ページ戻る
+    nullPageCheck(){
+      if(this.$refs.dataTable.currentPageFirstIndex == this.$refs.dataTable.currentPageLastIndex){
+        this.$refs.dataTable.updatePage(this.$refs.dataTable.currentPaginationNumber - 1);
+      }
     }
   },
   async mounted() {
@@ -1190,8 +1198,8 @@ thead {
 .vue3-easy-data-table__body td.direction-left {
   text-align: center !important;
   color: #707070 !important;
-  font-weight: 600;
-
+  font-weight: 400 !important;
+  font-size: 16px !important;
 }
 
 // テーブル要素タイトルのみ左寄せ

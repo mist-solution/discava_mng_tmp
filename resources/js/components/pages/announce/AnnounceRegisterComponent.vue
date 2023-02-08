@@ -560,6 +560,10 @@ export default {
         this.username = name.name;
     }
   },
+  mounted(){
+    // バリデーションのメッセージを初期化する
+    this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+  }
 };
 </script>
 

@@ -296,6 +296,10 @@ export default {
       value.model = 'none';
     });
   },
+  mounted(){
+    // バリデーションのメッセージを初期化する
+    this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+  }
 }
 </script>
 

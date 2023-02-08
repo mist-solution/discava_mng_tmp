@@ -729,6 +729,10 @@ export default {
   created() {
     this.fetchCategories();
   },
+  mounted(){
+    // バリデーションのメッセージを初期化する
+    this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+  }
 };
 
 </script>

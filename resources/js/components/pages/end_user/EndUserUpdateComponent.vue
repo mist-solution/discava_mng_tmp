@@ -217,6 +217,10 @@ export default {
     })
 
   },
+  mounted(){
+    // バリデーションのメッセージを初期化する
+    this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+  }
 }
 </script>
 <style scoped>

@@ -120,9 +120,10 @@
     width: 65px !important;
 }
 
+/* メニューテキスト */
 .rail_toggle{
     position: fixed;
-    left: 12px;
+    left: 10px;
     bottom: 8px;
 }
 
@@ -144,5 +145,5 @@
 }
 
 .v-list-item__prepend{
-    padding-left: 9px !important;
+    padding-left: 7px !important;
 }

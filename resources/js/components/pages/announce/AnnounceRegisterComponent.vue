@@ -83,7 +83,7 @@
                   v-model="announce.start_date"
                   placeholder="掲載開始日"
                   :format="format"
-                  :enableTimePicker="false"
+                  :enableTimePicker="true"
                   :required="isRequired ? ['rules.required'] : []"
                   selectText="確認"
                   cancelText="キャンセル"
@@ -94,8 +94,9 @@
                   <v-col cols="3" class="p-0"></v-col>
                   <v-col cols="2" class="p-0">
                     <v-text-field
-                        dense
+                        v-model="getStartHours"
                         hide-details="false"
+                        disabled
                     />
                   </v-col>
                   <v-col cols="2" class="p-0">
@@ -103,8 +104,10 @@
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <v-text-field
+                        v-model="getStartMins"
                         dense
                         hide-details="false"
+                        disabled
                     />
                   </v-col>
                   <v-col cols="2" class="p-0">
@@ -123,7 +126,7 @@
                   v-model="announce.end_date"
                   placeholder="掲載終了日"
                   :format="format"
-                  :enableTimePicker="false"
+                  :enableTimePicker="true"
                   :required="false"
                   selectText="確認"
                   cancelText="キャンセル"
@@ -134,8 +137,10 @@
                   <v-col cols="3" class="p-0"></v-col>
                   <v-col cols="2" class="p-0">
                     <v-text-field
+                        v-model="getEndHours"
                         dense
                         hide-details="false"
+                        disabled
                     />
                   </v-col>
                   <v-col cols="2" class="p-0 text-gray">
@@ -143,8 +148,10 @@
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <v-text-field
+                        v-model="getEndMins"
                         dense
                         hide-details="false"
+                        disabled
                     />
                   </v-col>
                   <v-col cols="2" class="p-0 text-gray">
@@ -300,8 +307,8 @@ export default {
       const validateItem = {
         title: this.announce.title,
         announce_category_id: this.announce.announce_category_id,
-        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
-        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
+        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
         contents: this.announce.contents,
         thumbnail_file_name: this.file ? this.file.name : null,
       };
@@ -324,8 +331,8 @@ export default {
               const item = {
                 title: encodeURIComponent(this.announce.title),
                 announce_category_id: this.announce.announce_category_id,
-                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
-                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
                 contents: encodeURIComponent(this.announce.contents),
                 thumbnail_file_name: this.file ? this.file.name : null,
                 regist_flg: registFlg,
@@ -382,8 +389,8 @@ export default {
               const item = {
                 title: encodeURIComponent(this.announce.title),
                 announce_category_id: this.announce.announce_category_id,
-                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
-                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
                 contents: encodeURIComponent(this.announce.contents),
                 thumbnail_file_name: this.file ? this.file.name : null,
                 regist_flg: registFlg,
@@ -545,6 +552,26 @@ export default {
         return this.getCategories;
       }
     },
+    getStartHours(){
+      if(this.announce.start_date){
+        return moment(this.announce.start_date).format("HH")
+      }
+    },
+    getStartMins(){
+      if(this.announce.start_date){
+        return moment(this.announce.start_date).format("mm")
+      }
+    },
+    getEndHours(){
+      if(this.announce.end_date){
+        return moment(this.announce.end_date).format("HH")
+      }
+    },
+    getEndMins(){
+      if(this.announce.end_date){
+        return moment(this.announce.end_date).format("mm")
+      }
+    }
   },
   created() {
     this.fetchCategories();

@@ -84,8 +84,8 @@
                   v-model="announce.start_date"
                   placeholder="掲載開始日"
                   :format="format"
-                  :enableTimePicker="false"
-                  :required="true"
+                  :enableTimePicker="true"
+                  :required="isRequired ? ['rules.required'] : []"
                   selectText="確認"
                   cancelText="キャンセル"
                 />
@@ -95,8 +95,10 @@
                   <v-col cols="3" class="p-0"></v-col>
                   <v-col cols="2" class="p-0">
                     <v-text-field
+                        v-model="getStartHours"
                         dense
                         hide-details="false"
+                        disabled
                     />
                   </v-col>
                   <v-col cols="2" class="p-0">
@@ -104,8 +106,10 @@
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <v-text-field
+                        v-model="getStartMins"
                         dense
                         hide-details="false"
+                        disabled
                     />
                   </v-col>
                   <v-col cols="2" class="p-0">
@@ -124,7 +128,7 @@
                   v-model="announce.end_date"
                   placeholder="掲載終了日"
                   :format="format"
-                  :enableTimePicker="false"
+                  :enableTimePicker="true"
                   :required="false"
                   selectText="確認"
                   cancelText="キャンセル"
@@ -135,8 +139,10 @@
                   <v-col cols="3" class="p-0"></v-col>
                   <v-col cols="2" class="p-0">
                     <v-text-field
+                        v-model="getEndHours"
                         dense
                         hide-details="false"
+                        disabled
                     />
                   </v-col>
                   <v-col cols="2" class="p-0 text-gray">
@@ -144,8 +150,10 @@
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <v-text-field
+                        v-model="getEndMins"
                         dense
                         hide-details="false"
+                        disabled
                     />
                   </v-col>
                   <v-col cols="2" class="p-0 text-gray">
@@ -167,7 +175,6 @@
               :items="categories"
               item-value="id"
               item-title="category_name"
-              :rules="[rules.required]"
               class="cat-tag"
               hide-details="false"
             />
@@ -217,7 +224,7 @@
           >
             <button
               class="btn green-btn pr-0 pl-0"
-              @click="submit()"
+              @click.prevent="submit()"
               type="button"
             >
               更新する
@@ -286,7 +293,7 @@
             <v-col
               v-if="announce.approval_status != 0 && announce.approval_status != 3"
               cols="11"
-              class="pt-sm-3 pt-0 pr-0 pl-0 pb-1"
+              class="pt-0 pr-0 pl-0 pb-1"
             >
               <button
                   class="btn sendbacks-btn"
@@ -392,6 +399,7 @@ export default {
           { text: 'ファイル名', value: 'name', align: 'left', class: 'no-wrap', sortable: false },
           { text: '', value: 'action', align: 'right', class: 'action', sortable: false },
       ],
+      isRequired: false,
     };
   },
 
@@ -406,75 +414,135 @@ export default {
       const html = this.$refs.myQuillEditor.getHTML();
       this.announce.contents = html;
 
+      if (this.announce.contents === "<p><br></p>"){
+        this.announce.contents = null
+      }
+      // 検証項目
+      const validateItem = {
+        title: this.announce.title,
+        announce_category_id: this.announce.announce_category_id,
+        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
+        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
+        contents: this.announce.contents,
+        thumbnail_file_name: this.file ? this.file.name : null,
+      };
+
+      // 下書き保存と登録する場合による、必須項目をTrueにする
+      if(this.announce.approval_status != 0){
+        this.isRequired = true;
+      }else{
+        this.isRequired = false;
+      }
+
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if (!res.valid) {
-          // 必須項目を取得
-          if (this.announce.contents === "<p><br></p>"){
-            this.announce.contents = null
-          }
-          const validateItem = {
-            title: this.announce.title,
-            announce_category_id: this.announce.announce_category_id,
-            start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : '',
-            end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
-            contents: this.announce.contents,
-            thumbnail_file_name: this.file ? this.file.name : null,
-          };
+        console.log(res);
+        // if (!res.valid || validateItem.contents == null) {
+          if(this.announce.approval_status != 0) {
+            axios.post('/api/announce/registValidation', validateItem )
+            .then(response => {
+              let formData = new FormData();
+              const item = {
+                title: encodeURIComponent(this.announce.title),
+                announce_category_id: this.announce.announce_category_id,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
+                contents: encodeURIComponent(this.announce.contents),
+                thumbnail_file_name: this.file ? this.file.name : null,
+              }
 
-          // 必須項目を検証する
-          axios.post('/api/announce/validation',validateItem )
-          .then(response => {
-              console.log(response);
-          })
-          .catch(error => {
-            if (error.response.status !== 422) {
-              console.error(error);
-            } else {
-              this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
-            }
-          });
+              console.log(item.start_date);
+              console.log(item.end_date);
+              formData.append("announce", JSON.stringify(item));
+
+              if (this.file) {
+                formData.append("thumbnail_file", this.file);
+              }
+
+              for (let i = 0; i < this.insertAttachments.length; i++) {
+                formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
+              }
+
+              for (let i = 0; i < this.deleteAttachments.length; i++) {
+                formData.append('deleteAttachments[' + i + ']', JSON.stringify(this.deleteAttachments[i]));
+              }
+
+              // Larabel は multipart/form-data を put で処理できないため post
+              axios.post('/api/announce/' + this.announce.id + '/update',
+                formData,
+                { headers: { "Content-type": "multipart/form-data", }}
+              ).then(response => {
+                this.openSuccess('更新しました');
+                // お知らせ一覧画面に遷移
+                this.$router.push({ name: 'announce.list' })
+
+                // バリデーションのメッセージを初期化する
+                this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+              })
+              .catch(error => {
+                console.log(error);
+              });
+            })
+            .catch(error => {
+              if (error.response.status !== 422) {
+                console.error(error);
+              } else {
+                this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+              }
+            });
+          } else {
+            axios.post('/api/announce/tempValidation', validateItem )
+            .then(response => {
+              let formData = new FormData();
+              const item = {
+                title: encodeURIComponent(this.announce.title),
+                announce_category_id: this.announce.announce_category_id,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
+                contents: encodeURIComponent(this.announce.contents),
+                thumbnail_file_name: this.file ? this.file.name : null,
+              }
+              formData.append("announce", JSON.stringify(item));
+
+              if (this.file) {
+                formData.append("thumbnail_file", this.file);
+              }
+
+              for (let i = 0; i < this.insertAttachments.length; i++) {
+                formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
+              }
+
+              for (let i = 0; i < this.deleteAttachments.length; i++) {
+                formData.append('deleteAttachments[' + i + ']', JSON.stringify(this.deleteAttachments[i]));
+              }
+
+              // Larabel は multipart/form-data を put で処理できないため post
+              axios.post('/api/announce/' + this.announce.id + '/update',
+                formData,
+                { headers: { "Content-type": "multipart/form-data", }}
+              ).then(response => {
+                this.openSuccess('更新しました');
+                // お知らせ一覧画面に遷移
+                this.$router.push({ name: 'announce.list' })
+
+                // バリデーションのメッセージを初期化する
+                this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+              })
+              .catch(error => {
+                console.log(error);
+              });
+            })
+            .catch(error => {
+              if (error.response.status !== 422) {
+                console.error(error);
+              } else {
+                this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+              }
+            });
+          }
           console.log("invalid!");
           return;
-        }
-        let formData = new FormData();
-        const item = {
-          title: encodeURIComponent(this.announce.title),
-          announce_category_id: this.announce.announce_category_id,
-          start_date: moment(this.announce.start_date).format("yyyy-MM-DD"),
-          end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : '',
-          contents: encodeURIComponent(this.announce.contents),
-          thumbnail_file_name: this.file ? this.file.name : null,
-        }
-        formData.append("announce", JSON.stringify(item));
-
-        if (this.file) {
-          formData.append("thumbnail_file", this.file);
-        }
-
-        for (let i = 0; i < this.insertAttachments.length; i++) {
-          formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
-        }
-
-        for (let i = 0; i < this.deleteAttachments.length; i++) {
-          formData.append('deleteAttachments[' + i + ']', JSON.stringify(this.deleteAttachments[i]));
-        }
-
-        // Larabel は multipart/form-data を put で処理できないため post
-        axios.post('/api/announce/' + this.announce.id + '/update',
-          formData,
-          { headers: { "Content-type": "multipart/form-data", }}
-        ).then(response => {
-          this.openSuccess('更新しました');
-          // お知らせ一覧画面に遷移
-          // this.$router.push({ name: 'announce.list' })
-
-            // バリデーションのメッセージを初期化する
-            this.$store.dispatch("announce/setAnnounceErrorMessages", "");
-        })
-        .catch(error => {
-          console.log(error);
-        });
+        // }
       });
     },
     readImage() {
@@ -591,14 +659,24 @@ export default {
     // 申請処理
     approvalRequest(announceId) {
       axios.put("/api/announce/" + announceId + "/request")
-      .then((res) => {});
-      window.location.reload();
+      .then((res) => {
+        this.openSuccess('申請しました');
+        // スナックバーの表示時間が経ってから実行
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      });
     },
     // 承認処理
     approvalAnnounce(announce) {
       axios.post("/api/announce/" + announce + "/approval")
-      .then((res) => {});
-      window.location.reload();
+      .then((res) => {
+        this.openSuccess('承認しました');
+        // スナックバーの表示時間が経ってから実行
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      });
     },
     // 差戻し処理
     approvalReturn(announceId) {
@@ -607,13 +685,23 @@ export default {
           approvalReturnComment:
           this.$store.state.announce.approvalReturnComment,
       })
-      .then((res) => {});
-      window.location.reload();
+      .then((res) => {
+        this.openSuccess('差戻しました');
+        // スナックバーの表示時間が経ってから実行
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      });
     },
     // 取り下げ処理
     approvalCancel(announceId) {
-      axios.put("/api/announce/" + announceId + "/cansel").then((res) => {});
-      window.location.reload();
+      axios.put("/api/announce/" + announceId + "/cansel").then((res) => {
+        this.openSuccess('取り下げました');
+        // スナックバーの表示時間が経ってから実行
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      });
     },
   },
   computed: {
@@ -629,8 +717,31 @@ export default {
         return this.getCategories;
       }
     },
+    getStartHours(){
+      if(this.announce.start_date){
+        return moment(this.announce.start_date).format("HH")
+      }
+    },
+    getStartMins(){
+      if(this.announce.start_date){
+        return moment(this.announce.start_date).format("mm")
+      }
+    },
+    getEndHours(){
+      if(this.announce.end_date){
+        return moment(this.announce.end_date).format("HH")
+      }
+    },
+    getEndMins(){
+      if(this.announce.end_date){
+        return moment(this.announce.end_date).format("mm")
+      }
+    }
   },
   async mounted() {
+    // バリデーションのメッセージを初期化する
+    this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+
     this.announce = await this.getAnnounce(this.announceId);
     this.loadAttachments = this.announce.attachments;
     this.loadAttachments.forEach(attachment => {

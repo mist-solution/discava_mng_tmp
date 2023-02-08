@@ -49,7 +49,7 @@
                 v-bind:type="toggle.type"
                 @click:append="showPassword = !showPassword"
                 :append-icon="toggle.icon"
-                :rules="[rules.required, rules.max_72]"
+                :rules="[rules.required, rules.max_72, rules.password]"
                 hide-details="false"
                 autocomplete="new-password"
                 required
@@ -68,7 +68,7 @@
                 v-bind:type="toggle.confType"
                 @click:append="showPwdConfirm = !showPwdConfirm"
                 :append-icon="toggle.confIcon"
-                :rules="[rules.required, rules.max_72]"
+                :rules="[rules.required, rules.max_72, rules.password]"
                 hide-details="false"
                 autocomplete="new-password"
                 required
@@ -137,7 +137,7 @@
         <!-- ToDo:権限は要検討 -->
         <v-row justify="center" class="mt-4 btn-list">
           <v-col cols="12" sm="3" class="p-0 m-2">
-            <v-btn class="green-btn" @click.prevent="submit">
+            <v-btn class="green-btn" type="button" @click.prevent="submit">
               アカウント追加
             </v-btn>
           </v-col>
@@ -215,25 +215,39 @@ export default {
         shopList:this.forms.shopList,
       };
       let shopListModel = true;
+      let passwordCheck = false;
+
       if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
         shopListModel = false;
-        console.log("shopListModel");
-        console.log(shopListModel);
-        console.log(validateItem.shopList[0].model);
-        console.log(validateItem.shopList[1].model);
+       
+      }
+      if (validateItem.password != "" && validateItem.password == validateItem.password_confirmation){
+        passwordCheck = true;
       }
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if (!res.valid || shopListModel == false) {
+        // if (!res.valid || shopListModel == false || passwordCheck == false) {
           // 必須項目を検証する
           axios.post('/api/enduser/registValidation', validateItem )
           .then(response => {
-              console.log(response);
+            console.log(response);
+            console.log(this.forms);
+            this.$axios.post('/api/enduser', this.forms)
+            .then(response => {
+              this.reset();
+              this.openSuccess('登録しました');
+              // バリデーションのメッセージを初期化する
+              this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+              // スナックバーの表示時間が経ってから実行
+              setTimeout(() => {
+                this.$router.push({name: 'enduser.list'})
+              }, 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
           })
           .catch(error => {
-            console.log("ERROR");
-            console.log(validateItem.shopList[0].model);
-            console.log(validateItem.shopList[1].model);
             if (error.response.status !== 422) {
               console.error(error);
             } else {
@@ -242,20 +256,7 @@ export default {
           });
           console.log("invalid!");
           return;
-        }
-        console.log(this.forms);
-        this.$axios.post('/api/enduser', this.forms)
-        .then(response => {
-          this.reset();
-          this.openSuccess('登録しました');
-          this.$router.push('/enduser');
-//          this.fetchUsers();
-          // バリデーションのメッセージを初期化する
-          this.$store.dispatch("enduser/setEndUserErrorMessages", "");
-        })
-        .catch(error => {
-          console.log(error);
-        });
+        // }
       });
     },
     // 入力内容と検証エラーをリセットするメソッド
@@ -287,6 +288,9 @@ export default {
   },
   async mounted() {
 //    this.getCustomerCodes();
+    // バリデーションのメッセージを初期化する
+    this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+
     await this.fetchAllAuthoritySetDisplay();
     this.authoritySet = this.getAuthoritySetDisplay;
     await this.fetchShops();

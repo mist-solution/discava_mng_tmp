@@ -67,6 +67,8 @@
             item-value="shop_id"
             item-title="shop_name"
             @update:modelValue="onShopSelectionChange"
+            :class="[{'short_Range':range <= 3},{'middle_Range': range > 3 },
+            {'long_Range':range > 6}]"
           >
           <template v-slot:append-item>
             <v-list-item @click="logout" class="whiteline">
@@ -111,7 +113,7 @@
               link
               :to="{ name: item.linkTo }"
               :disabled="item.disabled"
-              color="blue lighten-5"
+
             ></v-list-item>
           </div>
           <div>
@@ -122,7 +124,6 @@
               link
               :href="shopSelection.website_url"
               :disabled="false"
-              color="blue lighten-5"
               target="_blank"
               rel="noopener"
               ></v-list-item>
@@ -161,6 +162,7 @@ export default {
       rail: false,
       company_name: '',
       shopSelection: [],
+      range: null,
     };
   },
   methods: {
@@ -224,6 +226,7 @@ export default {
   async mounted() {
     let shopselect = await this.getShopSelection();
     this.shopSelection = shopselect;
+    this.range = this.shopSelection.shop_name.length
   },
   async created() {
     await this.fetchShopUsersWithLogout();

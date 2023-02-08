@@ -27,8 +27,7 @@ class EndUserUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $user = User::where('name', $this->input('name'))->first();
-        $userId = $user->id;
+        $userId = $this->input('id');
         $rules = [
             'name' => 'required|max:16',
             'email' => 'required|email|unique:users,email,' . $userId,

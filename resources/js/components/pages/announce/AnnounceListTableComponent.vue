@@ -778,7 +778,8 @@ export default {
         // スナックバーの表示時間が経ってから実行
         setTimeout(() => {
           this.closeAction();
-          window.location.reload();
+          this.getAnnounceList();
+          this.nullPageCheck();
         }, 1000);
       });
     },
@@ -791,7 +792,8 @@ export default {
         // スナックバーの表示時間が経ってから実行
         setTimeout(() => {
           this.closeAction();
-          window.location.reload();
+          this.getAnnounceList();
+          this.nullPageCheck();
         }, 1000);
       });
     },
@@ -807,7 +809,8 @@ export default {
         // スナックバーの表示時間が経ってから実行
         setTimeout(() => {
           this.closeAction();
-          window.location.reload();
+          this.getAnnounceList();
+          this.nullPageCheck();
         }, 1000);
       });
     },
@@ -819,7 +822,8 @@ export default {
         // スナックバーの表示時間が経ってから実行
         setTimeout(() => {
           this.closeAction();
-          window.location.reload();
+          this.getAnnounceList();
+          this.nullPageCheck();
         }, 1000);
       });
     },
@@ -831,7 +835,8 @@ export default {
         // スナックバーの表示時間が経ってから実行
         setTimeout(() => {
           this.closeAction();
-          window.location.reload();
+          this.getAnnounceList();
+          this.nullPageCheck();
         }, 1000);
       });
     },

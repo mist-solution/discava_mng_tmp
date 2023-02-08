@@ -1242,4 +1242,13 @@ thead {
 .announce-edit_btn {
   cursor: pointer;
 }
+
+.detaTable-header_preview{
+  visibility:hidden; 
+}
+
+.vue3-easy-data-table__main > table > tbody > tr:hover > .direction-left > 
+.headtitle-left > .v-row > .detaTable-header_preview{
+  visibility: visible !important;
+}
 </style>

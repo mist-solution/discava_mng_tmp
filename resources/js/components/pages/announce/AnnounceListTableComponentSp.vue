@@ -427,6 +427,7 @@ export default {
   methods: {
     ...mapActions('authority', ['fetchAllAuthority']),
     ...mapActions('enduser', ['getUserInfo']),
+    ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
     mergeProps,
     // モーダルを閉じる
     closeRequest() {
@@ -586,7 +587,8 @@ export default {
         // スナックバーの表示時間が経ってから実行
         setTimeout(() => {
           this.closeAction();
-          window.location.reload();
+          this.getAnnounceList();
+          this.nullPageCheck();
         }, 1000);
       });
     },
@@ -599,7 +601,8 @@ export default {
         // スナックバーの表示時間が経ってから実行
         setTimeout(() => {
           this.closeAction();
-          window.location.reload();
+          this.getAnnounceList();
+          this.nullPageCheck();
         }, 1000);
       });
     },
@@ -616,7 +619,8 @@ export default {
         // スナックバーの表示時間が経ってから実行
         setTimeout(() => {
           this.closeAction();
-          window.location.reload();
+          this.getAnnounceList();
+          this.nullPageCheck();
         }, 1000);
       });
     },
@@ -628,7 +632,8 @@ export default {
         // スナックバーの表示時間が経ってから実行
         setTimeout(() => {
           this.closeAction();
-          window.location.reload();
+          this.getAnnounceList();
+          this.nullPageCheck();
         }, 1000);
       });
     },
@@ -640,7 +645,8 @@ export default {
         // スナックバーの表示時間が経ってから実行
         setTimeout(() => {
           this.closeAction();
-          window.location.reload();
+          this.getAnnounceList();
+          this.nullPageCheck();
         }, 1000);
       });
     },
@@ -756,6 +762,13 @@ export default {
     // 編集ページへ画面遷移
     toEditPage(id) {
       this.$router.push({name: 'announce.edit', params: { announceId: id }})
+    },
+
+    //操作後、操作したページにお知らせが無くなった場合に1ページ戻る
+    nullPageCheck(){
+      if(this.$refs.dataTable.currentPageFirstIndex == this.$refs.dataTable.currentPageLastIndex){
+        this.$refs.dataTable.updatePage(this.$refs.dataTable.currentPaginationNumber - 1);
+      }
     }
   },
   async mounted() {

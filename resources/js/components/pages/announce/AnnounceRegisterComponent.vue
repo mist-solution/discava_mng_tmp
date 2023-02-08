@@ -93,22 +93,24 @@
                 <v-row  align="center" class="m-0 time-pick">
                   <v-col cols="3" class="p-0"></v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getStartHours}}</label>
+                    <!-- <v-text-field
                         v-model="getStartHours"
                         hide-details="false"
                         disabled
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <p class="text-gray">時</p>
                   </v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getStartMins}}</label>
+                    <!-- <v-text-field
                         v-model="getStartMins"
                         dense
                         hide-details="false"
                         disabled
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <p class="text-gray">分</p>
@@ -136,23 +138,25 @@
                 <v-row  align="center" class="m-0 time-pick">
                   <v-col cols="3" class="p-0"></v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getEndHours}}</label>
+                    <!-- <v-text-field
                         v-model="getEndHours"
                         dense
                         hide-details="false"
                         disabled
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0 text-gray">
                     <p>時</p>
                   </v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getEndMins}}</label>
+                    <!-- <v-text-field
                         v-model="getEndMins"
                         dense
                         hide-details="false"
                         disabled
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0 text-gray">
                     <p>分</p>

@@ -192,6 +192,9 @@ export default {
   },
   async mounted() {
 //    this.getUser();
+    // バリデーションのメッセージを初期化する
+    this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+
     this.forms = await this.getUserById(this.userId);
     //    this.getCustomerCodes();
     await this.fetchAllAuthoritySetDisplay();
@@ -217,10 +220,6 @@ export default {
     })
 
   },
-  mounted(){
-    // バリデーションのメッセージを初期化する
-    this.$store.dispatch("enduser/setEndUserErrorMessages", "");
-  }
 }
 </script>
 <style scoped>

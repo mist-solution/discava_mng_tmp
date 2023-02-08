@@ -288,6 +288,9 @@ export default {
   },
   async mounted() {
 //    this.getCustomerCodes();
+    // バリデーションのメッセージを初期化する
+    this.$store.dispatch("enduser/setEndUserErrorMessages", "");
+
     await this.fetchAllAuthoritySetDisplay();
     this.authoritySet = this.getAuthoritySetDisplay;
     await this.fetchShops();
@@ -296,10 +299,6 @@ export default {
       value.model = 'none';
     });
   },
-  mounted(){
-    // バリデーションのメッセージを初期化する
-    this.$store.dispatch("enduser/setEndUserErrorMessages", "");
-  }
 }
 </script>
 

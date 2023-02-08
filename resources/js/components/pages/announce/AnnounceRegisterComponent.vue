@@ -550,6 +550,9 @@ export default {
     this.fetchCategories();
   },
   async mounted() {
+    // バリデーションのメッセージを初期化する
+    this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+
     let authority = await this.fetchAllAuthority();
     if(authority){
       this.approval_auth_flg = authority.approval_auth_flg;
@@ -559,11 +562,7 @@ export default {
     if(name){
         this.username = name.name;
     }
-  },
-  mounted(){
-    // バリデーションのメッセージを初期化する
-    this.$store.dispatch("announce/setAnnounceErrorMessages", "");
-  }
+  }, 
 };
 </script>
 

@@ -708,6 +708,9 @@ export default {
     },
   },
   async mounted() {
+    // バリデーションのメッセージを初期化する
+    this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+
     this.announce = await this.getAnnounce(this.announceId);
     this.loadAttachments = this.announce.attachments;
     this.loadAttachments.forEach(attachment => {
@@ -729,10 +732,6 @@ export default {
   created() {
     this.fetchCategories();
   },
-  mounted(){
-    // バリデーションのメッセージを初期化する
-    this.$store.dispatch("announce/setAnnounceErrorMessages", "");
-  }
 };
 
 </script>

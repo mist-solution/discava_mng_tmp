@@ -54,15 +54,31 @@ class EndUserRegistRequest extends FormRequest
         ];
 
         $shopList = $this->input('shopList');
+        $allModel = 0;
+
         if (count($shopList) >= 2) {
-            if ($shopList[0]['model'] == 'none' && $shopList[1]['model'] == 'none') {
-                $rules["shopList.0.model"] = 'required|not_in:none';
-                $rules["shopList.1.model"] = 'required|not_in:none';
+            foreach ($shopList as $index => $detail) {
+                if ($detail['model'] == 'none') {
+                    $allModel += 1;
+                }
+            }
+            if (count($shopList) == $allModel) {
+                foreach ($shopList as $index => $detail) {
+                    if ($detail['model'] == 'none') {
+                        $rules["shopList.$index.model"] = 'required|not_in:none';
+                    }
+                }
+            } else if (count($shopList) < $allModel) {
+                foreach ($shopList as $index => $detail) {
+                    $rules["shopList.$index.model"] = 'required';
+                }
             }
         } else if (count($shopList) == 1) {
             if ($shopList[0]['model'] == 'none') {
                 $rules["shopList.0.model"] = 'required|not_in:none';
             }
+        } else {
+            return;
         }
 
         return $rules;
@@ -77,7 +93,8 @@ class EndUserRegistRequest extends FormRequest
             'password_confirmation' => 'パスワード確認',
         ];
 
-        foreach ($this->input('shopList') as $index => $detail) {
+        $shopList = $this->input('shopList');
+        foreach ($shopList as $index => $detail) {
             if ($detail['model'] == 'none') {
                 $attributes["shopList.$index.model"] = $detail["shop_name"];
             }
@@ -95,32 +112,33 @@ class EndUserRegistRequest extends FormRequest
             ];
 
         $attributeArray = [];
+        $attribute = null;
         $shopList = $this->input('shopList');
-        $shopIndex = 0;
+
         if (count($shopList) >= 2) {
             foreach ($shopList as $index => $detail) {
                 if ($detail['model'] == 'none') {
                     if (!in_array($detail["shop_name"], $attributeArray)) {
                         array_push($attributeArray, $detail["shop_name"]);
                     }
-                    $shopIndex += 1;
                 }
-                $attribute = implode('または', $attributeArray);
+
+                // get shop_name
+                $attribute = implode('、', $attributeArray);
+            }
+            for ($i = 1; $i < count($shopList); $i++) {
                 $message =
                     [
                         'shopList.0.model.not_in' => $attribute . 'いずれかの権限は「該当なし」以外を選択してください。',
-                        'shopList.' . $shopIndex . '.model.not_in' => "",
+                        'shopList.*.model.not_in' =>  '',
                     ];
-                return
-                    $message;
-            }
+            };
+            return $message;
         } else if (count($shopList) == 1) {
             $attribute = $shopList[0]["shop_name"];
-            $message = [
+            return [
                 'shopList.0.model.not_in' => $attribute . 'の権限は「該当なし」以外を選択してください。',
             ];
-            return
-                $message;
         } else {
             return $message;
         }

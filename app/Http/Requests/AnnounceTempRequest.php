@@ -29,8 +29,6 @@ class AnnounceTempRequest extends FormRequest
             'title' => 'required|max:255',
             'contents' => 'required',
         ];
-        log::info($this->input('start_date'));
-        log::info($this->input('end_date'));
         if ($this->filled('announce_category_id')) {
             $rules['announce_category_id'] = 'required';
         }

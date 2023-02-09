@@ -217,10 +217,9 @@ export default {
       let shopListModel = true;
       let passwordCheck = false;
 
-      if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
-        shopListModel = false;
-       
-      }
+      // if (validateItem.shopList[0].model == "none" && validateItem.shopList[1].model == "none"){
+      //   shopListModel = false;
+      // }
       if (validateItem.password != "" && validateItem.password == validateItem.password_confirmation){
         passwordCheck = true;
       }

@@ -54,9 +54,15 @@ class EndUserRegistRequest extends FormRequest
         ];
 
         $shopList = $this->input('shopList');
-        if ($shopList[0]['model'] == 'none' && $shopList[1]['model'] == 'none') {
-            $rules["shopList.0.model"] = 'required|not_in:none';
-            $rules["shopList.1.model"] = 'required|not_in:none';
+        if (count($shopList) >= 2) {
+            if ($shopList[0]['model'] == 'none' && $shopList[1]['model'] == 'none') {
+                $rules["shopList.0.model"] = 'required|not_in:none';
+                $rules["shopList.1.model"] = 'required|not_in:none';
+            }
+        } else if (count($shopList) == 1) {
+            if ($shopList[0]['model'] == 'none') {
+                $rules["shopList.0.model"] = 'required|not_in:none';
+            }
         }
 
         return $rules;
@@ -82,20 +88,41 @@ class EndUserRegistRequest extends FormRequest
 
     public function messages()
     {
-        $attributeArray = [];
-        foreach ($this->input('shopList') as $index => $detail) {
-            if ($detail['model'] == 'none') {
-                if (!in_array($detail["shop_name"], $attributeArray)) {
-                    array_push($attributeArray, $detail["shop_name"]);
-                }
-            }
-        }
-        $attribute = implode('または', $attributeArray);
 
-        return [
-            'shopList.0.model.not_in' => $attribute . 'いずれかの権限は「該当なし」以外を選択してください。',
-            'shopList.1.model.not_in' => '',
-            'password.between'        => '',
-        ];
+        $message =
+            [
+                'password.between'        => '',
+            ];
+
+        $attributeArray = [];
+        $shopList = $this->input('shopList');
+        $shopIndex = 0;
+        if (count($shopList) >= 2) {
+            foreach ($shopList as $index => $detail) {
+                if ($detail['model'] == 'none') {
+                    if (!in_array($detail["shop_name"], $attributeArray)) {
+                        array_push($attributeArray, $detail["shop_name"]);
+                    }
+                    $shopIndex += 1;
+                }
+                $attribute = implode('または', $attributeArray);
+                $message =
+                    [
+                        'shopList.0.model.not_in' => $attribute . 'いずれかの権限は「該当なし」以外を選択してください。',
+                        'shopList.' . $shopIndex . '.model.not_in' => "",
+                    ];
+                return
+                    $message;
+            }
+        } else if (count($shopList) == 1) {
+            $attribute = $shopList[0]["shop_name"];
+            $message = [
+                'shopList.0.model.not_in' => $attribute . 'の権限は「該当なし」以外を選択してください。',
+            ];
+            return
+                $message;
+        } else {
+            return $message;
+        }
     }
 }

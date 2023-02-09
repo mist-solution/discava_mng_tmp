@@ -90,7 +90,7 @@
       :disabled="firstpage_flg"
       :class="{'disable_btn': firstpage_flg,'white-btn': firstpage_flg == false}"
     >
-      ≪
+    <v-icon>mdi-chevron-double-left</v-icon>
     </button>
 
     <button
@@ -100,7 +100,7 @@
       :disabled="firstpage_flg"
       :class="{'disable_btn': firstpage_flg,'white-btn': firstpage_flg == false}"
     >
-      ＜
+      <v-icon>mdi-chevron-left</v-icon>
     </button>
 
     <input
@@ -122,7 +122,7 @@
       :disabled="lastpage_flg"
       :class="{'disable_btn': lastpage_flg,'white-btn': lastpage_flg == false}"
     >
-      ＞
+    <v-icon>mdi-chevron-right</v-icon>
     </button>
 
     <button
@@ -132,7 +132,7 @@
       :disabled="lastpage_flg"
       :class="{'disable_btn': lastpage_flg,'white-btn': lastpage_flg == false}"
     >
-      ≫
+    <v-icon>mdi-chevron-double-right</v-icon>
     </button>
   </div>
   </v-container>

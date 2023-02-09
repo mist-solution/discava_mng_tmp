@@ -93,22 +93,24 @@
                 <v-row  align="center" class="m-0 time-pick">
                   <v-col cols="3" class="p-0"></v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getStartHours}}</label>
+                    <!-- <v-text-field
                         v-model="getStartHours"
                         hide-details="false"
                         disabled
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <p class="text-gray">時</p>
                   </v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getStartMins}}</label>
+                    <!-- <v-text-field
                         v-model="getStartMins"
                         dense
                         hide-details="false"
                         disabled
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <p class="text-gray">分</p>
@@ -136,23 +138,25 @@
                 <v-row  align="center" class="m-0 time-pick">
                   <v-col cols="3" class="p-0"></v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getEndHours}}</label>
+                    <!-- <v-text-field
                         v-model="getEndHours"
                         dense
                         hide-details="false"
                         disabled
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0 text-gray">
                     <p>時</p>
                   </v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getEndMins}}</label>
+                    <!-- <v-text-field
                         v-model="getEndMins"
                         dense
                         hide-details="false"
                         disabled
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0 text-gray">
                     <p>分</p>
@@ -307,8 +311,8 @@ export default {
       const validateItem = {
         title: this.announce.title,
         announce_category_id: this.announce.announce_category_id,
-        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
-        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
+        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
         contents: this.announce.contents,
         thumbnail_file_name: this.file ? this.file.name : null,
       };
@@ -331,8 +335,8 @@ export default {
               const item = {
                 title: encodeURIComponent(this.announce.title),
                 announce_category_id: this.announce.announce_category_id,
-                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
-                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
                 contents: encodeURIComponent(this.announce.contents),
                 thumbnail_file_name: this.file ? this.file.name : null,
                 regist_flg: registFlg,
@@ -389,8 +393,8 @@ export default {
               const item = {
                 title: encodeURIComponent(this.announce.title),
                 announce_category_id: this.announce.announce_category_id,
-                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
-                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
                 contents: encodeURIComponent(this.announce.contents),
                 thumbnail_file_name: this.file ? this.file.name : null,
                 regist_flg: registFlg,
@@ -478,8 +482,8 @@ export default {
     },
     // 掲載期間を取得
     getAnnounceDate() {
-      const start = moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : '';
-      const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : '';
+      const start = moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : '';
+      const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : '';
       this.announce.start_date = start;
       this.announce.end_date = end;
       this.username = this.username;

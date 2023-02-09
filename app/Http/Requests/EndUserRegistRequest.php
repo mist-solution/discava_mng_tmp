@@ -95,6 +95,7 @@ class EndUserRegistRequest extends FormRequest
         return [
             'shopList.0.model.not_in' => $attribute . 'いずれかの権限は「該当なし」以外を選択してください。',
             'shopList.1.model.not_in' => '',
+            'password.between'        => '',
         ];
     }
 }

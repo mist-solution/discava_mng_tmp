@@ -425,8 +425,8 @@ export default {
       const validateItem = {
         title: this.announce.title,
         announce_category_id: this.announce.announce_category_id,
-        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
-        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
+        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
         contents: this.announce.contents,
         thumbnail_file_name: this.file ? this.file.name : null,
       };
@@ -449,8 +449,8 @@ export default {
               const item = {
                 title: encodeURIComponent(this.announce.title),
                 announce_category_id: this.announce.announce_category_id,
-                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
-                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
                 contents: encodeURIComponent(this.announce.contents),
                 thumbnail_file_name: this.file ? this.file.name : null,
               }
@@ -501,8 +501,8 @@ export default {
               const item = {
                 title: encodeURIComponent(this.announce.title),
                 announce_category_id: this.announce.announce_category_id,
-                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null,
-                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
                 contents: encodeURIComponent(this.announce.contents),
                 thumbnail_file_name: this.file ? this.file.name : null,
               }

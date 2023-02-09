@@ -31,6 +31,8 @@ class AnnounceRegistRequest extends FormRequest
             'announce_category_id' => 'required',
             'start_date' => 'required|date',
         ];
+        log::info($this->input('start_date'));
+        log::info($this->input('end_date'));
         if ($this->filled('end_date')) {
             $rules['end_date'] = 'date|after:start_date';
         }

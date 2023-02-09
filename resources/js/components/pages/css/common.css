@@ -358,10 +358,6 @@ text-align: center;
 .v-input__details{
     display: none;
 }
-.ql-container {
-    height: fit-content !important;
-    min-height:250px !important;
-}
 .v-tab--selected .v-tab__slider {
     opacity: 0;
 }

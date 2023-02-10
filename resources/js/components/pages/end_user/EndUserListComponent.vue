@@ -1,6 +1,11 @@
 <template>
   <v-container class="max-cont">
   <title-component
+    class = "sp_disable"
+    name = "アカウント一覧"
+  />
+  <sp-announce-title-component
+    class = "pc_disable"
     name = "アカウント一覧"
   />
   <!-- タブ部分 -->
@@ -26,7 +31,6 @@
         <input
           class="searchform search-box"
           type="search"
-          placeholder="検索"
           aria-label="Search"
           maxlength="30"
           hide-details="false"
@@ -58,8 +62,12 @@
       </v-btn>
     </v-col>
 
-    <!-- 件数表示 -->
-    <v-col align="right" class="mr-2 text-gray">
+    <!-- 件数表示 pc-->
+    <v-col v-if="!moblieFlg()">
+      全 {{ totalcount }} 件
+    </v-col>
+    
+    <v-col align="right" class="mr-2 text-gray" v-if="!moblieFlg()">
       <input
         class="LimitCount"
         type="number"
@@ -72,12 +80,32 @@
         @change = "RowPageChange"
       />件表示
     </v-col>
+
+    <!-- 件数表示 sp-->
+    <v-col align="right" class="mr-2 text-gray" v-if="moblieFlg()">
+      <input
+        class="LimitCount"
+        type="number"
+        Style="text-align:right"
+        aria-label="Search"
+        min="1"
+        maxlength="2"
+        hide-details="false"
+        v-model="perRowPage"
+        @change = "RowPageChange"
+      />件/ {{ totalcount }} 件
+    </v-col>
   </v-row>
 
   <!-- アカウント一覧 -->
   <v-card class="ac-list main-cont">
     <end-user-list-table 
+      v-if="!moblieFlg()"
       :searchValue="searchText"
+      @LastPageChange="LastPageChange"
+    />
+    <end-user-list-table-sp
+      v-if="moblieFlg()"
       @LastPageChange="LastPageChange"
     />
   </v-card>
@@ -141,11 +169,15 @@
 <script>
 import { mapActions } from "vuex";
 import EndUserListTable from "../../items/EndUserListTableComponent.vue";
+import EndUserListTableSp from "../../items/EndUserListTableComponentSp.vue";
 import TitleComponent from "../../common/TitleComponent.vue"
+import SpAnnounceTitleComponent from "../../common/SpAnnounceTitleComponent.vue"
 export default {
   components: {
     EndUserListTable,
+    EndUserListTableSp,
     TitleComponent,
+    SpAnnounceTitleComponent,
   },
   data() {
     return {
@@ -153,6 +185,7 @@ export default {
       items: [ "アカウント一括削除", "権限一括付与", "権限一括削除",],
       approval_auth_flg: null,
       perRowPage: 10,
+      totalcount: null,
       LastPage: null,
       page: 1,
       firstpage_flg: true,
@@ -168,8 +201,9 @@ export default {
       this.$store.dispatch("enduser/setDisplayLimit", this.perRowPage);
       this.$store.dispatch("enduser/setDisplayPage", this.page);
     },
-    LastPageChange(value){
-      this.LastPage = value;
+    LastPageChange(value1,value2){
+      this.LastPage = value1;
+      this.totalcount = value2;
     },
     pageToFirst(){
       this.page = 1;
@@ -211,7 +245,13 @@ export default {
         this.lastpage_flg = false
       }
       this.$store.dispatch("enduser/setDisplayPage", this.page);
-    }
+    },
+    // モバイル判定
+    moblieFlg() {
+      return window.matchMedia &&
+        window.matchMedia('(max-device-width: 640px)').matches ?
+        true : false
+    },
   },
   async mounted() {
     let authority = await this.fetchAllAuthority();
@@ -397,5 +437,17 @@ export default {
 
   .v-menu .v-overlay__content > .v-list{
     background-color: #7B7B7B;
+  }
+
+  @media (max-width: 900px){
+    .sp_disable{
+        display: none;
+    }
+  }
+
+  @media (min-width: 901px){
+    .pc_disable{
+        display: none;
+    }
   }
 </style>

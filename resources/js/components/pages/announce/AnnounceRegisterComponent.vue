@@ -83,6 +83,7 @@
                   v-model="announce.start_date"
                   placeholder="掲載開始日"
                   :format="format"
+                  :preview-format="previewFormat"
                   :required="isRequired ? ['rules.required'] : []"
                   selectText="確認"
                   cancelText="キャンセル"
@@ -127,6 +128,7 @@
                   v-model="announce.end_date"
                   placeholder="掲載終了日"
                   :format="format"
+                  :preview-format="previewFormat"
                   :required="false"
                   selectText="確認"
                   cancelText="キャンセル"
@@ -495,6 +497,10 @@ export default {
 
     format(date) {
       return moment(date).format('yyyy/MM/DD');
+    },
+    
+    previewFormat(date) {
+      return moment(date).format('yyyy/MM/DD HH:mm');
     },
 
     closePreview(){

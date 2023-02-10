@@ -41,74 +41,78 @@
     </v-card-title>
 
     <v-row v-if="!moblieFlg()">
-      <v-col class="text-gray" align="left">
-        全 {{  $store.state.announce.totalCount }} 件
+      <v-col class="sort-flex px-0" col="6">
+        <div class="text-gray">
+          全 {{  $store.state.announce.totalCount }} 件
+        </div>
+
+        <v-select
+          dense
+          class="filter-btn"
+          :items="items2"
+          label="投稿月"
+          item-value="id"
+          item-title="text"
+          v-model="createdmodel"
+          @update:modelValue='createdChange'
+        />
+
+        <v-select
+          dense
+          class="filter-btn"
+          :items="items2"
+          label="更新月"
+          item-value="id"
+          item-title="text"
+          v-model="updatedmodel"
+          @update:modelValue='updatedChange'
+        />
+
+        <v-select
+          dense
+          class="filter-btn"
+          :items="categories"
+          item-value="id"
+          item-title="category_name"
+          label="カテゴリー"
+          hide-details="false"
+          v-model="categoriesmodel"
+          @update:modelValue='categoriesChange'
+        />
       </v-col>
 
-      <v-select
-        dense
-        class="filter-btn"
-        :items="items2"
-        label="投稿月"
-        item-value="id"
-        item-title="text"
-        v-model="createdmodel"
-        @update:modelValue='createdChange'
-      />
+      <v-col class="sort-flex px-0" col="6">
+        <v-select
+          dense
+          class="filter-btn"
+          :items="users"
+          label="投稿者名"
+          item-value="id"
+          item-title="name"
+          hide-details="false"
+          v-model="usermodel"
+          @update:modelValue='userChange'
+        />
 
-      <v-select
-        dense
-        class="filter-btn"
-        :items="items2"
-        label="更新月"
-        item-value="id"
-        item-title="text"
-        v-model="updatedmodel"
-        @update:modelValue='updatedChange'
-      />
+        <v-select
+          dense
+          class="filter-btn"
+          :items="items"
+          label="公開状態"
+          item-title="text"
+          item-value="id"
+          v-model="releasemodel"
+          @update:modelValue='releaseChange'
+        />
 
-      <v-select
-        dense
-        class="filter-btn"
-        :items="categories"
-        item-value="id"
-        item-title="category_name"
-        label="カテゴリー"
-        hide-details="false"
-        v-model="categoriesmodel"
-        @update:modelValue='categoriesChange'
-      />
-
-      <v-select
-        dense
-        class="filter-btn"
-        :items="users"
-        label="投稿者名"
-        item-value="id"
-        item-title="name"
-        hide-details="false"
-        v-model="usermodel"
-        @update:modelValue='userChange'
-      />
-
-      <v-select
-        dense
-        class="filter-btn"
-        :items="items"
-        label="公開状態"
-        item-title="text"
-        item-value="id"
-        v-model="releasemodel"
-        @update:modelValue='releaseChange'
-      />
-
-      <button
-        class="green-btn mx-2 px-3 py-2"
-        type="button"
-        @click="resetFilterAnnounce()"
-      >
-        リセット
-      </button>
+        <button
+          class="green-btn mx-2 px-3 py-2"
+          type="button"
+          @click="resetFilterAnnounce()"
+        >
+          リセット
+        </button>
+      </v-col>
     </v-row>
 
     <v-row v-if="moblieFlg()" class="sp_btn">
@@ -496,6 +500,16 @@ export default {
   .filter-btn{
     background-color: #fff;
     border-radius: 10px;
+    margin: 0 5px;
   }
 
+.sort-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.v-label.v-field-label {
+  font-size: 14px !important;
+}
 </style>

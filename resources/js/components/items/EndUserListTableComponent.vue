@@ -26,9 +26,12 @@
 			</template> -->
       <!-- ユーザ名（クリックで更新画面） -->
 			<template #item-name="item">
-        <router-link :to="{ name: 'enduser.update', params: { userId: item.id } }">
+        <router-link :to="{ name: 'enduser.update', params: { userId: item.id } }" v-if="approval_auth_flg">
 				{{ item.name }}
         </router-link>
+        <div v-if="!approval_auth_flg">
+          {{ item.name }}
+        </div>
 			</template>
       <!-- メールアドレス -->
 			<template #item-mail="item">

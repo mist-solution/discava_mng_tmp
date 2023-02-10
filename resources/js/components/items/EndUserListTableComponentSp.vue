@@ -58,7 +58,7 @@
             {{item.updated_at.slice(0,4)}}/{{item.updated_at.slice(5,7)}}/{{item.updated_at.slice(8,10)}}
           </v-col>
         </v-row>
-        <v-row class="accordion_icons">
+        <v-row class="accordion_icons" v-if="approval_auth_flg">
           <div>
             <router-link :to="{ name: 'enduser.update', params: { userId: item.id } }">
               <v-icon class="green-icon">mdi-square-edit-outline</v-icon>

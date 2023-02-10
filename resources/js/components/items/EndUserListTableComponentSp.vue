@@ -18,58 +18,67 @@
 			:rows-per-page="rowsPerPage"
       v-if="reset"
       :hide-footer="true"
+      id="accountlist"
 		>
-			<!-- <template #item-title="item">
-					<router-link :to="{ name: 'enduser.edit', params: { announceId: item.id } }">
-					{{ item.title }}
-					</router-link>
-			</template> -->
-      <!-- ユーザ名（クリックで更新画面） -->
+
+
+
+    
+    <template #expand="item">
+      <div style="padding: 15px">
+        <v-row>
+          <v-col>
+            ID
+          </v-col>
+          <v-col>
+            {{item.name}}
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            メール
+          </v-col>
+          <v-col>
+            {{item.email}}
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            登録日
+          </v-col>
+          <v-col>
+            {{item.created_at.slice(0,4)}}/{{item.created_at.slice(5,7)}}/{{item.created_at.slice(8,10)}}
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            更新日
+          </v-col>
+          <v-col>
+            {{item.updated_at.slice(0,4)}}/{{item.updated_at.slice(5,7)}}/{{item.updated_at.slice(8,10)}}
+          </v-col>
+        </v-row>
+        <v-row class="accordion_icons" v-if="approval_auth_flg">
+          <div>
+            <router-link :to="{ name: 'enduser.update', params: { userId: item.id } }">
+              <v-icon class="green-icon">mdi-square-edit-outline</v-icon>
+            </router-link>
+          </div>
+          <div>
+            <v-icon class="green-icon"
+              @click.stop="(displayAccountDeleteConfirm = true), setDeleteAccountId(item.id)"
+            >
+              mdi-trash-can
+            </v-icon>
+          </div>
+        </v-row>
+      </div>
+    </template> 
+      <!-- ユーザ名 -->
 			<template #item-name="item">
-        <router-link :to="{ name: 'enduser.update', params: { userId: item.id } }" v-if="approval_auth_flg">
 				{{ item.name }}
-        </router-link>
-        <div v-if="!approval_auth_flg">
-          {{ item.name }}
-        </div>
-			</template>
-      <!-- メールアドレス -->
-			<template #item-mail="item">
-				{{ item.email }}
-			</template>
-			<!-- 登録日 -->
-			<template #item-created_at="item">
-				{{ timestampFormat(item.created_at) }}
-			</template>
-			<!-- 更新日 -->
-			<template #item-updated_at="item">
-				{{ timestampFormat(item.updated_at) }}
-			</template>
-			<!-- 操作 -->
-			<template #item-button="item" v-if="approval_auth_flg">
-				<!-- 編集 -->
-				<!-- <v-icon class="green-icon mr-3 mr-sm-5"
-					@click="edit(item)"
-				>
-					mdi-square-edit-outline
-				</v-icon> -->
-				<!-- 削除 -->
-				<v-icon class="green-icon"
-					@click.stop="(displayAccountDeleteConfirm = true), setDeleteAccountId(item.id)"
-				>
-					mdi-trash-can
-				</v-icon>
-			</template>
+			</template> 
 		</EasyDataTable>
-		<!--
-		<template #loading>
-			<v-progress-linear
-				indeterminate
-				class="mx-auto"
-				color="primary"
-			/>
-			</template>
-		-->
 		<!-- 削除モーダル -->
 		<end-user-delete-confirm-modal-component
 			:modelValue="displayAccountDeleteConfirm"
@@ -99,15 +108,7 @@
       return {
         selected: [],
         headers: [
-          { text: 'ユーザ名', value: 'name' },
-          { text: 'メールアドレス', value: 'mail' },
-          { text: '登録日時', value: 'created_at' },
-          { text: '更新日時', value: 'updated_at' },
-          {
-            text: '削除',
-            sortable: false,
-            value: 'button',
-          },
+          { text: '', value: 'name' },
         ],
         users: [],
         displayAccountDeleteConfirm: false,
@@ -120,6 +121,9 @@
         reset: true,
         page: 1,
         PageLastIndex: "",
+        items: [ {id:'0',text:"アカウント一括削除"},
+                 {id:'1',text:"権限一括付与"},
+                 {i2:'2',text: "権限一括削除"}],
       };
     },
     computed: {
@@ -150,17 +154,13 @@
       mergeProps,
       closeAction() {
         this.displayAccountDeleteConfirm = false;
-  			// window.location.reload();
       },
       getAccountList() {
-  			// this.loading = true;
         axios
           .get("/api/enduser", {
           })
           .then((res) => {
             this.users = res.data.users;
-  					// this.$store.dispatch("announce/setTotalCount", res.data.count);
-  					// this.loading = false;
           });
         // バリデーションのメッセージを初期化する
         this.$store.dispatch("enduser/setEndUserErrorMessages", "");
@@ -179,19 +179,12 @@
       // 削除処理
       deleteUser(accountId) {
         axios.delete("/api/enduser/" + accountId).then((res) => {});
-        window.location.reload();
+        this.getAccountList();
+        
       },
       timestampFormat(timestamp) {
         const dayjs = inject("dayjs");
         return dayjs(timestamp).format("YYYY/MM/DD HH:mm:ss");
-				// const date = new Date(timestamp);
-				// return (
-				// date.getFullYear().toString() +
-				// "-" +
-				// (date.getMonth() + 1).toString().padStart(2, "0") +
-				// "-" +
-				// date.getDate().toString().padStart(2, "0")
-				// );
       },
       edit(user) {
         this.$router.push({
@@ -199,6 +192,14 @@
           params: { userId: user.id }
         });
       },
+
+      operateidChange: function(id) {
+      const postData = {
+        id: id,
+      };
+      this.operate_id = id;
+      },
+
     },
     async mounted() {
       this.getAccountList();
@@ -265,4 +266,19 @@
         display: none;
     }
   }
+
+.action-select .v-field--variant-filled  {
+  border: #eee 1px solid !important;
+  border-radius: 8px;
+  height: 56px;
+}
+
+.accordion_icons{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.expand-icon{
+  color: #69A5AF !important;
+}
 </style>

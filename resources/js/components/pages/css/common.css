@@ -53,6 +53,15 @@ a {
     margin-right: 0px;
 
 }
+@media(max-width: 900px){
+    .max-cont{
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-left: 2px;
+        margin-right: 0px;    
+    }
+
+}
 /* 碧色のボタン */
 .green-btn {
     border-radius: 5px;
@@ -483,4 +492,9 @@ text-align: center;
     .v-main > div >div .navbar{
         display: none
     }
+}
+
+.expand-icon{
+    color: #69A5AF !important;
+    scale: 2;
 }

@@ -85,7 +85,7 @@
                   placeholder="掲載開始日"
                   :format="format"
                   :preview-format="previewFormat"
-                  :required="isRequired ? ['rules.required'] : []"
+                  :required="isRequired ? ['rules.required'] : ''"
                   selectText="確認"
                   cancelText="キャンセル"
                 />

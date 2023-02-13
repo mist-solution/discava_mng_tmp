@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="edit-title mt-5">
-      <h3 class="my-5 font-weight-bold">投稿者　の投稿記事を編集</h3>
+      <h3 class="my-5 font-weight-bold">投稿記事編集</h3>
       <!-- エラーメッセージ -->
     <validation-errors :errors="validationErrors" v-if="validationErrors"/>
     </div>

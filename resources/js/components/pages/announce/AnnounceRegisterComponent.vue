@@ -207,7 +207,7 @@
         <!-- 操作エリア -->
         <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-4">
           <v-col cols="11" class="pt-0 px-0">
-            <button class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">
+            <button type="button" class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">
               プレビュー
             </button>
           </v-col>

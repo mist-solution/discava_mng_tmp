@@ -273,6 +273,10 @@
           <p class="pt-3 mt-3 mb-4 font-weight-bold text-left text-gray">
             承認ステータス
           </p>
+          <p class="ml-3"
+            :class="getApprovalStatusColor(announce.approval_status)">
+            【{{this.getApprovalStatus(announce.approval_status)}}】
+          </p>
           <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-0 pb-5">
             <!-- 承認する - 承認ステータス 2:承認済み以外の場合 -->
             <v-col cols="11" class="pt-sm-3 pt-0 pr-0 pl-0 pb-1 mb-3" >
@@ -711,6 +715,40 @@ export default {
         }, 1000);
       });
     },
+
+    // 承認ステータスに応じて文字を返す
+    getApprovalStatus(status) {
+      if (status === 0) {
+        // 0:下書きの場合
+        return "下書き"
+      } else if (status === 1) {
+        // 1:承認待ちの場合
+        return "承認待ち"
+      } else if (status === 2) {
+        // 2:承認済みの場合
+        return "承認済み"
+      } else if (status === 3) {
+        // 3:差戻しの場合
+        return "差戻し"
+      }
+    },
+
+    // 承認ステータスに応じて文字色を返す
+    getApprovalStatusColor(status) {
+      if (status === 0) {
+        // 0:下書きの場合
+        return "stastus-font__grey"
+      } else if (status === 1) {
+        // 1:承認待ちの場合
+        return "stastus-font__orange"
+      } else if (status === 2) {
+        // 2:承認済みの場合
+        return "stastus-font__green"
+      } else if (status === 3) {
+        // 3:差戻しの場合
+        return "stastus-font__red"
+      }
+    },
   },
   computed: {
     ...mapGetters("announceCategory", ["getCategories"]),
@@ -811,5 +849,27 @@ export default {
     .editBtn-widht {
       width: 60% !important;
     }
+  }
+  
+  /* 承認ステータス用のフォントカラー */
+  /* 承認待ち */
+  .stastus-font__orange {
+  color: orange;
+  font-weight: 600;
+  }
+  /* 差戻し */
+  .stastus-font__red {
+    color: #D32F2F;
+    font-weight: 600;
+  }
+  /* 承認済み */
+  .stastus-font__green {
+    color: #94CAB1;
+    font-weight: 600;
+  }
+  /* 下書き */
+  .stastus-font__grey {
+    color: grey;
+    font-weight: 600;
   }
 </style>

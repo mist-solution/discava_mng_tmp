@@ -26,7 +26,7 @@
 			</template> -->
       <!-- ユーザ名（クリックで更新画面） -->
 			<template #item-name="item">
-        <router-link :to="{ name: 'enduser.update', params: { userId: item.id } }" v-if="approval_auth_flg">
+        <router-link :to="{ name: 'enduser.update', params: { userId: item.id } }" v-if="approval_auth_flg" class="enduser-name-font">
 				{{ item.name }}
         </router-link>
         <div v-if="!approval_auth_flg">
@@ -265,4 +265,24 @@
         display: none;
     }
   }
+
+/* ユーザ名のフォント設定 */
+.enduser-name-font {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #69A5AF;
+  transition: .4s !important;
+  white-space: pre-line;
+}
+.enduser-name-font:hover {
+  transition: .4s;
+  color: #69A5AF;
+  opacity: .6 !important;
+}
+.enduser-name-font_disable {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #666;
+  white-space: pre-line;
+}
 </style>

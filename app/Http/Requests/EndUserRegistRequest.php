@@ -28,7 +28,7 @@ class EndUserRegistRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|max:16',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email:rfc,filter|unique:users,email',
             'password'  => array_merge(
                 [
                     'required',

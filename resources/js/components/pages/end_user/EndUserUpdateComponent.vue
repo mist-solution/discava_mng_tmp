@@ -110,7 +110,7 @@ export default {
         required: value => !!value || '必須です。',
         max_16: value => value.length <= 16 || '16文字以内です。',
         max_100: value => value.length <= 100 || '100文字以内です。',
-        email: value => /.+@.+\..+/.test(value) || '正しい書式ではありません',
+        email: value => /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/.test(value) || '正しい書式ではありません',
       },
       errors: {
         checlbox: false,

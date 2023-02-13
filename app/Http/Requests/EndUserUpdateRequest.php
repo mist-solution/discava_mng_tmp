@@ -30,7 +30,7 @@ class EndUserUpdateRequest extends FormRequest
         $userId = $this->input('id');
         $rules = [
             'name' => 'required|max:16',
-            'email' => 'required|email|unique:users,email,' . $userId,
+            'email' => 'required|email:rfc,filter|unique:users,email,' . $userId,
         ];
 
         $shopList = $this->input('shopList');

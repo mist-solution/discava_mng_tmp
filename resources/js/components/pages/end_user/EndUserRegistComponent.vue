@@ -184,7 +184,7 @@ export default {
         required: value => !!value || '必須です。',
         max_16: value => value.length <= 16 || '16文字以内です。',
         max_72: value => value.length <= 72 || '72文字以内です。',
-        email: value => /.+@.+\..+/.test(value) || '正しい書式ではありません',
+        email: value => /^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/.test(value) || '正しい書式ではありません',
         password: value => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[-_%$#])[A-Za-z\d-_%$#]{12,72}$/.test(value) || '12文字以上。半角英数字、ﾊｲﾌﾝ、ｱﾝﾀﾞｰﾊﾞｰが使えます。',
       },
       errors: {

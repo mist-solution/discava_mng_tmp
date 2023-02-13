@@ -159,7 +159,7 @@
           </p>
           <!-- 公開期間 -->
           <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg" : ""]'>
-            {{ inReleaseFlg(item)  ? "公開期間中" : "公開期間外" }}
+            {{ inReleaseFlg(item)  ? "公開中" : "公開期間外" }}
           </p>
         </template>
         <!-- 操作ボタン -->

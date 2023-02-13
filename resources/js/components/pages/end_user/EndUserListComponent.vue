@@ -144,6 +144,7 @@
     /> 　/　 {{ LastPage }}
 
     <button
+      v-if="reset"
       class="mx-2 px-3 py-2"
       type="button"
       @click="pageToNext"
@@ -154,6 +155,7 @@
     </button>
 
     <button
+      v-if="reset"
       class="mx-2 px-3 py-2"
       type="button"
       @click="pageToLast"
@@ -190,13 +192,18 @@ export default {
       page: 1,
       firstpage_flg: true,
       lastpage_flg: false,
+      reset: true,
     }
   },
   methods: {
     ...mapActions('authority', ['fetchAllAuthority']),
     RowPageChange(){
       this.page = 1;
-      this.lastpage_flg = false;
+      if(this.totalcount - this.perRowPage <= 0){
+        this.lastpage_flg = true;
+      }else{
+        this.lastpage_flg = false;
+      }
       this.firstpage_flg = true;
       this.$store.dispatch("enduser/setDisplayLimit", this.perRowPage);
       this.$store.dispatch("enduser/setDisplayPage", this.page);
@@ -204,6 +211,13 @@ export default {
     LastPageChange(value1,value2){
       this.LastPage = value1;
       this.totalcount = value2;
+      if(this.LastPage == 1){
+        this.lastpage_flg = true
+        this.reset = false;
+        this.$nextTick(() => (this.reset = true));
+      }else{
+        this.lastpage_flg == false
+      }
     },
     pageToFirst(){
       this.page = 1;
@@ -235,8 +249,13 @@ export default {
     },
     PageNoChange(){
       if(this.page == 1){
-        this.firstpage_flg = true
-        this.lastpage_flg = false
+        if(this.LastPage != 1){
+          this.firstpage_flg = true
+          this.lastpage_flg = false
+        }else{
+          this.firstpage_flg = true
+          this.lastpage_flg = true
+        }
       }else if(this.page == this.LastPage){
         this.firstpage_flg = false
         this.lastpage_flg = true

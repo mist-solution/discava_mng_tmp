@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-show="display" persistent>
+    <v-dialog v-show="display" persistent @click="closeAction()">
       <v-card class="p-3">
         <!-- モーダルタイトル -->
         <v-card-title class="text-center modal-title">

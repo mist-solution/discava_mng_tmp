@@ -106,11 +106,6 @@ class EndUserRegistRequest extends FormRequest
     public function messages()
     {
 
-        $message =
-            [
-                'password.between'        => '',
-            ];
-
         $attributeArray = [];
         $attribute = null;
         $shopList = $this->input('shopList');
@@ -134,15 +129,18 @@ class EndUserRegistRequest extends FormRequest
                         'password.between'        => '',
                     ];
             };
-            return $message;
         } else if (count($shopList) == 1) {
             $attribute = $shopList[0]["shop_name"];
-            return [
+            $message = [
                 'shopList.0.model.not_in' => $attribute . 'の権限は「該当なし」以外を選択してください。',
                 'password.between'        => '',
             ];
         } else {
-            return $message;
+            $message =
+                [
+                    'password.between'        => '',
+                ];
         }
+        return $message;
     }
 }

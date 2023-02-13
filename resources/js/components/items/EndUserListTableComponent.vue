@@ -207,7 +207,7 @@
       if(authority){
         this.approval_auth_flg = authority.approval_auth_flg;
         if(!this.approval_auth_flg){
-          this.headers[3].text = "";
+          this.headers[4].text = "";
         }
       }
       let a = this.$refs.dataTable.clientItemsLength;

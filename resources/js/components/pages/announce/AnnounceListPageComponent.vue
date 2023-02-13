@@ -216,7 +216,7 @@ export default {
       create_auth_flg: null,
       items: [ 
         {id: 0, text: "全て" },
-        {id: 1, text: "公開期間中" },
+        {id: 1, text: "公開中" },
         {id: 2, text: "公開期間外" }
       ],
       items2: [],

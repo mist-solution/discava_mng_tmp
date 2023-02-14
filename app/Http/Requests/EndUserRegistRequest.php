@@ -80,7 +80,6 @@ class EndUserRegistRequest extends FormRequest
         } else {
             return;
         }
-
         return $rules;
     }
 
@@ -126,19 +125,19 @@ class EndUserRegistRequest extends FormRequest
                     [
                         'shopList.0.model.not_in' => $attribute . 'いずれかの権限は「該当なし」以外を選択してください。',
                         'shopList.*.model.not_in' =>  '',
-                        'password.between'        => '',
+                        'password.between'        => 'パスワードは半角英数字及び記号（「-」「_」「%」「$」「#」）を含む、12文字以上72文字以内で入力してください。',
                     ];
             };
         } else if (count($shopList) == 1) {
             $attribute = $shopList[0]["shop_name"];
             $message = [
                 'shopList.0.model.not_in' => $attribute . 'の権限は「該当なし」以外を選択してください。',
-                'password.between'        => '',
+                'password.between'        => 'パスワードは半角英数字及び記号（「-」「_」「%」「$」「#」）を含む、12文字以上72文字以内で入力してください。',
             ];
         } else {
             $message =
                 [
-                    'password.between'        => '',
+                    'password.between'        => 'パスワードは半角英数字及び記号（「-」「_」「%」「$」「#」）を含む、12文字以上72文字以内で入力してください。',
                 ];
         }
         return $message;

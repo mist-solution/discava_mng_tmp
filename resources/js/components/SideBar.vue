@@ -107,6 +107,7 @@
         <v-list nav dense>
           <div v-for="item in items" :key="item.id">
             <v-list-item
+              @click="reset"
               tile
               :prepend-icon="item.icon"
               :title="item.title"
@@ -206,6 +207,15 @@ export default {
           console.log(error);
         });
     },
+    reset(){
+      this.$store.dispatch("announce/setDisplaySearchAddDateBegin", null);
+      this.$store.dispatch("announce/setDisplaySearchAddDateEnd", null);
+      this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", null);
+      this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", null);
+      this.$store.dispatch("announce/setDisplaySearchCategory", null);
+      this.$store.dispatch("announce/setDisplayAnnounceAddAccount", null);
+      this.$store.dispatch("announce/setDisplaySearchRelease", null);
+    }
   },
   computed: {
     ...mapGetters("shopUser", ["shopUsers"]),

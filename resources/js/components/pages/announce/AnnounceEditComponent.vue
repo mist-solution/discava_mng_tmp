@@ -808,7 +808,7 @@ export default {
 
 <style src="../css/common.css"></style>
 <style src="../css/dropdown.css"></style>
-<style scoped>
+<style lang="scss">
   .accept-stat{
     border-top:1px solid rgba(0,0,0,0.5);
   }

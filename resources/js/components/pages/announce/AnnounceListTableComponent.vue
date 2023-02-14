@@ -988,12 +988,22 @@ export default {
         this.allCheckedItemOperate()
       }
     }
+    // 権限が「閲覧者」の場合、「操作」カラムを非表示
+    if(authority.authority_set_id == 3){
+      var headerRemove = this.headers;
+      var toRemove = "操作";
+      headerRemove.forEach(function(value, index, array){
+        if (value.text == toRemove){
+          headerRemove.splice(index, 1);
+        }
+      });
+      this.headers = headerRemove;
+    }
     let name = await this.getUserInfo();
     if(name){
         this.username = name.name;
     }
     this.dataTable = this.$store.state.announce.totalCount
-
   },
 };
 </script>

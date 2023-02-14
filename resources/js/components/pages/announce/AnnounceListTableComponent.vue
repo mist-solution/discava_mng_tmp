@@ -857,9 +857,13 @@ export default {
     },
 
     //プレビュー画面に必要な情報をセット
-    setPreviewInfo(start_date,end_date,contents){
-      this.start_date = start_date.slice(0,-3)
-      this.end_date = end_date.slice(0,-3)
+    setPreviewInfo(start_date,end_date,contents,title){
+      if(this.start_date != null){
+        this.start_date = start_date.slice(0,-3)
+      }
+      if(this.end_date != null){
+        this.end_date = end_date.slice(0,-3)
+      }
       this.contents = contents
       this.title = title
     },

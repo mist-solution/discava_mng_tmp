@@ -343,7 +343,9 @@
     :contents="contents"
     :start_date="announce.start_date"
     :end_date="announce.end_date"
+    :title="announce.title"
     :username="username"
+    :flg=true
   />
 
   <!-- 差し戻しモーダル -->
@@ -408,6 +410,7 @@ export default {
           { text: '', value: 'action', align: 'right', class: 'action', sortable: false },
       ],
       isRequired: false,
+      flg: false,
     };
   },
 

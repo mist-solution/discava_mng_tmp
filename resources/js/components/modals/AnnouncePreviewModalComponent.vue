@@ -10,6 +10,12 @@
                     <div class="close_button sp_disable">
                     プレビュー画面を閉じる
                     </div>
+                    <div class="pc_disable" style="color:white;" v-if="flg">
+                    編集画面に戻る
+                    </div>
+                    <div class="pc_disable" style="color:white;" v-if="!flg">
+                    一覧画面に戻る
+                    </div>
                 </div>
                 <div class="preview_publication_period sp_disable" style="color: white;">
                     <a class="nav-link active" aria-current="page"><v-icon color="white">mdi-calendar-month</v-icon></a>
@@ -44,6 +50,10 @@
                 </div>
             </v-card-header>
             <v-card-text>
+                <div>
+                    {{ title }}
+                </div>
+                <br>
                 <div v-html="contents">
                 </div>
             </v-card-text>
@@ -54,7 +64,7 @@
 <script>
     
     export default {
-    props: ["display","closeAction","contents","start_date","end_date","username"],
+    props: ["display","closeAction","contents","start_date","end_date","title","username","flg"],
     data() {
         return {
             open_flg: false,

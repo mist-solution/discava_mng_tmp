@@ -119,7 +119,7 @@
                         <v-list-item-title>
                           <div 
                             @click="(displayAnnouncePreview = true),
-                            setPreviewInfo(item.start_date,item.end_date,item.contents)" role="button">
+                            setPreviewInfo(item.start_date,item.end_date,item.contents,item.title)" role="button">
                             プレビュー
                           </div>
                         </v-list-item-title>
@@ -248,7 +248,9 @@
     :contents="contents"
     :start_date="start_date"
     :end_date="end_date"
+    :title="title"
     :username="username"
+    :flg=false
   />
 
   <!-- <v-row class="mt-3">
@@ -328,6 +330,7 @@ export default {
       start_date: null,
       end_date: null,
       contents: null,
+      title: null,
       username: null,
       searchField: "title",
       searchText: "",
@@ -336,6 +339,7 @@ export default {
       operate_id: null,
       reset: true,
       rowsPerPage: 25,
+      flg: true,
     };
   },
   computed: {
@@ -663,10 +667,11 @@ export default {
     },
 
     //プレビュー画面に必要な情報をセット
-    setPreviewInfo(start_date,end_date,contents){
+    setPreviewInfo(start_date,end_date,contents,title){
       this.start_date = start_date.slice(0,-3)
       this.end_date = end_date.slice(0,-3)
-      this.contents = contents 
+      this.contents = contents
+      this.title = title
     },
 
     getClientItemsLength(){

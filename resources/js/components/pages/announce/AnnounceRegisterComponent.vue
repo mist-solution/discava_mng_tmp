@@ -240,7 +240,9 @@
     :contents="contents"
     :start_date="announce.start_date"
     :end_date="announce.end_date"
+    :title="announce.title"
     :username="username"
+    :flg=true
   />
 </template>
 
@@ -282,6 +284,7 @@ export default {
         contents: null,
         responseId: null,
       },
+      flg: false,
       attachments: [],
       rules: {
         required: value => !!value || '必須です。',

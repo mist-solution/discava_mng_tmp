@@ -10,6 +10,9 @@ import 'dayjs/locale/ja'
 import AxiosPlugin from './plugins/axios_plugin';
 import Vue3EasyDataTable from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 
 // ロケール設定
 dayjs.locale('ja')
@@ -29,6 +32,30 @@ const app = createApp({
         App
     }
 });
+
+// Quill Options
+const quillOptions = {
+    modules: {
+      toolbar: [
+        ['bold', 'italic', 'underline', 'strike'],
+        ['blockquote'],
+        [{ 'header': 1 }, { 'header': 2 }],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+        [{ 'size': ['small', false, 'large', 'huge'] }],
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'align': [] }],
+        ['link', 'video'],
+        ['clean']
+      ]
+    },
+}
+// set default globalOptions prop
+QuillEditor.props.globalOptions.default = () => quillOptions
+// register QuillEditor component
+app.component('QuillEditor', QuillEditor)
+
 app.use(router);
 app.use(vuex);
 app.use(vuetify);

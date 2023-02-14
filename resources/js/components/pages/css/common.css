@@ -228,7 +228,6 @@ a {
     height:100%;
 }
 
-
 /* date-pick */
 .dp__input{
     font-size:.85rem !important;
@@ -377,9 +376,6 @@ text-align: center;
  border:none !important;
 }
 
-.ql-editor,.ql-toolbar{
-    border-radius: 5px;
-  }
 .v-input__details{
     display: none;
 }
@@ -463,14 +459,30 @@ text-align: center;
 }
 
 /* エディターCSS*/
+/* エディターのツールバー色変更 */
+.ql-editor {
+    color: #707070;
+}
+/* エディタ本文のフォントサイズ */
+.ql-editor p {
+    font-size: 16px;
+}
 /* ディターツールバー枠の修正 */
 .ql-toolbar.ql-snow {
     border: 0px solid #d1d5db !important;
 }
-
+.ql-editor,.ql-toolbar{
+    border-radius: 5px;
+}
 .ql-toolbar.ql-snow+.ql-container.ql-snow {
     border: solid #d1d5db !important;
 }
+/* エディター z-index */
+.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+    z-index: 10;
+}
+
+
 
 /* 記事編集画面タイトル部 */
 .edit-title {
@@ -488,20 +500,6 @@ text-align: center;
     .edit-title {
     margin-left: 32px;
     }
-}
-
-/* エディターのツールバー色変更 */
-.ql-snow.ql-toolbar {
-    filter: invert(46%) sepia(0%) saturate(1368%) hue-rotate(192deg) brightness(93%) contrast(85%) !important;
-}
-
-.ql-editor {
-    color: #707070;
-}
-
-/* エディタ本文のフォントサイズ */
-.ql-editor p {
-    font-size: 16px;
 }
 
 @media(max-width: 900px){

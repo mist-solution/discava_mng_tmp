@@ -5,7 +5,6 @@ const Home = () => import('./components/Home')
 //const TaskShowComponent = () => import('./components/TaskShowComponent')
 //const TaskCreateComponent = () => import('./components/TaskCreateComponent')
 //const TaskEditComponent = () => import('./components/TaskEditComponent')
-const QuillEditorComponent = () => import('./components/QuillEditor')
 const AnnounceListComponent = () => import('./components/pages/announce/AnnounceListPageComponent')
 const AnnounceRegisterComponent = () => import('./components/pages/announce/AnnounceRegisterComponent')
 const AnnounceEditComponent = () => import('./components/pages/announce/AnnounceEditComponent')
@@ -74,13 +73,6 @@ const routes = [
     //        component: TaskEditComponent,
     //        props: true
     //    },
-    // QuillEditor
-    {
-        path: '/quilleditor',
-        name: 'quilleditor',
-        component: QuillEditorComponent,
-        props: true
-    },
     // お知らせ登録
     {
         path: '/announce/register',

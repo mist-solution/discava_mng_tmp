@@ -17,15 +17,10 @@
           placeholder="タイトルを入力"
         />
         <QuillEditor
-          toolbar="full"
           class="ql-editor p-0"
           v-model="contents"
           ref="myQuillEditor"
-          :options="editorOption"
           :rules="[rules.required]"
-          @blur="onEditorBlur($event)"
-          @focus="onEditorFocus($event)"
-          @change="onEditorChange($event)"
         >
         </QuillEditor>
 
@@ -362,8 +357,6 @@
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import { mapGetters, mapActions, mapState } from "vuex";
-import { QuillEditor } from "@vueup/vue-quill";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import DatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
@@ -373,7 +366,6 @@ import ValidationErrors from "../../ValidationErrors.vue";
 
 export default {
   components: {
-    QuillEditor,
     DatePicker,
     'vue-ctk-date-time-picker': VueCtkDateTimePicker,
     AnnouncePreviewModalComponent,
@@ -571,16 +563,6 @@ export default {
       }
       reader.readAsDataURL(this.file);
     },
-    onEditorBlur(editor) {
-      console.log("editor blur!", editor);
-    },
-    onEditorFocus(editor) {
-      console.log("editor focus!", editor);
-    },
-    onEditorReady(editor) {
-      console.log("editor ready!", editor);
-    },
-    onEditorChange() {},
 
     // リッチテキストのhtmlを取得
     getQuillEditorContent() {

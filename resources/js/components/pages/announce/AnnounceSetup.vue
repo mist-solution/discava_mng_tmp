@@ -118,15 +118,12 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { QuillEditor } from "@vueup/vue-quill";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import DatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
 
 export default {
   components: {
-    QuillEditor,
     DatePicker,
   },
   props: {

@@ -495,6 +495,7 @@ export default {
               if (error.response.status !== 422) {
                 console.error(error);
               } else {
+                this.scrollTop()
                 this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
               }
             });
@@ -544,6 +545,7 @@ export default {
               if (error.response.status !== 422) {
                 console.error(error);
               } else {
+                this.scrollTop()
                 this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
               }
             });
@@ -749,6 +751,12 @@ export default {
         return "stastus-font__red"
       }
     },
+    scrollTop(){
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
   },
   computed: {
     ...mapGetters("announceCategory", ["getCategories"]),

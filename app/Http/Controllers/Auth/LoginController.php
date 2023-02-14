@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -57,14 +58,18 @@ class LoginController extends Controller
         // 店舗ユーザの１行目を取得
         $shopuser = ShopUser::where('user_id', Auth::id())->first();
 
-        // 店舗ID、権限、ユーザーIDを設定
-        $request->session()->put('shop_id', $shopuser->shop_id);
-        $request->session()->put('authority_set_id', $shopuser->authority_set_id);
-        $request->session()->put('user_id', $shopuser->user_id);
-
-        // ログイン後のリダイレクト
-        // return redirect()->intended($this->redirectPath());
-        return redirect('/');
+        if ($shopuser) {
+            // 店舗ID、権限、ユーザーIDを設定
+            $request->session()->put('shop_id', $shopuser->shop_id);
+            $request->session()->put('authority_set_id', $shopuser->authority_set_id);
+            $request->session()->put('user_id', $shopuser->user_id);
+            // ログイン後のリダイレクト
+            // return redirect()->intended($this->redirectPath());
+            return redirect('/');
+        } else {
+            $request->session()->flush();
+            return redirect('/login')->with('error', 'このアカウントはアクセス権限がありません。');
+        }
     }
 
     /**

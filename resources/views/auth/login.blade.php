@@ -12,6 +12,11 @@
                     </div>
                     <!-- エラーメッセージ -->
                     <div class="col-md-8 offset-md-2 error-container">
+                        <!-- 権限がないエラーメッセージを表示 -->
+                        @if(session('error'))
+                        <div class="discavaMate_errorMsg">{{ session('error') }}</div>
+                        @endif
+                        <!-- フォーム検証のエラーメッセージを表示 -->
                         @if($errors->any())
                         @foreach($errors->all() as $error)
                         <div class="discavaMate_errorMsg">{{ $error }}</div>

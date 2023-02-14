@@ -72,7 +72,7 @@
                 </div>
                 <!-- カテゴリー -->
                 <p class="mb-0 announce-category-font">
-                  カテゴリー：{{ item.announce_categories.category_name }}
+                  {{ item.announce_categories.category_name }}
                 </p>
               </v-col>
 
@@ -944,7 +944,7 @@ export default {
   white-space: pre-line;
 }
 .announce-category-font {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
 }
 
 .vue3-easy-data-table__header th.sortable.none .sortType-icon {

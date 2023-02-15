@@ -155,6 +155,12 @@ html.wf-active {
   font-weight: bolder;
 }
 
+/* パスワードリセットのみ適用 */
+.discavaMate_errorMsg>ul {
+  padding: 1rem 0.4rem;
+  margin-bottom: 2rem;
+}
+
 /* ボタン（グリーン） */
 .btn_green {
   background-color: #69A5AF;

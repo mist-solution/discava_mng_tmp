@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 .errorMsg>ul {
-    --bs-alert-bg: #f7f7f7 !important;
+    --bs-alert-bg: #f7f7f7;
     --bs-alert-border: 1px solid #c60100 !important;
     border-radius: 10px;
     padding: 1rem 0.4rem;

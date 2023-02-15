@@ -37,7 +37,8 @@
       </form>
     </v-col>
   </v-row> -->
-  
+  <!-- エラーメッセージ -->
+  <validation-errors :errors="validationErrors" v-if="validationErrors" class="allCheckOprErrMsg"/>
   <v-row>
     <v-col class="pt-0">
       <EasyDataTable
@@ -81,7 +82,7 @@
             <button
               class="green-btn_noTransform mx-2 px-3 py-2"
               type="button"
-              @click="allCheckedItemOperate()"
+              @click="allCheckedItemOperate()|allCheckOprErr()"
             >
               実行
             </button>
@@ -451,7 +452,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 import AnnounceListTablePagination from "./AnnounceListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
@@ -463,6 +464,7 @@ import AnnounceApprovalRequestConfirmModalComponent from "../../modals/AnnounceA
 import AnnounceApprovalCancelConfirmModalComponent from "../../modals/AnnounceApprovalCancelConfirmModalComponent.vue"
 import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
 import moment from 'moment';
+import ValidationErrors from "../../ValidationErrors.vue";
 
 export default {
   components: {
@@ -473,7 +475,8 @@ export default {
     AnnounceApprovalReturnConfirmModalComponent,
     AnnounceApprovalRequestConfirmModalComponent,
     AnnounceApprovalCancelConfirmModalComponent,
-    AnnouncePreviewModalComponent
+    AnnouncePreviewModalComponent,
+    ValidationErrors,
 
   },
   data() {
@@ -550,6 +553,9 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      validationErrors: state => state.announce.announceErrorMessages
+    }),
     displayLimit() {
       return this.$store.state.announce.displayLimit;
     },
@@ -900,20 +906,40 @@ export default {
 
     //一括操作
     allCheckedItemOperate(){
-      if(this.operate_id == '1'){
-        for(var i = 0;i < this.selected.length; i++){
-          if(this.selected[i].approval_status == 1){
-            axios.post("/api/announce/" + this.selected[i].id + "/approval").then((res) => {});
+      if(this.selected.length != 0){
+        if(this.operate_id == '1'){
+          for(var i = 0;i < this.selected.length; i++){
+            if(this.selected[i].approval_status == 1){
+              axios.post("/api/announce/" + this.selected[i].id + "/approval").then((res) => {});
+            }
           }
-        }
-        window.location.reload();
-      }else if(this.operate_id == '2'){
-        for(var i = 0;i < this.selected.length; i++){
-          axios.delete("/api/announce/" + this.selected[i].id).then((res) => {});
-        }
-        window.location.reload();
-      }else{
+          window.location.reload();
+        }else if(this.operate_id == '2'){
+          for(var i = 0;i < this.selected.length; i++){
+            axios.delete("/api/announce/" + this.selected[i].id).then((res) => {});
+          }
+          window.location.reload();
+        }else{
         //「承認か削除を選んでください」的なモーダルを出す処理が必要か…？
+        }
+      }
+    },
+    // 一括操作を実行する場合、エラーメッセージの表示
+    allCheckOprErr(){
+      // 承認か削除かを未選択の場合。
+      if(this.operate_id == null){
+        var errMsg = ["一括操作は必ず選択してください。"];
+        this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
+      
+      // お知らせ未選択の場合 。
+      }else if(this.selected.length == 0){
+        if(this.operate_id == '1'){
+          var errMsg = ["一括承認する対象は必ず選択してください。"];
+          this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
+        }else if(this.operate_id == '2'){
+          var errMsg = ["一括削除する対象は必ず選択してください。"];
+          this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
+        }
       }
     },
 
@@ -990,6 +1016,9 @@ export default {
     }
   },
   async mounted() {
+     // エラーメッセージ初期化
+    this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+
     this.getAnnounceList();
     this.setSelectItems();
     this.getListItems();
@@ -1287,5 +1316,13 @@ thead {
 .vue3-easy-data-table__main > table > tbody > tr:hover > .direction-left > 
 .headtitle-left > .v-row > .detaTable-header_preview{
   visibility: visible !important;
+}
+
+// 一括操作エラーメッセージ
+.allCheckOprErrMsg{
+  width: 100%;
+}
+.allCheckOprErrMsg>ul{
+  --bs-alert-bg: #ffffff !important;
 }
 </style>

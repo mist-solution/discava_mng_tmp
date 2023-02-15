@@ -71,7 +71,7 @@
                   {{ item.title }}
                 </div>
                 <!-- カテゴリー -->
-                <p class="mb-0 announce-category-font">
+                <p class="mb-0 announce-category-font" v-if="item.announce_categories">
                   {{ item.announce_categories.category_name }}
                 </p>
               </v-col>
@@ -90,7 +90,7 @@
                   {{ item.title.slice(0,20) }}...
                 </div>
                 <!-- カテゴリー -->
-                <p class="mb-0 announce-category-font">
+                <p class="mb-0 announce-category-font" v-if="item.announce_categories">
                   {{ item.announce_categories.category_name }}
                 </p>
               </v-col>
@@ -664,7 +664,7 @@ export default {
     // 削除処理
     deleteAnnounce(announceId) {
       axios.delete("/api/announce/" + announceId).then((res) => {
-        this.openSuccess('取り下げました')
+        this.openSuccess('削除しました')
         // スナックバーの表示時間が経ってから実行
         setTimeout(() => {
           this.closeAction();

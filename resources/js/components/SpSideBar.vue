@@ -158,7 +158,13 @@ export default {
       this.$store.dispatch("announce/setDisplaySearchCategory", null);
       this.$store.dispatch("announce/setDisplayAnnounceAddAccount", null);
       this.$store.dispatch("announce/setDisplaySearchRelease", null);
-    }
+    },
+    // モバイル判定
+    moblieFlg() {
+      return window.matchMedia &&
+        window.matchMedia('(max-device-width: 640px)').matches ?
+        true : false
+    },
   },
   computed: {
     ...mapGetters("shopUser", ["shopUsers"]),
@@ -172,7 +178,9 @@ export default {
       get() {
         if(this.customer != null){
           if(this.customer.company_name.length > 11){
-            this.customer.company_name = this.customer.company_name.slice(0,10) + "..."
+            if(this.moblieFlg()){
+              this.customer.company_name = this.customer.company_name.slice(0,10) + "..."
+            }
           }
           return this.customer.company_name;
         }
@@ -183,7 +191,9 @@ export default {
     let shopselect = await this.getShopSelection();
     this.shopSelection = shopselect;
     if(this.shopSelection.shop_name.length > 9){
-      this.shopSelection.shop_name = this.shopSelection.shop_name.silce(0,8) + "..."
+      if(this.moblieFlg()){
+        this.shopSelection.shop_name = this.shopSelection.shop_name.silce(0,8) + "..."
+      }
     }
   },
   async created() {

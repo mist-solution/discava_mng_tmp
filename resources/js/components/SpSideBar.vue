@@ -171,6 +171,9 @@ export default {
     companyName: {
       get() {
         if(this.customer != null){
+          if(this.customer.company_name.length > 11){
+            this.customer.company_name = this.customer.company_name.slice(0,10) + "..."
+          }
           return this.customer.company_name;
         }
       }
@@ -179,6 +182,9 @@ export default {
   async mounted() {
     let shopselect = await this.getShopSelection();
     this.shopSelection = shopselect;
+    if(this.shopSelection.shop_name.length > 9){
+      this.shopSelection.shop_name = this.shopSelection.shop_name.silce(0,8) + "..."
+    }
   },
   async created() {
     await this.fetchShopUsersWithLogout();

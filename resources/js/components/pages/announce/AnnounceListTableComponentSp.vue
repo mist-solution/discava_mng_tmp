@@ -57,7 +57,7 @@
             <v-row>
 
               <!-- タイトル -->
-              <v-col cols="7" class="detaTable-header_title my-3">
+              <v-col cols="7" class="detaTable-header_title my-3" v-if="item.title.length < 21">
                 <!-- タイトル - 編集権限あり -->
                 <router-link
                   v-if="update_auth_flg"
@@ -69,6 +69,25 @@
                 <!-- タイトル - 編集権限なし -->
                 <div v-if="!update_auth_flg" class="announce-title-font_disable">
                   {{ item.title }}
+                </div>
+                <!-- カテゴリー -->
+                <p class="mb-0 announce-category-font">
+                  {{ item.announce_categories.category_name }}
+                </p>
+              </v-col>
+               <!-- タイトル -->
+              <v-col cols="7" class="detaTable-header_title my-3" v-if="item.title.length > 20">
+                <!-- タイトル - 編集権限あり -->
+                <router-link
+                  v-if="update_auth_flg"
+                  :to="{ name: 'announce.edit', params: { announceId: item.id } }"
+                  class="announce-title-font"
+                >
+                  {{ item.title.slice(0,20) }}...
+                </router-link>
+                <!-- タイトル - 編集権限なし -->
+                <div v-if="!update_auth_flg" class="announce-title-font_disable">
+                  {{ item.title.slice(0,20) }}...
                 </div>
                 <!-- カテゴリー -->
                 <p class="mb-0 announce-category-font">

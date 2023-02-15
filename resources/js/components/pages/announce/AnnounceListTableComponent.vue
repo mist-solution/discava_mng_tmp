@@ -108,7 +108,7 @@
                 </div>
               </v-col>
               <!-- タイトル - 編集権限あり -->
-              <v-col cols="5" class="detaTable-header_title ml-2">
+              <v-col cols="5" class="detaTable-header_title ml-2" v-if="item.title.length < 21">
                 <router-link
                   v-if="update_auth_flg"
                   :to="{ name: 'announce.edit', params: { announceId: item.id } }"
@@ -119,6 +119,24 @@
                 <!-- タイトル - 編集権限なし -->
                 <div v-if="!update_auth_flg" class="announce-title-font_disable">
                   {{ item.title }}
+                </div>
+                <!-- カテゴリー -->
+                <p class="mb-0 announce-category-font" v-if="item.announce_category_id">
+                  カテゴリー：{{ item.announce_categories.category_name }}
+                </p>
+              </v-col>
+              <!-- タイトル - 編集権限あり -->
+              <v-col cols="5" class="detaTable-header_title ml-2" v-if="item.title.length > 20">
+                <router-link
+                  v-if="update_auth_flg"
+                  :to="{ name: 'announce.edit', params: { announceId: item.id } }"
+                  class="announce-title-font"
+                >
+                  {{ item.title.slice(0,20) }}...
+                </router-link>
+                <!-- タイトル - 編集権限なし -->
+                <div v-if="!update_auth_flg" class="announce-title-font_disable">
+                  {{ item.title.slice(0,20) }}...
                 </div>
                 <!-- カテゴリー -->
                 <p class="mb-0 announce-category-font" v-if="item.announce_category_id">

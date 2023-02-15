@@ -79,11 +79,22 @@ class ResetPasswordController extends Controller
             // $attribute = 検証項目
             // $value = 入力された新パスワード
             // $fail = 結果は失敗する際のメッセージ
-            'password' => ['required', 'string', function ($attribute, $value, $fail) use ($user) {
-                if (Hash::check($value, $user->password)) {
-                    $fail('現在のパスワードとは異なるパスワードの入力をお願いします。');
+            'password' => [
+                'required',
+                'string',
+                'between:12,72',
+                'confirmed:password-confirm',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[-_%$#])[A-Za-z\d\-_%$#]{12,72}$/',
+                function ($attribute, $value, $fail) use ($user) {
+                    if (Hash::check($value, $user->password)) {
+                        $fail('現在のパスワードとは異なるパスワードの入力をお願いします。');
+                    }
                 }
-            }],
+            ]
+        ], [
+            'password.between' => 'パスワードは半角英数字及び記号（「-」「_」「%」「$」「#」）を含む、12文字以上72文字以内で入力してください。',
+            'password.regex' => 'パスワードは半角英数字及び記号（「-」「_」「%」「$」「#」）を含む、12文字以上72文字以内で入力してください。',
+            'password.confirmed' => 'パスワードと、確認フィールドとが、一致していません。',
         ]);
 
         $request->validate($this->rules(), $this->validationErrorMessages());

@@ -13,9 +13,11 @@
                     <!-- エラーメッセージ -->
                     <div class="col-md-8 offset-md-2 error-container">
                         @if($errors->any())
-                        @foreach($errors->all() as $error)
-                        <div class="discavaMate_errorMsg">{{ $error }}</div>
-                        @endforeach
+                        <ul class="discavaMate_errorMsg">
+                            @foreach($errors->all() as $error)
+                            {{ $error }}<br>
+                            @endforeach
+                        </ul>
                         @endif
                     </div>
 

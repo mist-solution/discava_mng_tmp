@@ -192,6 +192,11 @@ $green: #69A5AF;
         color: #c60100;
         font-weight: bolder;
     }
+
+    /* パスワードリセットのみ適用 */
+    &_errorMsg>ul {
+        padding: 0rem 0rem;
+    }
 }
 
 /* ボタン（グリーン） */

@@ -122,8 +122,11 @@
                   {{ item.title }}
                 </div>
                 <!-- カテゴリー -->
-                <p class="mb-0 announce-category-font" v-if="item.announce_category_id">
+                <p class="mb-0 announce-category-font category_on" v-if="item.announce_category_id">
                   カテゴリー：{{ item.announce_categories.category_name }}
+                </p>
+                <p class="mb-0 announce-category-font category_off" v-if="item.announce_category_id">
+                  {{ item.announce_categories.category_name }}
                 </p>
               </v-col>
               <!-- タイトル - 編集権限あり -->
@@ -1218,6 +1221,42 @@ export default {
   height: 5rem;
   width: auto;
 }
+
+@media(max-width:1279.9px){
+  .thumbnail-image {
+    height: 3rem;
+    width: auto;
+  }
+
+  .detaTable-header_preview > button{
+   position: relative;
+   right: 25px;
+  }
+
+  .category_on{
+    display: none;
+  }
+}
+
+@media(min-width:1280px){
+  .category_off{
+    display: none;
+  }
+}
+
+@media(max-width:1057.9px){
+
+  .detaTable-header_preview > button{
+   display: none;
+  }
+
+  .thumbnail-image {
+    height: 2rem;
+    width: auto;
+  }
+
+}
+
 
 .detaTable-header_title {
   display: grid;

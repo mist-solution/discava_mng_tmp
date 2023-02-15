@@ -139,6 +139,9 @@
       @click.stop="rail = !rail"
     ></v-btn>
 
+    <div class="userID" v-if="!rail">
+      {{ username }}
+    </div>
     </v-navigation-drawer>
   </div>
 </template>
@@ -164,11 +167,13 @@ export default {
       company_name: '',
       shopSelection: [],
       range: null,
+      username: null,
     };
   },
   methods: {
     ...mapActions('shopUser', ['fetchShopUsersWithLogout','getShopSelection']),
     ...mapActions('sidebar', ['fetchCustomerBySession']),
+    ...mapActions('enduser', ['getUserInfo']),
 
     onShopSelectionChange: function(id) {
       // 選択したIDを取得
@@ -237,6 +242,10 @@ export default {
     let shopselect = await this.getShopSelection();
     this.shopSelection = shopselect;
     this.range = this.shopSelection.shop_name.length
+    let name = await this.getUserInfo();
+    if(name){
+        this.username = name.name;
+    }
   },
   async created() {
     await this.fetchShopUsersWithLogout();
@@ -268,6 +277,11 @@ export default {
 
 .conpanyname-font {
   font-size: 1.1rem;
+}
+
+.userID{
+  display: flex;
+  justify-content: center;
 }
 
 </style>

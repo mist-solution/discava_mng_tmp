@@ -11,8 +11,6 @@ use Storage;
 
 class AnnounceListController extends Controller
 {
-    // protected $fakeToken = 'X-DiscavaMATE-API-Token';
-    // protected $fakeShopId = 1;
     /**
      * Create a new controller instance.
      *
@@ -35,9 +33,6 @@ class AnnounceListController extends Controller
         $response = array();
         $limit = $request->limit == null ? 5 : $request->limit;
         $page = $request->page == null ? 1 : $request->page;
-
-        // $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
-        // $shopId = $request->input('shop_id') ?? $this->fakeShopId;
 
         // ヘッダーのX-DiscavaMATE-API-Tokenを取得
         $token = $request->header('X-DiscavaMATE-API-Token');
@@ -94,8 +89,8 @@ class AnnounceListController extends Controller
             'lastPage' => $records->lastPage(),
             'currentPage' => $records->currentPage(),
             'nextPageUrl' => $records->nextPageUrl(),
-            'limit' => $records->perPage(),
             'previousPageUrl' => $records->previousPageUrl(),
+            'limit' => $records->perPage(),
             'page' => $records->url($page),
             'data' => $announceArrays
         ];

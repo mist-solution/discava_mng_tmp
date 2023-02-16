@@ -78,7 +78,7 @@
                   v-model="announce.start_date"
                   placeholder="掲載開始日"
                   :format="format"
-                  :enableTimePicker="false"
+                  :preview-format="previewFormat"
                   :required="isRequired ? ['rules.required'] : []"
                   selectText="確認"
                   cancelText="キャンセル"
@@ -88,19 +88,21 @@
                 <v-row  align="center" class="m-0 time-pick">
                   <v-col cols="3" class="p-0"></v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getStartHours}}</label>
+                    <!-- <v-text-field
                         dense
                         hide-details="false"
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <p class="text-gray">時</p>
                   </v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getStartMins}}</label>
+                    <!-- <v-text-field
                         dense
                         hide-details="false"
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0">
                     <p class="text-gray">分</p>
@@ -118,7 +120,7 @@
                   v-model="announce.end_date"
                   placeholder="掲載終了日"
                   :format="format"
-                  :enableTimePicker="false"
+                  :preview-format="previewFormat"
                   :required="false"
                   selectText="確認"
                   cancelText="キャンセル"
@@ -128,19 +130,21 @@
                 <v-row  align="center" class="m-0 time-pick">
                   <v-col cols="3" class="p-0"></v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getEndHours}}</label>
+                    <!-- <v-text-field
                         dense
                         hide-details="false"
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0 text-gray">
                     <p>時</p>
                   </v-col>
                   <v-col cols="2" class="p-0">
-                    <v-text-field
+                    <label class="ml-2">{{getEndMins}}</label>
+                    <!-- <v-text-field
                         dense
                         hide-details="false"
-                    />
+                    /> -->
                   </v-col>
                   <v-col cols="2" class="p-0 text-gray">
                     <p>分</p>
@@ -283,41 +287,82 @@ export default {
       const html = this.$refs.myQuillEditor.getHTML();
       this.announce.contents = html;
 
+      if (this.announce.contents === "<p><br></p>"){
+        this.announce.contents = null
+      }
 
-      // 登録する場合、掲載開始日とカテゴリーは必須
+      // 検証項目
+      const validateItem = {
+        title: this.announce.title,
+        announce_category_id: this.announce.announce_category_id,
+        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
+        contents: this.announce.contents,
+        thumbnail_file_name: this.file ? this.file.name : null,
+      };
+
+      // 下書き保存と登録する場合による、必須項目をTrueにする
       if(registFlg == 1){
         this.isRequired = true;
       }else if(registFlg == 2){
         this.isRequired = false
       }
-
-      if (this.announce.contents === "<p><br></p>"){
-        this.announce.contents = null
-      }
-
+      
+      // 必須項目を検証する
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
         console.log(res);
-        if (!res.valid) {
           if(registFlg == 1) {
-            console.log(this.announce.contents)
-            // 登録必須項目を取得
-            if (this.announce.contents === "<p><br></p>"){
-              this.announce.contents = null
-            }
-            const validateItem = {
-              title: this.announce.title,
-              announce_category_id: this.announce.announce_category_id,
-              start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
-              end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
-              contents: this.announce.contents,
-              thumbnail_file_name: this.file ? this.file.name : null,
-            };
-
             // 必須項目を検証する
             axios.post('/api/announce/registValidation',validateItem )
             .then(response => {
-                console.log(response);
+              let formData = new FormData();
+              const item = {
+                title: encodeURIComponent(this.announce.title),
+                announce_category_id: this.announce.announce_category_id,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
+                contents: encodeURIComponent(this.announce.contents),
+                thumbnail_file_name: this.file ? this.file.name : null,
+                regist_flg: registFlg,
+              };
+              formData.append("announce", JSON.stringify(item));
+
+              console.log(this.file)
+              if (this.file) {
+                formData.append("thumbnail_file", this.file);
+              }
+
+              for (let i = 0; i < this.attachments.length; i++) {
+                formData.append('attachments[' + i + ']', this.attachments[i]);
+              }
+              console.log(formData)
+
+              const config = {
+                headers: {
+                  "Content-type": "multipart/form-data",
+                },
+              };
+
+              // axios.post('/api/announce', formData, config)
+              axios.post('/api/announce/regist',
+                formData,
+                { headers: { "Content-type": "multipart/form-data", }}
+              ).then(response => {
+                if(registFlg == 1){
+                  this.openSuccess('登録しました');
+                }else if(registFlg == 2){
+                  this.openSuccess('保存しました');
+                }
+                // お知らせ一覧画面に遷移
+                this.$router.push({ name: 'announce.list' })
+
+                  // バリデーションのメッセージを初期化する
+                  this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+              })
+              .catch(error => {
+                console.log(error);
+              });
             })
             .catch(error => {
               if (error.response.status !== 422) {
@@ -327,23 +372,56 @@ export default {
               }
             });
           }else if (registFlg == 2){
-            // 下書きの必須項目を取得
-            if (this.announce.contents === "<p><br></p>"){
-              this.announce.contents = null
-            }
-            const validateItem = {
-              title: this.announce.title,
-              announce_category_id: this.announce.announce_category_id,
-              start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
-              end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
-              contents: this.announce.contents,
-              thumbnail_file_name: this.file ? this.file.name : null,
-            };
-
             // 必須項目を検証する
             axios.post('/api/announce/tempValidation',validateItem )
             .then(response => {
-                console.log(response);
+              let formData = new FormData();
+              const item = {
+                title: encodeURIComponent(this.announce.title),
+                announce_category_id: this.announce.announce_category_id,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
+                contents: encodeURIComponent(this.announce.contents),
+                thumbnail_file_name: this.file ? this.file.name : null,
+                regist_flg: registFlg,
+              };
+              formData.append("announce", JSON.stringify(item));
+
+              console.log(this.file)
+              if (this.file) {
+                formData.append("thumbnail_file", this.file);
+              }
+
+              for (let i = 0; i < this.attachments.length; i++) {
+                formData.append('attachments[' + i + ']', this.attachments[i]);
+              }
+              console.log(formData)
+
+              const config = {
+                headers: {
+                  "Content-type": "multipart/form-data",
+                },
+              };
+
+              // axios.post('/api/announce', formData, config)
+              axios.post('/api/announce/regist',
+                formData,
+                { headers: { "Content-type": "multipart/form-data", }}
+              ).then(response => {
+                if(registFlg == 1){
+                  this.openSuccess('登録しました');
+                }else if(registFlg == 2){
+                  this.openSuccess('保存しました');
+                }
+                // お知らせ一覧画面に遷移
+                this.$router.push({ name: 'announce.list' })
+
+                  // バリデーションのメッセージを初期化する
+                  this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+              })
+              .catch(error => {
+                console.log(error);
+              });
             })
             .catch(error => {
               if (error.response.status !== 422) {
@@ -355,51 +433,6 @@ export default {
           }
           console.log("invalid!");
           return;
-        } else {
-          let formData = new FormData();
-          const item = {
-            title: encodeURIComponent(this.announce.title),
-            announce_category_id: this.announce.announce_category_id,
-            start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy-MM-DD") : null,
-            end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy-MM-DD") : null,
-            contents: encodeURIComponent(this.announce.contents),
-            thumbnail_file_name: this.file ? this.file.name : null,
-            regist_flg: registFlg,
-          };
-          formData.append("announce", JSON.stringify(item));
-
-          console.log(this.file)
-          if (this.file) {
-            formData.append("thumbnail_file", this.file);
-          }
-
-          for (let i = 0; i < this.attachments.length; i++) {
-            formData.append('attachments[' + i + ']', this.attachments[i]);
-          }
-          console.log(formData)
-
-          const config = {
-            headers: {
-              "Content-type": "multipart/form-data",
-            },
-          };
-
-          // axios.post('/api/announce', formData, config)
-          axios.post('/api/announce/regist',
-            formData,
-            { headers: { "Content-type": "multipart/form-data", }}
-          ).then(response => {
-            this.openSuccess('登録しました');
-            // お知らせ一覧画面に遷移
-            this.$router.push({ name: 'announce.list' })
-
-              // バリデーションのメッセージを初期化する
-              this.$store.dispatch("announce/setAnnounceErrorMessages", "");
-          })
-          .catch(error => {
-            console.log(error);
-          });
-        }
       });
     },
     readImage() {
@@ -422,8 +455,8 @@ export default {
     },
     // 掲載期間を取得
     getAnnounceDate() {
-      const start = moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : '';
-      const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : '';
+      const start = moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm") : null;
+      const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null;
       this.announce.start_date = start;
       this.announce.end_date = end;
       this.username = this.username;
@@ -437,6 +470,10 @@ export default {
 
     format(date) {
       return moment(date).format('yyyy/MM/DD');
+    },
+    
+    previewFormat(date) {
+      return moment(date).format('yyyy/MM/DD HH:mm');
     },
 
     closePreview(){
@@ -496,6 +533,26 @@ export default {
         return this.getCategories;
       }
     },
+    getStartHours(){
+      if(this.announce.start_date){
+        return moment(this.announce.start_date).format("HH")
+      }
+    },
+    getStartMins(){
+      if(this.announce.start_date){
+        return moment(this.announce.start_date).format("mm")
+      }
+    },
+    getEndHours(){
+      if(this.announce.end_date){
+        return moment(this.announce.end_date).format("HH")
+      }
+    },
+    getEndMins(){
+      if(this.announce.end_date){
+        return moment(this.announce.end_date).format("mm")
+      }
+    }
   },
   created() {
     this.fetchCategories();

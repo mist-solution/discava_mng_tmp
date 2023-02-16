@@ -34,6 +34,7 @@ class AnnounceListController extends Controller
         $shopId = null;
         $response = array();
         $limit = $request->limit == null ? 5 : $request->limit;
+        $page = $request->page == null ? 1 : $request->page;
 
         // $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
         // $shopId = $request->input('shop_id') ?? $this->fakeShopId;
@@ -70,9 +71,8 @@ class AnnounceListController extends Controller
             ->where('end_date', '>=', date('Y-m-d H:i:s'))
             ->orderBy('start_date', 'desc')
             ->orderBy('id', 'desc')
-            ->simplePaginate($limit);
+            ->paginate($limit);
         // ->get();
-
         $announceArrays = array();
         foreach ($records as $key => $value) {
             $announceArray = array();
@@ -89,10 +89,16 @@ class AnnounceListController extends Controller
             $announceArrays[] = $announceArray;
         }
 
-        $json = [
-            'totalCount' => count($announceArrays),
+        $announceArrays_json = [
+            'totalCount' => $records->total(),
+            'lastPage' => $records->lastPage(),
+            'currentPage' => $records->currentPage(),
+            'nextPageUrl' => $records->nextPageUrl(),
+            'limit' => $records->perPage(),
+            'previousPageUrl' => $records->previousPageUrl(),
+            'page' => $records->url($page),
             'data' => $announceArrays
         ];
-        return $json;
+        return $announceArrays_json;
     }
 }

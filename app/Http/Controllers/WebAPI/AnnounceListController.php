@@ -34,7 +34,6 @@ class AnnounceListController extends Controller
         $shopId = null;
         $response = array();
         $limit = $request->limit == null ? 5 : $request->limit;
-        $pages = $request->pages == null ? 1 : $request->limit;
 
         // $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
         // $shopId = $request->input('shop_id') ?? $this->fakeShopId;
@@ -89,6 +88,11 @@ class AnnounceListController extends Controller
             //            $announceArray['contents'] = $value->contents;
             $announceArrays[] = $announceArray;
         }
-        return $announceArrays;
+
+        $json = [
+            'totalCount' => count($announceArrays),
+            'data' => $announceArrays
+        ];
+        return $json;
     }
 }

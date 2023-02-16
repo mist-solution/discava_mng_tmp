@@ -81,7 +81,9 @@ class Announce extends Model
 
         // 投稿記事検索
         if ($announceAddAccount != "") {
-            $announceModel = $announceModel->where('add_account', $announceAddAccount);
+            $announceModel = $announceModel->whereHas('add_account', function($query) use ($announceAddAccount) {
+                $query->where('name', 'LIKE' , "%{$announceAddAccount}%");
+            });
         }
 
         // 検索：登録日時（開始のみ入力済 、開始/終了入力済）

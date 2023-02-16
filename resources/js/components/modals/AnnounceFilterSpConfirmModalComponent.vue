@@ -32,15 +32,14 @@
         @update:modelValue="categoriesChange"
       />
 
-      <v-select
+      <input
         dense
-        v-model="usermodel"
-        :items="users"
-        label="投稿者名"
-        item-value="id"
-        item-title="name"
+        class="filter-btn user_search"
+        placeholder="投稿者名"
+        type="search"
         hide-details="false"
-        @update:modelValue="userChange"
+        v-model="usermodel"
+        Style="text-align: right"
       />
 
       <v-select
@@ -103,12 +102,12 @@
             };
         this.categories_id = id;
         },
-        userChange: function(id) {
+        /*userChange: function(id) {
             const postData = {
                 id: id,
             };
         this.user_id = id;
-        },
+        },*/
         releaseChange: function(id) {
             const postData = {
                 id: id,
@@ -153,8 +152,8 @@
                 this.$store.dispatch("announce/setDisplaySearchCategory", null);
             }
             //ユーザー検索
-            if(this.user_id != 0){
-                this.$store.dispatch("announce/setDisplayAnnounceAddAccount", this.user_id);
+            if(this.usermodel != 0){
+                this.$store.dispatch("announce/setDisplayAnnounceAddAccount", this.usermodel);
             }else{
                 this.$store.dispatch("announce/setDisplayAnnounceAddAccount", null);
             }
@@ -183,3 +182,14 @@
     mounted() {},
   };
   </script>
+
+  <style scoped>
+  .user_search{
+    height: 65px;
+    background-color: #f4f4f4;
+  }
+
+  ::placeholder {
+	text-align: left;
+  }
+  </style>

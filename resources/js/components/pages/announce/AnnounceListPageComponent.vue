@@ -82,16 +82,15 @@
       </v-col>
 
       <v-col class="sort-flex px-0" col="6">
-        <v-select
+        <input
           dense
-          class="filter-btn"
-          :items="users"
-          label="投稿者名"
-          item-value="id"
-          item-title="name"
+          class="filter-btn user_search"
+          placeholder="投稿者名"
+          type="search"
           hide-details="false"
           v-model="usermodel"
-          @update:modelValue='userChange'
+          @change="FilterAnnounce"
+          Style="text-align: right"
         />
 
         <v-select
@@ -220,14 +219,14 @@ export default {
         {id: 2, text: "公開期間外" }
       ],
       items2: [],
-      users: [],
+      //users: [],
       year: "",
       month: "",
       oldtime: "",
       created_id: "",
       updated_id: "",
       categories_id: "",
-      user_id: "",
+      //user_id: "",
       release_id: "",
       displayAnnounceFilter: false,
       perRowPage: 25,
@@ -256,7 +255,7 @@ export default {
         true : false
     },
     //アカウント名一覧取得
-    getAccountNameList(){
+    /*getAccountNameList(){
       axios
        .get("/api/enduser", {
         })
@@ -264,7 +263,7 @@ export default {
           this.users = res.data.users;
           this.users.unshift({ id: 0, name: '全て'});
         });
-    },
+    },*/
 
     //投稿月/更新月のドロップダウンリスト作成
     createDropdownList(){
@@ -317,13 +316,6 @@ export default {
         id: id,
       };
       this.categories_id = id;
-      this.FilterAnnounce()
-    },
-    userChange: function(id) {
-      const postData = {
-        id: id,
-      };
-      this.user_id = id;
       this.FilterAnnounce()
     },
     releaseChange: function(id) {
@@ -379,8 +371,8 @@ export default {
         this.$store.dispatch("announce/setDisplaySearchCategory", null);
       }
       //ユーザー検索
-      if(this.user_id != 0){
-        this.$store.dispatch("announce/setDisplayAnnounceAddAccount", this.user_id);
+      if(this.usermodel != ""){
+        this.$store.dispatch("announce/setDisplayAnnounceAddAccount", this.usermodel);
       }else{
         this.$store.dispatch("announce/setDisplayAnnounceAddAccount", null);
       }
@@ -393,7 +385,6 @@ export default {
       this.created_id = 0;
       this.updated_id = 0;
       this.categories_id = 0;
-      this.user_id = 0;
       this.release_id = 0;
       this.createdmodel = null;
       this.updatedmodel = null;
@@ -425,7 +416,7 @@ export default {
     if(authority){
       this.create_auth_flg = authority.create_auth_flg;
     }
-    this.getAccountNameList();
+    //this.getAccountNameList();
   },
 };
 </script>
@@ -512,4 +503,12 @@ export default {
 .v-label.v-field-label {
   font-size: 14px !important;
 }
+
+.user_search{
+  height: 55px;
+}
+
+::placeholder {
+	text-align: left;
+  }
 </style>

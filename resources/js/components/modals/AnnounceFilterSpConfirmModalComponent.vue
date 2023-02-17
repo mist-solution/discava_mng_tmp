@@ -1,25 +1,28 @@
 <template>
     <v-dialog v-show="display" persistent>
       <v-card class="p-3">
-        <v-select
-        dense
-        v-model="createdmodel"
-        :items="items2"
-        label="投稿月"
-        item-value="id"
-        item-title="text"
-        @update:modelValue="createdChange"
-      />
+        <DatePicker
+          class="filter-btnsp datepicker"
+          v-model="createdmodel"
+          placeholder="掲載月"
+          :format="format"
+          :preview-format="previewFormat"
+          selectText="確認"
+          cancelText="キャンセル"
+          month-picker
+        />
 
-      <v-select
-        dense
-        v-model="updatedmodel"
-        :items="items2"
-        label="更新月"
-        item-value="id"
-        item-title="text"
-        @update:modelValue="updatedChange"
-      />
+        <DatePicker
+          class="filter-btnsp datepicker"
+          v-model="updatedmodel"
+          placeholder="更新月"
+          :format="format"
+          :preview-format="previewFormat"
+          selectText="確認"
+          cancelText="キャンセル"
+          month-picker
+        />
+
 
       <v-select
         dense
@@ -35,11 +38,11 @@
       <input
         dense
         class="filter-btn user_search"
-        placeholder="投稿者名"
+        placeholder="　投稿者名"
         type="search"
         hide-details="false"
         v-model="usermodel"
-        Style="text-align: right"
+        Style="text-align: center"
       />
 
       <v-select
@@ -65,7 +68,13 @@
   </template>
   
   <script>
+  import DatePicker from '@vuepic/vue-datepicker';
+  import '@vuepic/vue-datepicker/dist/main.css'
+  import moment from 'moment';
   export default {
+    components: {
+    DatePicker,
+  },
     props: ["display", "closeAction", "approvalCancel","items","items2","categories","users"],
     data() {
       return {
@@ -115,36 +124,59 @@
         this.release_id = id;
         },
         FilterAnnounce(){
-        //投稿月検索
-            if(this.created_id != 0){
-                if(this.created_id == 1){
-                  let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
-                  this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
-                }else{
-                  let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
-                  let end = new Date(this.items2[this.created_id - 1].year + "-" + this.items2[this.created_id - 1].month + "-1")
-                  this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
-                  this.$store.dispatch("announce/setDisplaySearchAddDateEnd", end);
-                }
+          if(this.createdmodel != null){
+            let start_year
+            let start_month
+            let end_year
+            let end_month
+            if(this.createdmodel.month == 11){
+              start_month = 12;
+              start_year = this.createdmodel.year;
+              end_month = 1;
+              end_year = start_year + 1
             }else{
-                this.$store.dispatch("announce/setDisplaySearchAddDateBegin", null);
-                this.$store.dispatch("announce/setDisplaySearchAddDateEnd", null);
+              start_month = this.createdmodel.month + 1;
+              start_year = this.createdmodel.year;
+              end_month = start_month + 1;
+              end_year = start_year;
             }
-            //更新月検索
-            if(this.updated_id != 0){
-                if(this.updated_id == 1){
-                  let start = new Date(this.items2[this.updated_id].year.toString() + "-" + this.items2[this.updated_id].month.toString() + "-1")
-                  this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
-                }else{
-                  let start = new Date(this.items2[this.updated_id].year.toString() + "-" + this.items2[this.updated_id].month.toString() + "-1")
-                  let end = new Date(this.items2[this.updated_id - 1].year.toString() + "-" + this.items2[this.updated_id - 1].month.toString() + "-1")
-                  this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
-                  this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", end);
-                }
+            let start = new Date(start_year + "-" + start_month + "-1")
+            let end = new Date(end_year + "-" + end_month + "-1")
+            start.setHours(start.getHours() + 9);
+            end.setHours(end.getHours() + 9);
+            this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
+            this.$store.dispatch("announce/setDisplaySearchAddDateEnd", end);
+          }else{
+            this.$store.dispatch("announce/setDisplaySearchAddDateBegin", null);
+            this.$store.dispatch("announce/setDisplaySearchAddDateEnd", null);
+          }
+          //更新月検索
+          if(this.updatedmodel != null){
+            let start_year
+            let start_month
+            let end_year
+            let end_month
+            if(this.updatedmodel.month == 11){
+              start_month = 12;
+              start_year = this.updatedmodel.year;
+              end_month = 1;
+              end_year = start_year + 1
             }else{
-                this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", null);
-                this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", null);
+              start_month = this.updatedmodel.month + 1;
+              start_year = this.updatedmodel.year;
+              end_month = start_month + 1;
+              end_year = start_year;
             }
+            let start = new Date(start_year + "-" + start_month + "-1")
+            let end = new Date(end_year + "-" + end_month + "-1")
+            start.setHours(start.getHours() + 9);
+            end.setHours(end.getHours() + 9);
+            this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
+            this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", end);
+          }else{
+            this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", null);
+            this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", null);
+          }
             //カテゴリ検索
             if(this.categories_id != 0){
                 this.$store.dispatch("announce/setDisplaySearchCategory", this.categories_id);
@@ -177,12 +209,21 @@
         searchAction(){
           this.FilterAnnounce();
           this.closeAction();
-        }
+        },
+
+        format(date) {
+          return moment(date).format('yyyy/MM');
+        },
+
+        previewFormat(date) {
+          return moment(date).format('yyyy/MM');
+        },
     },
     mounted() {},
   };
   </script>
 
+<style src="../pages/css/common.css"></style>
   <style scoped>
   .user_search{
     height: 65px;
@@ -192,4 +233,5 @@
   ::placeholder {
 	text-align: left;
   }
+
   </style>

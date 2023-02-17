@@ -46,26 +46,28 @@
           全 {{  $store.state.announce.totalCount }} 件
         </div>
 
-        <v-select
-          dense
-          class="filter-btn"
-          :items="items2"
-          label="投稿月"
-          item-value="id"
-          item-title="text"
+        <DatePicker
+          class="filter-btn datepicker"
           v-model="createdmodel"
-          @update:modelValue='createdChange'
+          placeholder="掲載月"
+          :format="format"
+          :preview-format="previewFormat"
+          selectText="確認"
+          cancelText="キャンセル"
+          month-picker
+          @update:model-value="FilterAnnounce"
         />
 
-        <v-select
-          dense
-          class="filter-btn"
-          :items="items2"
-          label="更新月"
-          item-value="id"
-          item-title="text"
+        <DatePicker
+          class="filter-btn datepicker"
           v-model="updatedmodel"
-          @update:modelValue='updatedChange'
+          placeholder="更新月"
+          :format="format"
+          :preview-format="previewFormat"
+          selectText="確認"
+          cancelText="キャンセル"
+          month-picker
+          @update:model-value="FilterAnnounce"
         />
 
         <v-select
@@ -85,12 +87,12 @@
         <input
           dense
           class="filter-btn user_search"
-          placeholder="投稿者名"
+          placeholder="　投稿者名"
           type="search"
           hide-details="false"
           v-model="usermodel"
           @change="FilterAnnounce"
-          Style="text-align: right"
+          Style="text-align: center"
         />
 
         <v-select
@@ -195,6 +197,9 @@ import { mapGetters,mapActions } from "vuex";
 
 import AnnounceListTable from "./AnnounceListTableComponent.vue";
 import AnnounceListTableSp from "./AnnounceListTableComponentSp.vue";
+import DatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+import moment from 'moment';
 // import AnnounceListActionBarConponent from "./AnnounceListActionBarConponent.vue";
 import TitleComponent from "../../common/TitleComponent.vue"
 import SpAnnounceTitleComponent from "../../common/SpAnnounceTitleComponent.vue"
@@ -205,6 +210,7 @@ export default {
     AnnounceListTable,
     // AnnounceListActionBarConponent,
     TitleComponent,
+    DatePicker,
     SpAnnounceTitleComponent,
     AnnounceListTableSp,
     AnnounceFilterSpConfirmModalComponent,
@@ -277,8 +283,8 @@ export default {
           .then((res) => {
             this.oldtime = res.data.created_at;
           });
-      /*let oldestyear = moment(this.oldtime).format("YYYY");
-      let oldestmonth = moment(this.oldtime).format("MM");*/
+      //let oldestyear = moment(this.oldtime).format("YYYY");
+      //let oldestmonth = moment(this.oldtime).format("MM");
       let oldestyear = 2022
       let oldestmonth = 12
       for(var i = 1; i < 120; i++){
@@ -327,39 +333,57 @@ export default {
     },
     FilterAnnounce(){
       //投稿月検索
-      if(this.created_id != 0){
-        if(this.created_id == 1){
-          let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
-          start.setHours(start.getHours() + 9);
-          this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
-          this.$store.dispatch("announce/setDisplaySearchAddDateEnd", null);
+      if(this.createdmodel != null){
+        let start_year
+        let start_month
+        let end_year
+        let end_month
+        if(this.createdmodel.month == 11){
+          start_month = 12;
+          start_year = this.createdmodel.year;
+          end_month = 1;
+          end_year = start_year + 1
         }else{
-          let start = new Date(this.items2[this.created_id].year + "-" + this.items2[this.created_id].month + "-1")
-          let end = new Date(this.items2[this.created_id - 1].year + "-" + this.items2[this.created_id - 1].month + "-1")
-          start.setHours(start.getHours() + 9);
-          end.setHours(end.getHours() + 9);
-          this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
-          this.$store.dispatch("announce/setDisplaySearchAddDateEnd", end);
+          start_month = this.createdmodel.month + 1;
+          start_year = this.createdmodel.year;
+          end_month = start_month + 1;
+          end_year = start_year;
         }
+        let start = new Date(start_year + "-" + start_month + "-1")
+        let end = new Date(end_year + "-" + end_month + "-1")
+        start.setHours(start.getHours() + 9);
+        end.setHours(end.getHours() + 9);
+        console.log(start)
+        console.log(end)
+        this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
+        this.$store.dispatch("announce/setDisplaySearchAddDateEnd", end);
       }else{
         this.$store.dispatch("announce/setDisplaySearchAddDateBegin", null);
         this.$store.dispatch("announce/setDisplaySearchAddDateEnd", null);
       }
       //更新月検索
-      if(this.updated_id != 0){
-        if(this.updated_id == 1){
-          let start = new Date(this.items2[this.updated_id].year + "-" + this.items2[this.updated_id].month + "-1")
-          start.setHours(start.getHours() + 9);
-          this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
-          this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", null);
+      if(this.updatedmodel != null){
+        let start_year
+        let start_month
+        let end_year
+        let end_month
+        if(this.updatedmodel.month == 11){
+          start_month = 12;
+          start_year = this.updatedmodel.year;
+          end_month = 1;
+          end_year = start_year + 1
         }else{
-          let start = new Date(this.items2[this.updated_id].year + "-" + this.items2[this.updated_id].month + "-1")
-          let end = new Date(this.items2[this.updated_id - 1].year + "-" + this.items2[this.updated_id - 1].month + "-1")
-          start.setHours(start.getHours() + 9);
-          end.setHours(end.getHours() + 9);
-          this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
-          this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", end);
+          start_month = this.updatedmodel.month + 1;
+          start_year = this.updatedmodel.year;
+          end_month = start_month + 1;
+          end_year = start_year;
         }
+        let start = new Date(start_year + "-" + start_month + "-1")
+        let end = new Date(end_year + "-" + end_month + "-1")
+        start.setHours(start.getHours() + 9);
+        end.setHours(end.getHours() + 9);
+        this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", start);
+        this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", end);
       }else{
         this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", null);
         this.$store.dispatch("announce/setDisplaySearchUpdDateEnd", null);
@@ -402,6 +426,14 @@ export default {
     //表示件数変更
     RowPageChange(){
       this.$store.dispatch("announce/setDisplayLimit", this.perRowPage);
+    },
+
+    format(date) {
+      return moment(date).format('yyyy/MM');
+    },
+
+     previewFormat(date) {
+      return moment(date).format('yyyy/MM');
     },
   },
   async created(){
@@ -511,4 +543,9 @@ export default {
 ::placeholder {
 	text-align: left;
   }
+
+  .dp__input{
+    height: 55px;
+  }
+
 </style>

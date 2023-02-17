@@ -36,6 +36,7 @@ class AnnounceListController extends Controller
         $response = array();
         $limit = $request->limit == null ? 5 : $request->limit;
         $page = $request->page == null ? 1 : $request->page;
+        $categoryID = $request->categoryID == null ? 0 : $request->categoryID;
 
         // $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
         // $shopId = $request->input('shop_id') ?? $this->fakeShopId;
@@ -64,16 +65,30 @@ class AnnounceListController extends Controller
         }
 
         // 店舗のお知らせ一覧を取得する
-        $records = Announce::with('announce_categories')
-            ->where('shop_id', $shopId)
-            ->where('approval_status', '2')
-            ->where('del_flg', '0')
-            ->where('start_date', '<=', date('Y-m-d H:i:s'))
-            ->where('end_date', '>=', date('Y-m-d H:i:s'))
-            ->orderBy('start_date', 'desc')
-            ->orderBy('id', 'desc')
-            ->paginate($limit);
-        // ->get();
+        if ($categoryID != 0) {
+            $records = Announce::with('announce_categories')
+                ->where('shop_id', $shopId)
+                ->where('approval_status', '2')
+                ->where('del_flg', '0')
+                ->where('start_date', '<=', date('Y-m-d H:i:s'))
+                ->where('end_date', '>=', date('Y-m-d H:i:s'))
+                ->where('announce_category_id', $categoryID)
+                ->orderBy('start_date', 'desc')
+                ->orderBy('id', 'desc')
+                ->paginate($limit);
+        } else {
+            $records = Announce::with('announce_categories')
+                ->where('shop_id', $shopId)
+                ->where('approval_status', '2')
+                ->where('del_flg', '0')
+                ->where('start_date', '<=', date('Y-m-d H:i:s'))
+                ->where('end_date', '>=', date('Y-m-d H:i:s'))
+                ->orderBy('start_date', 'desc')
+                ->orderBy('id', 'desc')
+                ->paginate($limit);
+            // ->get();
+        }
+
 
         $announceArrays = array();
         foreach ($records as $key => $value) {

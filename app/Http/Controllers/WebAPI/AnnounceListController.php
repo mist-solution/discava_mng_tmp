@@ -74,6 +74,7 @@ class AnnounceListController extends Controller
             ->orderBy('id', 'desc')
             ->paginate($limit);
         // ->get();
+
         $announceArrays = array();
         foreach ($records as $key => $value) {
             $announceArray = array();
@@ -85,7 +86,7 @@ class AnnounceListController extends Controller
             $announceArray['end_date'] = $value->end_date;
             $announceArray['title'] = $value->title;
             $announceArray['thumbnail_img_path'] = $value->thumbnail_img_path;
-            // $announceArray['thumbnail_img_url'] = Storage::url($value->thumbnail_img_path);
+            $announceArray['thumbnail_img_path_url'] = Storage::url($value->thumbnail_img_path);
             $announceArray['thumbnail_img_filename'] = $value->thumbnail_img_filename;
             $announceArray['add_account'] = User::find($value->add_account)->name;
             //            $announceArray['contents'] = $value->contents;

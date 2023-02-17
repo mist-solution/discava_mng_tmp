@@ -12,8 +12,8 @@ use Storage;
 
 class AnnounceListController extends Controller
 {
-    protected $fakeToken = 'X-DiscavaMATE-API-Token';
-    protected $fakeShopId = 1;
+    // protected $fakeToken = 'X-DiscavaMATE-API-Token';
+    // protected $fakeShopId = 1;
     /**
      * Create a new controller instance.
      *
@@ -34,19 +34,19 @@ class AnnounceListController extends Controller
         $token = null;
         $shopId = null;
         $response = array();
-        $limit = $request->limit == null ? 5 : $request->limit;
-        $page = $request->page == null ? 1 : $request->page;
+        // $limit = $request->limit == null ? 5 : $request->limit;
+        // $page = $request->page == null ? 1 : $request->page;
 
         $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
         $shopId = $request->input('shop_id') ?? $this->fakeShopId;
 
         // ヘッダーのX-DiscavaMATE-API-Tokenを取得
-        // $token = $request->header('X-DiscavaMATE-API-Token');
-        // if (is_null($token)) {
-        //     return response()->json([
-        //         'message' => 'Internal Server Error'
-        //     ], 500);
-        // }
+        $token = $request->header('X-DiscavaMATE-API-Token');
+        if (is_null($token)) {
+            return response()->json([
+                'message' => 'Internal Server Error'
+            ], 500);
+        }
 
         // 合致するtokenから店舗を取得
         $records = Shop::all();
@@ -85,7 +85,8 @@ class AnnounceListController extends Controller
             $announceArray['start_date'] = $value->start_date;
             $announceArray['end_date'] = $value->end_date;
             $announceArray['title'] = $value->title;
-            $announceArray['thumbnail_img_path'] = Storage::url($value->thumbnail_img_path);
+            $announceArray['thumbnail_img_path'] = $value->thumbnail_img_path;
+            $announceArray['thumbnail_img_path_url'] = Storage::url($value->thumbnail_img_path);
             $announceArray['thumbnail_img_filename'] = $value->thumbnail_img_filename;
             $announceArray['add_account'] = User::find($value->add_account)->name;
             //            $announceArray['contents'] = $value->contents;

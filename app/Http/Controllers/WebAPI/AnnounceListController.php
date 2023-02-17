@@ -34,8 +34,8 @@ class AnnounceListController extends Controller
         $token = null;
         $shopId = null;
         $response = array();
-        // $limit = $request->limit == null ? 5 : $request->limit;
-        // $page = $request->page == null ? 1 : $request->page;
+        $limit = $request->limit == null ? 5 : $request->limit;
+        $page = $request->page == null ? 1 : $request->page;
 
         // $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
         // $shopId = $request->input('shop_id') ?? $this->fakeShopId;

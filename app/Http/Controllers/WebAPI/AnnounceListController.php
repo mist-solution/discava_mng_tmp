@@ -86,7 +86,11 @@ class AnnounceListController extends Controller
             $announceArray['end_date'] = $value->end_date;
             $announceArray['title'] = $value->title;
             $announceArray['thumbnail_img_path'] = $value->thumbnail_img_path;
-            $announceArray['thumbnail_img_path_url'] = Storage::url($value->thumbnail_img_path);
+            if (!is_null($value->thumbnail_img_path)) {
+                $thumbnail_img_contents = Storage::get($value->thumbnail_img_path);
+                $thumbnail_img_base64 = base64_encode($thumbnail_img_contents);
+                $announceArray['thumbnail_img_file'] = $thumbnail_img_base64;
+            }
             $announceArray['thumbnail_img_filename'] = $value->thumbnail_img_filename;
             $announceArray['add_account'] = User::find($value->add_account)->name;
             //            $announceArray['contents'] = $value->contents;

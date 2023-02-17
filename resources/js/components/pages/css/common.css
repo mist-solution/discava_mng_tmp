@@ -512,3 +512,14 @@ text-align: center;
     color: #69A5AF !important;
     scale: 2;
 }
+
+.filter-btn > div >div > .dp__input{
+    height: 55px;
+    border: none;
+  }
+
+  .filter-btnsp > div >div > .dp__input{
+    height: 55px;
+    border: none;
+    background-color: #f4f4f4;
+  }

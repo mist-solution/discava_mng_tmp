@@ -14,6 +14,7 @@ use App\Http\Controllers\AnnounceCategoryController;
 use App\Http\Controllers\WebAPI\AnnounceDetailContoller;
 use App\Http\Controllers\WebAPI\AnnounceImageController;
 use App\Http\Controllers\WebAPI\AnnounceListController;
+use App\Http\Controllers\WebAPI\AnnounceCategoryListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,3 +104,4 @@ Route::post('/api/announce/tempValidation', [AnnounceController::class, 'tempSto
 Route::get('webapi/announce/list', [AnnounceListController::class, 'get']);
 Route::get('webapi/announce/detail/{id}', [AnnounceDetailContoller::class, 'get']);
 Route::get('webapi/announce/image/{id}', [AnnounceImageController::class, 'get']);
+Route::get('webapi/announce/categoryList', [AnnounceCategoryListController::class, 'get']);

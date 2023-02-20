@@ -38,6 +38,7 @@ class AnnounceListController extends Controller
         $page = $request->page == null ? 1 : $request->page;
         $categoryID = $request->categoryID == null ? 0 : $request->categoryID;
         $sortBy = $request->sortBy == null ? 'start_date' : $request->sortBy;
+        $searchText = $request->searchText == null ? '' : $request->searchText;
 
         // $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
         // $shopId = $request->input('shop_id') ?? $this->fakeShopId;
@@ -66,26 +67,57 @@ class AnnounceListController extends Controller
         }
 
         // 店舗のお知らせ一覧を取得する
+        // if ($categoryID != 0) {
+        //     $records = Announce::with('announce_categories')
+        //         ->where('shop_id', $shopId)
+        //         ->where('approval_status', '2')
+        //         ->where('del_flg', '0')
+        //         ->where('start_date', '<=', date('Y-m-d H:i:s'))
+        //         ->where('end_date', '>=', date('Y-m-d H:i:s'))
+        //         ->where('announce_category_id', $categoryID)
+        //         ->orderBy($sortBy, 'desc')
+        //         ->orderBy('id', 'desc')
+        //         ->paginate($limit);
+        // } else {
+        //     $records = Announce::with('announce_categories')
+        //         ->where('shop_id', $shopId)
+        //         ->where('approval_status', '2')
+        //         ->where('del_flg', '0')
+        //         ->where('start_date', '<=', date('Y-m-d H:i:s'))
+        //         ->where('end_date', '>=', date('Y-m-d H:i:s'))
+        //         ->orderBy($sortBy, 'desc')
+        //         ->orderBy('id', 'desc')
+        //         ->paginate($limit);
+        //     // ->get();
+        // }
+
+        // 登録者検索機能追加
         if ($categoryID != 0) {
             $records = Announce::with('announce_categories')
-                ->where('shop_id', $shopId)
-                ->where('approval_status', '2')
-                ->where('del_flg', '0')
-                ->where('start_date', '<=', date('Y-m-d H:i:s'))
-                ->where('end_date', '>=', date('Y-m-d H:i:s'))
-                ->where('announce_category_id', $categoryID)
+                ->join('users', 'announces.add_account', '=', 'users.id')
+                ->select('announces.*', 'users.name')
+                ->where('announces.shop_id', $shopId)
+                ->where('announces.approval_status', '2')
+                ->where('announces.del_flg', '0')
+                ->where('announces.start_date', '<=', date('Y-m-d H:i:s'))
+                ->where('announces.end_date', '>=', date('Y-m-d H:i:s'))
+                ->where('announces.announce_category_id', $categoryID)
+                ->whereRaw('LOWER(users.name) LIKE ?', ['%' . strtolower($searchText) . '%'])
                 ->orderBy($sortBy, 'desc')
-                ->orderBy('id', 'desc')
+                ->orderBy('announces.id', 'desc')
                 ->paginate($limit);
         } else {
             $records = Announce::with('announce_categories')
-                ->where('shop_id', $shopId)
-                ->where('approval_status', '2')
-                ->where('del_flg', '0')
-                ->where('start_date', '<=', date('Y-m-d H:i:s'))
-                ->where('end_date', '>=', date('Y-m-d H:i:s'))
+                ->join('users', 'announces.add_account', '=', 'users.id')
+                ->select('announces.*', 'users.name')
+                ->where('announces.shop_id', $shopId)
+                ->where('announces.approval_status', '2')
+                ->where('announces.del_flg', '0')
+                ->where('announces.start_date', '<=', date('Y-m-d H:i:s'))
+                ->where('announces.end_date', '>=', date('Y-m-d H:i:s'))
+                ->whereRaw('LOWER(users.name) LIKE ?', ['%' . strtolower($searchText) . '%'])
                 ->orderBy($sortBy, 'desc')
-                ->orderBy('id', 'desc')
+                ->orderBy('announces.id', 'desc')
                 ->paginate($limit);
             // ->get();
         }

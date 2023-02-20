@@ -37,6 +37,7 @@ class AnnounceListController extends Controller
         $limit = $request->limit == null ? 5 : $request->limit;
         $page = $request->page == null ? 1 : $request->page;
         $categoryID = $request->categoryID == null ? 0 : $request->categoryID;
+        $sortBy = $request->sortBy == null ? 'start_date' : $request->sortBy;
 
         // $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
         // $shopId = $request->input('shop_id') ?? $this->fakeShopId;
@@ -73,7 +74,7 @@ class AnnounceListController extends Controller
                 ->where('start_date', '<=', date('Y-m-d H:i:s'))
                 ->where('end_date', '>=', date('Y-m-d H:i:s'))
                 ->where('announce_category_id', $categoryID)
-                ->orderBy('start_date', 'desc')
+                ->orderBy($sortBy, 'desc')
                 ->orderBy('id', 'desc')
                 ->paginate($limit);
         } else {
@@ -83,7 +84,7 @@ class AnnounceListController extends Controller
                 ->where('del_flg', '0')
                 ->where('start_date', '<=', date('Y-m-d H:i:s'))
                 ->where('end_date', '>=', date('Y-m-d H:i:s'))
-                ->orderBy('start_date', 'desc')
+                ->orderBy($sortBy, 'desc')
                 ->orderBy('id', 'desc')
                 ->paginate($limit);
             // ->get();

@@ -12,8 +12,6 @@ use Storage;
 
 class AnnounceDetailContoller extends Controller
 {
-    protected $fakeToken = 'X-DiscavaMATE-API-Token';
-    protected $fakeShopId = 1;
     /**
      * Create a new controller instance.
      *
@@ -36,16 +34,13 @@ class AnnounceDetailContoller extends Controller
         $announceId = null;
         $response = array();
 
-        $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
-        $shopId = $request->input('shop_id') ?? $this->fakeShopId;
-
         // ヘッダーのX-DiscavaMATE-API-Tokenを取得
-        // $token = $request->header('X-DiscavaMATE-API-Token');
-        // if (is_null($token)) {
-        //     return response()->json([
-        //         'message' => 'Internal Server Error(no header \'X-DiscavaMATE-API-Token\')'
-        //     ], 500);
-        // }
+        $token = $request->header('X-DiscavaMATE-API-Token');
+        if (is_null($token)) {
+            return response()->json([
+                'message' => 'Internal Server Error(no header \'X-DiscavaMATE-API-Token\')'
+            ], 500);
+        }
 
         // 合致するtokenから店舗を取得
         $records = Shop::all();

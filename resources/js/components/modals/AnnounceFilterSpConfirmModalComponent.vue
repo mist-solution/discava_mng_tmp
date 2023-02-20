@@ -4,7 +4,7 @@
         <DatePicker
           class="filter-btnsp datepicker"
           v-model="createdmodel"
-          placeholder="掲載月"
+          placeholder="投稿月"
           :format="format"
           :preview-format="previewFormat"
           selectText="確認"

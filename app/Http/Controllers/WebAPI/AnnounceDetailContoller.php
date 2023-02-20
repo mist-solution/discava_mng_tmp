@@ -12,6 +12,8 @@ use Storage;
 
 class AnnounceDetailContoller extends Controller
 {
+    protected $fakeToken = 'X-DiscavaMATE-API-Token';
+    protected $fakeShopId = 1;
     /**
      * Create a new controller instance.
      *
@@ -34,32 +36,35 @@ class AnnounceDetailContoller extends Controller
         $announceId = null;
         $response = array();
 
+        $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
+        $shopId = $request->input('shop_id') ?? $this->fakeShopId;
+
         // ヘッダーのX-DiscavaMATE-API-Tokenを取得
-        $token = $request->header('X-DiscavaMATE-API-Token');
-        if(is_null($token)) {
-            return response()->json([
-                'message' => 'Internal Server Error(no header \'X-DiscavaMATE-API-Token\')'
-            ], 500);
-        }
+        // $token = $request->header('X-DiscavaMATE-API-Token');
+        // if (is_null($token)) {
+        //     return response()->json([
+        //         'message' => 'Internal Server Error(no header \'X-DiscavaMATE-API-Token\')'
+        //     ], 500);
+        // }
 
         // 合致するtokenから店舗を取得
         $records = Shop::all();
         $response = array();
-        foreach($records as $key => $value) {
+        foreach ($records as $key => $value) {
             if ($token == $value->webapi_token) {
                 $shopId = $value->id;
                 break;
             }
         }
-        if(is_null($shopId)) {
+        if (is_null($shopId)) {
             return response()->json([
-                'message' => 'Internal Server Error(not found shop id by token['. $token . '])'
+                'message' => 'Internal Server Error(not found shop id by token[' . $token . '])'
             ], 500);
         }
 
         // 店舗の指定されたお知らせIDを取得
         $announceId = $id;
-        if(is_null($announceId)) {
+        if (is_null($announceId)) {
             return response()->json([
                 'message' => 'Internal Server Error(not found shop\'s announce id)'
             ], 500);
@@ -76,10 +81,10 @@ class AnnounceDetailContoller extends Controller
             ->orderBy('start_date', 'desc')
             ->orderBy('id', 'desc')
             ->first();
-        if(is_null($value)) {
+        if (is_null($value)) {
             return response()->json([
                 'message' => 'Internal Server Error(not found shop\'s announce record)'
-            ], 500);
+            ], 404);
         }
 
         // お知らせ
@@ -97,14 +102,14 @@ class AnnounceDetailContoller extends Controller
 
         // 対象のお知らせに添付されている画像を取得する
         $records = AnnounceAttachment::where('announce_id', $announceId)
-        ->where('shop_id', $shopId)
-        ->where('del_flg', '0')
-        ->orderBy('id')
-        ->get();
+            ->where('shop_id', $shopId)
+            ->where('del_flg', '0')
+            ->orderBy('id')
+            ->get();
 
         // お知らせ画像 ID
         $announceAttachments = array();
-        foreach($records as $key => $value) {
+        foreach ($records as $key => $value) {
             $announceAttachment = array();
             $announceAttachment['id'] = $value->id;
             $announceAttachment['shop_id'] = $value->shop_id;

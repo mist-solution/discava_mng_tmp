@@ -130,7 +130,10 @@ class Announce extends Model
                 $announceModel = $announceModel
                         ->where(function($query) use ($now){
                             $query->orWhere("start_date", '>=', $now)
-                                  ->orWhere("end_date" , '<=', $now);
+                                  ->orWhere("end_date" , '<=', $now)
+                                  ->orWhere("start_date" ,null)
+                                  ->orWhere("end_date" ,null);
+
                         });
             }
         }

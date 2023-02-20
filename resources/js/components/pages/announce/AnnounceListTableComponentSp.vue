@@ -18,6 +18,7 @@
         :rowsPerPage="rowsPerPage"
         dense
         class="announce-table"
+        :hide-footer="true"
       >
         <template #loading>
           <v-progress-linear
@@ -359,6 +360,9 @@ export default {
       reset: true,
       rowsPerPage: 25,
       flg: true,
+      PageLastIndex: null,
+      LastPage: null,
+      totalcount :null,
     };
   },
   computed: {
@@ -406,6 +410,8 @@ export default {
     displayLimit() {
       this.rowsPerPage = this.$store.state.announce.displayLimit;
       this.getAnnounceList();
+      this.PageLastIndex = Math.ceil(this.totalcount/this.rowsPerPage)
+      this.$emit("LastPageChange",this.PageLastIndex,this.totalcount)
       this.reset = false;
       this.$nextTick(() => (this.reset = true));
     },
@@ -415,18 +421,34 @@ export default {
     displayAnnounceStatus() {
       this.getAnnounceList();
       this.$refs.dataTable.updatePage(this.$store.state.announce.displayPage)
+      setTimeout(() => {
+        this.PageLastIndex = Math.ceil(this.totalcount/this.rowsPerPage)
+        this.$emit("LastPageChange",this.PageLastIndex,this.totalcount)
+      }, 1000);
     },
     displayAnnounceAddAccount() {
       this.getAnnounceList();
+      setTimeout(() => {
+        this.PageLastIndex = Math.ceil(this.totalcount/this.rowsPerPage)
+        this.$emit("LastPageChange",this.PageLastIndex,this.totalcount)
+      }, 1000);
     },
     displaySearchAddDateBegin() {
       this.getAnnounceList();
+      setTimeout(() => {
+        this.PageLastIndex = Math.ceil(this.totalcount/this.rowsPerPage)
+        this.$emit("LastPageChange",this.PageLastIndex,this.totalcount)
+      }, 1000);
     },
     displaySearchAddDateEnd() {
       this.getAnnounceList();
     },
     displaySearchUpdDateBegin() {
       this.getAnnounceList();
+      setTimeout(() => {
+        this.PageLastIndex = Math.ceil(this.totalcount/this.rowsPerPage)
+        this.$emit("LastPageChange",this.PageLastIndex,this.totalcount)
+      }, 1000);
     },
     displaySearchUpdDateEnd() {
       this.getAnnounceList();
@@ -439,11 +461,21 @@ export default {
     },
     displaySearchCategory() {
       this.getAnnounceList();
+      setTimeout(() => {
+        this.PageLastIndex = Math.ceil(this.totalcount/this.rowsPerPage)
+        this.$emit("LastPageChange",this.PageLastIndex,this.totalcount)
+      }, 1000);
     },
     displaySearchRelease() {
       this.getAnnounceList();
+      setTimeout(() => {
+        this.PageLastIndex = Math.ceil(this.totalcount/this.rowsPerPage)
+        this.$emit("LastPageChange",this.PageLastIndex,this.totalcount)
+      }, 1000);
     },
     displayPage() {
+      this.page = this.$store.state.announce.displayPage;
+      this.$refs.dataTable.updatePage(this.page);
       this.getAnnounceList();
     },
   },
@@ -508,7 +540,7 @@ export default {
         .then((res) => {
           this.announce = res.data.anounce;
           this.$store.dispatch("announce/setTotalCount", res.data.count);
-          this.loading = false;
+          this.totalcount = res.data.count
           this.getItems2List();
         });
     },
@@ -821,6 +853,9 @@ export default {
         this.username = name.name;
     }
     this.dataTable = this.$store.state.announce.totalCount
+    let a = this.$refs.dataTable.clientItemsLength;
+    this.PageLastIndex = this.$refs.dataTable.maxPaginationNumber;
+    this.$emit("LastPageChange",this.PageLastIndex,a)
 
   },
 };

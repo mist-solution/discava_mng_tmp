@@ -6,6 +6,7 @@
       v-if="!moblieFlg()"
       name = "投稿記事一覧"
       :tabFlg ="true"
+      @LastPageChange="LastPageChange"
     />
 
     <!-- SPの場合 画面タイトル + タブ -->
@@ -13,6 +14,7 @@
       v-if="moblieFlg()"
       name = "投稿記事一覧"
       :tabFlg ="true"
+      @LastPageChange="LastPageChange"
     />
 
     <!-- 投稿ボタン -->
@@ -157,27 +159,85 @@
       <v-card-text>
         <v-window v-model="tab">
           <v-window-item value="one">
-            <announce-list-table v-if="!moblieFlg()"/>
-            <announce-list-table-sp v-if="moblieFlg()"/>
+            <announce-list-table v-if="!moblieFlg()" @LastPageChange="LastPageChange"/>
+            <announce-list-table-sp v-if="moblieFlg()" @LastPageChange="LastPageChange"/>
           </v-window-item>
 
           <v-window-item value="two">
-            <announce-list-table v-if="!moblieFlg()"/>
-            <announce-list-table-sp v-if="moblieFlg()"/>
+            <announce-list-table v-if="!moblieFlg()" @LastPageChange="LastPageChange"/>
+            <announce-list-table-sp v-if="moblieFlg()" @LastPageChange="LastPageChange"/>
           </v-window-item>
 
           <v-window-item value="three">
-            <announce-list-table v-if="!moblieFlg()"/>
-            <announce-list-table-sp v-if="moblieFlg()"/>
+            <announce-list-table v-if="!moblieFlg()" @LastPageChange="LastPageChange"/>
+            <announce-list-table-sp v-if="moblieFlg()" @LastPageChange="LastPageChange"/>
           </v-window-item>
 
           <v-window-item value="four">
-            <announce-list-table v-if="!moblieFlg()"/>
-            <announce-list-table-sp v-if="moblieFlg()"/>
+            <announce-list-table v-if="!moblieFlg()" @LastPageChange="LastPageChange"/>
+            <announce-list-table-sp v-if="moblieFlg()" @LastPageChange="LastPageChange"/>
           </v-window-item>
         </v-window>
       </v-card-text>
     </v-card>
+
+    <div class="pagenation_btn" :class="{'disable_page': !pager_flg}">
+      <button
+        class="mx-2 px-3 py-2"
+        type="button"
+        @click="pageToFirst"
+        :disabled="firstpage_flg"
+        :class="{'disable_btn': firstpage_flg,'white-btn': firstpage_flg == false}"
+      >
+        <v-icon>mdi-chevron-double-left</v-icon>
+      </button>
+
+      <button
+        class="mx-2 px-3 py-2"
+        type="button"
+        @click="pageToPrev"
+        :disabled="firstpage_flg"
+        :class="{'disable_btn': firstpage_flg,'white-btn': firstpage_flg == false}"
+      >
+        <v-icon>mdi-chevron-left</v-icon>
+      </button>
+
+      <input
+        class="pagenation"
+        type="number"
+        aria-label="Search"
+        min="1"
+        :max="LastPage"
+        hide-details="false"
+        Style="text-align:right"
+        v-model="page"
+        @change="PageNoChange"
+      /> 　/　 {{ LastPage }}
+
+      <button
+        v-if="reset"
+        class="mx-2 px-3 py-2"
+        type="button"
+        @click="pageToNext"
+        :disabled="lastpage_flg"
+        :class="{'disable_btn': lastpage_flg,'white-btn': lastpage_flg == false}"
+      >
+         <v-icon>mdi-chevron-right</v-icon>
+      </button>
+
+      <button
+        v-if="reset"
+        class="mx-2 px-3 py-2"
+        type="button"
+        @click="pageToLast"
+        :disabled="lastpage_flg"
+        :class="{'disable_btn': lastpage_flg,'white-btn': lastpage_flg == false}"
+      >
+    <v-icon>mdi-chevron-double-right</v-icon>
+    </button>
+  </div>
+
+  
   </v-container>
 
   <!-- 検索モーダル -->
@@ -241,6 +301,12 @@ export default {
       categoriesmodel: null,
       usermodel: null,
       releasemodel: null,
+      page: 1,
+      firstpage_flg: true,
+      lastpage_flg: false,
+      pager_flg: true,
+      LastPage: null,
+      reset: true,
     };
   },
   computed:{
@@ -402,6 +468,7 @@ export default {
       }
       //公開/非公開検索
       this.$store.dispatch("announce/setDisplaySearchRelease", this.release_id);
+      this.$store.dispatch("announce/setDisplayPage", 1);
     },
 
     //検索条件リセット
@@ -425,7 +492,81 @@ export default {
 
     //表示件数変更
     RowPageChange(){
+      this.page = 1;
+      if(this.totalcount - this.perRowPage <= 0){
+        this.lastpage_flg = true;
+      }else{
+        this.lastpage_flg = false;
+      }
+      this.firstpage_flg = true;
       this.$store.dispatch("announce/setDisplayLimit", this.perRowPage);
+      this.$store.dispatch("announce/setDisplayPage", this.page);
+    },
+    LastPageChange(value1,value2){
+      this.pager_flg = true;
+      this.page = 1
+      this.firstpage_flg = true
+      this.LastPage = value1;
+      this.totalcount = value2;
+      if(this.LastPage == 1){
+        this.lastpage_flg = true
+        this.reset = false;
+        this.$nextTick(() => (this.reset = true));
+      }else if(this.LastPage == 0){
+        this.page = 0;
+        this.lastpage_flg = true;
+        this.pager_flg = false;
+        this.reset = false;
+        this.$nextTick(() => (this.reset = true));
+      }else{
+        this.lastpage_flg = false
+      }
+    },
+    pageToFirst(){
+      this.page = 1;
+      this.lastpage_flg = false;
+      this.firstpage_flg = true;
+      this.$store.dispatch("announce/setDisplayPage", this.page);
+    },
+    pageToPrev(){
+      this.page = this.page - 1;
+      this.lastpage_flg = false;
+      if(this.page == 1){
+        this.firstpage_flg = true;
+      }
+      this.$store.dispatch("announce/setDisplayPage", this.page);
+    },
+    pageToNext(){
+      this.page = this.page + 1;
+      this.firstpage_flg = false;
+      if(this.page == this.LastPage){
+        this.lastpage_flg = true;
+      }
+      this.$store.dispatch("announce/setDisplayPage", this.page);
+    },
+    pageToLast(){
+      this.page = this.LastPage;
+      this.firstpage_flg = false;
+      this.lastpage_flg = true;
+      this.$store.dispatch("announce/setDisplayPage", this.page);
+    },
+    PageNoChange(){
+      if(this.page == 1){
+        if(this.LastPage != 1){
+          this.firstpage_flg = true
+          this.lastpage_flg = false
+        }else{
+          this.firstpage_flg = true
+          this.lastpage_flg = true
+        }
+      }else if(this.page == this.LastPage){
+        this.firstpage_flg = false
+        this.lastpage_flg = true
+      }else{
+        this.firstpage_flg = false
+        this.lastpage_flg = false
+      }
+      this.$store.dispatch("announce/setDisplayPage", this.page);
     },
 
     format(date) {
@@ -546,6 +687,64 @@ export default {
 
   .dp__input{
     height: 55px;
+  }
+
+.white-btn {
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: unset;
+    border: none !important;
+    font-weight: 600;
+    letter-spacing: 1.3px;
+  }
+
+  .white-btn .v-btn__content{
+      color:#69A5AF !important;
+  }
+
+  .white-btn {
+      color:#69A5AF !important;
+  }
+
+  .white-btn:hover{
+      box-shadow: unset !important;
+      background-color: #fff !important;
+      color:#69A5AF !important;
+      transform: translate(0, 3px);
+      transition: 0.3s;
+  }
+
+  .disable_btn{
+      border-radius: 5px;
+      background-color: transparent;
+      color: rgb(172, 171, 171);
+      border: solid 0.5px rgb(172, 171, 171);
+  }
+
+  .disable-btn:hover{
+      background-color: transparent !important;
+      color:rgb(172, 171, 171) !important;
+      border: solid 0.5px rgb(172, 171, 171);
+      transform: none !important;
+  }
+
+  .pagenation{
+    background-color: white;
+    border: solid 1px black;
+    width: 30px;
+    border-radius: 5px;
+    border: none !important;
+  }
+
+  .pagenation_btn{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 7px;
+  }
+  
+  .disable_page{
+    display: none;
   }
 
 </style>

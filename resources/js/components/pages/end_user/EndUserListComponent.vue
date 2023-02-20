@@ -216,7 +216,7 @@ export default {
         this.reset = false;
         this.$nextTick(() => (this.reset = true));
       }else{
-        this.lastpage_flg == false
+        this.lastpage_flg = false
       }
     },
     pageToFirst(){

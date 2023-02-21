@@ -27,26 +27,10 @@
           </button>
         </router-link>
       </div>
-      <v-col align="right" class="mr-2 displaycount">
-        <input
-          class="LimitCount"
-          type="number"
-          Style="text-align:right"
-          aria-label="Search"
-          maxlength="2"
-          min="1"
-          hide-details="false"
-          v-model="perRowPage"
-          @change = "RowPageChange"
-        />件表示
-      </v-col>
     </v-card-title>
 
     <v-row v-if="!moblieFlg()">
       <v-col class="sort-flex px-0" col="6">
-        <div class="text-gray">
-          全 {{  $store.state.announce.totalCount }} 件
-        </div>
 
         <DatePicker
           class="filter-btn datepicker"
@@ -153,6 +137,84 @@
         </div>
         </v-card-title>
     </v-row>
+
+    <div class="bottom_header" v-if="!moblieFlg()">
+      <div class="text-gray">
+            全 {{  $store.state.announce.totalCount }} 件
+      </div>
+
+    <div class="pagenation_btn">
+      <input
+        class="LimitCount"
+        type="number"
+        Style="text-align:right"
+        aria-label="Search"
+        maxlength="2"
+        min="1"
+        hide-details="false"
+        v-model="perRowPage"
+        @change = "RowPageChange"
+      />件表示
+
+      <button
+        class="mx-2 px-3 py-2"
+        type="button"
+        @click="pageToFirst"
+        :disabled="firstpage_flg"
+        :class="{'disable_btn': firstpage_flg,'white-btn': firstpage_flg == false,'disable_page': !pager_flg}"
+      >
+        <v-icon>mdi-chevron-double-left</v-icon>
+      </button>
+
+      <button
+        class="mx-2 px-3 py-2"
+        type="button"
+        @click="pageToPrev"
+        :disabled="firstpage_flg"
+        :class="{'disable_btn': firstpage_flg,'white-btn': firstpage_flg == false,'disable_page': !pager_flg}"
+      >
+        <v-icon>mdi-chevron-left</v-icon>
+      </button>
+
+      <input
+        class="pagenation"
+        type="number"
+        aria-label="Search"
+        min="1"
+        :max="LastPage"
+        hide-details="false"
+        Style="text-align:right"
+        v-model="page"
+        @change="PageNoChange"
+        :class="{'disable_page': !pager_flg}"
+      /> 
+      <div :class="{'disable_page': !pager_flg}">
+      　/　 {{ LastPage }}
+      </div>
+
+      <button
+        v-if="reset"
+        class="mx-2 px-3 py-2"
+        type="button"
+        @click="pageToNext"
+        :disabled="lastpage_flg"
+        :class="{'disable_btn': lastpage_flg,'white-btn': lastpage_flg == false,'disable_page': !pager_flg}"
+      >
+        <v-icon>mdi-chevron-right</v-icon>
+      </button>
+
+      <button
+        v-if="reset"
+        class="mx-2 px-3 py-2"
+        type="button"
+        @click="pageToLast"
+        :disabled="lastpage_flg"
+        :class="{'disable_btn': lastpage_flg,'white-btn': lastpage_flg == false,'disable_page': !pager_flg}"
+      >
+        <v-icon>mdi-chevron-double-right</v-icon>
+      </button>
+    </div>
+    </div>
 
     <!-- テーブル -->
     <v-card class="mt-5">
@@ -648,9 +710,7 @@ export default {
     color: #707070;
   }
 
-  .pc_btn{
-    display: flex;
-  }
+  
 
   .sp_btn{
     align-items: flex-end;
@@ -746,5 +806,10 @@ export default {
   .disable_page{
     display: none;
   }
-
+  
+  .bottom_header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 </style>

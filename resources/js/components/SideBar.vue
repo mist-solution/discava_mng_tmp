@@ -140,7 +140,7 @@
     ></v-btn>
 
     <div class="userID" v-if="!rail">
-      {{ username }}
+      {{ username }}でログイン中
     </div>
     </v-navigation-drawer>
   </div>
@@ -277,11 +277,6 @@ export default {
 
 .conpanyname-font {
   font-size: 1.1rem;
-}
-
-.userID{
-  display: flex;
-  justify-content: center;
 }
 
 </style>

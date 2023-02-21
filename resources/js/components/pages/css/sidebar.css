@@ -127,6 +127,13 @@
     bottom: 8px;
 }
 
+.userID{
+    position: fixed;
+    left: 50px;
+    bottom: 8px;
+}
+
+
 /* サイドバー店舗名ドロップダウン */
 /* ボタン内テキスト中央寄せ */
 .v-select__selection {

@@ -9,7 +9,7 @@
     name = "アカウント一覧"
   />
   <!-- タブ部分 -->
-  <v-row class="pt-5 align-center justify-start mx-1">
+  <v-row class="pt-5 align-center justify-start mx-1 tab">
 
     <!-- 追加するボタン -->
     <router-link v-bind:to="{ name: 'enduser.register' }" class="mt-2" v-if="approval_auth_flg">
@@ -20,7 +20,29 @@
     </router-link>
   </v-row>
 
-  <v-row>
+  <div class="upper">
+  <v-row class="upper2">
+    <!-- 一括操作-実行ボタン -->
+    <v-col
+      class="d-flex align-center"
+      sm="4"
+      cols="10"
+      align="center"
+      v-if="approval_auth_flg"
+    >
+<!--
+      <input type="checkbox" class="mr-5">
+-->
+      <v-select
+          dense
+          :items="items"
+          label="一括操作"
+          solo
+      ></v-select>
+      <v-btn class="green-btn_noTransform mx-2">
+        実行
+      </v-btn>
+    </v-col>
     <!-- searchフォーム -->
     <v-col
       sm="4"
@@ -38,28 +60,6 @@
         />
         <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
       </form>
-    </v-col>
-
-    <!-- 一括操作-実行ボタン -->
-    <v-col
-      class="d-flex align-center"
-      sm="5"
-      cols="10"
-      align="center"
-      v-if="approval_auth_flg"
-    >
-<!--
-      <input type="checkbox" class="mr-5">
--->
-      <v-select
-          dense
-          :items="items"
-          label="一括操作"
-          solo
-      ></v-select>
-      <v-btn class="green-btn_noTransform mx-2">
-        実行
-      </v-btn>
     </v-col>
 
     <!-- 件数表示 pc-->
@@ -96,6 +96,63 @@
       />件/ {{ totalcount }} 件
     </v-col>
   </v-row>
+
+  <div class="pagenation_btn" v-if="!moblieFlg()">
+    <button
+      class="mx-2 px-3 py-2"
+      type="button"
+      @click="pageToFirst"
+      :disabled="firstpage_flg"
+      :class="{'disable_btn': firstpage_flg,'white-btn': firstpage_flg == false}"
+    >
+    <v-icon>mdi-chevron-double-left</v-icon>
+    </button>
+
+    <button
+      class="mx-2 px-3 py-2"
+      type="button"
+      @click="pageToPrev"
+      :disabled="firstpage_flg"
+      :class="{'disable_btn': firstpage_flg,'white-btn': firstpage_flg == false}"
+    >
+      <v-icon>mdi-chevron-left</v-icon>
+    </button>
+
+    <input
+      class="pagenation"
+      type="number"
+      aria-label="Search"
+      min="1"
+      :max="LastPage"
+      hide-details="false"
+      Style="text-align:right"
+      v-model="page"
+      @change="PageNoChange"
+    /> 　/　 {{ LastPage }}
+
+    <button
+      v-if="reset"
+      class="mx-2 px-3 py-2"
+      type="button"
+      @click="pageToNext"
+      :disabled="lastpage_flg"
+      :class="{'disable_btn': lastpage_flg,'white-btn': lastpage_flg == false}"
+    >
+    <v-icon>mdi-chevron-right</v-icon>
+    </button>
+
+    <button
+      v-if="reset"
+      class="mx-2 px-3 py-2"
+      type="button"
+      @click="pageToLast"
+      :disabled="lastpage_flg"
+      :class="{'disable_btn': lastpage_flg,'white-btn': lastpage_flg == false}"
+    >
+    <v-icon>mdi-chevron-double-right</v-icon>
+    </button>
+  </div>
+  </div>
 
   <!-- アカウント一覧 -->
   <v-card class="ac-list main-cont">
@@ -351,6 +408,21 @@ export default {
   font-size:14px;
   right: 10px;
 }
+
+.tab{
+  padding-bottom: 30px;
+}
+
+.upper{
+  display: flex;
+}
+
+.upper2{
+  display: flex;
+  align-items: center;
+}
+
+
 
   /* 追加するボタン */
   .green-btn_tuika {

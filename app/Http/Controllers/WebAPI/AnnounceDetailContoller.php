@@ -8,10 +8,13 @@ use App\Models\AnnounceAttachment;
 use App\Models\Shop;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Storage;
 
 class AnnounceDetailContoller extends Controller
 {
+    // protected $fakeToken = 'X-DiscavaMATE-API-Token';
+    // protected $fakeShopId = 1;
     /**
      * Create a new controller instance.
      *
@@ -33,6 +36,9 @@ class AnnounceDetailContoller extends Controller
         $shopId = null;
         $announceId = null;
         $response = array();
+
+        // $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
+        // $shopId = $request->input('shop_id') ?? $this->fakeShopId;
 
         // ヘッダーのX-DiscavaMATE-API-Tokenを取得
         $token = $request->header('X-DiscavaMATE-API-Token');
@@ -94,6 +100,7 @@ class AnnounceDetailContoller extends Controller
         $announce['thumbnail_img_path'] = $value->thumbnail_img_path;
         $announce['thumbnail_img_filename'] = $value->thumbnail_img_filename;
         $announce['contents'] = $value->contents;
+        $announce['add_account'] = User::find($value->add_account)->name;
 
         // 対象のお知らせに添付されている画像を取得する
         $records = AnnounceAttachment::where('announce_id', $announceId)

@@ -34,7 +34,7 @@ class AnnounceListController extends Controller
         $token = null;
         $shopId = null;
         $response = array();
-        $limit = $request->limit == null ? 5 : $request->limit;
+        $limit = $request->limit == null ? 10 : $request->limit;
         $page = $request->page == null ? 1 : $request->page;
         $categoryID = $request->categoryID == null ? 0 : $request->categoryID;
         $sortBy = $request->sortBy == null ? 'start_date' : $request->sortBy;

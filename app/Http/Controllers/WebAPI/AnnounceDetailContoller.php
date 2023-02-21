@@ -72,7 +72,7 @@ class AnnounceDetailContoller extends Controller
             ->where('approval_status', '2')
             ->where('del_flg', '0')
             ->where('start_date', '<=', date('Y-m-d H:i:s'))
-            ->where('end_date', '>=', date('Y-m-d H:i:s'))
+            // ->where('end_date', '>=', date('Y-m-d H:i:s'))
             ->orderBy('start_date', 'desc')
             ->orderBy('id', 'desc')
             ->first();

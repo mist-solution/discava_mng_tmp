@@ -13,7 +13,7 @@
 <script>
   export default {
     data: () => ({
-      timeout: 2000,
+      timeout: 1500,
     }),
   };
 </script>

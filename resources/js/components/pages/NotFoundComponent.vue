@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="error_message">
     <v-card-title class="ml-2" width="80%">
       <h3 class="h4">ページが存在しません。</h3>
       <div class="col-md-8">
@@ -12,3 +12,14 @@
     </v-card-title>
   </v-card>
 </template>
+
+<style src="../pages/css/common.css"></style>
+<style src="../pages/css/sidebar.css"></style>
+<style src="../pages/css/dropdown.css"></style>
+
+<style scoped>
+.error_message{
+  position: relative;
+  top: 25px;
+}
+</style>

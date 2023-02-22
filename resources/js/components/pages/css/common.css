@@ -169,10 +169,10 @@ a {
     font-weight: 600;
     letter-spacing: 1.3px;
 }
-.white-btn:hover {
+/*.white-btn:hover {
     transform: translate(0, 3px);
     transition: 0.3s;
-}
+}*/
 
 /* 赤いボタン */
 .sendback-btn{

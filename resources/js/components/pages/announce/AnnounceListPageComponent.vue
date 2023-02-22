@@ -205,7 +205,7 @@
 
       <button
         v-if="reset"
-        class="mx-2 px-3 py-2"
+        class="rightbutton mx-2 px-3 py-2"
         type="button"
         @click="pageToLast"
         :disabled="lastpage_flg"
@@ -289,7 +289,7 @@
 
       <button
         v-if="reset"
-        class="mx-2 px-3 py-2"
+        class="rightbutton mx-2 px-3 py-2"
         type="button"
         @click="pageToLast"
         :disabled="lastpage_flg"
@@ -766,13 +766,6 @@ export default {
       color:#69A5AF !important;
   }
 
-  .white-btn:hover{
-      box-shadow: unset !important;
-      background-color: #fff !important;
-      color:#69A5AF !important;
-      transform: translate(0, 3px);
-      transition: 0.3s;
-  }
 
   .disable_btn{
       border-radius: 5px;
@@ -791,7 +784,8 @@ export default {
   .pagenation{
     background-color: white;
     border: solid 1px black;
-    width: 30px;
+    width: 50px;
+    height: 40px;
     border-radius: 5px;
     border: none !important;
   }
@@ -811,5 +805,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .rightbutton{
+    margin-right: 0px !important;
   }
 </style>

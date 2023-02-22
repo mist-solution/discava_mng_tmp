@@ -222,6 +222,12 @@ export default {
   },
 }
 </script>
+
+<!-- 共通CSS -->
+<style src="../css/common.css"></style>
+<style src="../css/sidebar.css"></style>
+<style src="../css/dropdown.css"></style>
+
 <style scoped>
 
 @media (min-width: 600px){

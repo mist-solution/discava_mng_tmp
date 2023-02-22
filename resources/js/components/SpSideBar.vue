@@ -151,6 +151,7 @@ export default {
         });
     },
     reset(){
+      this.$store.dispatch("announce/setDisplayAnnounceStatus", null);
       this.$store.dispatch("announce/setDisplaySearchAddDateBegin", null);
       this.$store.dispatch("announce/setDisplaySearchAddDateEnd", null);
       this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", null);

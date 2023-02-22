@@ -132,16 +132,19 @@
       </v-list>
     </div>
 
-    <v-btn
-      class="rail_toggle"
-      variant="text"
-      icon="mdi-arrow-collapse"
-      @click.stop="rail = !rail"
-    ></v-btn>
+    <div class="sidebar_bottom">
+      <v-btn
+        class="rail_toggle"
+        variant="text"
+        icon="mdi-arrow-collapse"
+        @click.stop="rail = !rail"
+      ></v-btn>
 
-    <div class="userID" v-if="!rail">
-      {{ username }}でログイン中
+      <div class="userID" v-if="!rail">
+        {{ username }}でログイン中
+      </div>
     </div>
+
     </v-navigation-drawer>
   </div>
 </template>
@@ -213,6 +216,7 @@ export default {
         });
     },
     reset(){
+      this.$store.dispatch("announce/setDisplayAnnounceStatus", null);
       this.$store.dispatch("announce/setDisplaySearchAddDateBegin", null);
       this.$store.dispatch("announce/setDisplaySearchAddDateEnd", null);
       this.$store.dispatch("announce/setDisplaySearchUpdDateBegin", null);
@@ -220,7 +224,7 @@ export default {
       this.$store.dispatch("announce/setDisplaySearchCategory", null);
       this.$store.dispatch("announce/setDisplayAnnounceAddAccount", null);
       this.$store.dispatch("announce/setDisplaySearchRelease", null);
-    }
+    },
   },
   computed: {
     ...mapGetters("shopUser", ["shopUsers"]),

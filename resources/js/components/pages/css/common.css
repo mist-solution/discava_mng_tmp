@@ -516,7 +516,10 @@ text-align: center;
 .filter-btn > div >div > .dp__input{
     height: 55px;
     border: none;
-  }
+    border-radius: 5px;
+    background-color: transparent;
+    color: rgb(172, 171, 171);
+}
 
   .filter-btnsp > div >div > .dp__input{
     height: 55px;

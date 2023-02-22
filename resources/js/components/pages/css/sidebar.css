@@ -120,7 +120,7 @@
     width: 65px !important;
 }
 
-/* メニューテキスト */
+/* メニューテキスト 
 .rail_toggle{
     position: fixed;
     left: 9px;
@@ -131,8 +131,14 @@
     position: fixed;
     left: 50px;
     bottom: 8px;
+}*/
+.sidebar_bottom{
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 30px;
+    left: 9px;
 }
-
 
 /* サイドバー店舗名ドロップダウン */
 /* ボタン内テキスト中央寄せ */

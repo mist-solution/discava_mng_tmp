@@ -963,16 +963,16 @@ export default {
     allCheckOprErr(){
       // 承認か削除かを未選択の場合。
       if(this.operate_id == null){
-        var errMsg = ["一括操作は必ず選択してください。"];
+        var errMsg = ["操作内容を選択してください。"];
         this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
       
       // お知らせ未選択の場合 。
       }else if(this.selected.length == 0){
         if(this.operate_id == '1'){
-          var errMsg = ["一括承認する対象は必ず選択してください。"];
+          var errMsg = ["承認対象の記事を選択してください。"];
           this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
         }else if(this.operate_id == '2'){
-          var errMsg = ["一括削除する対象は必ず選択してください。"];
+          var errMsg = ["削除対象の記事を選択してください。"];
           this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
         }
       }

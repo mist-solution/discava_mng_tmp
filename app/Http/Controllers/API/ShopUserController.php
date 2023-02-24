@@ -17,10 +17,12 @@ class ShopUserController extends Controller
         // $shopId = $request->session()->get('shop_id');
         $response = array();
 
-        $shopUsers = ShopUser::with('shop')
-            ->where('user_id', Auth::id())
-            ->where('del_flg', '0')
-            ->orderBy('shop_id')
+        $shopUsers = ShopUser::leftJoin('shops', function($join) {
+                $join->on('shops.id', '=', 'shop_users.shop_id');
+            })->where('shop_users.user_id', '=', Auth::id())
+            ->where('shops.del_flg', '=', '0')
+            ->where('shop_users.del_flg', '=', '0')
+            ->orderBy('shop_users.shop_id')
             ->get();
 
         $shopUserArray = array();

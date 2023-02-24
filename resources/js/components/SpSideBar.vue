@@ -193,7 +193,7 @@ export default {
     this.shopSelection = shopselect;
     if(this.shopSelection.shop_name.length > 9){
       if(this.moblieFlg()){
-        this.shopSelection.shop_name = this.shopSelection.shop_name.silce(0,8) + "..."
+        this.shopSelection.shop_name = this.shopSelection.shop_name.slice(0,8) + "..."
       }
     }
   },

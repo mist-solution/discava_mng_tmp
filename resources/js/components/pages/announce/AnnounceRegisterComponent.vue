@@ -195,7 +195,7 @@
         <!-- 操作エリア -->
         <v-row mb="2" justify="space-around" class="p-1 btn-gap mt-4">
           <v-col cols="11" class="pt-0 px-0">
-            <button class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">
+            <button type="button" class="pr-0 pl-0 btn white-btn" @click="(displayAnnouncePreview = true),getQuillEditorContent(),getAnnounceDate()">
               プレビュー
             </button>
           </v-col>
@@ -369,6 +369,7 @@ export default {
                 console.error(error);
               } else {
                 this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+                this.scrollTop()
               }
             });
           }else if (registFlg == 2){
@@ -428,6 +429,7 @@ export default {
                 console.error(error);
               } else {
                 this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+                this.scrollTop()
               }
             });
           }
@@ -518,6 +520,12 @@ export default {
         if (event.target.classList && event.target.classList.contains("file-upload")) {
             event.target.style.backgroundColor = ''
         }
+    },
+    scrollTop(){
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     },
   },
   computed: {

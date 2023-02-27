@@ -2,9 +2,10 @@
 <template>
   <div>
     <div class="edit-title mt-5">
-      <h3 class="my-5 font-weight-bold">投稿記事編集</h3>
+      <h3 class="h4 my-5 text-gray font-weight-bold">投稿記事編集</h3>
       <!-- エラーメッセージ -->
     <validation-errors :errors="validationErrors" v-if="validationErrors"/>
+    <div v-if="announce.approval_status === 3">差戻しコメント：{{ announce.remand_comment }}</div>
     </div>
     <v-form ref="form" v-model="valid" class="art-flex">
       <v-card class="main-cont p-3">

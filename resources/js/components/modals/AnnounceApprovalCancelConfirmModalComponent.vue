@@ -10,14 +10,14 @@
           押下してください。
         </v-card-text>
         <!-- 取り下げコメント -->
-        <v-textarea
+        <!-- <v-textarea
           outlined
           v-model="returnComment"
           name="returnComment"
           label="取り下げコメント"
           class="mx-md-4 mb-4"
         >
-        </v-textarea>
+        </v-textarea> -->
         <!-- 操作 -->
         <v-card-actions class="justify-center">
           <!-- 閉じるボタン -->

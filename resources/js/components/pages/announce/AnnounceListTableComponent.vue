@@ -887,7 +887,7 @@ export default {
           this.closeAction();
           this.getAnnounceList();
           this.nullPageCheck();
-        }, 1000);
+        }, 800);
       });
     },
 
@@ -917,10 +917,10 @@ export default {
 
     //プレビュー画面に必要な情報をセット
     setPreviewInfo(start_date,end_date,contents,title){
-      if(this.start_date != null){
+      if(start_date != null){
         this.start_date = start_date.slice(0,-3)
       }
-      if(this.end_date != null){
+      if(end_date != null){
         this.end_date = end_date.slice(0,-3)
       }
       this.contents = contents

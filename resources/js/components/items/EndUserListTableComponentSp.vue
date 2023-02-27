@@ -61,11 +61,11 @@
         <v-row class="accordion_icons" v-if="approval_auth_flg">
           <div>
             <router-link :to="{ name: 'enduser.update', params: { userId: item.id } }">
-              <v-icon class="green-icon">mdi-square-edit-outline</v-icon>
+              <v-icon class="green-icon edit-icon">mdi-square-edit-outline</v-icon>
             </router-link>
           </div>
           <div>
-            <v-icon class="green-icon"
+            <v-icon class="green-icon trash-icon"
               @click.stop="(displayAccountDeleteConfirm = true), setDeleteAccountId(item.id)"
             >
               mdi-trash-can
@@ -207,9 +207,6 @@
       let authority = await this.fetchAllAuthority();
       if(authority){
         this.approval_auth_flg = authority.approval_auth_flg;
-        if(!this.approval_auth_flg){
-          this.headers[3].text = "";
-        }
       }
       let a = this.$refs.dataTable.clientItemsLength;
       this.PageLastIndex = this.$refs.dataTable.maxPaginationNumber;
@@ -281,4 +278,15 @@
 .expand-icon{
   color: #69A5AF !important;
 }
+
+.edit-icon{
+  transform: scale(1.4);
+  position: relative;
+  right: 10px;
+}
+
+.trash-icon{
+  transform: scale(1.4);
+}
+
 </style>

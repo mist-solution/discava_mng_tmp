@@ -136,6 +136,16 @@
                         </v-list-item-title>
                       </v-list-item>
                       <v-list-item>
+                        <v-list-item-title v-if="update_auth_flg && item.approval_status === 3">
+                          <div 
+                            @click="(displayAnnounceRemandComment = true),
+                            setRemandComment(item.remand_comment)"
+                              role="button">
+                            差戻しコメント
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
                         <v-list-item-title>
                           <div 
                             @click="(displayAnnouncePreview = true),
@@ -273,6 +283,14 @@
     :flg=false
   />
 
+  <!-- 差戻しコメント画面モーダル -->
+  <announce-remand-comment-modal-component
+    :modelValue="displayAnnounceRemandComment"
+    @update:modelValue="displayAnnounceRemandComment = $event"
+    :closeAction="closeRemandComment"
+    :remand_comment="remand_comment"
+  />
+
   <!-- <v-row class="mt-3">
     <announce-list-table-pagination />
   </v-row> -->
@@ -289,6 +307,7 @@ import AnnounceApprovalConfirmModalComponent from "../../modals/AnnounceApproval
 import AnnounceApprovalReturnConfirmModalComponent from "../../modals/AnnounceApprovalReturnConfirmModalComponent.vue";
 import AnnounceApprovalRequestConfirmModalComponent from "../../modals/AnnounceApprovalRequestConfirmModalComponent.vue"
 import AnnounceApprovalCancelConfirmModalComponent from "../../modals/AnnounceApprovalCancelConfirmModalComponent.vue"
+import AnnounceRemandCommentModalComponent from "../../modals/AnnounceRemandCommentModalComponent.vue"
 import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
 import moment from 'moment';
 
@@ -301,6 +320,7 @@ export default {
     AnnounceApprovalReturnConfirmModalComponent,
     AnnounceApprovalRequestConfirmModalComponent,
     AnnounceApprovalCancelConfirmModalComponent,
+    AnnounceRemandCommentModalComponent,
     AnnouncePreviewModalComponent
 
   },
@@ -331,6 +351,7 @@ export default {
       displayAnnounceCancelConfirm: false,
       displayAnnounceDeleteConfirm: false,
       displayAnnouncePreview: false,
+      displayAnnounceRemandComment: false,
       approvalStatus: "",
       approvalStatusArray: [
         { value: "0", status: "下書き" },
@@ -351,6 +372,7 @@ export default {
       end_date: null,
       contents: null,
       title: null,
+      remand_comment: null,
       username: null,
       searchField: "title",
       searchText: "",
@@ -502,6 +524,9 @@ export default {
     },
     closePreview(){
       this.displayAnnouncePreview = false;
+    },
+    closeRemandComment(){
+      this.displayAnnounceRemandComment = false;
     },
     
     getAnnounceList() {
@@ -727,6 +752,15 @@ export default {
       }
       this.contents = contents
       this.title = title
+    },
+
+    //差戻しコメント画面に必要な情報をセット
+    setRemandComment(remand_comment){
+      if(remand_comment != null){
+        this.remand_comment = remand_comment
+      }else{
+        this.remand_comment = "無し"
+      }
     },
 
     getClientItemsLength(){

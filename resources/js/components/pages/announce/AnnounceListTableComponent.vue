@@ -212,8 +212,8 @@
                     </div>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
-                  <v-list-item-title v-if="update_auth_flg && item.approval_status === 3">
+                <v-list-item v-if="update_auth_flg && item.approval_status === 3">
+                  <v-list-item-title>
                     <div 
                       @click="(displayAnnounceRemandComment = true),
                       setRemandComment(item.remand_comment)"

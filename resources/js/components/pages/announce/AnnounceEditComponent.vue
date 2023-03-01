@@ -186,8 +186,15 @@
           </v-col>
           <v-col cols="9" sm="12" class="pt-3 pt-sm-2">
             <div class="samb-box">
-              <div v-if="!dataUrl">
+              <div v-if="!dataUrl && !announce.thumbnail_img_path">
                 <label for="image" class="samb-none"></label>
+                <input type="file" id="image" accept="image/*" @change="readImage">
+              </div>
+              <div v-if="!dataUrl && announce.thumbnail_img_path">
+                <div id="image-preview">
+                    <img :src=" '../../' + announce.thumbnail_img_path" v-if="announce.thumbnail_img_path">
+                </div>
+                <label for="image" class="samb-on"></label>
                 <input type="file" id="image" accept="image/*" @change="readImage">
               </div>
               <div v-else>
@@ -452,16 +459,15 @@ export default {
                 start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
                 end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
                 contents: encodeURIComponent(this.announce.contents),
-                thumbnail_file_name: this.file ? this.file.name : null,
+                thumbnail_img_path: this.file ? this.file.name : null,
               }
 
-              console.log(item.start_date);
-              console.log(item.end_date);
               formData.append("announce", JSON.stringify(item));
 
               if (this.file) {
                 formData.append("thumbnail_file", this.file);
               }
+
 
               for (let i = 0; i < this.insertAttachments.length; i++) {
                 formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
@@ -505,13 +511,15 @@ export default {
                 start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
                 end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
                 contents: encodeURIComponent(this.announce.contents),
-                thumbnail_file_name: this.file ? this.file.name : null,
+                thumbnail_img_path: this.file ? this.file.name : null,
               }
               formData.append("announce", JSON.stringify(item));
 
               if (this.file) {
                 formData.append("thumbnail_file", this.file);
               }
+
+              console.log(this.file)
 
               for (let i = 0; i < this.insertAttachments.length; i++) {
                 formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);

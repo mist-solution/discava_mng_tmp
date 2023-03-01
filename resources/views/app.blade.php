@@ -12,6 +12,8 @@
 
     <!-- Styles -->
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
+    <!-- favicon -->
+    <link rel="icon" href="{{ url('/images/discavamate.ico') }}">
 </head>
 
 <body>

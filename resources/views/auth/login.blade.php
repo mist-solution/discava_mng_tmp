@@ -106,7 +106,7 @@
             if (emailRegxp.test(email) != true) {
                 var errorMessage = 'メールアドレスには、有効なメールアドレスを入力してください。';
                 errorContainer.innerHTML = '<div class="discavaMate_errorMsg">' + errorMessage + '</div>';
-                document.getElementById('email').focus();
+                // document.getElementById('email').focus();
                 // document.getElementById('email').select();
             } else {
                 errorContainer.innerHTML = '';

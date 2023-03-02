@@ -310,6 +310,7 @@ label {
   position: fixed;
   left: 15px;
   color: #707070;
+  font-size: 17px;
 }
 
 .sp_sidebar .v-tab{

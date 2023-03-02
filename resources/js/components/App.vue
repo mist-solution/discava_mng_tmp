@@ -25,6 +25,7 @@ import SideBar from "./SideBar.vue";
 import SpSideBar from "./SpSideBar.vue";
 import HeaderComponent from "./HeaderComponent.vue";
 import Snackbar from "./Snackbar.vue";
+import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   components: {
     SideBar,
@@ -32,6 +33,45 @@ export default {
     Snackbar,
     SpSideBar
   },
+  watch: {
+    '$route'(to, from) {
+      if(from.path != to.path){
+        console.log('Route changed from', from.path, 'to', to.path);
+        this.getRequest();
+      }
+    }
+  },
+  methods: {
+    ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
+    getRequest(){
+      axios.get("/api/checkToken/")
+      .then((res) => {})
+      .catch(error => {
+        if (error.response.status == 401) {
+          this.openSuccess('セッションが無効です。 再度ログインを行ってください。');
+          window.location.href = "/login"
+        }
+      });
+    },
+
+    getAxiosRes(){
+      axios.interceptors.response.use(
+      response => {
+        return response;
+      },
+      error => {
+        if (error.response.status == 401) {
+          this.openSuccess('セッションが無効です。 再度ログインを行ってください。');
+          window.location.href = "/login"
+        }
+        return Promise.reject(error);
+        },    
+      );
+    }
+  },
+  mounted() {
+    this.getAxiosRes();
+  }
 };
 </script>
 

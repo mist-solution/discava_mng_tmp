@@ -37,6 +37,12 @@ use App\Http\Controllers\WebAPI\AnnounceCategoryListController;
 //Route::put('/api/tasks/{task}', 'TaskController@update');
 //Route::delete('/api/tasks/{task}', 'TaskController@destroy');
 
+// トークンチェック
+Route::get('/api/checkToken', function (Illuminate\Http\Request $request) {
+    $request->session()->regenerateToken();
+    return response()->json();
+});
+
 Route::put('/api/changeshop', [SelectShopController::class, 'changeShopId']);
 
 Route::get('/api/shopusers', [ShopUserController::class, 'getLoginUserShopList']);

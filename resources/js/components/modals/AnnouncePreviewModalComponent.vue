@@ -39,14 +39,11 @@
                 </div>
                 <div class="preview_userInfo">
                     <div class="preview_username sp_disable">
-                    {{ username }}
+                    カテゴリー：
                     </div>
-                    <v-img
-                        src="/images/user-icon/kkrn_icon_user_11.png"
-                        height="23"
-                        width="23"
-                        contain>
-                    </v-img>
+                    <div class="preview_username">
+                        {{category}}
+                    </div>
                 </div>
             </v-card-header>
             <v-card-text>
@@ -64,7 +61,7 @@
 <script>
     
     export default {
-    props: ["display","closeAction","contents","start_date","end_date","title","username","flg"],
+    props: ["display","closeAction","contents","start_date","end_date","title","category","flg"],
     data() {
         return {
             open_flg: false,

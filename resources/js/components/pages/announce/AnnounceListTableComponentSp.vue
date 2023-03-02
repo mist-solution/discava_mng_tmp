@@ -149,7 +149,7 @@
                         <v-list-item-title>
                           <div 
                             @click="(displayAnnouncePreview = true),
-                            setPreviewInfo(item.start_date,item.end_date,item.contents,item.title)" role="button">
+                            setPreviewInfo(item.start_date,item.end_date,item.contents,item.title,item.announce_categories.category_name)" role="button">
                             プレビュー
                           </div>
                         </v-list-item-title>
@@ -279,7 +279,7 @@
     :start_date="start_date"
     :end_date="end_date"
     :title="title"
-    :username="username"
+    :category="category"
     :flg=false
   />
 
@@ -372,6 +372,7 @@ export default {
       end_date: null,
       contents: null,
       title: null,
+      category: null,
       remand_comment: null,
       username: null,
       searchField: "title",
@@ -743,7 +744,7 @@ export default {
     },
 
     //プレビュー画面に必要な情報をセット
-    setPreviewInfo(start_date,end_date,contents,title){
+    setPreviewInfo(start_date,end_date,contents,title,category){
       if(start_date != null){
         this.start_date = start_date.slice(0,-3)
       }
@@ -752,6 +753,7 @@ export default {
       }
       this.contents = contents
       this.title = title
+      this.category = category
     },
 
     //差戻しコメント画面に必要な情報をセット

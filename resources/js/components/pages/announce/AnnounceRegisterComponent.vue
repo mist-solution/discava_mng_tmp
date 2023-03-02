@@ -228,7 +228,7 @@
     :contents="contents"
     :start_date="announce.start_date"
     :end_date="announce.end_date"
-    :username="username"
+    :category="category"
   />
 </template>
 
@@ -275,6 +275,7 @@ export default {
           { text: '', value: 'action', align: 'right', class: 'action', sortable: false },
       ],
       isRequired: false,
+      category: null,
     };
   },
   methods: {
@@ -328,7 +329,6 @@ export default {
               };
               formData.append("announce", JSON.stringify(item));
 
-              console.log(this.file)
               if (this.file) {
                 formData.append("thumbnail_file", this.file);
               }
@@ -336,7 +336,6 @@ export default {
               for (let i = 0; i < this.attachments.length; i++) {
                 formData.append('attachments[' + i + ']', this.attachments[i]);
               }
-              console.log(formData)
 
               const config = {
                 headers: {
@@ -388,7 +387,6 @@ export default {
               };
               formData.append("announce", JSON.stringify(item));
 
-              console.log(this.file)
               if (this.file) {
                 formData.append("thumbnail_file", this.file);
               }
@@ -396,8 +394,6 @@ export default {
               for (let i = 0; i < this.attachments.length; i++) {
                 formData.append('attachments[' + i + ']', this.attachments[i]);
               }
-              console.log(formData)
-
               const config = {
                 headers: {
                   "Content-type": "multipart/form-data",
@@ -461,7 +457,11 @@ export default {
       const end = moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm") : null;
       this.announce.start_date = start;
       this.announce.end_date = end;
-      this.username = this.username;
+      if(this.announce.announce_category_id){
+        this.category = this.categories[this.announce.announce_category_id - 1].category_name
+      }else{
+        this.category = null
+      }
     },
 
     // click() {

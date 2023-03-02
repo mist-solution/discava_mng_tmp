@@ -340,6 +340,7 @@
 
   <!-- プレビュー画面モーダル -->
   <announce-preview-modal-component
+    v-if="categories[announce.announce_category_id - 1]"
     :modelValue="displayAnnouncePreview"
     @update:modelValue="displayAnnouncePreview = $event"
     :closeAction="closePreview"
@@ -347,7 +348,7 @@
     :start_date="announce.start_date"
     :end_date="announce.end_date"
     :title="announce.title"
-    :username="username"
+    :category="categories[announce.announce_category_id - 1].category_name"
     :flg=true
   />
 

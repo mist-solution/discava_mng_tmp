@@ -344,6 +344,7 @@ a {
     }
     .time-pick div:not(:first-child) {
         max-width: unset;
+        text-align: center;
     }
     .Date-time .v-field__input{
         font-size: 1rem !important;

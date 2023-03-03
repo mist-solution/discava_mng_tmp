@@ -106,7 +106,7 @@
       <!-- 検索ボタン（spのみ） -->
       <v-col>
         <div class="btn-group ml-auto" @click="(displayAnnounceFilter = true)">
-          <button class="btn filterbtn-sp mr-2 px-4 justify-center">
+          <button class="green-btn filterbtn-sp mr-2 px-4 justify-center">
             <v-icon color="black" x-small class="pb-1">mdi-magnify</v-icon>
           </button>
         </div>
@@ -129,7 +129,7 @@
         <v-card-title class="ml-0 pl-0" width="60%">
         <div class="btn-group ml-auto" v-if="create_auth_flg">
           <router-link v-bind:to="{ name: 'announce.register' }" class="mt-2">
-            <button class="btn green-btn_toukou mr-2 px-4 justify-center">
+            <button class="btn green-btn_toukou px-4 justify-center">
               <v-icon color="white" x-small class="pb-1">mdi-pencil</v-icon>
               投稿
             </button>
@@ -699,7 +699,13 @@ export default {
 
   .filterbtn-sp{
     color: white;
-    border: solid 1px black;
+    border: solid 1px #69a4af;
+    padding: .3rem 0 ;
+    margin-top: 1rem;
+  }
+
+  .mdi-magnify::before{
+    color: white;
   }
 
   .LimitCount{

@@ -160,3 +160,9 @@
 .v-list-item__prepend{
     padding-left: 7px !important;
 }
+
+.logout_button{
+    color: white;
+    padding-left: 0.4rem;
+    font-weight: bold;
+}

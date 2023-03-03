@@ -73,7 +73,7 @@
           <template v-slot:append-item>
             <v-list-item @click="logout" class="whiteline">
               <v-list-content>
-                <v-list-title style="color: white;">
+                <v-list-title class="logout_button">
                   ログアウト
                 </v-list-title>
               </v-list-content>
@@ -93,7 +93,7 @@
           <template v-slot:append-item>
             <v-list-item @click="logout" class="whiteline">
               <v-list-content>
-                <v-list-title style="color: white;">
+                <v-list-title class="logout_button">
                   ログアウト
                 </v-list-title>
               </v-list-content>

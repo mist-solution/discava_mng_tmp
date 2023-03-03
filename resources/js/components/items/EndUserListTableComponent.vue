@@ -114,7 +114,7 @@
         menuDeleteAnnounce: [],
         select: [],
         themeColor: "#69A5AF",
-        searchField: "name",
+        searchField:['email','name'],
         approval_auth_flg: null,
         rowsPerPage: 10,
         reset: true,
@@ -143,6 +143,16 @@
         this.page = this.$store.state.enduser.displayPage;
         this.$refs.dataTable.updatePage(this.page);
       },
+      searchValue(){
+        setTimeout(() => {
+          this.rowsPerPage = this.$store.state.enduser.displayLimit;
+          let a = this.$refs.dataTable.clientItemsLength;
+          this.PageLastIndex = Math.ceil(a/this.rowsPerPage)
+          this.$emit("LastPageChange",this.PageLastIndex,a)
+          this.reset = false;
+          this.$nextTick(() => (this.reset = true));
+        }, 300);
+      }
       
     },
     methods: {

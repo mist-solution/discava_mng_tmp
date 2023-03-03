@@ -57,6 +57,7 @@
           maxlength="30"
           hide-details="false"
           v-model="searchText"
+          Style="text-align:center"
         />
         <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
       </form>
@@ -97,7 +98,7 @@
     </v-col>
   </v-row>
 
-  <div class="pagenation_btn" v-if="!moblieFlg()">
+  <div class="pagenation_btn" v-if="!moblieFlg()" :class="{'disable_page': !pager_flg}">
     <button
       class="mx-2 px-3 py-2"
       type="button"
@@ -163,11 +164,12 @@
     />
     <end-user-list-table-sp
       v-if="moblieFlg()"
+      :searchValue="searchText"
       @LastPageChange="LastPageChange"
     />
   </v-card>
 
-  <div class="pagenation_btn">
+  <div class="pagenation_btn" :class="{'disable_page': !pager_flg}">
     <button
       class="mx-2 px-3 py-2"
       type="button"
@@ -250,6 +252,7 @@ export default {
       firstpage_flg: true,
       lastpage_flg: false,
       reset: true,
+      pager_flg: true,
     }
   },
   methods: {
@@ -266,10 +269,19 @@ export default {
       this.$store.dispatch("enduser/setDisplayPage", this.page);
     },
     LastPageChange(value1,value2){
+      this.pager_flg = true;
+      this.page = 1
+      this.firstpage_flg = true
       this.LastPage = value1;
       this.totalcount = value2;
       if(this.LastPage == 1){
         this.lastpage_flg = true
+        this.reset = false;
+        this.$nextTick(() => (this.reset = true));
+      }else if(this.LastPage == 0){
+        this.page = 0;
+        this.lastpage_flg = true;
+        this.pager_flg = false;
         this.reset = false;
         this.$nextTick(() => (this.reset = true));
       }else{
@@ -526,6 +538,10 @@ export default {
 
   .v-menu .v-overlay__content > .v-list{
     background-color: #7B7B7B;
+  }
+
+  .disable_page{
+    visibility: hidden;
   }
 
   @media (max-width: 900px){

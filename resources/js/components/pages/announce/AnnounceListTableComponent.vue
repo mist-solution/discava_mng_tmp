@@ -78,7 +78,7 @@
               solo
               bg-color="white"
               @update:modelValue="operateidChange"
-              class="w-100 my-2 action-select"
+              class="w-100 my-2 action-select manychoice"
             ></v-select>
             <button
               class="green-btn_noTransform mx-2 px-3 py-2"
@@ -1296,15 +1296,10 @@ export default {
   width: auto;
 }
 
-@media(max-width:1289.9px){
+@media(max-width:1380px){
   .thumbnail-image {
-    height: 3rem;
+    height: 2rem;
     width: auto;
-  }
-
-  .detaTable-header_preview > button{
-   position: relative;
-   right: 25px;
   }
 
   .category_on{
@@ -1312,13 +1307,21 @@ export default {
   }
 }
 
-@media(min-width:1290px){
-  .category_off{
-    display: none;
+@media(max-width:1279.9px){
+
+  .detaTable-header_preview > button{
+   display: none;
   }
 }
 
-@media(max-width:1067.9px){
+@media(min-width:1379.9px){
+  .category_off{
+    display: none;
+  }
+
+}
+
+/* @media(max-width:1067.9px){
 
   .detaTable-header_preview > button{
    display: none;
@@ -1329,7 +1332,7 @@ export default {
     width: auto;
   }
 
-}
+} */
 
 
 .detaTable-header_title {

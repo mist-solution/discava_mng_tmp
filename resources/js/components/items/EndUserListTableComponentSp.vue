@@ -27,34 +27,34 @@
     <template #expand="item">
       <div style="padding: 15px">
         <v-row>
-          <v-col>
+          <v-col cols="2">
             ID
           </v-col>
-          <v-col>
+          <v-col cols="10">
             {{item.name}}
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="2">
             メール
           </v-col>
-          <v-col>
+          <v-col cols="10">
             {{item.email}}
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="2">
             登録日
           </v-col>
-          <v-col>
+          <v-col cols="10">
             {{item.created_at.slice(0,4)}}/{{item.created_at.slice(5,7)}}/{{item.created_at.slice(8,10)}}
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="2">
             更新日
           </v-col>
-          <v-col>
+          <v-col cols="10">
             {{item.updated_at.slice(0,4)}}/{{item.updated_at.slice(5,7)}}/{{item.updated_at.slice(8,10)}}
           </v-col>
         </v-row>

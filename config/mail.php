@@ -90,10 +90,12 @@ return [
     | used globally for all e-mails that are sent by your application.
     |
     */
+    $customAddress = "info@discava.net",
+    $customName = "DISCaVa MATE",
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => isset($customAddress) ? $customAddress : env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'name' => isset($customName) ? $customName : env('MAIL_FROM_NAME', 'Example'),
     ],
 
     /*

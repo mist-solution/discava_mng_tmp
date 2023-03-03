@@ -932,13 +932,15 @@ export default {
 
     timestampFormat(timestamp) {
       const date = new Date(timestamp);
-      return (
-        date.getFullYear().toString() +
-        "-" +
-        (date.getMonth() + 1).toString().padStart(2, "0") +
-        "-" +
-        date.getDate().toString().padStart(2, "0")
-      );
+      const dayjs = inject("dayjs");
+        return dayjs(timestamp).format("YYYY/MM/DD HH:mm:ss");
+      // return (
+      //   date.getFullYear().toString() +
+      //   "-" +
+      //   (date.getMonth() + 1).toString().padStart(2, "0") +
+      //   "-" +
+      //   date.getDate().toString().padStart(2, "0")
+      // );
     },
 
     //プレビュー画面に必要な情報をセット

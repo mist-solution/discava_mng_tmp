@@ -478,7 +478,7 @@ import { mapActions, mapState } from "vuex";
 
 import AnnounceListTablePagination from "./AnnounceListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
-import { mergeProps } from "vue";
+import {inject, mergeProps } from "vue";
 import AnnounceDeleteConfirmModalComponent from "../../modals/AnnounceDeleteConfirmModalComponent.vue";
 import AnnounceApprovalConfirmModalComponent from "../../modals/AnnounceApprovalConfirmModalComponent.vue";
 import AnnounceApprovalReturnConfirmModalComponent from "../../modals/AnnounceApprovalReturnConfirmModalComponent.vue";

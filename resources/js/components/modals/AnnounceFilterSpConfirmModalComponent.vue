@@ -2,7 +2,7 @@
     <v-dialog v-show="display" persistent>
       <v-card class="p-3">
         <DatePicker
-          class="filter-btnsp datepicker"
+          class="filter-btnsp datepicker mb-2"
           v-model="createdmodel"
           placeholder="投稿月"
           :format="format"
@@ -13,7 +13,7 @@
         />
 
         <DatePicker
-          class="filter-btnsp datepicker"
+          class="filter-btnsp datepicker mb-2"
           v-model="updatedmodel"
           placeholder="更新月"
           :format="format"
@@ -33,11 +33,12 @@
         label="カテゴリー"
         hide-details="false"
         @update:modelValue="categoriesChange"
+        class="mb-2"
       />
 
       <input
         dense
-        class="filter-btn user_search"
+        class="filter-btn user_search mb-2"
         placeholder="　投稿者名"
         type="search"
         hide-details="false"
@@ -53,6 +54,7 @@
         item-title="text"
         item-value="id"
         @update:modelValue="releaseChange"
+        class="mb-2"
       />
         <!-- 操作 -->
         <v-card-actions class="justify-center">
@@ -231,7 +233,9 @@
   }
 
   ::placeholder {
-	text-align: left;
+    text-align: left;
+    color: #767676;
+    font-size: 16px;
   }
 
   </style>

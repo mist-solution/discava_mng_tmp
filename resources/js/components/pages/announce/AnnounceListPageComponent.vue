@@ -738,6 +738,7 @@ export default {
 }
 
 .user_search{
+  font-size: 16px !important;
   height: 55px;
 }
 

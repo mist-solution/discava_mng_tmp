@@ -684,11 +684,6 @@ export default {
       }else{
         this.isRequired = false;
       }
-      // 公開期間判断
-      var now = moment();
-      let start = moment(announce.start_date)
-      let end = moment(announce.end_date)
-      let inPublish = now.isBetween(start, end)
 
       // 検証項目
       const validateItem = {
@@ -700,10 +695,16 @@ export default {
         thumbnail_file_name: this.file ? this.file.name : null,
       };
 
+      // 公開期間判断
+      var now = moment();
+      let start = validateItem.start_date
+      let end = validateItem.end_date
+      let inPublish = now.isBetween(start, end)
+
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if(inPublish){
-          if(this.announce.approval_status != 2) {
+        if(this.announce.approval_status != 2) {
+          if(inPublish){
             axios.post('/api/announce/registValidation', validateItem )
             .then(response => {
               // バリデーションがOKの場合
@@ -768,13 +769,13 @@ export default {
             });
             console.log("invalid!");
             return;
-          } 
-        } else {
-          var errMsg = ["このお知らせは公開期間を過ぎているため、承認できません。"];
-          this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
-          console.log("Not in Publish!");
-          return;
-        }
+          } else {
+            var errMsg = ["このお知らせは公開期間外のため、承認できません。"];
+            this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
+            console.log("Not in Publish!");
+            return;
+          }
+        } 
       });
     },
     // 差戻し処理

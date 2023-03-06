@@ -30,7 +30,7 @@ class SessionTimeout
         log::info($remainingLifetime);
         if ($remainingLifetime <= 0) {
             Auth::logout();
-            // $request->session()->flush();
+            $request->session()->flush();
             return response()->json(['message' => 'Invalid or expired token'], 401);
         }
         return $next($request);

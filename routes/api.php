@@ -42,66 +42,67 @@ Route::get('/api/checkToken', function (Illuminate\Http\Request $request) {
     $request->session()->regenerateToken();
     return response()->json();
 });
+Route::middleware(['sessionTimeout'])->group(function () {
 
-Route::put('/api/changeshop', [SelectShopController::class, 'changeShopId']);
+    Route::put('/api/changeshop', [SelectShopController::class, 'changeShopId']);
 
-Route::get('/api/shopusers', [ShopUserController::class, 'getLoginUserShopList']);
-Route::get('/api/shopselect', [ShopUserController::class, 'getLoginUserShopSelect']);
-Route::get('/api/shoplist/{id}', [ShopUserController::class, 'getShopListWithAuthoritySet']);
-Route::get('/api/shops', [ShopController::class, 'getShopList']);
-Route::get('/api/shopusers/{id}', [ShopController::class, 'getShopUserList']);
+    Route::get('/api/shopusers', [ShopUserController::class, 'getLoginUserShopList']);
+    Route::get('/api/shopselect', [ShopUserController::class, 'getLoginUserShopSelect']);
+    Route::get('/api/shoplist/{id}', [ShopUserController::class, 'getShopListWithAuthoritySet']);
+    Route::get('/api/shops', [ShopController::class, 'getShopList']);
+    Route::get('/api/shopusers/{id}', [ShopController::class, 'getShopUserList']);
+    Route::get('/api/customer', [CustomerController::class, 'index']);
+    Route::get('/api/customerSession', [CustomerController::class, 'getCompanyBySession']);
 
-Route::get('/api/customer', [CustomerController::class, 'index']);
-Route::get('/api/customerSession', [CustomerController::class, 'getCompanyBySession']);
+    Route::get('/api/enduser', [UserController::class, 'index']);
+    Route::get('/api/enduser/{id}', [UserController::class, 'showUser']);
+    Route::post('/api/enduser', [UserController::class, 'register']);
+    Route::put('/api/enduser/{id}', [UserController::class, 'update']);
+    Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
+    Route::delete('/api/enduser/{id}', [UserController::class, 'deleteAccount']);
+    // アカウント新規登録のバリデーションAPI
+    Route::post('/api/enduser/registValidation', [UserController::class, 'registStore']);
+    // アカウント編集のバリデーションAPI
+    Route::post('/api/enduser/updateValidation', [UserController::class, 'updateStore']);
 
-Route::get('/api/enduser', [UserController::class, 'index']);
-Route::get('/api/enduser/{id}', [UserController::class, 'showUser']);
-Route::post('/api/enduser', [UserController::class, 'register']);
-Route::put('/api/enduser/{id}', [UserController::class, 'update']);
-Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
-Route::delete('/api/enduser/{id}', [UserController::class, 'deleteAccount']);
-// アカウント新規登録のバリデーションAPI
-Route::post('/api/enduser/registValidation', [UserController::class, 'registStore']);
-// アカウント編集のバリデーションAPI
-Route::post('/api/enduser/updateValidation', [UserController::class, 'updateStore']);
+    Route::get('/api/loginuserinfo', [UserController::class, 'getUserInfo']);
 
-Route::get('/api/loginuserinfo', [UserController::class, 'getUserInfo']);
+    Route::get('/api/authoritySet', [AuthoritySetController::class, 'getAll']);
 
-Route::get('/api/authoritySet', [AuthoritySetController::class, 'getAll']);
+    Route::get('/api/authority', [AuthorityController::class, 'getAuthority']);
 
-Route::get('/api/authority', [AuthorityController::class, 'getAuthority']);
+    //------------------------------------------------
+    // お知らせ関連
+    //------------------------------------------------
+    // 一覧取得
+    Route::get('/api/announce', [AnnounceController::class, 'getAnnounce']);
+    // 詳細取得
+    Route::get('/api/announce/{id}', [AnnounceController::class, 'showAnnounce']);
+    // 一括承認
+    Route::put('/api/announce/{announce}', [AnnounceController::class, 'approvalAllAnnounce']);
+    // 承認する
+    Route::post('/api/announce/{announce}/approval', [AnnounceController::class, 'approvalAnnounce']);
+    // 差戻し
+    Route::put('/api/announce/{announce}/return', [AnnounceController::class, 'approvalAnnounceReturn']);
+    // 削除
+    Route::delete('/api/announce/{announce}', [AnnounceController::class, 'deleteAnnounce']);
+    // 新規登録
+    Route::post('/api/announce/regist', [AnnounceController::class, 'register']);
+    // 編集
+    Route::post('/api/announce/{id}/update', [AnnounceController::class, 'update']);
+    // 申請
+    Route::put('/api/announce/{announce}/request', [AnnounceController::class, 'request']);
+    // 取り下げる
+    Route::put('/api/announce/{announce}/cansel', [AnnounceController::class, 'cansel']);
+    Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
 
-//------------------------------------------------
-// お知らせ関連
-//------------------------------------------------
-// 一覧取得
-Route::get('/api/announce', [AnnounceController::class, 'getAnnounce']);
-// 詳細取得
-Route::get('/api/announce/{id}', [AnnounceController::class, 'showAnnounce']);
-// 一括承認
-Route::put('/api/announce/{announce}', [AnnounceController::class, 'approvalAllAnnounce']);
-// 承認する
-Route::post('/api/announce/{announce}/approval', [AnnounceController::class, 'approvalAnnounce']);
-// 差戻し
-Route::put('/api/announce/{announce}/return', [AnnounceController::class, 'approvalAnnounceReturn']);
-// 削除
-Route::delete('/api/announce/{announce}', [AnnounceController::class, 'deleteAnnounce']);
-// 新規登録
-Route::post('/api/announce/regist', [AnnounceController::class, 'register']);
-// 編集
-Route::post('/api/announce/{id}/update', [AnnounceController::class, 'update']);
-// 申請
-Route::put('/api/announce/{announce}/request', [AnnounceController::class, 'request']);
-// 取り下げる
-Route::put('/api/announce/{announce}/cansel', [AnnounceController::class, 'cansel']);
-Route::get('/api/announceCategory', [AnnounceCategoryController::class, 'index']);
+    Route::get('/api/oldestAnnounce', [AnnounceController::class, 'oldestAnnounce']);
 
-Route::get('/api/oldestAnnounce', [AnnounceController::class, 'oldestAnnounce']);
-
-// お知らせ新規登録のバリデーションAPI
-Route::post('/api/announce/registValidation', [AnnounceController::class, 'registStore']);
-// お知らせ新規編集のバリデーションAPI
-Route::post('/api/announce/tempValidation', [AnnounceController::class, 'tempStore']);
+    // お知らせ新規登録のバリデーションAPI
+    Route::post('/api/announce/registValidation', [AnnounceController::class, 'registStore']);
+    // お知らせ新規編集のバリデーションAPI
+    Route::post('/api/announce/tempValidation', [AnnounceController::class, 'tempStore']);
+});
 
 
 //------------------------------------------------

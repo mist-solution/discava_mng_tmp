@@ -44,10 +44,10 @@
       </v-btn>
     </v-col>
     <!-- searchフォーム -->
-    <v-col
+    <div
       sm="4"
       cols="6"
-      class="d-flex justify-sm-end justify-start"
+      class="justify-sm-end justify-start"
     >
       <form class="searchform-list">
         <input
@@ -57,11 +57,32 @@
           maxlength="30"
           hide-details="false"
           v-model="searchText"
-          Style="text-align:center"
+          Style="text-align:left"
+          placeholder="ユーザ名/メールアドレスで検索"
         />
         <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
       </form>
-    </v-col>
+    </div>
+
+    <!-- <div 
+      sm="4"
+      cols="6"
+      class="justify-sm-end justify-start"
+    >
+      <form class="searchform-list">
+        <input
+          class="searchform search-box"
+          type="search"
+          aria-label="Search"
+          maxlength="30"
+          hide-details="false"
+          v-model="searchText"
+          Style="text-align:left"
+          placeholder="ユーザ名/メールアドレスで検索"
+        />
+        <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
+      </form>
+    </div> -->
 
     <!-- 件数表示 pc-->
     <v-col v-if="!moblieFlg()">
@@ -400,25 +421,28 @@ export default {
 .searchform-list > .search-box {
   padding: 10px 30px 10px 8px;
   border-radius: 8px;
-  width: 180px;
+  width: 16vw;
 }
 
 @media (max-width: 599.99px){
 .searchform-list > .search-box{
-    width: 150px;
+    width: 55vw;
+    font-size: 12px;
+    margin-bottom: .7rem;
+    margin-left: .7rem;
   }
 }
 
 
 .searchform-list > .serch-btn {
   height:50px;
-  position:absolute;
-  top:-2px;
+  /* position:absolute; */
+  /* top:-2px; */
   background:none;
   color:#666;
   border:none;
   font-size:14px;
-  right: 10px;
+  /* right: -40px; */
 }
 
 .tab{

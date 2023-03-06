@@ -145,7 +145,7 @@
                           </div>
                         </v-list-item-title>
                       </v-list-item>
-                      <v-list-item>
+                      <v-list-item disabled>
                         <v-list-item-title>
                           <div 
                             @click="(displayAnnouncePreview = true),

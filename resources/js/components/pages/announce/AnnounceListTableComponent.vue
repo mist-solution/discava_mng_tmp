@@ -154,9 +154,10 @@
                   @click="(displayAnnouncePreview = true),
                   setPreviewInfo(item.start_date,item.end_date,item.contents,item.title,item.announce_categories.category_name)"
                   type="button"
+                  disabled
                 >
-                  <v-icon color="#69A5AF" large>mdi-eye</v-icon>
-                  <p class="mb-0">プレビュー</p>
+                  <v-icon color="grey" large>mdi-eye</v-icon>
+                  <p class="mb-0" style="color:grey">プレビュー</p>
                 </button>
               </v-col>
             </v-row>
@@ -222,7 +223,7 @@
                     </div>
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item disabled>
                   <v-list-item-title>
                     <div 
                       @click="(displayAnnouncePreview = true),

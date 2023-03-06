@@ -205,6 +205,21 @@
           <v-col cols="11" class="pt-0 px-0">
             <button class="btn green-btn" @click.prevent="submit(1)">登録する</button>
           </v-col>
+          <v-col
+            cols="11"
+            class="pt-0 px-0"
+            >
+            <router-link
+              v-bind:to="{ name: 'announce.list' }"
+            >
+              <button
+                class="pr-0 pl-0 btn white-btn"
+                type="button"
+              >
+                一覧画面に戻る
+              </button>
+            </router-link>
+          </v-col>
         </v-row>
       </v-card>
     </v-form>

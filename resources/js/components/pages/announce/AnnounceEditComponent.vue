@@ -267,6 +267,21 @@
                 取り下げる
             </button>
           </v-col>
+          <v-col
+            cols="11"
+            class="pt-sm-3 pt-0 pr-0 pl-0 pb-5"
+            >
+            <router-link
+              v-bind:to="{ name: 'announce.list' }"
+            >
+              <button
+                class="pr-0 pl-0 btn white-btn"
+                type="button"
+              >
+                一覧画面に戻る
+              </button>
+            </router-link>
+          </v-col>
         </v-row>
 
         <!-- ユーザに承認権限がある場合かつ、承認ステータス 0:下書き以外の場合 -->

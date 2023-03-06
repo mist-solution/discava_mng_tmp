@@ -20,6 +20,7 @@ class ShopUserController extends Controller
         $shopUsers = ShopUser::leftJoin('shops', function($join) {
                 $join->on('shops.id', '=', 'shop_users.shop_id');
             })->where('shop_users.user_id', '=', Auth::id())
+            ->where('shops.customer_id', '=' , Auth::user()->customer_id)
             ->where('shops.del_flg', '=', '0')
             ->where('shop_users.del_flg', '=', '0')
             ->orderBy('shop_users.shop_id')

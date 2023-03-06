@@ -64,26 +64,6 @@
       </form>
     </div>
 
-    <!-- <div 
-      sm="4"
-      cols="6"
-      class="justify-sm-end justify-start"
-    >
-      <form class="searchform-list">
-        <input
-          class="searchform search-box"
-          type="search"
-          aria-label="Search"
-          maxlength="30"
-          hide-details="false"
-          v-model="searchText"
-          Style="text-align:left"
-          placeholder="ユーザ名/メールアドレスで検索"
-        />
-        <button type="button" class="serch-btn"><v-icon>mdi-magnify</v-icon></button>
-      </form>
-    </div> -->
-
     <!-- 件数表示 pc-->
     <v-col v-if="!moblieFlg()">
       全 {{ totalcount }} 件

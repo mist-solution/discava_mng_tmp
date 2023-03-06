@@ -684,6 +684,12 @@ export default {
       }else{
         this.isRequired = false;
       }
+      // 公開期間判断
+      var now = moment();
+      let start = moment(announce.start_date)
+      let end = moment(announce.end_date)
+      let inPublish = now.isBetween(start, end)
+
       // 検証項目
       const validateItem = {
         title: this.announce.title,
@@ -696,72 +702,79 @@ export default {
 
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
-        if(this.announce.approval_status != 2) {
-          axios.post('/api/announce/registValidation', validateItem )
-          .then(response => {
-            // バリデーションがOKの場合
-            // お知らせ記事を更新する
-            let formData = new FormData();
-            const item = {
-              title: encodeURIComponent(this.announce.title),
-              announce_category_id: this.announce.announce_category_id,
-              start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
-              end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
-              contents: encodeURIComponent(this.announce.contents),
-              thumbnail_img_path: this.file ? this.file.name : null,
-            }
+        if(inPublish){
+          if(this.announce.approval_status != 2) {
+            axios.post('/api/announce/registValidation', validateItem )
+            .then(response => {
+              // バリデーションがOKの場合
+              // お知らせ記事を更新する
+              let formData = new FormData();
+              const item = {
+                title: encodeURIComponent(this.announce.title),
+                announce_category_id: this.announce.announce_category_id,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
+                contents: encodeURIComponent(this.announce.contents),
+                thumbnail_img_path: this.file ? this.file.name : null,
+              }
 
-            formData.append("announce", JSON.stringify(item));
+              formData.append("announce", JSON.stringify(item));
 
-            if (this.file) {
-              formData.append("thumbnail_file", this.file);
-            }
+              if (this.file) {
+                formData.append("thumbnail_file", this.file);
+              }
 
 
-            for (let i = 0; i < this.insertAttachments.length; i++) {
-              formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
-            }
+              for (let i = 0; i < this.insertAttachments.length; i++) {
+                formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
+              }
 
-            for (let i = 0; i < this.deleteAttachments.length; i++) {
-              formData.append('deleteAttachments[' + i + ']', JSON.stringify(this.deleteAttachments[i]));
-            }
+              for (let i = 0; i < this.deleteAttachments.length; i++) {
+                formData.append('deleteAttachments[' + i + ']', JSON.stringify(this.deleteAttachments[i]));
+              }
 
-            // Larabel は multipart/form-data を put で処理できないため post
-            axios.post('/api/announce/' + this.announce.id + '/update',
-              formData,
-              { headers: { "Content-type": "multipart/form-data", }}
-            ).then(response => {
-              this.openSuccess('更新しました');
-              // お知らせ一覧画面に遷移
-              this.$router.push({ name: 'announce.list' })
+              // Larabel は multipart/form-data を put で処理できないため post
+              axios.post('/api/announce/' + this.announce.id + '/update',
+                formData,
+                { headers: { "Content-type": "multipart/form-data", }}
+              ).then(response => {
+                this.openSuccess('更新しました');
+                // お知らせ一覧画面に遷移
+                this.$router.push({ name: 'announce.list' })
 
-              // バリデーションのメッセージを初期化する
-              this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+                // バリデーションのメッセージを初期化する
+                this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+              })
+              .catch(error => {
+                console.log(error);
+              });
+              // お知らせ承認する
+              axios.post("/api/announce/" + announce + "/approval")
+              .then((res) => {
+                this.openSuccess('承認しました');
+                // スナックバーの表示時間が経ってから実行
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+              }); 
             })
             .catch(error => {
-              console.log(error);
+              if (error.response.status !== 422) {
+                console.error(error);
+              } else {
+                this.scrollTop()
+                this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+              }
             });
-            // お知らせ承認する
-            axios.post("/api/announce/" + announce + "/approval")
-            .then((res) => {
-              this.openSuccess('承認しました');
-              // スナックバーの表示時間が経ってから実行
-              setTimeout(() => {
-                window.location.reload();
-              }, 1000);
-            }); 
-          })
-          .catch(error => {
-            if (error.response.status !== 422) {
-              console.error(error);
-            } else {
-              this.scrollTop()
-              this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
-            }
-          });
-        } 
-        console.log("invalid!");
-        return;
+            console.log("invalid!");
+            return;
+          } 
+        } else {
+          var errMsg = ["このお知らせは公開期間を過ぎているため、承認できません。"];
+          this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
+          console.log("Not in Publish!");
+          return;
+        }
       });
     },
     // 差戻し処理
@@ -879,8 +892,6 @@ export default {
     if(authority){
       this.approval_auth_flg = authority.approval_auth_flg;
       this.request_auth_flg = authority.request_auth_flg;
-      console.log("this.request_auth_flg")
-      console.log(this.request_auth_flg)
       this.update_auth_flg = authority.update_auth_flg;
     }
     let name = await this.getUserInfo();

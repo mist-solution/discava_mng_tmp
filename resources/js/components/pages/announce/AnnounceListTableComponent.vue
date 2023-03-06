@@ -933,7 +933,7 @@ export default {
     timestampFormat(timestamp) {
       const date = new Date(timestamp);
       const dayjs = inject("dayjs");
-        return dayjs(timestamp).format("YYYY/MM/DD HH:mm:ss");
+        return dayjs(timestamp).format("YYYY/MM/DD");
       // return (
       //   date.getFullYear().toString() +
       //   "-" +

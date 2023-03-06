@@ -47,7 +47,7 @@ class AnnounceListController extends Controller
         $token = $request->header('X-DiscavaMATE-API-Token');
         if (is_null($token)) {
             return response()->json([
-                'message' => 'Internal Server Error'
+                'message' => 'Internal Server Error(token)'
             ], 500);
         }
 
@@ -62,7 +62,7 @@ class AnnounceListController extends Controller
         }
         if (is_null($shopId)) {
             return response()->json([
-                'message' => 'Internal Server Error'
+                'message' => 'Internal Server Error(shopId)'
             ], 500);
         }
 

@@ -154,9 +154,6 @@ class AnnounceController extends Controller
         $thumbnail = null;
         if (array_key_exists('thumbnail_file', $data)) {
             $thumbnail = $data['thumbnail_file'];
-            //$regist['thumbnail_img_path'] = urldecode($announce['thumbnail_img_path']);
-            //$thumbnail =$request->thumbnail_file;
-            //$thumbnailPath = $thumbnail->storeAs('public/thumbnails', 'announce-thumbnails-'. $request->input('name').'.png');
             Log::info('サムネイル');
             Log::info(print_r($thumbnail, true));
         }
@@ -192,9 +189,9 @@ class AnnounceController extends Controller
 
         if ($thumbnail) {
             Log::info('サムネイル アップロード');
-            $path = Storage::disk('public')->putFile('announce/' . $regist['id'] . "/thumbnail", $thumbnail);
+            $path = Storage::putFile('announce/' . $regist['shop_id'] . "/" . $regist['id'] . "/thumbnail", $thumbnail);
             Log::info($path);
-            $regist['thumbnail_img_path'] = 'storage/' . $path;
+            $regist['thumbnail_img_path'] = $path;
             $regist->save();
         }
 
@@ -250,30 +247,14 @@ class AnnounceController extends Controller
         Log::info('削除ファイル');
         Log::info(print_r($deleteAttachments, true));
 
-        if ($thumbnail) {
-            Log::info('サムネイル アップロード');
-            $path = Storage::disk('public')->putFile('announce/' . $id . "/thumbnail", $thumbnail);
-            Log::info($path);
-            $update = [
-                'title' => urldecode($announce['title']),
-                'announce_category_id' => $announce['announce_category_id'],
-                'start_date' => $announce['start_date'],
-                'end_date' => $announce['end_date'],
-                'contents' => urldecode($announce['contents']),
-                'thumbnail_img_path' => 'storage/' .$path,
-                'upd_account' => Auth::user()->id,
-            ];
-        }else{
-            $update = [
-                'title' => urldecode($announce['title']),
-                'announce_category_id' => $announce['announce_category_id'],
-                'start_date' => $announce['start_date'],
-                'end_date' => $announce['end_date'],
-                'contents' => urldecode($announce['contents']),
-                'upd_account' => Auth::user()->id,
-            ];
-        }
-
+        $update = [
+            'title' => urldecode($announce['title']),
+            'announce_category_id' => $announce['announce_category_id'],
+            'start_date' => $announce['start_date'],
+            'end_date' => $announce['end_date'],
+            'contents' => urldecode($announce['contents']),
+            'upd_account' => Auth::user()->id,
+        ];
         $model = Announce::find($id);
         $model->update($update);
 

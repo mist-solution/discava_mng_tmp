@@ -269,7 +269,7 @@ export default {
       this.$store.dispatch("enduser/setDisplayLimit", this.perRowPage);
       this.$store.dispatch("enduser/setDisplayPage", this.page);
     },
-    LastPageChange(value1,value2){
+    async LastPageChange(value1,value2){
       this.pager_flg = true;
       this.page = 1
       this.firstpage_flg = true

@@ -223,6 +223,7 @@
       let a = this.$refs.dataTable.clientItemsLength;
       this.PageLastIndex = this.$refs.dataTable.maxPaginationNumber;
       this.$emit("LastPageChange",this.PageLastIndex,a)
+      console.log("Lastpage:" + this.PageLastIndex)
     },
   };
   </script>

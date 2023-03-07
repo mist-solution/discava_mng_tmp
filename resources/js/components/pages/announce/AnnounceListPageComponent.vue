@@ -30,7 +30,7 @@
     </v-card-title>
 
     <v-row v-if="!moblieFlg()">
-      <v-col class="sort-flex px-0" col="6">
+      <v-col class="sort-flex px-0 over1100" col="6">
 
         <DatePicker
           class="filter-btn datepicker"
@@ -69,7 +69,7 @@
         />
       </v-col>
 
-      <v-col class="sort-flex px-0" col="6">
+      <v-col class="sort-flex px-0 over1100" col="6">
         <input
           dense
           class="filter-btn user_search"
@@ -100,6 +100,15 @@
           リセット
         </button>
       </v-col>
+
+      <v-col class="under1100">
+        <div class="btn-group ml-auto" @click="(displayAnnounceFilter = true)">
+          <button class="green-btn filterbtn-sp mr-2 px-4 justify-center">
+            <v-icon color="black" x-small class="pb-1">mdi-magnify</v-icon>
+          </button>
+        </div>
+      </v-col>
+
     </v-row>
 
     <v-row v-if="moblieFlg()" class="sp_btn">
@@ -816,5 +825,29 @@ export default {
 
   .rightbutton{
     margin-right: 0px !important;
+  }
+
+  @media(max-width:1380px){
+    .user_search {
+      width: 35%
+    }
+  }
+
+  @media(max-width:1279.9px){
+    .user_search {
+      width: 20%
+    }
+  }
+
+  @media(max-width:1100px){
+    .over1100 {
+      display:none;
+    }
+  }
+
+  @media(min-width:1099.9px){
+    .under1100 {
+      display:none;
+    }
   }
 </style>

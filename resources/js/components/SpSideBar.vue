@@ -30,7 +30,7 @@
       </v-select>
       </v-img>
     </v-tab>
-    <input id="navi" type="checkbox" @click="heightchange()"/>
+    <input id="navi" type="checkbox" @click="heightchange(),scroll_toggle()"/>
       <label for="navi" v-bind:class="{'bento-active':header_height == 1500}">
         <div class="dots"></div>
         <div class="dots"></div>
@@ -53,7 +53,7 @@
             color="#3990e7"
             :to="{ name: item.linkTo }"
             :disabled="item.disabled"
-            @click="reset(),heightchange()"
+            @click="reset(),heightchange(),scroll_toggle()"
           ></v-list-item>
         </div>
         <div>
@@ -97,20 +97,21 @@ export default {
       header_height:"54",
       color:"white",
       shopSelection: [],
+      no_scroll_flg: false,
     };
   },
   methods: {
     ...mapActions('shopUser', ['fetchShopUsersWithLogout','getShopSelection']),
     ...mapActions('sidebar', ['fetchCustomerBySession']),
 
-    onShopSelectionChange: function(id) {
+    onShopSelectionChange: async function(id) {
       // 選択したIDを取得
       const postData = {
         shop_id: id,
       };
 
       if(id == "logout") {
-        this.$axios.post("/logout")
+         await this.$axios.post("/logout")
           .then(response => {
             localStorage.removeItem("auth");
             window.location.href = "/login"
@@ -119,7 +120,7 @@ export default {
             console.log(error);
           });
       } else {
-        this.$axios.put('/api/changeshop', postData)
+        await this.$axios.put('/api/changeshop', postData)
           .then(response => {
             // 表示している画面を強制リロード
             this.$router.go({path: this.$router.currentRoute.path, force: true});
@@ -166,6 +167,27 @@ export default {
         window.matchMedia('(max-device-width: 640px)').matches ?
         true : false
     },
+
+    scroll_toggle(){
+      if(this.no_scroll_flg == false){
+        // PCでのスクロール禁止
+        document.addEventListener("mousewheel", this.scroll_control, { passive: false });
+        // スマホでのタッチ操作でのスクロール禁止
+        document.addEventListener("touchmove", this.scroll_control, { passive: false });
+        this.no_scroll_flg = true;
+      }else{
+        // PCでのスクロール禁止解除
+        document.removeEventListener("mousewheel", this.scroll_control, { passive: false });
+        // スマホでのタッチ操作でのスクロール禁止解除
+        document.removeEventListener('touchmove', this.scroll_control, { passive: false });
+        this.no_scroll_flg = false;
+      }
+    },
+
+    // スクロール関連メソッド
+    scroll_control(event) {
+        event.preventDefault();
+    }
   },
   computed: {
     ...mapGetters("shopUser", ["shopUsers"]),

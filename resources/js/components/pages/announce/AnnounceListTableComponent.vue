@@ -116,6 +116,7 @@
                   :to="{ name: 'announce.edit', params: { announceId: item.id } }"
                   class="announce-title-font"
                 >
+                <!-- <p v-if="!inReleaseFlg(item)" class="announce-check_publish_msg">※このお知らせは公開期間を過ぎています。</p> -->
                   {{ item.title }}
                 </router-link>
                 <!-- タイトル - 編集権限なし -->
@@ -165,11 +166,15 @@
         </template>
         <!-- 投稿日 -->
         <template #item-created_at="item">
-          {{ timestampFormat(item.created_at) }}
+          <p class="mb-0 detaTable-header-width-mid">
+            {{ timestampFormat(item.created_at) }}
+          </p>
         </template>
         <!-- 更新日時 -->
         <template #item-updated_at="item">
-          {{ timestampFormat(item.updated_at) }}
+          <p class="mb-0 detaTable-header-width-mid">
+            {{ timestampFormat(item.updated_at) }}
+          </p>
         </template>
         <!-- ステータス - 「全ての投稿」タブにのみ表示 -->
         <template #item-open_status="item">
@@ -182,7 +187,7 @@
             {{ getApprovalStatus(item.approval_status) }}
           </p>
           <!-- 公開期間 -->
-          <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg" : ""]'>
+          <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg detaTable-header-width-mid" : "detaTable-header-width-mid"]'>
             {{ inReleaseFlg(item)  ? "公開中" : "公開期間外" }}
           </p>
         </template>
@@ -227,7 +232,7 @@
                   <v-list-item-title>
                     <div 
                       @click="(displayAnnouncePreview = true),
-                       setPreviewInfo(item.start_date,item.end_date,item.contents,item.title,item.announce_categories.category_name)" role="button">
+                        setPreviewInfo(item.start_date,item.end_date,item.contents,item.title,item.announce_categories.category_name)" role="button">
                       プレビュー
                     </div>
                   </v-list-item-title>
@@ -508,7 +513,7 @@ export default {
     return {
       selected: [],
       he: [
-        { text: 'タイトル', value: 'title' },
+        { text: 'タイトル', value: 'title'},
       ],
       items: [
         { a: 'a' },
@@ -520,22 +525,14 @@ export default {
       ],
 
       headers: [
-        {
-          text: '',
-          sortable: false,
-          value: 'imageUrl',
-        },
-        { text: '', value: 'title' },
+        { text: '', value: 'imageUrl', sortable: false},
+        { text: '', value: 'title'},
         { text: '投稿日', value: 'created_at', sortable: true},
-        { text: '最終更新', value: 'updated_at', sortable: true },
-        { text: '投稿者', value: 'add_account.name' },
-        { text: 'ステータス', value: 'open_status' },
-        { text: '操作', value: 'actions' },
-        {
-          text: '',
-          sortable: false,
-          value: 'button',
-        },
+        { text: '最終更新', value: 'updated_at', sortable: true},
+        { text: '投稿者', value: 'add_account.name'},
+        { text: 'ステータス', value: 'open_status'},
+        { text: '操作', value: 'actions'},
+        { text: '', value: 'button', sortable: false},
       ],
       test: [],
       announce: [],
@@ -1297,6 +1294,12 @@ export default {
   width: auto;
 }
 
+// .announce-check_publish_msg{
+//   font-size: 12px;
+//   color: #D32F2F;
+//   margin-bottom: 0.2rem;
+// }
+
 @media(max-width:1380px){
   .thumbnail-image {
     height: 2rem;
@@ -1338,11 +1341,17 @@ export default {
 
 .detaTable-header_title {
   display: grid;
+  width: 15vw !important;
+}
+
+.detaTable-header_img {
+  width: 10.7vw !important;
 }
 
 .detaTable-header_preview {
   display: grid;
   margin-left: 1rem;
+  width: 5vw !important;
 }
 
 .detaTable-header_preview > button > p {
@@ -1441,5 +1450,9 @@ thead {
 }
 .allCheckOprErrMsg>ul{
   --bs-alert-bg: #ffffff !important;
+}
+
+.detaTable-header-width-mid{
+  width: 6vw !important;
 }
 </style>

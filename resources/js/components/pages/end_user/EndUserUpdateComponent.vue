@@ -19,11 +19,8 @@
                                   v-model="forms.name"
                                   :rules="[rules.required, rules.max_100]"
                                   hide-details="false"
-
                               />
                             </v-col>
-                          </v-row>
-                          <v-row align-sm="center" class="mb-4">
                             <v-col cols="12" sm="2" class="pr-0 pb-0 pb-sm-3">
                               <p class="mb-0">メールアドレス</p>
                             </v-col>
@@ -33,25 +30,24 @@
                                   v-model="forms.email"
                                   :rules="[rules.required, rules.email]"
                                   hide-details="false"
-
                               />
                             </v-col>
-                          </v-row>
-                          <v-text-field
-                              dense
-                              v-model="forms.id"
-                              label="ID"
-                              :rules="[rules.required]"
-                              v-show="false"
-                          />
-                          <v-row align-xs="center">
-                            <v-col cols="12" class="mt-5 pr-0 pb-0">
+                            <v-col cols="12" sm="10" class="pt-1 pt-sm-3">
+                              <v-text-field
+                                  dense
+                                  v-model="forms.id"
+                                  label="ID"
+                                  :rules="[rules.required]"
+                                  v-show="false"
+                              />
+                            </v-col>
+                            <v-col cols="12" class="mt-1 pr-0 pb-0">
                               <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">権限グループ</p>
                             </v-col>
                             <v-col v-for="shop in this.forms.shopList" cols="12" class="pt-sm-3 pb-0 pb-sm-3">
-                              <v-row align-sm="center shop-auth">
-                                <v-col cols="2" class="pr-0">
-                                  <p class="mb-0 pb-0">{{ shop.shop_name }}</p>
+                              <v-row align-sm="center shop-auth shop-sp-show">
+                                <v-col cols="4" sm="4" md="2" lg="2" class="pr-0">
+                                  <p class="mb-0 pb-0 shop-name-show">{{ shop.shop_name }}</p>
                                 </v-col>
                                 <v-col cols="10" class="pt-sm-3 shop-sel">
                                   <v-select
@@ -265,5 +261,10 @@ border:solid 3px #69A5AF;
 }
 .green-btn:hover{
 height: 40px;
+}
+
+/* 権限グループ名(6文字改行) */
+.shop-name-show{
+  width: 6rem;
 }
 </style>

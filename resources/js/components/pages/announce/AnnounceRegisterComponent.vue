@@ -94,7 +94,7 @@
                         hide-details="false"
                     /> -->
                   </v-col>
-                  <v-col cols="2" class="p-0">
+                  <v-col cols="1" md="2" lg="2" class="p-0">
                     <p class="text-gray">時</p>
                   </v-col>
                   <v-col cols="2" class="p-0">
@@ -104,7 +104,7 @@
                         hide-details="false"
                     /> -->
                   </v-col>
-                  <v-col cols="2" class="p-0">
+                  <v-col cols="1" md="2" lg="2" class="p-0">
                     <p class="text-gray">分</p>
                   </v-col>
                 </v-row>
@@ -136,7 +136,7 @@
                         hide-details="false"
                     /> -->
                   </v-col>
-                  <v-col cols="2" class="p-0 text-gray">
+                  <v-col cols="1" md="2" lg="2" class="p-0 text-gray">
                     <p>時</p>
                   </v-col>
                   <v-col cols="2" class="p-0">
@@ -146,7 +146,7 @@
                         hide-details="false"
                     /> -->
                   </v-col>
-                  <v-col cols="2" class="p-0 text-gray">
+                  <v-col cols="1" md="2" lg="2" class="p-0 text-gray">
                     <p>分</p>
                   </v-col>
                 </v-row>

@@ -699,10 +699,6 @@ export default {
         contents: this.announce.contents,
         thumbnail_file_name: this.file ? this.file.name : null,
       };
-      console.log(validateItem.title)
-      console.log(validateItem.start_date)
-      console.log(this.announce.announce_category_id)
-      console.log(validateItem.thumbnail_file_name)
 
       // 公開期間判断
       var now = moment().format("yyyy/MM/DD HH:mm:ss");

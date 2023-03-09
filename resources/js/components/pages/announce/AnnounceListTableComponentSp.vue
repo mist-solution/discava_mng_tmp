@@ -1,6 +1,7 @@
 <template>
   <back-to-top-component />
-
+  <!-- エラーメッセージ -->
+  <validation-errors :errors="validationErrors" v-if="validationErrors" class="allCheckOprErrMsg"/>
   <v-row>
     <v-col class="pt-0">
       <EasyDataTable
@@ -45,7 +46,7 @@
             <button
               class="green-btn_noTransform mx-2 px-3 py-2"
               type="button"
-              @click="allCheckedItemOperate()"
+              @click="allCheckedItemOperate()|allCheckOprErr()"
             >
               実行
             </button>
@@ -297,7 +298,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 import AnnounceListTablePagination from "./AnnounceListTablePagination.vue";
 import BackToTopComponent from "../../BackToTopComponent.vue";
@@ -310,6 +311,7 @@ import AnnounceApprovalCancelConfirmModalComponent from "../../modals/AnnounceAp
 import AnnounceRemandCommentModalComponent from "../../modals/AnnounceRemandCommentModalComponent.vue"
 import AnnouncePreviewModalComponent from "../../modals/AnnouncePreviewModalComponent.vue"
 import moment from 'moment';
+import ValidationErrors from "../../ValidationErrors.vue";
 
 export default {
   components: {
@@ -321,8 +323,8 @@ export default {
     AnnounceApprovalRequestConfirmModalComponent,
     AnnounceApprovalCancelConfirmModalComponent,
     AnnounceRemandCommentModalComponent,
-    AnnouncePreviewModalComponent
-
+    AnnouncePreviewModalComponent,
+    ValidationErrors,
   },
   data() {
     return {
@@ -389,6 +391,9 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      validationErrors: state => state.announce.announceErrorMessages
+    }),
     displayLimit() {
       return this.$store.state.announce.displayLimit;
     },
@@ -779,22 +784,44 @@ export default {
     },
 
     allCheckedItemOperate(){
-      if(this.operate_id == '1'){
-        for(var i = 0;i < this.selected.length; i++){
-          if(this.selected[i].approval_status == 1){
-            axios.post("/api/announce/" + this.selected[i].id + "/approval").then((res) => {});
+      if(this.selected.length != 0){
+        if(this.operate_id == '1'){
+          for(var i = 0;i < this.selected.length; i++){
+            if(this.selected[i].approval_status == 1 && this.inReleaseFlg(this.selected[i])){
+              axios.post("/api/announce/" + this.selected[i].id + "/approval").then((res) => {});
+            }
           }
+          window.location.reload();
+        }else if(this.operate_id == '2'){
+          for(var i = 0;i < this.selected.length; i++){
+            axios.delete("/api/announce/" + this.selected[i].id).then((res) => {});
+          }
+          window.location.reload();
+        }else{
+          //「承認か削除を選んでください」的なモーダルを出す処理が必要か…？
         }
-        window.location.reload();
-      }else if(this.operate_id == '2'){
-        for(var i = 0;i < this.selected.length; i++){
-          axios.delete("/api/announce/" + this.selected[i].id).then((res) => {});
-        }
-        window.location.reload();
-      }else{
-        //「承認か削除を選んでください」的なモーダルを出す処理が必要か…？
+        console.log(this.selected)
       }
-      console.log(this.selected)
+    },
+
+    // 一括操作を実行する場合、エラーメッセージの表示
+    allCheckOprErr(){
+      // 承認か削除かを未選択の場合。
+      if(this.operate_id == null){
+        var errMsg = ["操作内容を選択してください。"];
+        this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
+      // お知らせ未選択の場合 。
+      }else if(this.selected.length == 0){
+        if(this.operate_id == '1'){
+          var errMsg = ["承認対象の記事を選択してください。"];
+          this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
+
+        }else if(this.operate_id == '2'){
+          var errMsg = ["削除対象の記事を選択してください。"];
+          this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
+
+        }
+      }
     },
 
     inReleaseFlg(announce) {
@@ -1138,5 +1165,13 @@ thead {
 
 .announce-action_list_btn {
   cursor: pointer;
+}
+
+// 一括操作エラーメッセージ
+.allCheckOprErrMsg{
+  width: 100%;
+}
+.allCheckOprErrMsg>ul{
+  --bs-alert-bg: #ffffff !important;
 }
 </style>

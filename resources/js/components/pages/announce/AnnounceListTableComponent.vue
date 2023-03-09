@@ -980,7 +980,7 @@ export default {
       if(this.selected.length != 0){
         if(this.operate_id == '1'){
           for(var i = 0;i < this.selected.length; i++){
-            if(this.selected[i].approval_status == 1){
+            if(this.selected[i].approval_status == 1 && this.inReleaseFlg(this.selected[i])){
               axios.post("/api/announce/" + this.selected[i].id + "/approval").then((res) => {});
             }
           }

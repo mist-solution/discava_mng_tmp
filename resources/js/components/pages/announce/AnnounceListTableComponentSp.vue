@@ -831,7 +831,7 @@ export default {
       let end = moment(announce.end_date).isValid() ? moment(announce.end_date) : null;
       if (now.isBetween(start, end)){
         return true;
-      } else if (start < now && !end){
+      } else if (start != null && start < now && !end && announce.approval_status != 0){
         return true;
       } else {
         return false;

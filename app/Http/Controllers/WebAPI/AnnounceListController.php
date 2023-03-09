@@ -150,11 +150,13 @@ class AnnounceListController extends Controller
             $announceArray['thumbnail_img_filename'] = $value->thumbnail_img_filename;
             $announceArray['add_account'] = User::find($value->add_account)->name;
             //            $announceArray['contents'] = $value->contents;
-            $announceArrays[] = $announceArray;
+            if ($isResease_flg) {
+                $announceArrays[] = $announceArray;
+            }
         }
 
         $announceArrays_json = [
-            'totalCount' => $records->total(),
+            'totalCount' => count($announceArrays),
             'lastPage' => $records->lastPage(),
             'currentPage' => $records->currentPage(),
             'nextPageUrl' => $records->nextPageUrl(),

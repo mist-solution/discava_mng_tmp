@@ -1029,7 +1029,7 @@ export default {
     let authority = await this.fetchAllAuthority();
     if(authority){
       this.approval_auth_flg = authority.approval_auth_flg;
-      this.request_auth_flg = 1;
+      this.request_auth_flg = authority.request_auth_flg;
       this.update_auth_flg = authority.update_auth_flg;
     }
     let name = await this.getUserInfo();

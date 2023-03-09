@@ -682,19 +682,9 @@ export default {
 
     // 申請処理
     approvalRequest(announceId) {
-      axios.put("/api/announce/" + announceId + "/request")
-      .then((res) => {
-        this.openSuccess('申請しました');
-        // スナックバーの表示時間が経ってから実行
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      });
-    },
-    // 承認処理
-    approvalAnnounce(announce) {
-      // お知らせが承認する場合、開始掲載日、カテゴリーカラムを必須にする
-      if(this.announce.approval_status != 2){
+      // お知らせが申請する場合、開始掲載日、カテゴリーカラムを必須にする
+      console.log(this.announce.approval_status)
+      if(this.announce.approval_status == 0 || this.announce.approval_status == 3){
         this.isRequired = true;
       }else{
         this.isRequired = false;
@@ -709,12 +699,31 @@ export default {
         contents: this.announce.contents,
         thumbnail_file_name: this.file ? this.file.name : null,
       };
+      console.log(validateItem.title)
+      console.log(validateItem.start_date)
+      console.log(this.announce.announce_category_id)
+      console.log(validateItem.thumbnail_file_name)
 
       // 公開期間判断
-      var now = moment();
-      let start = validateItem.start_date
-      let end = validateItem.end_date
-      let inPublish = now.isBetween(start, end)
+      var now = moment().format("yyyy/MM/DD HH:mm:ss");
+      let start = validateItem.start_date;
+      let end = validateItem.end_date;
+      let inPublish = false;
+      // 開始日と終了日が未来の日時 => 承認OK
+      if (start > now && end > now){
+        inPublish = true;
+
+      // 公開期間中 => 承認OK
+      } else if (start < now && end > now){
+        inPublish = true;
+
+      // 開始日が過去の日時、終了日空白（公開期間外）
+      // 開始日と終了日が過去の日時（公開期間外）
+      // 開始日が未来の日時、終了日空白（公開期間外）
+      } else {
+        console.log("公開期間外 => 承認NG");
+        inPublish = false;
+      }
 
       const validateRes = this.$refs.form.validate();
       validateRes.then(res => {
@@ -754,7 +763,124 @@ export default {
                 formData,
                 { headers: { "Content-type": "multipart/form-data", }}
               ).then(response => {
-                this.openSuccess('更新しました');
+                this.openSuccess('申請しました');
+                // お知らせ一覧画面に遷移
+                this.$router.push({ name: 'announce.list' })
+
+                // バリデーションのメッセージを初期化する
+                this.$store.dispatch("announce/setAnnounceErrorMessages", "");
+              })
+              .catch(error => {
+                console.log(error);
+              });
+              // お知らせ承認する
+              axios.put("/api/announce/" + announceId + "/request")
+              .then((res) => {
+                this.openSuccess('申請しました');
+                // スナックバーの表示時間が経ってから実行
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+              });
+            })
+            .catch(error => {
+              if (error.response.status !== 422) {
+                console.error(error);
+              } else {
+                this.scrollTop()
+                this.$store.dispatch("announce/setAnnounceErrorMessages", error.response.data.errors);
+              }
+            });
+            console.log("invalid!");
+            return;
+          } else {
+            var errMsg = ["このお知らせは公開期間外のため、申請できません。"];
+            this.$store.dispatch("announce/setAnnounceErrorMessages", errMsg);
+            console.log("Not in Publish!");
+            return;
+          }
+        } 
+      });
+    },
+    // 承認処理
+    approvalAnnounce(announce) {
+      // お知らせが承認する場合、開始掲載日、カテゴリーカラムを必須にする
+      if(this.announce.approval_status != 2){
+        this.isRequired = true;
+      }else{
+        this.isRequired = false;
+      }
+
+      // 検証項目
+      const validateItem = {
+        title: this.announce.title,
+        announce_category_id: this.announce.announce_category_id,
+        start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+        end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
+        contents: this.announce.contents,
+        thumbnail_file_name: this.file ? this.file.name : null,
+      };
+
+      // 公開期間判断
+      var now = moment().format("yyyy/MM/DD HH:mm:ss");
+      let start = validateItem.start_date;
+      let end = validateItem.end_date;
+      let inPublish = false;
+      // 開始日と終了日が未来の日時 => 承認OK
+      if (start > now && end > now){
+        inPublish = true;
+
+      // 公開期間中 => 承認OK
+      } else if (start < now && end > now){
+        inPublish = true;
+
+      // 開始日が過去の日時、終了日空白（公開期間外）
+      // 開始日と終了日が過去の日時（公開期間外）
+      // 開始日が未来の日時、終了日空白（公開期間外）
+      } else {
+        console.log("公開期間外 => 承認NG");
+        inPublish = false;
+      }
+      
+      const validateRes = this.$refs.form.validate();
+      validateRes.then(res => {
+        if(this.announce.approval_status != 2) {
+          if(inPublish){
+            axios.post('/api/announce/registValidation', validateItem )
+            .then(response => {
+              // バリデーションがOKの場合
+              // お知らせ記事を更新する
+              let formData = new FormData();
+              const item = {
+                title: encodeURIComponent(this.announce.title),
+                announce_category_id: this.announce.announce_category_id,
+                start_date: moment(this.announce.start_date).isValid() ? moment(this.announce.start_date).format("yyyy/MM/DD HH:mm:00") : null,
+                end_date: moment(this.announce.end_date).isValid() ? moment(this.announce.end_date).format("yyyy/MM/DD HH:mm:59") : null,
+                contents: encodeURIComponent(this.announce.contents),
+                thumbnail_img_path: this.file ? this.file.name : null,
+              }
+
+              formData.append("announce", JSON.stringify(item));
+
+              if (this.file) {
+                formData.append("thumbnail_file", this.file);
+              }
+
+
+              for (let i = 0; i < this.insertAttachments.length; i++) {
+                formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
+              }
+
+              for (let i = 0; i < this.deleteAttachments.length; i++) {
+                formData.append('deleteAttachments[' + i + ']', JSON.stringify(this.deleteAttachments[i]));
+              }
+
+              // Larabel は multipart/form-data を put で処理できないため post
+              axios.post('/api/announce/' + this.announce.id + '/update',
+                formData,
+                { headers: { "Content-type": "multipart/form-data", }}
+              ).then(response => {
+                this.openSuccess('承認しました');
                 // お知らせ一覧画面に遷移
                 this.$router.push({ name: 'announce.list' })
 
@@ -907,7 +1033,7 @@ export default {
     let authority = await this.fetchAllAuthority();
     if(authority){
       this.approval_auth_flg = authority.approval_auth_flg;
-      this.request_auth_flg = authority.request_auth_flg;
+      this.request_auth_flg = 1;
       this.update_auth_flg = authority.update_auth_flg;
     }
     let name = await this.getUserInfo();

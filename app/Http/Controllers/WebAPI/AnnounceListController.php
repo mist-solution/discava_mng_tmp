@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Storage;
+use Carbon\Carbon;
 
 class AnnounceListController extends Controller
 {
@@ -132,6 +133,13 @@ class AnnounceListController extends Controller
             $announceArray['announce_category_name'] = $value->announce_categories->category_name;
             $announceArray['start_date'] = $value->start_date;
             $announceArray['end_date'] = $value->end_date;
+            $now = Carbon::now();
+            if (($value->start_date < $now && $now < $value->end_date) || ($value->start_date < $now && is_null($value->end_date))) {
+                $isResease_flg = true;
+            } else {
+                $isResease_flg = false;
+            }
+            $announceArray['isResease_flg'] = $isResease_flg;
             $announceArray['title'] = $value->title;
             $announceArray['thumbnail_img_path'] = $value->thumbnail_img_path;
             if (!is_null($value->thumbnail_img_path)) {

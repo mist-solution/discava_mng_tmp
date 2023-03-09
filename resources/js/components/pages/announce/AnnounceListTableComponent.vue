@@ -1017,9 +1017,15 @@ export default {
     inReleaseFlg(announce) {
       // 公開期間中 or 公開期間外判定してbooleanで返す
       var now = moment();
-      let start = moment(announce.start_date)
-      let end = moment(announce.end_date)
-      return now.isBetween(start, end)
+      let start = moment(announce.start_date).isValid() ? moment(announce.start_date) : null;
+      let end = moment(announce.end_date).isValid() ? moment(announce.end_date) : null;
+      if (now.isBetween(start, end)){
+        return true;
+      } else if (start < now && !end){
+        return true;
+      } else {
+        return false;
+      }
     },
 
     //一括承認を表示する/非表示にする

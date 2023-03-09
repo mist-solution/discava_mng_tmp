@@ -717,7 +717,6 @@ export default {
       // 開始日と終了日が過去の日時（公開期間外）
       // 開始日が未来の日時、終了日空白（公開期間外）
       } else {
-        console.log("公開期間外 => 承認NG");
         inPublish = false;
       }
 

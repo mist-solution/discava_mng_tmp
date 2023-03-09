@@ -192,7 +192,7 @@
               </div>
               <div v-if="!dataUrl && announce.thumbnail_img_path">
                 <div id="image-preview">
-                    <img :src=" '../../' + announce.thumbnail_img_path" v-if="announce.thumbnail_img_path">
+                    <img :src=" 'data:image/png;base64,' + announce.thumbnail_img_path" v-if="announce.thumbnail_img_path">
                 </div>
                 <label for="image" class="samb-on"></label>
                 <input type="file" id="image" accept="image/*" @change="readImage">

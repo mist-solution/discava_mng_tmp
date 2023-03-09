@@ -35,6 +35,13 @@ class AnnounceController extends Controller
         $searchRelease = $request->input('searchRelease');
         $shop_id = $request->session()->get('shop_id');
         $announce = Announce::getAnnounce($offset, $limit, $sort, $announceStatus, $announceAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchAnnounceCol, $searchAnnounce, $searchCategory, $searchRelease, $shop_id);
+        foreach($announce["anounce"] as $key => $value){
+            if($value["thumbnail_img_path"]){
+                $thumbnail_img_contents = Storage::get($value["thumbnail_img_path"]);
+                $thumbnail_img_base64 = base64_encode($thumbnail_img_contents);
+                $value["thumbnail_img_path"] = $thumbnail_img_base64;
+            }
+        }
         return $announce;
     }
 
@@ -53,6 +60,13 @@ class AnnounceController extends Controller
         } else if ($announce->approval_status == 9) {
             return 9;
         }
+        
+        if($announce->thumbnail_img_path){
+            $thumbnail_img_contents = Storage::get($announce->thumbnail_img_path);
+            $thumbnail_img_base64 = base64_encode($thumbnail_img_contents);
+            $announce->thumbnail_img_path = $thumbnail_img_base64;
+        }
+
         return $announce;
     }
 
@@ -247,14 +261,26 @@ class AnnounceController extends Controller
         Log::info('削除ファイル');
         Log::info(print_r($deleteAttachments, true));
 
-        $update = [
-            'title' => urldecode($announce['title']),
-            'announce_category_id' => $announce['announce_category_id'],
-            'start_date' => $announce['start_date'],
-            'end_date' => $announce['end_date'],
-            'contents' => urldecode($announce['contents']),
-            'upd_account' => Auth::user()->id,
-        ];
+        if($thumbnail){
+            $update = [
+                'title' => urldecode($announce['title']),
+                'announce_category_id' => $announce['announce_category_id'],
+                'start_date' => $announce['start_date'],
+                'end_date' => $announce['end_date'],
+                'contents' => urldecode($announce['contents']),
+                'upd_account' => Auth::user()->id,
+                'thumbnail_img_path' => Storage::putFile('announce/' . $request->session()->get('shop_id') . "/" . $id . "/thumbnail", $thumbnail),
+            ];
+        }else{
+            $update = [
+                'title' => urldecode($announce['title']),
+                'announce_category_id' => $announce['announce_category_id'],
+                'start_date' => $announce['start_date'],
+                'end_date' => $announce['end_date'],
+                'contents' => urldecode($announce['contents']),
+                'upd_account' => Auth::user()->id,
+            ];
+        }
         $model = Announce::find($id);
         $model->update($update);
 

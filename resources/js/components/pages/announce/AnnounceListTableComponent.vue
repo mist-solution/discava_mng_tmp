@@ -99,7 +99,7 @@
                 <div class="my-4 py-4 detaTable-header_img">
                   <img
                     v-if="item.thumbnail_img_path"
-                    :src="item.thumbnail_img_path"
+                    :src=" 'data:image/png;base64,' +item.thumbnail_img_path"
                     class="thumbnail-image"
                   >
                   <img

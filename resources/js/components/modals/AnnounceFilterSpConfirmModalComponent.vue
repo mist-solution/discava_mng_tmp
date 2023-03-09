@@ -77,7 +77,8 @@
     components: {
     DatePicker,
   },
-    props: ["display", "closeAction", "approvalCancel","items","items2","categories","users"],
+    props: ["display", "closeAction", "approvalCancel","items","items2","categories","users",
+            "createdfirst","updatedfirst","categoriesfirst","userfirst","releasefirst"],
     data() {
       return {
         returnComment: null,
@@ -86,11 +87,11 @@
         categories_id: "",
         user_id: "",
         release_id: "",
-        createdmodel: null,
-        updatedmodel: null,
-        categoriesmodel: null,
-        usermodel: null,
-        releasemodel: null,
+        createdmodel: this.createdfirst,
+        updatedmodel: this.updatedfirst,
+        categoriesmodel: this.categoriesfirst,
+        usermodel: this.userfirst,
+        releasemodel: this.releasefirst,
       };
     },
     methods: {
@@ -210,6 +211,7 @@
         },
         searchAction(){
           this.FilterAnnounce();
+          this.$emit("FilterChange",this.createdmodel,this.updatedmodel,this.categoriesmodel,this.usermodel,this.releasemodel)
           this.closeAction();
         },
 

@@ -313,6 +313,7 @@
 
   <!-- 検索モーダル -->
   <announce-filter-sp-confirm-modal-component
+    v-if="reset2"
     :modelValue="displayAnnounceFilter"
     @update:modelValue="displayAnnounceFilter = $event"
     :closeAction="closeFilter"
@@ -320,6 +321,12 @@
     :items2="items2"
     :categories="categories"
     :users="users"
+    @FilterChange="FilterChange"
+    :createdfirst="createdmodel"
+    :updatedfirst="updatedmodel"
+    :categoriesfirst="categoriesmodel"
+    :userfirst="usermodel"
+    :releasefirst="releasemodel"
   />
 </template>
 
@@ -378,6 +385,7 @@ export default {
       pager_flg: true,
       LastPage: null,
       reset: true,
+      reset2: true,
     };
   },
   computed:{
@@ -540,6 +548,9 @@ export default {
       //公開/非公開検索
       this.$store.dispatch("announce/setDisplaySearchRelease", this.release_id);
       this.$store.dispatch("announce/setDisplayPage", 1);
+
+      this.reset2 = false;
+      this.$nextTick(() => (this.reset2 = true));
     },
 
     //検索条件リセット
@@ -647,6 +658,14 @@ export default {
      previewFormat(date) {
       return moment(date).format('yyyy/MM');
     },
+
+    FilterChange(value1,value2,value3,value4,value5){
+      this.createdmodel = value1
+      this.updatedmodel = value2
+      this.categoriesmodel = value3
+      this.usermodel = value4
+      this.releasemodel = value5
+    }
   },
   async created(){
     this.fetchCategoriesWithAll();

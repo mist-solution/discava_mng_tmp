@@ -37,7 +37,7 @@
               :items="items2"
               item-title="text"
               item-value="id"
-              label="一括操作"
+              :label="this.operate_id === null ? '一括操作' : ''"
               solo
               bg-color="white"
               @update:modelValue="operateidChange"

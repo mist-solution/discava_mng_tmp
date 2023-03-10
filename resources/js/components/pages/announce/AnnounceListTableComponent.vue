@@ -980,8 +980,15 @@ export default {
       if(this.selected.length != 0){
         if(this.operate_id == '1'){
           for(var i = 0;i < this.selected.length; i++){
-            if(this.selected[i].approval_status == 1 && this.inReleaseFlg(this.selected[i])){
-              axios.post("/api/announce/" + this.selected[i].id + "/approval").then((res) => {});
+            if(this.selected[i].approval_status == 1){
+              var now = moment();
+              let start = moment(this.selected[i].start_date).isValid() ? moment(this.selected[i].start_date) : null;
+              let end = moment(this.selected[i].end_date).isValid() ? moment(this.selected[i].end_date) : null;
+              if (now.isBetween(start, end)){
+                axios.post("/api/announce/" + this.selected[i].id + "/approval").then((res) => {});
+              } else if (start != null && start < now && !end ){
+                axios.post("/api/announce/" + this.selected[i].id + "/approval").then((res) => {});
+              } 
             }
           }
           window.location.reload();
@@ -1028,8 +1035,6 @@ export default {
         } else {
           return false;
         }
-      } else {
-          return false;
       }
     },
 

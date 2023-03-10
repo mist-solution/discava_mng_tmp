@@ -93,14 +93,21 @@ class AnnounceListController extends Controller
         // }
 
         // 登録者検索機能追加
+        $now = Carbon::now();
         if ($categoryID != 0) {
             $records = Announce::with('announce_categories')
                 ->join('users', 'announces.add_account', '=', 'users.id')
                 ->select('announces.*', 'users.name')
                 ->where('announces.shop_id', $shopId)
                 ->where('announces.approval_status', '2')
+                ->where(function ($query) use ($now) {
+                    $query->where("start_date", '<=', $now)
+                        ->where("end_date", '>=', $now)
+                        ->orWhere("start_date", '<=', $now)
+                        ->where("end_date", null);
+                })
                 ->where('announces.del_flg', '0')
-                ->where('announces.start_date', '<=', date('Y-m-d H:i:s'))
+                // ->where('announces.start_date', '<=', date('Y-m-d H:i:s'))
                 // ->where('announces.end_date', '>=', date('Y-m-d H:i:s'))
                 ->where('announces.announce_category_id', $categoryID)
                 ->whereRaw('LOWER(users.name) LIKE ?', ['%' . strtolower($searchText) . '%'])
@@ -113,8 +120,14 @@ class AnnounceListController extends Controller
                 ->select('announces.*', 'users.name')
                 ->where('announces.shop_id', $shopId)
                 ->where('announces.approval_status', '2')
+                ->where(function ($query) use ($now) {
+                    $query->where("start_date", '<=', $now)
+                        ->where("end_date", '>=', $now)
+                        ->orWhere("start_date", '<=', $now)
+                        ->where("end_date", null);
+                })
                 ->where('announces.del_flg', '0')
-                ->where('announces.start_date', '<=', date('Y-m-d H:i:s'))
+                // ->where('announces.start_date', '<=', date('Y-m-d H:i:s'))
                 // ->where('announces.end_date', '>=', date('Y-m-d H:i:s'))
                 ->whereRaw('LOWER(users.name) LIKE ?', ['%' . strtolower($searchText) . '%'])
                 ->orderBy($sortBy, 'desc')
@@ -156,7 +169,7 @@ class AnnounceListController extends Controller
         }
 
         $announceArrays_json = [
-            'totalCount' => count($announceArrays),
+            'totalCount' => $records->total(),
             'lastPage' => $records->lastPage(),
             'currentPage' => $records->currentPage(),
             'nextPageUrl' => $records->nextPageUrl(),

@@ -18,11 +18,15 @@
 
 .bento_menu_active > .v-list{
     transform: scale(1.2);
-    top: 70px;
+    top: 50px;
 }
 
 .logout_button{
     color: white;
     padding-left: 0.4rem;
     font-weight: bold;
+}
+
+.bento_menu .v-list-item--density-default{
+    min-height: 45px !important;
 }

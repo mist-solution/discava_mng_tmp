@@ -498,8 +498,6 @@ export default {
         let end = new Date(end_year + "-" + end_month + "-1")
         start.setHours(start.getHours() + 9);
         end.setHours(end.getHours() + 9);
-        console.log(start)
-        console.log(end)
         this.$store.dispatch("announce/setDisplaySearchAddDateBegin", start);
         this.$store.dispatch("announce/setDisplaySearchAddDateEnd", end);
       }else{

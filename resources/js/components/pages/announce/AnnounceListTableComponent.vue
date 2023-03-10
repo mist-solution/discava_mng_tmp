@@ -188,7 +188,7 @@
           </p>
           <!-- 公開期間 -->
           <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg detaTable-header-width-mid" : "detaTable-header-width-mid"]'>
-            {{ inReleaseFlg(item)  ? "公開中" : "公開期間外" }}
+            {{ item.approval_status == "2" ? inReleaseFlg(item)  ? "公開中" : "公開期間外" : "" }}
           </p>
         </template>
         <!-- 操作ボタン -->
@@ -1019,12 +1019,17 @@ export default {
       var now = moment();
       let start = moment(announce.start_date).isValid() ? moment(announce.start_date) : null;
       let end = moment(announce.end_date).isValid() ? moment(announce.end_date) : null;
-      if (now.isBetween(start, end)){
-        return true;
-      } else if (start != null && start < now && !end && announce.approval_status != 0){
-        return true;
+      // 承認済みのお知らせは対象
+      if (announce.approval_status == 2){
+        if (now.isBetween(start, end)){
+          return true;
+        } else if (start != null && start < now && !end && announce.approval_status != 0){
+          return true;
+        } else {
+          return false;
+        }
       } else {
-        return false;
+          return false;
       }
     },
 

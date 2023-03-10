@@ -66,13 +66,13 @@ class Announce extends Model
             // 表示条件：下書き
             if ($announceStatus == 0) {
                 $announceModel = $announceModel->where('approval_status', $announceStatus);
-            // 表示条件：承認待ち
+                // 表示条件：承認待ち
             } else if ($announceStatus == 1) {
                 $announceModel = $announceModel->where('approval_status', $announceStatus);
-            // 表示条件：承認済み
+                // 表示条件：承認済み
             } else if ($announceStatus == 2) {
                 $announceModel = $announceModel->where('approval_status', $announceStatus);
-            // 表示条件：差戻し
+                // 表示条件：差戻し
             } else if ($announceStatus == 3) {
                 $announceModel = $announceModel->where('approval_status', $announceStatus);
             }
@@ -81,8 +81,8 @@ class Announce extends Model
 
         // 投稿記事検索
         if ($announceAddAccount != "") {
-            $announceModel = $announceModel->whereHas('add_account', function($query) use ($announceAddAccount) {
-                $query->where('name', 'LIKE' , "%{$announceAddAccount}%");
+            $announceModel = $announceModel->whereHas('add_account', function ($query) use ($announceAddAccount) {
+                $query->where('name', 'LIKE', "%{$announceAddAccount}%");
             });
         }
 
@@ -119,22 +119,29 @@ class Announce extends Model
         }
 
         //検索：公開/非公開
-        //1なら公開を検索　2は非公開を検索　0は全件表示
-        if($searchRelease != 0){
+        //1なら承認済み＋公開を検索　2は非公開を検索　0は全件表示
+        if ($searchRelease != 0) {
             $now = new DateTime();
-            if($searchRelease == 1){
+            if ($searchRelease == 1) {
                 $announceModel = $announceModel
-                        ->where("start_date", '<=', $now)
-                        ->where("end_date", '>=', $now);
-            }else if($searchRelease == 2){
+                    ->where("approval_status", "=", "2")
+                    ->where(function ($query) use ($now) {
+                        $query->where("start_date", '<=', $now)
+                            ->where("end_date", '>=', $now)
+                            ->orWhere("start_date", '<=', $now)
+                            ->where("end_date", null);
+                    });
+            } else if ($searchRelease == 2) {
                 $announceModel = $announceModel
-                        ->where(function($query) use ($now){
-                            $query->orWhere("start_date", '>=', $now)
-                                  ->orWhere("end_date" , '<=', $now)
-                                  ->orWhere("start_date" ,null)
-                                  ->orWhere("end_date" ,null);
-
-                        });
+                    ->where(function ($query) use ($now) {
+                        $query->orWhere("start_date", '>', $now)      // 未来の日時 
+                            ->Where("end_date", '>', $now)
+                            ->orWhere("start_date", '>', $now)        // 未来の日時
+                            ->Where("end_date", null)
+                            ->orWhere("start_date", '<', $now)        // 過去の日時
+                            ->Where("end_date", '<', $now)
+                            ->orWhere("approval_status", "<>", "2");  // 承認済み以外
+                    });
             }
         }
 
@@ -149,7 +156,7 @@ class Announce extends Model
         } else {
             $announceModel = $announceModel->orderBy('id');
         }
-        
+
         $announce['count'] = $announceModel
             ->count();
 
@@ -159,13 +166,13 @@ class Announce extends Model
         return $announce;
     }
 
-    public static function getOldestTime($shop_id){
+    public static function getOldestTime($shop_id)
+    {
         $oldestData = Announce::where('del_flg', false)
-        ->where('shop_id', $shop_id)
-        ->orderBy('created_at','asc')
-        ->first();
+            ->where('shop_id', $shop_id)
+            ->orderBy('created_at', 'asc')
+            ->first();
 
         return $oldestData;
-
     }
 }

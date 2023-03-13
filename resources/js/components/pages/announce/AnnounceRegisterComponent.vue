@@ -462,9 +462,32 @@ export default {
       reader.readAsDataURL(this.file);
     },
     // リッチテキストのhtmlを取得
-    getQuillEditorContent() {
-      const html = this.$refs.myQuillEditor.getHTML();
-      this.contents = html;
+    async getQuillEditorContent() {
+      let html = this.$refs.myQuillEditor.getHTML();
+      await this.readAttachmentsImg();
+      if (this.attachments.length > 0){
+        this.attachments.forEach(element => {
+          html = html.replace('[[' + element.name + ']]', '<img class="preview_img_honbun" src="' + element.img_file + '" />');
+        });
+        this.contents = html;
+      }
+    },
+
+    readAttachmentsImg() {
+      if (this.attachments.length != 0){
+        return Promise.all(this.attachments.map((element) => {
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+              element.img_file = reader.result;
+              resolve();
+            };
+            reader.readAsDataURL(element);
+          });
+        }));
+      } else {
+        return [];
+      }
     },
     // 掲載期間を取得
     getAnnounceDate() {

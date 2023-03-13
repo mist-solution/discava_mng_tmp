@@ -622,7 +622,6 @@ export default {
     },
 
     readAttachmentsImg() {
-      console.log(this.insertAttachments)
       if (this.insertAttachments.length != 0){
         return Promise.all(this.insertAttachments.map((element) => {
           return new Promise((resolve) => {

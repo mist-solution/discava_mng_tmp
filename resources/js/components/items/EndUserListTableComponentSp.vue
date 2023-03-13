@@ -16,7 +16,84 @@
 			:search-field="searchField"
 			:search-value="searchValue"
 			:rows-per-page="rowsPerPage"
-      v-if="reset"
+      v-if="reset && update_auth_flg"
+      :hide-footer="true"
+      id="accountlist"
+		>
+
+
+
+    
+    <template #expand="item">
+      <div style="padding: 15px">
+        <v-row>
+          <v-col cols="2">
+            ID
+          </v-col>
+          <v-col cols="10">
+            {{item.name}}
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="2">
+            メール
+          </v-col>
+          <v-col cols="10">
+            {{item.email}}
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="2">
+            登録日
+          </v-col>
+          <v-col cols="10">
+            {{item.created_at.slice(0,4)}}/{{item.created_at.slice(5,7)}}/{{item.created_at.slice(8,10)}}
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="2">
+            更新日
+          </v-col>
+          <v-col cols="10">
+            {{item.updated_at.slice(0,4)}}/{{item.updated_at.slice(5,7)}}/{{item.updated_at.slice(8,10)}}
+          </v-col>
+        </v-row>
+        <v-row class="accordion_icons" v-if="approval_auth_flg">
+          <div>
+            <router-link :to="{ name: 'enduser.update', params: { userId: item.id } }">
+              <v-icon class="green-icon edit-icon">mdi-square-edit-outline</v-icon>
+            </router-link>
+          </div>
+          <div>
+            <v-icon class="green-icon trash-icon"
+              @click.stop="(displayAccountDeleteConfirm = true), setDeleteAccountId(item.id)"
+            >
+              mdi-trash-can
+            </v-icon>
+          </div>
+        </v-row>
+      </div>
+    </template> 
+      <!-- ユーザ名 -->
+			<template #item-name="item">
+				{{ item.name }}
+			</template> 
+		</EasyDataTable>
+
+    <!-- データテーブル -->
+		<EasyDataTable
+      ref="dataTable"
+			:headers="headers"
+			:items="users"
+			:theme-color="themeColor"
+			alternating
+      table-class-name="customize-table"
+			buttons-pagination
+			dense
+			:search-field="searchField"
+			:search-value="searchValue"
+			:rows-per-page="rowsPerPage"
+      v-if="reset && !update_auth_flg"
       :hide-footer="true"
       id="accountlist"
 		>
@@ -117,6 +194,7 @@
         themeColor: "#69A5AF",
         searchField:['email','name'],
         approval_auth_flg: null,
+        update_auth_flg: null,
         rowsPerPage: 10,
         reset: true,
         page: 1,
@@ -217,6 +295,7 @@
       let authority = await this.fetchAllAuthority();
       if(authority){
         this.approval_auth_flg = authority.approval_auth_flg;
+        this.update_auth_flg = authority.update_auth_flg;
       }
       let a = this.$refs.dataTable.clientItemsLength;
       this.PageLastIndex = this.$refs.dataTable.maxPaginationNumber;

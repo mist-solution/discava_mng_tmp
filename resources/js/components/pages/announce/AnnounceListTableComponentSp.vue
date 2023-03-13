@@ -3,7 +3,7 @@
   <!-- エラーメッセージ -->
   <validation-errors :errors="validationErrors" v-if="validationErrors" class="allCheckOprErrMsg"/>
   <v-row>
-    <v-col class="pt-0">
+    <v-col class="pt-0" v-if="update_auth_flg">
       <EasyDataTable
         v-if="reset"
         ref="dataTable"
@@ -30,7 +30,7 @@
         </template>
 
         <!-- ヘッダー行に一括操作を追加 -->
-        <template v-slot:header-title="{ }" v-if="update_auth_flg"> 
+        <template v-slot:header-title="{ }"> 
           <div class="d-flex align-center w-100">
             <v-select
               outlined
@@ -129,6 +129,191 @@
                         <v-list-item-title>
                           <div
                             v-if="update_auth_flg"
+                            @click="toEditPage(item.id)" role="button"
+                            class="announce-action_list_btn"
+                          >
+                            編集
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item v-if="update_auth_flg && item.approval_status === 3">
+                        <v-list-item-title>
+                          <div 
+                            @click="(displayAnnounceRemandComment = true),
+                            setRemandComment(item.remand_comment)"
+                              role="button">
+                            差戻しコメント
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item disabled>
+                        <v-list-item-title>
+                          <div 
+                            @click="(displayAnnouncePreview = true),
+                            setPreviewInfo(item.start_date,item.end_date,item.contents,item.title,item.announce_categories.category_name)" role="button">
+                            プレビュー
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <!-- 申請する - ユーザに申請権限があるかつ、お知らせの承認ステータスか0:下書きもしくは3:差戻しの場合表示 -->
+                      <v-list-item v-if="request_auth_flg &&
+                        (item.approval_status === 0 || item.approval_status === 3)"
+                      >
+                        <v-list-item-title>
+                          <div
+                            @click="(displayAnnounceRequestConfirm = true),
+                              setApprovalAnnounceId(item.id)"
+                            role="button"
+                          >
+                            申請する
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <!-- 承認する - ユーザに承認権限があるかつ、お知らせの承認ステータスか1:承認待ちの場合表示 -->
+                      <v-list-item v-if="approval_auth_flg && item.approval_status === 1">
+                        <v-list-item-title>
+                          <div
+                            @click="(displayAnnounceApprovalConfirm = true),
+                              setApprovalAnnounceId(item.id)"
+                            role="button"
+                          >
+                            承認する
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <!-- 差し戻す - ユーザに承認権限があるかつ、お知らせの承認ステータスか1:承認待ちもしくは2:承認済みの場合表示 -->
+                      <v-list-item v-if="approval_auth_flg &&
+                        (item.approval_status === 1 || item.approval_status === 2)"
+                      >
+                        <v-list-item-title>
+                          <div
+                            @click="(displayAnnounceReturnApprovalConfirm = true),
+                              setApprovalAnnounceId(item.id)"
+                            role="button"
+                          >
+                            差し戻す
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <!-- 取り下げる - ユーザに申請権限があるかつ、お知らせの承認ステータスか0:下書き以外の場合表示 -->
+                      <v-list-item v-if="request_auth_flg && item.approval_status != 0">
+                        <v-list-item-title>
+                          <div
+                            @click="(displayAnnounceCancelConfirm = true),
+                              setApprovalAnnounceId(item.id)"
+                            role="button"
+                          >
+                            取り下げる
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <!-- 削除 - ユーザに削除権限がある場合表示 -->
+                      <v-list-item v-if="delete_auth_flg">
+                        <v-list-item-title>
+                          <div
+                            @click="(displayAnnounceDeleteConfirm = true),
+                              setDeleteAnnounceId(item.id)"
+                            role="button"
+                          >
+                            削除
+                          </div>
+                        </v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                </v-menu>
+              </div>
+              </v-col>
+
+            </v-row>
+          </div>
+        </template>
+      </EasyDataTable>
+    </v-col>
+
+    <v-col class="pt-0" v-if="!update_auth_flg">
+      <EasyDataTable
+        v-if="reset"
+        ref="dataTable"
+        :headers="headers"
+        :items="announce"
+        table-class-name="customize-table"
+        :theme-color="themeColor"
+        alternating
+        buttons-pagination
+        :search-field="searchField"
+  			:search-value="searchText"
+        :rowsPerPage="rowsPerPage"
+        dense
+        class="announce-table"
+        :hide-footer="true"
+      >
+        <template #loading>
+          <v-progress-linear
+            indeterminate
+            class="mx-auto"
+            color="primary"
+          />
+        </template>
+
+        <!-- サムネイル画像 + タイトル -->
+        <template #item-title="item">
+          <div class="headtitle-left">
+            <v-row>
+
+              <!-- タイトル -->
+              <v-col cols="7" class="detaTable-header_title my-3" v-if="item.title.length < 21">
+                <!-- タイトル - 編集権限なし -->
+                <div class="announce-title-font_disable">
+                  {{ item.title }}
+                </div>
+                <!-- カテゴリー -->
+                <p class="mb-0 announce-category-font" v-if="item.announce_categories">
+                  {{ item.announce_categories.category_name }}
+                </p>
+              </v-col>
+               <!-- タイトル -->
+              <v-col cols="7" class="detaTable-header_title my-3" v-if="item.title.length > 20">
+                <!-- タイトル - 編集権限なし -->
+                <div class="announce-title-font_disable">
+                  {{ item.title.slice(0,20) }}...
+                </div>
+                <!-- カテゴリー -->
+                <p class="mb-0 announce-category-font" v-if="item.announce_categories">
+                  {{ item.announce_categories.category_name }}
+                </p>
+              </v-col>
+
+              <v-col cols="3" class="detaTable-header_title text-center">
+                <!-- 承認ステータス -->
+                <p
+                  v-if="$store.state.announce.displayAnnounceStatus == null"
+                  class="mb-1"
+                  :class="getApprovalStatusColor(item.approval_status)"
+                >
+                  {{ getApprovalStatus(item.approval_status) }}
+                </p>
+              </v-col>
+
+              <!-- 操作 -->
+              <v-col cols="2" class="detaTable-header_title">
+                <div class="text-center d-flex">
+                <v-menu>
+                  <template v-slot:activator="{ props }">
+                    <button
+                      v-bind="props"
+                      icon
+                      color="#69a5af"
+                      size="x-small"
+                      class="my-3"
+                      type="button"
+                    >
+                      <v-icon x-large color="#69a5af">mdi-dots-horizontal</v-icon>
+                    </button>
+                  </template>
+                  <v-list>
+                    <v-list-item v-if="update_auth_flg">
+                        <v-list-item-title>
+                          <div
                             @click="toEditPage(item.id)" role="button"
                             class="announce-action_list_btn"
                           >

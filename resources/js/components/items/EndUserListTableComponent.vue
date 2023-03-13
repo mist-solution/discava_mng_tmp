@@ -16,7 +16,66 @@
 			:search-field="searchField"
 			:search-value="searchValue"
 			:rows-per-page="rowsPerPage"
-      v-if="reset"
+      v-if="reset && update_auth_flg"
+      :hide-footer="true"
+		>
+			<!-- <template #item-title="item">
+					<router-link :to="{ name: 'enduser.edit', params: { announceId: item.id } }">
+					{{ item.title }}
+					</router-link>
+			</template> -->
+      <!-- ユーザ名（クリックで更新画面） -->
+			<template #item-name="item">
+        <router-link :to="{ name: 'enduser.update', params: { userId: item.id } }" v-if="approval_auth_flg" class="enduser-name-font">
+				{{ item.name }}
+        </router-link>
+        <div v-if="!approval_auth_flg">
+          {{ item.name }}
+        </div>
+			</template>
+      <!-- メールアドレス -->
+			<template #item-mail="item">
+				{{ item.email }}
+			</template>
+			<!-- 登録日 -->
+			<template #item-created_at="item">
+				{{ timestampFormat(item.created_at) }}
+			</template>
+			<!-- 更新日 -->
+			<template #item-updated_at="item">
+				{{ timestampFormat(item.updated_at) }}
+			</template>
+			<!-- 操作 -->
+			<template #item-button="item" v-if="approval_auth_flg">
+				<!-- 編集 -->
+				<!-- <v-icon class="green-icon mr-3 mr-sm-5"
+					@click="edit(item)"
+				>
+					mdi-square-edit-outline
+				</v-icon> -->
+				<!-- 削除 -->
+				<v-icon class="green-icon"
+					@click.stop="(displayAccountDeleteConfirm = true), setDeleteAccountId(item.id)"
+				>
+					mdi-trash-can
+				</v-icon>
+			</template>
+		</EasyDataTable>
+
+    <!-- データテーブル -->
+		<EasyDataTable
+      ref="dataTable"
+			:headers="headers"
+			:items="users"
+			:theme-color="themeColor"
+			alternating
+      table-class-name="customize-table"
+			buttons-pagination
+			dense
+			:search-field="searchField"
+			:search-value="searchValue"
+			:rows-per-page="rowsPerPage"
+      v-if="reset && !update_auth_flg"
       :hide-footer="true"
 		>
 			<!-- <template #item-title="item">
@@ -116,6 +175,7 @@
         themeColor: "#69A5AF",
         searchField:['email','name'],
         approval_auth_flg: null,
+        update_auth_flg: null,
         rowsPerPage: 10,
         reset: true,
         page: 1,
@@ -216,6 +276,7 @@
       let authority = await this.fetchAllAuthority();
       if(authority){
         this.approval_auth_flg = authority.approval_auth_flg;
+        this.update_auth_flg = authority.update_auth_flg;
         if(!this.approval_auth_flg){
           this.headers[4].text = "";
         }

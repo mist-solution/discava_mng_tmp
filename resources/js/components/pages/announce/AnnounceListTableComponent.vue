@@ -40,7 +40,7 @@
   <!-- エラーメッセージ -->
   <validation-errors :errors="validationErrors" v-if="validationErrors" class="allCheckOprErrMsg"/>
   <v-row>
-    <v-col class="pt-0">
+    <v-col class="pt-0" v-if="update_auth_flg">
       <EasyDataTable
         v-if="reset"
         ref="dataTable"
@@ -67,7 +67,7 @@
         </template>
 
         <!-- ヘッダー行に一括操作を追加 -->
-        <template v-slot:header-title="{ }" v-if="update_auth_flg"> 
+        <template v-slot:header-title="{ }"> 
           <div class="d-flex align-center w-100">
             <v-select
               outlined
@@ -304,6 +304,120 @@
               </v-list>
             </v-menu>
           </div>
+        </template>
+      </EasyDataTable>
+    </v-col>
+
+    <v-col class="pt-0" v-if="!update_auth_flg">
+      <EasyDataTable
+        v-if="reset"
+        ref="dataTable"
+        :headers="headers"
+        :items="announce"
+        table-class-name="customize-table"
+        :theme-color="themeColor"
+        alternating
+        buttons-pagination
+        :search-field="searchField"
+  			:search-value="searchText"
+        dense
+        :rowsPerPage="rowsPerPage"
+        class="announce-table"
+        :hide-footer="true"
+      >
+        <template #loading>
+          <v-progress-linear
+            indeterminate
+            class="mx-auto"
+            color="primary"
+          />
+        </template>
+
+        <!-- サムネイル画像 + タイトル + プレビュー -->
+        <template #item-title="item">
+          <div class="headtitle-left">
+            <v-row class="d-flex">
+              <!-- プレビュー画像 -->
+              <v-col cols="4">
+                <div class="my-4 py-4 detaTable-header_img">
+                  <img
+                    v-if="item.thumbnail_img_path"
+                    :src=" 'data:image/png;base64,' +item.thumbnail_img_path"
+                    class="thumbnail-image"
+                  >
+                  <img
+                    v-if="!item.thumbnail_img_path"
+                    src="/images/samb-none-image.jpg"
+                    class="thumbnail-image"
+                  >
+                </div>
+              </v-col>
+              <!-- タイトル - 編集権限あり -->
+              <v-col cols="5" class="detaTable-header_title ml-2" v-if="item.title.length < 21">
+                <!-- タイトル - 編集権限なし -->
+                <div class="announce-title-font_disable">
+                  {{ item.title }}
+                </div>
+                <!-- カテゴリー -->
+                <p class="mb-0 announce-category-font category_on" v-if="item.announce_category_id">
+                  カテゴリー：{{ item.announce_categories.category_name }}
+                </p>
+                <p class="mb-0 announce-category-font category_off" v-if="item.announce_category_id">
+                  {{ item.announce_categories.category_name }}
+                </p>
+              </v-col>
+              <!-- タイトル - 編集権限あり -->
+              <v-col cols="5" class="detaTable-header_title ml-2" v-if="item.title.length > 20">
+                <!-- タイトル - 編集権限なし -->
+                <div class="announce-title-font_disable">
+                  {{ item.title.slice(0,20) }}...
+                </div>
+                <!-- カテゴリー -->
+                <p class="mb-0 announce-category-font" v-if="item.announce_category_id">
+                  カテゴリー：{{ item.announce_categories.category_name }}
+                </p>
+              </v-col>
+              <!-- プレビュー -->
+              <v-col cols="1" class="detaTable-header_preview">
+                <button
+                  @click="(displayAnnouncePreview = true),
+                  setPreviewInfo(item.start_date,item.end_date,item.contents,item.title,item.announce_categories.category_name)"
+                  type="button"
+                  disabled
+                >
+                  <v-icon color="grey" large>mdi-eye</v-icon>
+                  <p class="mb-0" style="color:grey">プレビュー</p>
+                </button>
+              </v-col>
+            </v-row>
+          </div>
+        </template>
+        <!-- 投稿日 -->
+        <template #item-created_at="item">
+          <p class="mb-0 detaTable-header-width-mid">
+            {{ timestampFormat(item.created_at) }}
+          </p>
+        </template>
+        <!-- 更新日時 -->
+        <template #item-updated_at="item">
+          <p class="mb-0 detaTable-header-width-mid">
+            {{ timestampFormat(item.updated_at) }}
+          </p>
+        </template>
+        <!-- ステータス - 「全ての投稿」タブにのみ表示 -->
+        <template #item-open_status="item">
+          <!-- 承認ステータス -->
+          <p
+            v-if="$store.state.announce.displayAnnounceStatus == null"
+            class="mb-1"
+            :class="getApprovalStatusColor(item.approval_status)"
+          >
+            {{ getApprovalStatus(item.approval_status) }}
+          </p>
+          <!-- 公開期間 -->
+          <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg detaTable-header-width-mid" : "detaTable-header-width-mid"]'>
+            {{ item.approval_status == "2" ? inReleaseFlg(item)  ? "公開中" : "公開期間外" : "" }}
+          </p>
         </template>
       </EasyDataTable>
     </v-col>

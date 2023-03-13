@@ -590,9 +590,53 @@ export default {
     },
 
     // リッチテキストのhtmlを取得
-    getQuillEditorContent() {
-      const html = this.$refs.myQuillEditor.getHTML();
-      this.contents = html;
+    async getQuillEditorContent() {
+      let html = this.$refs.myQuillEditor.getHTML();
+      // 添付画像を取得して本文に差し替えて表示する
+      // 該当お知らせに添付画像がある場合を行う
+      if (this.announce.attachments.length > 0) {
+        this.announce.attachments.forEach(element => {
+          html = html.replace('[[' + element.img_filename + ']]','<img class="preview_img_honbun" src="data:image/jpeg;base64, ' + element.img_file + '" />')
+        });
+
+        // 編集の際に添付画像のプレビュー(すでに添付画像あり)
+        if (this.insertAttachments.length > 0){
+          await this.readAttachmentsImg();
+          this.insertAttachments.forEach(element => {
+            html = html.replace('[[' + element.name + ']]', '<img class="preview_img_honbun" src="' + element.img_file + '" />');
+          });
+          // this.contents = html;
+        }
+        this.contents = html;
+
+        // 編集の際に添付画像のプレビュー(すでに添付画像なし)
+      }else{
+        await this.readAttachmentsImg();
+        if (this.insertAttachments.length > 0){
+          this.insertAttachments.forEach(element => {
+            html = html.replace('[[' + element.name + ']]', '<img class="preview_img_honbun" src="' + element.img_file + '" />');
+          });
+          this.contents = html;
+        }
+      }
+    },
+
+    readAttachmentsImg() {
+      console.log(this.insertAttachments)
+      if (this.insertAttachments.length != 0){
+        return Promise.all(this.insertAttachments.map((element) => {
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+              element.img_file = reader.result;
+              resolve();
+            };
+            reader.readAsDataURL(element);
+          });
+        }));
+      } else {
+        return [];
+      }
     },
 
     // 掲載期間を取得
@@ -1101,5 +1145,10 @@ export default {
   .stastus-font__grey {
     color: grey;
     font-weight: 600;
+  }
+
+  /*  本文プレビュー */
+  .preview_img_honbun{
+    width: 40%;
   }
 </style>

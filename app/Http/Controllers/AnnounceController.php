@@ -35,8 +35,8 @@ class AnnounceController extends Controller
         $searchRelease = $request->input('searchRelease');
         $shop_id = $request->session()->get('shop_id');
         $announce = Announce::getAnnounce($offset, $limit, $sort, $announceStatus, $announceAddAccount, $searchAddDateBegin, $searchAddDateEnd, $searchUpdDateBegin, $searchUpdDateEnd, $searchAnnounceCol, $searchAnnounce, $searchCategory, $searchRelease, $shop_id);
-        foreach($announce["anounce"] as $key => $value){
-            if($value["thumbnail_img_path"]){
+        foreach ($announce["anounce"] as $key => $value) {
+            if ($value["thumbnail_img_path"]) {
                 $thumbnail_img_contents = Storage::get($value["thumbnail_img_path"]);
                 $thumbnail_img_base64 = base64_encode($thumbnail_img_contents);
                 $value["thumbnail_img_path"] = $thumbnail_img_base64;
@@ -45,7 +45,7 @@ class AnnounceController extends Controller
         return $announce;
     }
 
-    
+
     // 詳細取得
     public function showAnnounce($id)
     {
@@ -60,8 +60,20 @@ class AnnounceController extends Controller
         } else if ($announce->approval_status == 9) {
             return 9;
         }
-        
-        if($announce->thumbnail_img_path){
+
+        // 添付ファイルを取得
+        if (!is_null($announce['attachments'])) {
+            foreach ($announce['attachments'] as $key => $value) {
+                if ($value['img_path']) {
+                    $attachments_img = Storage::get($value['img_path']);
+                    $attachments_img_base64 = base64_encode($attachments_img);
+                    $value['img_file'] = $attachments_img_base64;
+                }
+            }
+            Log::info($announce['attachments']);
+        }
+
+        if ($announce->thumbnail_img_path) {
             $thumbnail_img_contents = Storage::get($announce->thumbnail_img_path);
             $thumbnail_img_base64 = base64_encode($thumbnail_img_contents);
             $announce->thumbnail_img_path = $thumbnail_img_base64;
@@ -261,7 +273,7 @@ class AnnounceController extends Controller
         Log::info('削除ファイル');
         Log::info(print_r($deleteAttachments, true));
 
-        if($thumbnail){
+        if ($thumbnail) {
             $update = [
                 'title' => urldecode($announce['title']),
                 'announce_category_id' => $announce['announce_category_id'],
@@ -271,7 +283,7 @@ class AnnounceController extends Controller
                 'upd_account' => Auth::user()->id,
                 'thumbnail_img_path' => Storage::putFile('announce/' . $request->session()->get('shop_id') . "/" . $id . "/thumbnail", $thumbnail),
             ];
-        }else{
+        } else {
             $update = [
                 'title' => urldecode($announce['title']),
                 'announce_category_id' => $announce['announce_category_id'],

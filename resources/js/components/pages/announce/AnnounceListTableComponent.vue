@@ -178,18 +178,24 @@
         </template>
         <!-- ステータス - 「全ての投稿」タブにのみ表示 -->
         <template #item-open_status="item">
-          <!-- 承認ステータス -->
-          <p
-            v-if="$store.state.announce.displayAnnounceStatus == null"
-            class="mb-1"
-            :class="getApprovalStatusColor(item.approval_status)"
-          >
-            {{ getApprovalStatus(item.approval_status) }}
-          </p>
-          <!-- 公開期間 -->
-          <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg detaTable-header-width-mid" : "detaTable-header-width-mid"]'>
-            {{ item.approval_status == "2" ? inReleaseFlg(item)  ? "公開中" : "公開期間外" : "" }}
-          </p>
+          <v-tooltip location="bottom" :text=" '掲載期間：' + timestampFormat2(item.start_date) + '～' + timestampFormat2(item.end_date)">
+            <!-- 承認ステータス -->
+            <template v-slot:activator="{ props }">
+              <span v-bind="props">
+                <p
+                  v-if="$store.state.announce.displayAnnounceStatus == null"
+                  class="mb-1"
+                  :class="getApprovalStatusColor(item.approval_status)"
+                >
+                  {{ getApprovalStatus(item.approval_status) }}
+                </p>
+                <!-- 公開期間 -->
+                <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg detaTable-header-width-mid" : "detaTable-header-width-mid"]'>
+                  {{ item.approval_status == "2" ? inReleaseFlg(item)  ? "公開中" : "公開期間外" : "" }}
+                </p>
+              </span>
+            </template>
+          </v-tooltip>
         </template>
         <!-- 操作ボタン -->
         <template #item-actions="item">
@@ -406,18 +412,24 @@
         </template>
         <!-- ステータス - 「全ての投稿」タブにのみ表示 -->
         <template #item-open_status="item">
+          <v-tooltip location="bottom" :text=" '掲載期間：' + timestampFormat2(item.start_date) + '～' + timestampFormat2(item.end_date)">
           <!-- 承認ステータス -->
-          <p
-            v-if="$store.state.announce.displayAnnounceStatus == null"
-            class="mb-1"
-            :class="getApprovalStatusColor(item.approval_status)"
-          >
-            {{ getApprovalStatus(item.approval_status) }}
-          </p>
-          <!-- 公開期間 -->
-          <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg detaTable-header-width-mid" : "detaTable-header-width-mid"]'>
-            {{ item.approval_status == "2" ? inReleaseFlg(item)  ? "公開中" : "公開期間外" : "" }}
-          </p>
+            <template v-slot:activator="{ props }">
+              <span v-bind="props">
+                <p
+                  v-if="$store.state.announce.displayAnnounceStatus == null"
+                  class="mb-1"
+                  :class="getApprovalStatusColor(item.approval_status)"
+                >
+                  {{ getApprovalStatus(item.approval_status) }}
+                </p>
+                <!-- 公開期間 -->
+                <p class="mb-0" :class='[inReleaseFlg(item) ? "text-inReleaseFlg detaTable-header-width-mid" : "detaTable-header-width-mid"]'>
+                  {{ item.approval_status == "2" ? inReleaseFlg(item)  ? "公開中" : "公開期間外" : "" }}
+                </p>
+              </span>
+            </template>
+          </v-tooltip>
         </template>
       </EasyDataTable>
     </v-col>
@@ -1054,6 +1066,17 @@ export default {
       //   date.getDate().toString().padStart(2, "0")
       // );
     },
+
+     timestampFormat2(timestamp) {
+      if(!timestamp){
+        return "未設定"
+      }else{
+        const date = new Date(timestamp);
+        const dayjs = inject("dayjs");
+        return dayjs(timestamp).format("YYYY/MM/DD HH:mm");
+      }
+    },
+
 
     //プレビュー画面に必要な情報をセット
     setPreviewInfo(start_date,end_date,contents,title,category){

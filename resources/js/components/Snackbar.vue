@@ -2,7 +2,7 @@
   <div>
     <v-snackbar
         v-model="$store.state.snackbar.snackbar"
-        :timeout="timeout"
+        :timeout="$store.state.snackbar.timeout"
         :top="true"
       >
       {{ $store.state.snackbar.text }}
@@ -13,7 +13,7 @@
 <script>
   export default {
     data: () => ({
-      timeout: 1500,
+      // timeout: 1500,
     }),
   };
 </script>

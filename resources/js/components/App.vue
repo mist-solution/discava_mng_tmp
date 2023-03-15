@@ -36,20 +36,21 @@ export default {
   watch: {
     '$route'(to, from) {
       if(from.path != to.path){
-        console.log('Route changed from', from.path, 'to', to.path);
         this.getRequest();
       }
     }
   },
   methods: {
-    ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
+    ...mapActions("snackbar", ["openSuccess", "openSuccessWithTime", "openWarning", "openError", "closeSnackbar"]),
     getRequest(){
       axios.get("/api/checkToken/")
       .then((res) => {})
       .catch(error => {
         if (error.response.status == 401) {
-          this.openSuccess('セッションが無効です。 再度ログインを行ってください。');
-          window.location.href = "/login"
+          this.openSuccessWithTime({ text: "セッションが無効です。 再度ログインを行ってください。", timeout: 2000 });
+          setTimeout(() => {
+            window.location.href = "/login"
+          }, 1000);
         }
       });
     },
@@ -61,8 +62,10 @@ export default {
       },
       error => {
         if (error.response.status == 401) {
-          this.openSuccess('セッションが無効です。 再度ログインを行ってください。');
-          window.location.href = "/login"
+          this.openSuccessWithTime({ text: "セッションが無効です。 再度ログインを行ってください。", timeout: 2000 });
+          setTimeout(() => {
+            window.location.href = "/login"
+          }, 1000);
         }
         return Promise.reject(error);
         },    

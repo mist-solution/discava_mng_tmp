@@ -206,7 +206,8 @@ export default {
     },
 
     logout(){
-      this.$axios.post("/logout")
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      this.$axios.post("/logout", { _token: csrfToken })
         .then(response => {
           localStorage.removeItem("auth");
           window.location.href = "/login"

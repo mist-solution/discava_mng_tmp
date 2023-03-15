@@ -13,10 +13,7 @@
     <!-- Styles -->
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     <!-- favicon -->
-    <!-- <link rel="icon" href="{{ url('/images/discavamate.ico') }}"> -->
-    <link rel="icon" href="{{ url('/images/favicon.ico') }}">
-    <!-- <link rel="icon" href="{{ url('/path/to/favicon.ico') }}"> -->
-    <!-- <link rel="icon" href="https://mate.discava.net/images/discavamate.ico"> -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
 </head>
 
 <body>

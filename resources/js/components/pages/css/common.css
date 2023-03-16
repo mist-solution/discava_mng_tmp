@@ -534,3 +534,18 @@ text-align: center;
 .filter-btnsp > div >div > .dp__input::placeholder {
     color: #3f3f3f !important;
 }
+
+.manychoice > div > div{
+    height: 40px !important;
+}
+
+
+.manychoice > div > div > .v-field__append-inner > .mdi-menu-down{
+    position: relative;
+    bottom: 8px;
+}
+
+.manychoice > div > div > .v-field__field{
+    position: relative;
+    bottom: 8px;
+}

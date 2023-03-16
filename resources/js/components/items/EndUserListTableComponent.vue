@@ -14,7 +14,7 @@
 			buttons-pagination
 			dense
 			:search-field="searchField"
-			:search-value="searchValue"
+			:search-value="searchValueReplace"
 			:rows-per-page="rowsPerPage"
       v-if="reset && update_auth_flg"
       :hide-footer="true"
@@ -73,7 +73,7 @@
 			buttons-pagination
 			dense
 			:search-field="searchField"
-			:search-value="searchValue"
+			:search-value="searchValueReplace"
 			:rows-per-page="rowsPerPage"
       v-if="reset && !update_auth_flg"
       :hide-footer="true"
@@ -180,6 +180,7 @@
         reset: true,
         page: 1,
         PageLastIndex: "",
+        searchValueReplace: "",
       };
     },
     computed: {
@@ -204,6 +205,8 @@
         this.$refs.dataTable.updatePage(this.page);
       },
       searchValue(){
+        // 検索する際、「+」を正規表現の文字にエスケープ
+        this.searchValueReplace = this.$props.searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         setTimeout(() => {
           this.rowsPerPage = this.$store.state.enduser.displayLimit;
           let a = this.$refs.dataTable.clientItemsLength;
@@ -213,7 +216,6 @@
           this.$nextTick(() => (this.reset = true));
         }, 300);
       }
-      
     },
     methods: {
       ...mapActions('authority', ['fetchAllAuthority']),

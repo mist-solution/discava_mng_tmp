@@ -47,10 +47,10 @@ export default {
       .then((res) => {})
       .catch(error => {
         if (error.response.status == 401) {
-          this.openSuccessWithTime({ text: "セッションが無効です。 再度ログインを行ってください。", timeout: 2000 });
+          this.openSuccessWithTime({ text: "セッションが無効です。 再度ログインを行ってください。", timeout: 4500 });
           setTimeout(() => {
             window.location.href = "/login"
-          }, 1000);
+          }, 4500);
         }
       });
     },
@@ -62,10 +62,10 @@ export default {
       },
       error => {
         if (error.response.status == 401) {
-          this.openSuccessWithTime({ text: "セッションが無効です。 再度ログインを行ってください。", timeout: 2000 });
+          this.openSuccessWithTime({ text: "セッションが無効です。 再度ログインを行ってください。", timeout: 4500 });
           setTimeout(() => {
             window.location.href = "/login"
-          }, 1000);
+          }, 4500);
         }
         return Promise.reject(error);
         },    

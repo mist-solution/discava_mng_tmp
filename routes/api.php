@@ -56,6 +56,7 @@ Route::middleware(['sessionTimeout'])->group(function () {
 
     Route::get('/api/enduser', [UserController::class, 'index']);
     Route::get('/api/enduser/{id}', [UserController::class, 'showUser']);
+    Route::get('/api/suggest', [UserController::class, 'suggest']);
     Route::post('/api/enduser', [UserController::class, 'register']);
     Route::put('/api/enduser/{id}', [UserController::class, 'update']);
     Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);

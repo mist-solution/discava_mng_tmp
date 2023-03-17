@@ -247,4 +247,29 @@ class UserController extends Controller
             return redirect()->back()->withInput()->withErrors($request->errors());
         }
     }
+
+    //サジェスト機能
+    public function suggest(Request $request)
+    {
+        $response = array();
+        $users = User::where('customer_id', Auth::user()->customer_id)
+            ->where('name','LIKE',"%{$request->input('suggestname')}%")
+            ->where('del_flg', '0')
+            ->get();
+        Log::info($users);
+        $userArrays = array();
+        foreach ($users as $key => $value) {
+            $userArray = array();
+            $userArray['id'] = $value->id;
+            $userArray['name'] = $value->name;
+            $userArray['email'] = $value->email;
+            $userArray['customer_id'] = $value->customer_id;
+            $userArray['created_at'] = $value->created_at;
+            $userArray['updated_at'] = $value->updated_at;
+            $userArrays[] = $userArray;
+        }
+        $response['users'] = $userArrays;
+        $response['message'] = 'success';
+        return $response;
+    }
 }

@@ -80,8 +80,21 @@
           hide-details="false"
           v-model="usermodel"
           @change="FilterAnnounce"
+          @input="getSuggestList"
+          @blur="closesuggest"
           Style="text-align: center"
         />
+        <div class="panel-footer" v-if="suggestlist.length && open">
+          <ul class="list-group">
+            <li
+              v-for="(suggestlist, index) in suggestlist"
+              v-bind:key="suggestlist.index"
+              class="list-group-item list-group-item-action"
+              @click="suggestClick(index)"
+              v-text="suggestlist.name"
+            ></li>
+          </ul>
+        </div>
 
         <v-select
           dense
@@ -388,6 +401,9 @@ export default {
       LastPage: null,
       reset: true,
       reset2: true,
+      suggestlist: [],
+      open: false,
+      current: 0
     };
   },
   computed:{
@@ -655,7 +671,7 @@ export default {
       return moment(date).format('yyyy/MM');
     },
 
-     previewFormat(date) {
+    previewFormat(date) {
       return moment(date).format('yyyy/MM');
     },
 
@@ -665,6 +681,38 @@ export default {
       this.categoriesmodel = value3
       this.usermodel = value4
       this.releasemodel = value5
+    },
+
+    //サジェスト機能
+    getSuggestList(){
+      axios
+        .get("/api/suggest", {
+          params: {
+            suggestname:
+              this.usermodel,
+          }
+        },)
+        .then((res) => {
+          this.suggestlist = res.data.users;
+          if (this.suggestlist) {
+            this.open = true;
+          }
+        });
+    },
+
+    suggestClick(index) {
+      this.usermodel = this.suggestlist[index].name;
+      console.log(this.suggestlist[index].name)
+      this.open = false;
+      this.current = 0;
+      this.suggestlist = this.suggestlist[index];
+      this.FilterAnnounce();
+    },
+
+    closesuggest(){
+      setTimeout(() => {
+        this.open = false;
+      }, 50);
     }
   },
   async created(){

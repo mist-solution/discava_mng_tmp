@@ -42,6 +42,7 @@
           cancelText="キャンセル"
           month-picker
           @update:model-value="FilterAnnounce"
+          locale="jp"
         />
 
         <DatePicker
@@ -54,6 +55,7 @@
           cancelText="キャンセル"
           month-picker
           @update:model-value="FilterAnnounce"
+          locale="jp"
         />
 
         <v-select

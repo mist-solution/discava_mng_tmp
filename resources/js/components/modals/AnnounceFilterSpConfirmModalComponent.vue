@@ -10,6 +10,7 @@
           selectText="確認"
           cancelText="キャンセル"
           month-picker
+          locale="jp"
         />
 
         <DatePicker
@@ -21,6 +22,7 @@
           selectText="確認"
           cancelText="キャンセル"
           month-picker
+          locale="jp"
         />
 
 

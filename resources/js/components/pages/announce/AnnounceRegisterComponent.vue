@@ -82,6 +82,7 @@
                   :required="isRequired ? ['rules.required'] : []"
                   selectText="確認"
                   cancelText="キャンセル"
+                  locale="ja"
                 />
               </v-col>
               <v-col cols="12" class="mt-2 p-0 Date-time">
@@ -124,6 +125,7 @@
                   :required="false"
                   selectText="確認"
                   cancelText="キャンセル"
+                  locale="ja"
                 />
               </v-col>
               <v-col cols="12" class="mt-2 p-0 Date-time">

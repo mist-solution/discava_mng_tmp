@@ -71,29 +71,31 @@
         />
       </v-col>
 
-      <v-col class="sort-flex px-0 over1100" col="6">
-        <input
-          dense
-          class="filter-btn user_search"
-          placeholder="　投稿者名"
-          type="search"
-          hide-details="false"
-          v-model="usermodel"
-          @change="FilterAnnounce"
-          @input="getSuggestList"
-          @blur="closesuggest"
-          Style="text-align: center"
-        />
-        <div class="panel-footer" v-if="suggestlist.length && open">
-          <ul class="list-group">
-            <li
-              v-for="(suggestlist, index) in suggestlist"
-              v-bind:key="suggestlist.index"
-              class="list-group-item list-group-item-action"
-              @click="suggestClick(index)"
-              v-text="suggestlist.name"
-            ></li>
-          </ul>
+      <v-col class="sort-flex px-0 over1100" col="6" style="height:90px;">
+        <div class="user_input" style="position:relative;">
+          <input
+            dense
+            class="filter-btn user_search"
+            placeholder="　投稿者名"
+            type="search"
+            hide-details="false"
+            v-model="usermodel"
+            @change="FilterAnnounce"
+            @input="getSuggestList"
+            @blur="closesuggest"
+            Style="text-align: center"
+          />
+          <div class="panel-footer" v-if="suggestlist.length && open">
+            <ul class="list-group">
+              <li
+                v-for="(suggestlist, index) in suggestlist"
+                v-bind:key="suggestlist.index"
+                class="list-group-item list-group-item-action"
+                @click="suggestClick(index)"
+                v-text="suggestlist.name"
+              ></li>
+            </ul>
+          </div>
         </div>
 
         <v-select
@@ -343,7 +345,11 @@
     :userfirst="usermodel"
     :releasefirst="releasemodel"
   />
+
+
 </template>
+
+
 
 <script>
 import { mapGetters,mapActions } from "vuex";
@@ -435,7 +441,7 @@ export default {
     },*/
 
     //投稿月/更新月のドロップダウンリスト作成
-    createDropdownList(){
+    /*createDropdownList(){
       this.items2[0] = {id: 0, text:"全て" , year:"", month:""}
       let id = 1
       let yearlist = this.year
@@ -464,7 +470,7 @@ export default {
           }
         }
       }
-    },
+    },*/
     //ドロップダウンリスト更新
     createdChange: function(id) {
       const postData = {
@@ -583,7 +589,7 @@ export default {
       this.FilterAnnounce();
     },
 
-    //検索モーダルを閉じる（SP  ）
+    //検索モーダルを閉じる（SP）
     closeFilter(){
       this.displayAnnounceFilter = false;
     },
@@ -685,19 +691,21 @@ export default {
 
     //サジェスト機能
     getSuggestList(){
-      axios
-        .get("/api/suggest", {
-          params: {
-            suggestname:
-              this.usermodel,
-          }
-        },)
-        .then((res) => {
-          this.suggestlist = res.data.users;
-          if (this.suggestlist) {
-            this.open = true;
-          }
-        });
+      if(this.usermodel){
+        axios
+          .get("/api/suggest", {
+            params: {
+              suggestname:
+                this.usermodel,
+            }
+          },)
+          .then((res) => {
+            this.suggestlist = res.data.users;
+            if (this.suggestlist) {
+              this.open = true;
+            }
+          });
+      }
     },
 
     suggestClick(index) {
@@ -712,7 +720,7 @@ export default {
     closesuggest(){
       setTimeout(() => {
         this.open = false;
-      }, 50);
+      }, 100);
     }
   },
   async created(){
@@ -720,7 +728,7 @@ export default {
     let now = new Date();
     this.year = now.getFullYear();
     this.month = now.getMonth() + 1;
-    this.createDropdownList()
+    //this.createDropdownList()
   },
   async mounted() {
     let authority = await this.fetchAllAuthority();
@@ -896,13 +904,13 @@ export default {
 
   @media(max-width:1380px){
     .user_search {
-      width: 35%
+      width: 94%
     }
   }
 
   @media(max-width:1279.9px){
     .user_search {
-      width: 20%
+      width: 94%
     }
   }
 
@@ -916,5 +924,24 @@ export default {
     .under1100 {
       display:none;
     }
+  }
+
+  .panel-footer{
+    z-index: 2000;
+    position: absolute;
+    top: 55px;
+    left: 15px;
+  }
+
+  .user_input{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .list-group-item{
+    background-color: #7B7B7B;
+    color:#fff;
+    font-size:.85rem;
+    cursor: pointer;
   }
 </style>

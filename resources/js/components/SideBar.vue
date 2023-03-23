@@ -232,6 +232,15 @@ export default {
     ...mapGetters("sidebar", ["customer"]),
     usershops: {
       get() {
+        if(this.shopUsers){
+          for(let i=0; i < this.shopUsers.length ;i++){
+            if(this.shopUsers[i].shop_name.length > 8){
+              for(let j = 0; j < Math.floor(this.shopUsers[i].shop_name.length/8);j++){
+                  this.shopUsers[i].shop_name = this.shopUsers[i].shop_name.slice(12*j,12*j+8) + "\r\n" + this.shopUsers[i].shop_name.slice(12*j+8)
+              }
+            }
+          }
+        }
         return this.shopUsers;
       }
     },

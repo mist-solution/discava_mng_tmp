@@ -144,8 +144,11 @@
 /* ボタン内テキスト中央寄せ */
 .v-select__selection {
     display: inline !important;
-    width: 100%;
+    width: 70%;
     text-align: center;
+    white-space: pre;
+    position: relative;
+    left: 15px;
 }
 
 .v-field__input {
@@ -155,6 +158,7 @@
 /* メニュー内テキスト */
 .v-list-item-title {
     font-weight: 700 !important;
+    white-space: pre;
 }
 
 .v-list-item__prepend{

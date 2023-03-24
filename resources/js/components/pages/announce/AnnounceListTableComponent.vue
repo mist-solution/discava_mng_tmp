@@ -819,7 +819,7 @@ export default {
     displayPage() {
       this.page = this.$store.state.announce.displayPage;
       this.$refs.dataTable.updatePage(this.page);
-      this.getAnnounceList();
+      //this.getAnnounceList();
     },
   },
   methods: {
@@ -891,6 +891,10 @@ export default {
           this.totalcount = res.data.count
           this.loading = false;
           this.getItems2List();
+          let a = res.data.count
+          this.PageLastIndex = Math.ceil(a/this.rowsPerPage);
+          console.log(this.rowsPerPage)
+          this.$emit("LastPageChange",this.PageLastIndex,a);
         });
     },
 
@@ -1275,10 +1279,10 @@ export default {
     if(name){
         this.username = name.name;
     }
-    this.dataTable = this.$store.state.announce.totalCount
+    /*this.dataTable = this.$store.state.announce.totalCount
     let a = this.$refs.dataTable.clientItemsLength;
     this.PageLastIndex = this.$refs.dataTable.maxPaginationNumber;
-    this.$emit("LastPageChange",this.PageLastIndex,a)
+    this.$emit("LastPageChange",this.PageLastIndex,a)*/
   },
 };
 </script>

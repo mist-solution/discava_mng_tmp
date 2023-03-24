@@ -206,7 +206,7 @@
         class="pagenation"
         type="number"
         aria-label="Search"
-        min="1"
+        :min="firstPage"
         :max="LastPage"
         hide-details="false"
         Style="text-align:right"
@@ -405,6 +405,7 @@ export default {
       lastpage_flg: false,
       pager_flg: true,
       LastPage: null,
+      firstPage: null,
       reset: true,
       reset2: true,
       suggestlist: [],
@@ -609,7 +610,8 @@ export default {
     LastPageChange(value1,value2){
       this.pager_flg = true;
       this.page = 1
-      this.firstpage_flg = true
+      this.firstpage_flg = true;
+      this.firstPage = 1;
       this.LastPage = value1;
       this.totalcount = value2;
       if(this.LastPage == 1){
@@ -619,7 +621,8 @@ export default {
       }else if(this.LastPage == 0){
         this.page = 0;
         this.lastpage_flg = true;
-        this.pager_flg = false;
+        this.firstPage = 0;
+        //this.pager_flg = false;
         this.reset = false;
         this.$nextTick(() => (this.reset = true));
       }else{

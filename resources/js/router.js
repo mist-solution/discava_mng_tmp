@@ -14,6 +14,7 @@ const EndUserListComponent = () => import('./components/pages/end_user/EndUserLi
 const AnnounceDetailComponent = () => import('./components/pages/announce/AnnounceDetailComponent')
 const AnnounceApprovalConfirmComponent = () => import('./components/pages/announce/AnnounceApprovalComponent')
 const NotFoundComponent = () => import('./components/pages/NotFoundComponent')
+const GalleryListComponent = () => import('./components/pages/gallery/GalleryListComponent')
 
 const routes = [
     // ダッシュボード画面
@@ -110,6 +111,13 @@ const routes = [
         path: '/:pathMatch(.*)*',
         name: 'notfound',
         component: NotFoundComponent,
+    },
+
+    // ギャラリー編集（一覧）
+    {
+        path: '/gallery',
+        name: 'gallery.list',
+        component: GalleryListComponent,
     },
 ]
 

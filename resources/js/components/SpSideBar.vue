@@ -85,7 +85,7 @@ export default {
       drawer: true,
       items: [
         { id: 1, title: "投稿管理", icon: "mdi-bullhorn-variant-outline", linkTo: "announce.list", disabled: false, },
-        { id: 2, title: "ギャラリー管理", icon: "mdi-image-outline", linkTo: "", disabled: true, },
+        { id: 2, title: "ギャラリー編集", icon: "mdi-image-outline", linkTo: "", disabled: true, },
         { id: 3, title: "アクセス情報", icon: "mdi-chart-bar", linkTo: "", disabled: true, },
         { id: 4, title: "アカウント管理", icon: "mdi-account", linkTo: "enduser.list", disabled: false, },
         { id: 5, title: "契約情報", icon: "mdi-file-document-edit-outline", linkTo: "", disabled: true, },

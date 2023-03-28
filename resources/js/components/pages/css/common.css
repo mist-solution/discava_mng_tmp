@@ -549,3 +549,99 @@ text-align: center;
     position: relative;
     bottom: 8px;
 }
+
+/* ギャラリー編集 */
+.gallery-flex{
+    display: flex;
+    width: 80vw;
+}
+
+.gallery-flex .main-cont:nth-child(1){
+    width: 21%;
+    height: fit-content;
+    margin-right: 30px;
+    height: 82vh;
+    }
+
+.gallery-flex .main-cont:nth-child(2){
+    width: 80%;
+    height: fit-content;
+    height: 82vh;
+    }
+
+.gallery-flex p{
+    font-size: .85rem;
+    margin: 0;
+    width: 73%;
+    }
+
+@media (min-width: 1500px){
+    .gallery-flex .main-cont:nth-child(1){
+        width: 21%;
+    }
+}
+@media (max-width: 1070px){
+    .gallery-flex {
+        justify-content: center;
+    }
+}
+
+@media(min-width: 600px){
+    .gallery-flex .main-cont:nth-child(2){
+        position: relative;
+        right: 9px;
+    }
+}
+
+@media (max-width: 599.99px){
+    .gallery-flex .main-cont:nth-child(1){
+        width: 95%;
+        max-width: none;
+        margin: 0;
+    }
+    .gallery-flex .main-cont:nth-child(2){
+    width: 95%;
+    }
+}
+
+/* フォルダ管理パーツ */
+.gallery-title-folder {
+    display: flex;
+    align-items: center;
+    color: #707070;
+    width: 96%;
+    margin-left: 5%;
+    margin-bottom: 1rem;
+}
+@media (max-width: 599.99px){
+    .gallery-title-folder {
+    margin-left: 14px;
+    width: 100%;
+    }
+}
+@media (min-width: 1450px){
+    .gallery-title-folder {
+    margin-left: 5%;
+    margin-bottom: 1rem;
+    }
+}
+
+/* ライブラリ管理パーツ */
+.gallery-title-library {
+    display: flex;
+    align-items: center;
+    color: #707070;
+    width: 96%;
+    margin-bottom: 1rem;
+}
+@media (max-width: 599.99px){
+    .gallery-title-library {
+    margin-left: 14px;
+    width: 100%;
+    }
+}
+@media (min-width: 1450px){
+    .gallery-title-library {
+    margin-bottom: 1rem;
+    }
+}

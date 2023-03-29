@@ -5,24 +5,27 @@
     <button class="green-btn_noTransform px-2 py-1" type="button">追加</button>
   </div>
 
-  <!-- フォルダ検索 -->
+  <!-- フォルダ検索エリア -->
   <div class="gallery-folder-search-container">
     <button type="button" class="gallery-folder-search-icon">
       <v-icon>mdi-magnify</v-icon>
     </button>
-    <input
-      class="gallery-folder-search-input"
-      type="search"
-      aria-label="Search"
-      maxlength="30"
-      hide-details="false"
-    />
-    <button class="btn white-btn gallery-folder-search-sort" type="button">
-      <span class="mdi mdi-sort-alphabetical-ascending"></span>
-    </button>
+    <div class="d-flex">
+      <input
+        class="gallery-folder-search-input"
+        type="search"
+        aria-label="Search"
+        maxlength="30"
+        hide-details="false"
+      />
+      <button class="btn white-btn gallery-folder-search-sort" type="button">
+        <span class="mdi mdi-sort-alphabetical-ascending"></span>
+      </button>
+    </div>
   </div>
 
-  <div class="gallery_horizontal_divider"></div>
+  <!-- 仕切り線 -->
+  <div class="gallery-horizontal-divider"></div>
 
   <!-- フォルダ一覧表示 -->
   <div class="gallery-folder-show-container">
@@ -51,46 +54,46 @@
         <p class="folder-name">{{ item.name }}</p>
         <p class="number">{{ item.fileValue }}</p>
       </div>
-
       <!-- 子フォルダ -->
       <div
-        v-else-if="item.parent_folder_id !== 0 && item.isOpen"
-        v-for="(subitem, subindex) in folder"
-        :key="subindex"
         :class="[
-          subitem.parent_folder_id === item.id
+          item.isOpen
             ? 'gallery-folder-show-active gallery-sub-folder-show-active'
             : 'gallery-folder-show gallery-sub-folder-show',
         ]"
-        @click.stop="toggleFolder(subitem)"
+        @click.stop="toggleFolder(item)"
       >
         <span
-          v-if="subitem.isOpen && subitem.parent_folder_id"
-          :class="[subitem.isOpen ? 'mdi mdi-folder-open' : 'mdi mdi-folder']"
+          v-if="item.isOpen && item.parent_folder_id != 0"
+          :class="[item.isOpen ? 'mdi mdi-folder-open' : 'mdi mdi-folder']"
         ></span>
-        <p
-          v-if="subitem.isOpen && subitem.parent_folder_id"
-          class="folder-name"
-        >
-          {{ subitem.name }}
+        <p v-if="item.isOpen && item.parent_folder_id != 0" class="folder-name">
+          {{ item.name }}
         </p>
-        <p v-if="subitem.isOpen && subitem.parent_folder_id" class="number">
-          {{ subitem.fileValue }}
+        <p v-if="item.isOpen && item.parent_folder_id != 0" class="number">
+          {{ item.fileValue }}
         </p>
       </div>
     </div>
   </div>
 
-  <div class="gallery_horizontal_divider"></div>
-
   <!-- 名称変更・削除ボタン -->
-  <div class="d-flex">
-    <button class="btn white-btn gallery-folder-name-edit-btn" type="button">
-      名称変更
-    </button>
-    <button class="btn white-btn gallery-folder-name-delete-btn" type="button">
-      削除
-    </button>
+  <div class="gallery-folder-edit-btn-container">
+    <!-- 仕切り線 -->
+    <div class="gallery-horizontal-divider"></div>
+
+    <!-- ボタン -->
+    <div class="d-flex">
+      <button class="btn white-btn gallery-folder-name-edit-btn" type="button">
+        名称変更
+      </button>
+      <button
+        class="btn white-btn gallery-folder-name-delete-btn"
+        type="button"
+      >
+        削除
+      </button>
+    </div>
   </div>
 </template>
 
@@ -108,7 +111,6 @@ export default {
           isOpen: false,
           fileValue: 324,
         },
-
         {
           id: 2,
           parent_folder_id: 0,
@@ -125,7 +127,6 @@ export default {
           isOpen: false,
           fileValue: 111,
         },
-
         {
           id: 4,
           parent_folder_id: 3,
@@ -134,7 +135,6 @@ export default {
           isOpen: false,
           fileValue: 73,
         },
-
         {
           id: 5,
           parent_folder_id: 0,
@@ -151,36 +151,52 @@ export default {
           isOpen: false,
           fileValue: 32,
         },
+        {
+          id: 7,
+          parent_folder_id: 5,
+          name: "えええ",
+          isShow: false,
+          isOpen: false,
+          fileValue: 32,
+        },
       ],
     };
   },
   methods: {
+    // フォルダクリック操作
     toggleFolder(item) {
       // 親フォルダを押下
+      item.isOpen = !item.isOpen;
+
+      // 押下されない場合，isOpen = false
       this.folder.forEach((folderItem) => {
-        // 押下されない場合，クローズ
-        if (folderItem !== item && folderItem.parent_folder_id == 0) {
+        if (folderItem !== item) {
           folderItem.isOpen = false;
-          console.log("NOT CLICK:: " + folderItem.name);
-        } else if (folderItem !== item && !item.isOpen) {
+        } else if (folderItem.parent_folder_id === 0 && !item.isOpen) {
           folderItem.isOpen = false;
         }
       });
+
       // 子フォルダがある場合
       if (this.hasChildFolder(item.id)) {
-        // 子フォルダを表示
-        this.folder.forEach((subItem) => {
-          console.log(subItem.parent_folder_id == item.id);
-          if (subItem.parent_folder_id == item.id) {
-            subItem.isOpen = !subItem.isOpen;
-          } else if (subItem.parent_folder_id != item.id) {
-            subItem.isOpen = false;
-          }
-        });
+        // 親フォルダが開く場合
+        if (item.isOpen) {
+          // 子フォルダを表示
+          this.folder.forEach((subItem) => {
+            if (
+              subItem.parent_folder_id !== 0 &&
+              subItem.parent_folder_id == item.id
+            ) {
+              subItem.isOpen = true;
+            } else if (!item.isOpen) {
+              subItem.isOpen = false;
+            }
+          });
+        }
       }
-      item.isOpen = !item.isOpen;
     },
 
+    // 子フォルダあるか判断
     hasChildFolder(id) {
       return this.folder.some((item) => item.parent_folder_id === id);
     },
@@ -207,11 +223,13 @@ export default {
   }
 }
 
-.gallery_horizontal_divider {
+/* 仕切り線 */
+.gallery-horizontal-divider {
   border-top: 1px solid #ccc;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
+/* フォルダ検索エリア */
 .gallery-folder-search-container {
   display: flex;
   align-items: center;
@@ -228,10 +246,10 @@ export default {
   height: 2rem;
   border: solid 1px rgba(0, 0, 0, 0.2);
   border-radius: 0.375rem;
-  flex: 1;
   border: none;
   outline: none;
-  width: 8.6vw;
+  flex: 1;
+  width: 100%;
 }
 
 .gallery-folder-search-icon {
@@ -244,12 +262,12 @@ export default {
 .gallery-folder-search-sort {
   font-size: 22px;
   padding: 0px 5px;
-  margin-left: 5px;
+  margin-left: calc(100% + 10px);
 }
 
 /* フォルダ名初期表示スタイル */
 .gallery-folder-show-container {
-  height: 55vh;
+  overflow: auto;
 }
 .gallery-folder-show {
   display: flex;
@@ -257,7 +275,7 @@ export default {
   cursor: pointer;
   color: #9f9f9f;
   font-size: 16px;
-  line-height: 2.5rem;
+  line-height: 2rem;
   margin: 5px 0;
 }
 .gallery-folder-show span {
@@ -286,7 +304,7 @@ export default {
   cursor: pointer;
   color: #69a4af;
   font-size: 16px;
-  line-height: 2.5rem;
+  line-height: 2rem;
   margin: 5px -10px;
   background-color: #f5f9fa;
   border-right: 10px solid #f5f9fa;
@@ -313,15 +331,25 @@ export default {
   line-height: initial;
 }
 
-/* 子フォルダ */
+/* 子フォルダマージン */
 .gallery-sub-folder-show {
+  margin-left: 1.5rem;
+  margin-top: -0.3rem;
+}
+.gallery-sub-folder-show-active {
   margin-left: 1.5rem;
   margin-top: -0.3rem;
 }
 
 /* 名称変更・削除バタン */
+.gallery-folder-edit-btn-container {
+  position: absolute;
+  bottom: 15px;
+  left: 20px;
+  right: 20px;
+}
 .gallery-folder-name-edit-btn {
-  width: 60%;
+  width: 65%;
 }
 .gallery-folder-name-delete-btn {
   width: 35%;

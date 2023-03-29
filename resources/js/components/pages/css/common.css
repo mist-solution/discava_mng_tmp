@@ -559,14 +559,14 @@ text-align: center;
 .gallery-flex .main-cont:nth-child(1){
     width: 21%;
     height: fit-content;
-    margin-right: 30px;
-    height: 82vh;
+    margin-right: 20px;
+    height: 76vh;
     }
 
 .gallery-flex .main-cont:nth-child(2){
     width: 80%;
     height: fit-content;
-    height: 82vh;
+    height: 76vh;
     }
 
 .gallery-flex p{

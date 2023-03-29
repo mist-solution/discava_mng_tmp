@@ -11,6 +11,7 @@ use App\Http\Controllers\API\ShopUserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AnnounceController;
 use App\Http\Controllers\AnnounceCategoryController;
+use App\Http\Controllers\MediaFolderController;
 use App\Http\Controllers\WebAPI\AnnounceDetailContoller;
 use App\Http\Controllers\WebAPI\AnnounceImageController;
 use App\Http\Controllers\WebAPI\AnnounceListController;
@@ -103,6 +104,14 @@ Route::middleware(['sessionTimeout'])->group(function () {
     Route::post('/api/announce/registValidation', [AnnounceController::class, 'registStore']);
     // お知らせ新規編集のバリデーションAPI
     Route::post('/api/announce/tempValidation', [AnnounceController::class, 'tempStore']);
+
+    //------------------------------------------------
+    // メディア編集関連
+    //------------------------------------------------
+    // フォルダ一覧取得
+    Route::get('/api/mediafolder', [MediaFolderController::class, 'getMediaFolder']);
+
+
 });
 
 

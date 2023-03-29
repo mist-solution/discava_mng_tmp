@@ -29,4 +29,52 @@ class MediaAttachment extends Model
         'upd_account',
         'del_flg',
     ];
+
+    public function add_account()
+    {
+        return $this->belongsTo(User::class, 'add_account');
+    }
+
+    //一覧取得
+    public static function getMediaAttachment($searchFileID, $searchAddDateBegin, $searchAddDateEnd, $searchFileFormat, $searchCaption, $shop_id)
+    {
+        $mediaAttachmentModel = MediaAttachment::with('add_account')
+            ->where('del_flg', false)
+            ->where('shop_id', $shop_id);
+
+        //選択したフォルダから絞り込み（0の場合はすべてのファイルフォルダ）
+        if($searchFileID){
+            $mediaAttachmentModel = $mediaAttachmentModel->where('media_folder_id',  $searchFileID);
+        }
+
+        // 画像キャプション検索
+        if ($searchCaption != "") {
+            $mediaAttachmentModel = $mediaAttachmentModel->where(function ($query) use ($searchCaption) {
+                $query->where('img_caption', 'LIKE', "%{$searchCaption}%");
+            });
+        }
+
+        // 検索：登録日時（開始のみ入力済 、開始/終了入力済）
+        if ($searchAddDateBegin) {
+            $mediaAttachmentModel = $mediaAttachmentModel
+                ->where("created_at", '>=', $searchAddDateBegin)
+                ->where("created_at", '<', $searchAddDateEnd);
+        }
+
+        //ファイルタイプ絞り込み
+        if($searchFileFormat){
+            $mediaAttachmentModel = $mediaAttachmentModel
+                ->where("img_fileformat",$searchFileFormat);
+        }
+
+
+        $mediaAttachmentModel['count'] = $mediaAttachmentModel
+            ->count();
+
+        $mediaAttachmentModel['mediaAttachmentModel'] = $mediaAttachmentModel
+            ->get();
+
+        return $mediaAttachmentModel;
+    }
+
 }

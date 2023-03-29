@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {   
         $this->call(PlansTableSeeder::class);               // ★初期リリース時に必須
         $this->call(MateFunctionsTableSeeder::class);       // ★初期リリース時に必須
         $this->call(PlanMateFunctionsTableSeeder::class);   // ★初期リリース時に必須
@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AnnounceCategoriesTableSeeder::class);  // 不要(手動登録)
         $this->call(AnnouncesTableSeeder::class);           // 不要
         $this->call(AnnounceAttachmentsTableSeeder::class); // 不要
+        $this->call(MediaFoldersTableSeeder::class);
         // $this->call(TasksTableSeeder::class);  // 未使用
     }
 }

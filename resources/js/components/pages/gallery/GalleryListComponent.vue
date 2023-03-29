@@ -1,9 +1,6 @@
 <template>
   <v-container>
-    <title-component
-      class="sp_disable title-card-width"
-      name="ギャラリー編集"
-    />
+    <title-component class="sp_disable" name="ギャラリー編集" />
     <sp-gallery-title-component class="pc_disable" name="ギャラリー編集" />
     <div class="gallery-flex">
       <!-- フォルダ管理 -->
@@ -54,9 +51,6 @@ export default {
 @media (min-width: 901px) {
   .pc_disable {
     display: none;
-  }
-  .title-card-width {
-    width: 79.5vw;
   }
   .gallery-vCard-relative {
     position: relative;

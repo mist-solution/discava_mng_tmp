@@ -572,7 +572,7 @@ text-align: center;
 .gallery-flex p{
     font-size: .85rem;
     margin: 0;
-    width: 73%;
+    /* width: 73%; */
     }
 
 @media (min-width: 1500px){
@@ -604,6 +604,12 @@ text-align: center;
     }
 }
 
+/* 仕切り線 */
+.gallery-horizontal-divider {
+  border-top: 1px solid #ccc;
+  margin: 15px 0;
+}
+
 /* フォルダ管理パーツ */
 .gallery-title-folder {
     display: flex;
@@ -631,7 +637,7 @@ text-align: center;
     display: flex;
     align-items: center;
     color: #707070;
-    width: 96%;
+    width: 100%;
     margin-bottom: 1rem;
 }
 @media (max-width: 599.99px){

@@ -2,7 +2,12 @@
   <!-- タイトル -->
   <div class="gallery-title-folder">
     <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">フォルダ管理</p>
-    <button class="green-btn_noTransform px-2 py-1" type="button">追加</button>
+    <button
+      class="green-btn_noTransform px-2 py-1 gallery-folder-add-btn"
+      type="button"
+    >
+      追加
+    </button>
   </div>
 
   <!-- フォルダ検索エリア -->
@@ -10,18 +15,15 @@
     <button type="button" class="gallery-folder-search-icon">
       <v-icon>mdi-magnify</v-icon>
     </button>
-    <div class="d-flex">
-      <input
-        class="gallery-folder-search-input"
-        type="search"
-        aria-label="Search"
-        maxlength="30"
-        hide-details="false"
-      />
-      <button class="btn white-btn gallery-folder-search-sort" type="button">
-        <span class="mdi mdi-sort-alphabetical-ascending"></span>
-      </button>
-    </div>
+    <input
+      class="gallery-folder-search-input"
+      type="search"
+      maxlength="30"
+      hide-details="false"
+    />
+    <button class="btn white-btn gallery-folder-search-sort" type="button">
+      <span class="mdi mdi-sort-alphabetical-ascending"></span>
+    </button>
   </div>
 
   <!-- 仕切り線 -->
@@ -222,11 +224,9 @@ export default {
     display: none;
   }
 }
-
-/* 仕切り線 */
-.gallery-horizontal-divider {
-  border-top: 1px solid #ccc;
-  margin: 15px 0;
+/* タイトルエリア（追加ボタン） */
+.gallery-folder-add-btn {
+  margin-left: calc(73% - 6rem);
 }
 
 /* フォルダ検索エリア */
@@ -244,25 +244,28 @@ export default {
 .gallery-folder-search-input {
   font-size: 16px !important;
   height: 2rem;
-  border: solid 1px rgba(0, 0, 0, 0.2);
-  border-radius: 0.375rem;
   border: none;
   outline: none;
-  flex: 1;
-  width: 100%;
+  width: 8vw;
+}
+@media (min-width: 1450px) {
+  .gallery-folder-search-input {
+    width: 9vw;
+  }
 }
 
 .gallery-folder-search-icon {
   background-color: transparent;
   border: none;
   outline: none;
-  margin-right: 4px;
+  margin-right: 5px;
+  color: rgba(0, 0, 0, 0.2);
 }
 
 .gallery-folder-search-sort {
   font-size: 22px;
   padding: 0px 5px;
-  margin-left: calc(100% + 10px);
+  margin-left: 8%;
 }
 
 /* フォルダ名初期表示スタイル */

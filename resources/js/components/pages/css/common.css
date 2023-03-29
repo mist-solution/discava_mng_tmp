@@ -553,7 +553,7 @@ text-align: center;
 /* ギャラリー編集 */
 .gallery-flex{
     display: flex;
-    width: 80vw;
+    width: 100%;
 }
 
 .gallery-flex .main-cont:nth-child(1){

@@ -32,7 +32,7 @@
   <div class="gallery-horizontal-divider"></div>
 
   <!-- フォルダ一覧表示 -->
-  <div class="gallery-folder-show-container">
+  <div class="gallery-folder-show-area">
     <div
       v-for="(item, index) in folder"
       :key="index"
@@ -82,7 +82,7 @@
   </div>
 
   <!-- 名称変更・削除ボタン -->
-  <div class="gallery-folder-edit-btn-container">
+  <div class="gallery-folder-edit-btn-area">
     <!-- 仕切り線 -->
     <div class="gallery-horizontal-divider"></div>
 
@@ -273,7 +273,7 @@ export default {
 }
 
 /* フォルダ名初期表示スタイル */
-.gallery-folder-show-container {
+.gallery-folder-show-area {
   overflow: auto;
 }
 .gallery-folder-show {
@@ -349,7 +349,7 @@ export default {
 }
 
 /* 名称変更・削除バタン */
-.gallery-folder-edit-btn-container {
+.gallery-folder-edit-btn-area {
   position: absolute;
   bottom: 15px;
   left: 20px;

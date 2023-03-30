@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AnnounceController;
 use App\Http\Controllers\AnnounceCategoryController;
 use App\Http\Controllers\MediaFolderController;
+use App\Http\Controllers\MediaAttachmentController;
 use App\Http\Controllers\WebAPI\AnnounceDetailContoller;
 use App\Http\Controllers\WebAPI\AnnounceImageController;
 use App\Http\Controllers\WebAPI\AnnounceListController;
@@ -109,7 +110,15 @@ Route::middleware(['sessionTimeout'])->group(function () {
     // メディア編集関連
     //------------------------------------------------
     // フォルダ一覧取得
-    Route::get('/api/mediafolder', [MediaFolderController::class, 'getMediaFolder']);
+    Route::get('/api/mediaFolder', [MediaFolderController::class, 'getMediaFolder']);
+    // フォルダ新規作成
+    Route::post('/api/mediaFolder/register/{id}', [MediaFolderController::class, 'register']);
+    // フォルダ削除
+    Route::delete('/api/mediaFolder/{id}', [MediaFolderController::class, 'delete']);
+
+
+    //画像一覧取得
+    Route::get('/api/mediaAttachment', [MediaAttachmentController::class, 'getMediaAttachment']);
 
 
 });

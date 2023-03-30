@@ -21,7 +21,7 @@
     <!-- 検索エリア -->
     <div class="gallery-library-search-container">
       <v-row>
-        <v-col cols="6" class="d-flex">
+        <v-col cols="6" class="d-flex justify-start">
           <v-select
             class="filter-btn gallery-library-search-select"
             :items="['AAA', 'BBB', 'CCC', 'DDD']"

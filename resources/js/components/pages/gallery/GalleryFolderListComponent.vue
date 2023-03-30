@@ -11,16 +11,18 @@
   </div>
 
   <!-- フォルダ検索エリア -->
-  <div class="gallery-folder-search-container">
-    <button type="button" class="gallery-folder-search-icon">
-      <v-icon>mdi-magnify</v-icon>
-    </button>
-    <input
-      class="gallery-folder-search-input"
-      type="search"
-      maxlength="30"
-      hide-details="false"
-    />
+  <div class="gallery-folder-search-area">
+    <div class="gallery-folder-search-container">
+      <button type="button" class="gallery-folder-search-icon">
+        <v-icon>mdi-magnify</v-icon>
+      </button>
+      <input
+        class="gallery-folder-search-input"
+        type="search"
+        maxlength="30"
+        hide-details="false"
+      />
+    </div>
     <button class="btn white-btn gallery-folder-search-sort" type="button">
       <span class="mdi mdi-sort-alphabetical-ascending"></span>
     </button>
@@ -230,6 +232,10 @@ export default {
 }
 
 /* フォルダ検索エリア */
+.gallery-folder-search-area {
+  display: flex;
+  justify-content: space-around;
+}
 .gallery-folder-search-container {
   display: flex;
   align-items: center;
@@ -237,7 +243,6 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 4px;
-  margin-left: 5%;
   height: 2.5rem;
 }
 
@@ -246,11 +251,11 @@ export default {
   height: 2rem;
   border: none;
   outline: none;
-  width: 8vw;
+  width: 80%;
 }
 @media (min-width: 1450px) {
   .gallery-folder-search-input {
-    width: 9vw;
+    width: 90%;
   }
 }
 
@@ -265,7 +270,6 @@ export default {
 .gallery-folder-search-sort {
   font-size: 22px;
   padding: 0px 5px;
-  margin-left: 8%;
 }
 
 /* フォルダ名初期表示スタイル */

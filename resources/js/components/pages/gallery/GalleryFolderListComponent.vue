@@ -87,7 +87,7 @@
     <div class="gallery-horizontal-divider"></div>
 
     <!-- ボタン -->
-    <div class="d-flex">
+    <div class="gallery-folder-edit-btn-container">
       <button class="btn white-btn gallery-folder-name-edit-btn" type="button">
         名称変更
       </button>
@@ -274,7 +274,8 @@ export default {
 
 /* フォルダ名初期表示スタイル */
 .gallery-folder-show-area {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .gallery-folder-show {
   display: flex;
@@ -355,11 +356,23 @@ export default {
   left: 20px;
   right: 20px;
 }
+@media (max-width: 900px) {
+  .gallery-folder-edit-btn-area {
+    left: 10px;
+    right: 10px;
+  }
+}
+.gallery-folder-edit-btn-container {
+  display: flex;
+  justify-content: space-between;
+}
 .gallery-folder-name-edit-btn {
+  margin-left: 0.5rem;
   width: 65%;
 }
 .gallery-folder-name-delete-btn {
   width: 35%;
+  margin-right: 0.5rem;
   margin-left: 0.5rem;
 }
 </style>

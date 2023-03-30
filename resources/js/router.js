@@ -14,7 +14,7 @@ const EndUserListComponent = () => import('./components/pages/end_user/EndUserLi
 const AnnounceDetailComponent = () => import('./components/pages/announce/AnnounceDetailComponent')
 const AnnounceApprovalConfirmComponent = () => import('./components/pages/announce/AnnounceApprovalComponent')
 const NotFoundComponent = () => import('./components/pages/NotFoundComponent')
-const GalleryListComponent = () => import('./components/pages/gallery/GalleryListComponent')
+const GalleryListPageComponent = () => import('./components/pages/gallery/GalleryListPageComponent')
 
 const routes = [
     // ダッシュボード画面
@@ -117,7 +117,7 @@ const routes = [
     {
         path: '/gallery',
         name: 'gallery.list',
-        component: GalleryListComponent,
+        component: GalleryListPageComponent,
     },
 ]
 

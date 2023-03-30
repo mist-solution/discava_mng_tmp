@@ -694,10 +694,14 @@ text-align: center;
     width: 100%;
     margin-bottom: 1rem;
 }
-@media (max-width: 599.99px){
+@media (max-width: 640px){
     .gallery-title-library {
-    margin-left: 14px;
-    width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-left: 0;
+        width: 100%;
+        margin-bottom: 0rem;
     }
 }
 @media (min-width: 1450px){

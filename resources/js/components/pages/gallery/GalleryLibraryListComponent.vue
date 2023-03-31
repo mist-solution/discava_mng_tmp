@@ -19,7 +19,7 @@
     </div>
 
     <!-- 検索エリア -->
-    <div class="gallery-library-search-container">
+    <div class="gallery-library-search-area">
       <v-row>
         <v-col cols="6" class="d-flex justify-start">
           <v-select
@@ -57,7 +57,7 @@
     <div class="gallery-horizontal-divider"></div>
 
     <!-- ライブラリ一覧 -->
-    <div class="gallery-library-list-container">
+    <div class="gallery-library-list-area">
       <v-row>
         <v-col
           v-for="n in 30"
@@ -72,6 +72,7 @@
             cover
             class="bg-grey-lighten-2 gallery-library-img"
           >
+            <!-- 写真ごとローディングアニメ -->
             <!-- <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
               <v-progress-circular
@@ -130,7 +131,7 @@ export default {
   border-radius: 10px;
   margin: 0 5px;
 }
-.gallery-library-search-container {
+.gallery-library-search-area {
   display: flex;
   align-items: center;
 }
@@ -169,12 +170,13 @@ export default {
 }
 
 /* ライブラリ一覧 */
-.gallery-library-list-container {
+.gallery-library-list-area {
   overflow-y: auto;
+  overflow-x: hidden;
   height: 55vh;
 }
 @media (min-width: 1450px) {
-  .gallery-library-list-container {
+  .gallery-library-list-area {
     height: 57vh;
   }
 }

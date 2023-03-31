@@ -23,7 +23,7 @@
 
       <!-- ライブラリ -->
       <v-card class="main-cont p-3">
-        <!-- <gallery-library-list-component-sp v-if="moblieFlg()" /> -->
+        <gallery-library-list-component-sp v-if="moblieFlg()" />
       </v-card>
     </div>
   </v-container>
@@ -35,7 +35,7 @@ import SpGalleryTitleComponent from "../../common/SpGalleryTitleComponent.vue";
 import GalleryFolderListComponent from "../gallery/GalleryFolderListComponent.vue";
 //import GalleryFolderListComponentSp from "../gallery/GalleryFolderListComponentSp.vue";
 import GalleryLibraryListComponent from "../gallery/GalleryLibraryListComponent.vue";
-// import GalleryLibraryListComponentSp from "../gallery/GalleryLibraryListComponentSp.vue";
+import GalleryLibraryListComponentSp from "../gallery/GalleryLibraryListComponentSp.vue";
 
 export default {
   components: {
@@ -44,7 +44,7 @@ export default {
     GalleryFolderListComponent,
     //GalleryFolderListComponentSp,
     GalleryLibraryListComponent,
-    // GalleryLibraryListComponentSp,
+    GalleryLibraryListComponentSp,
   },
   data() {
     return {};

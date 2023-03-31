@@ -359,6 +359,7 @@ export default {
     overflow-x: hidden;
     overflow-y: auto !important;
     height: 20vh;
+    padding: 0 7px;
   }
   .gallery-folder-show-sp {
     display: flex;
@@ -396,10 +397,10 @@ export default {
     color: #69a4af;
     font-size: 16px;
     line-height: 2rem;
-    margin: 5px -10px;
+    margin: 5px -7px;
     background-color: #f5f9fa;
-    border-right: 10px solid #f5f9fa;
-    border-left: 10px solid #f5f9fa;
+    border-right: 7px solid #f5f9fa;
+    border-left: 7px solid #f5f9fa;
     border-radius: 5px;
   }
   .gallery-folder-show-active-sp span {
@@ -461,10 +462,10 @@ export default {
     color: #69a4af;
     font-size: 16px;
     line-height: 2rem;
-    margin: 5px -10px;
+    margin: 5px -7px;
     background-color: #f5f9fa;
-    border-right: 10px solid #f5f9fa;
-    border-left: 10px solid #f5f9fa;
+    border-right: 7px solid #f5f9fa;
+    border-left: 7px solid #f5f9fa;
     border-radius: 5px;
     margin-left: 1rem;
     margin-top: -0.3rem;

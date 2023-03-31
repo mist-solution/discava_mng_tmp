@@ -266,10 +266,19 @@ export default {
     hasChildFolder(id) {
       return this.folder.some((item) => item.parent_folder_id === id);
     },
+
+    // フォルダ一覧取得
+    getMediaFolder(){
+      axios.get("api/mediafolder")
+        .then((res) => {
+          this.folder = res.data.mediaFolder;
+          this.isParentFolder();
+        });
+    },
   },
 
   async mounted() {
-    this.isParentFolder();
+    this.getMediaFolder();
   },
 };
 </script>

@@ -110,15 +110,19 @@ Route::middleware(['sessionTimeout'])->group(function () {
     // メディア編集関連
     //------------------------------------------------
     // フォルダ一覧取得
-    Route::get('/api/mediaFolder', [MediaFolderController::class, 'getMediaFolder']);
+    Route::get('/api/mediafolder', [MediaFolderController::class, 'getMediaFolder']);
     // フォルダ新規作成
-    Route::post('/api/mediaFolder/register/{id}', [MediaFolderController::class, 'register']);
+    Route::post('/api/mediafolder/register/{id}', [MediaFolderController::class, 'register']);
     // フォルダ削除
-    Route::delete('/api/mediaFolder/{id}', [MediaFolderController::class, 'delete']);
+    Route::delete('/api/mediafolder/{id}', [MediaFolderController::class, 'delete']);
 
 
     //画像一覧取得
     Route::get('/api/mediaAttachment', [MediaAttachmentController::class, 'getMediaAttachment']);
+    //画像追加
+    Route::post('/api/mediaAttachment/register', [MediaAttachmentController::class, 'register']);
+    //画像削除
+    Route::delete('/api/mediaAttachment/{id}', [MediaAttachmentController::class, 'delete']);
 
 
 });

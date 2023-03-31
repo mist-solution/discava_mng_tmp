@@ -33,7 +33,7 @@
 import TitleComponent from "../../common/TitleComponent.vue";
 import SpGalleryTitleComponent from "../../common/SpGalleryTitleComponent.vue";
 import GalleryFolderListComponent from "../gallery/GalleryFolderListComponent.vue";
-import GalleryFolderListComponentSp from "../gallery/GalleryFolderListComponentSp.vue";
+//import GalleryFolderListComponentSp from "../gallery/GalleryFolderListComponentSp.vue";
 import GalleryLibraryListComponent from "../gallery/GalleryLibraryListComponent.vue";
 // import GalleryLibraryListComponentSp from "../gallery/GalleryLibraryListComponentSp.vue";
 
@@ -42,7 +42,7 @@ export default {
     TitleComponent,
     SpGalleryTitleComponent,
     GalleryFolderListComponent,
-    GalleryFolderListComponentSp,
+    //GalleryFolderListComponentSp,
     GalleryLibraryListComponent,
     // GalleryLibraryListComponentSp,
   },

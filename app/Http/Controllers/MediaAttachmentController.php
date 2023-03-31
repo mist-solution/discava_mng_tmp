@@ -65,4 +65,10 @@ class MediaAttachmentController extends Controller
     }
 
     //更新
+    public function update(Request $request, $id)
+    {
+        $mediaAttachment =  MediaAttachment::where('id', '=', $id)->firstOrFail();
+
+        
+    }
 }

@@ -5,6 +5,7 @@
     <button
       class="green-btn_noTransform px-2 py-1 gallery-folder-add-btn"
       type="button"
+      @click="registerbtn()"
     >
       追加
     </button>
@@ -94,7 +95,29 @@
             {{ subitem.fileValue }}
           </p>
         </div>
+        <div v-if="item.isShow && regist_flg && item.parent_folder_id == 0 && index !== 1 && index !== 0" class='gallery-sub-folder-show'>
+          <span
+            class="mdi mdi-folder"
+          ></span>
+          <input
+            class="gallery-folder-search-input"
+            type="search"
+            maxlength="30"
+            hide-details="false"
+          />
+        </div>
       </div>
+    </div>
+    <div v-if="parent_folder_regist_flg" class='gallery-folder-show'>
+      <span
+        class="mdi mdi-folder"
+      ></span>
+      <input
+        class="gallery-folder-search-input"
+        type="search"
+        maxlength="30"
+        hide-details="false"
+      />
     </div>
   </div>
 
@@ -123,64 +146,9 @@ export default {
   components: {},
   data() {
     return {
-      folder: [
-        {
-          id: 1,
-          parent_folder_id: 0,
-          name: "全てのファイル",
-          isShow: false,
-          isOpen: false,
-          fileValue: 324,
-        },
-        {
-          id: 2,
-          parent_folder_id: 0,
-          name: "未分類",
-          isShow: false,
-          isOpen: false,
-          fileValue: 8,
-        },
-        {
-          id: 3,
-          parent_folder_id: 0,
-          name: "ああああああ",
-          isShow: false,
-          isOpen: false,
-          fileValue: 111,
-        },
-        {
-          id: 4,
-          parent_folder_id: 3,
-          name: "いいい",
-          isShow: false,
-          isOpen: false,
-          fileValue: 73,
-        },
-        {
-          id: 5,
-          parent_folder_id: 0,
-          name: "おおお",
-          isShow: false,
-          isOpen: false,
-          fileValue: 3,
-        },
-        {
-          id: 6,
-          parent_folder_id: 5,
-          name: "ううう",
-          isShow: false,
-          isOpen: false,
-          fileValue: 32,
-        },
-        {
-          id: 7,
-          parent_folder_id: 5,
-          name: "えええ",
-          isShow: false,
-          isOpen: false,
-          fileValue: 32,
-        },
-      ],
+      folder: [],
+      regist_flg: false,
+      parent_folder_regist_flg: false,
     };
   },
   methods: {
@@ -252,10 +220,34 @@ export default {
     hasChildFolder(id) {
       return this.folder.some((item) => item.parent_folder_id === id);
     },
+
+    // フォルダ一覧取得
+    getMediaFolder(){
+      axios.get("api/mediafolder")
+        .then((res) => {
+          this.folder = res.data.mediaFolder;
+          this.isParentFolder();
+        });
+    },
+
+    //追加ボタン押下
+    registerbtn(){
+      let count = 0;
+      for(let i = 0;i < this.folder.lenght;i++){
+        if(this.folder[i].parent_folder_id == 0 && this.folder[i].isOpen){
+          count = count + 1;
+        }
+      }
+      if(count != 0){
+        this.regist_flg = true;
+      }else{
+        this.parent_folder_regist_flg = true;
+      }
+    }
   },
 
   async mounted() {
-    this.isParentFolder();
+    this.getMediaFolder();
   },
 };
 </script>

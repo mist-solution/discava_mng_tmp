@@ -17,16 +17,17 @@ class MediaFolderController extends Controller
     public function getMediaFolder(Request $request){
         $shopId = $request->session()->get('shop_id');
         $response = array();
-        $searchFolder = $request->input('searchFolder');
+        //$searchFolder = $request->input('searchFolder');
         $mediaFolder = MediaFolder::where('shop_id', $shopId)
-            ->where('del_flg', '0');
+            ->where('del_flg', '0')
+            ->get();
 
-        if ($searchFolder != "") {
-            $mediaFolder = $mediaFolder->where('parent_folder_id','=','0');
-            $mediaFolder = $mediaFolder->where(function ($query) use ($searchFolder) {
-                $query->where('name', 'LIKE', "%{$searchFolder}%");
-            });
-        }
+        //if ($searchFolder != "") {
+        //    $mediaFolder = $mediaFolder->where('parent_folder_id','=','0')
+        //    ->where('name', 'LIKE', "%{$searchFolder}%");
+        //}
+
+        Log::info($mediaFolder);
 
         $mediaFolderArrays = array();
         foreach ($mediaFolder as $key => $value) {
@@ -49,6 +50,9 @@ class MediaFolderController extends Controller
             $mediaFolderArray['media_hover_expand'] = $value->media_hover_expand;
             $mediaFolderArray['media_hover_icon'] = $value->media_hover_icon;
             $mediaFolderArray['add_account'] = $value->add_account;
+            $mediaFolderArray['isOpen'] = false;
+            $mediaFolderArray['isShow'] = false;
+            $mediaFolderArray['fileValue'] = 0;
             $mediaFolderArrays[] = $mediaFolderArray;
         }
         $response['mediaFolder'] = $mediaFolderArrays;

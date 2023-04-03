@@ -113,7 +113,7 @@ const routes = [
         component: NotFoundComponent,
     },
 
-    // ギャラリー編集（一覧）
+    // メディア編集（一覧）
     {
         path: '/gallery',
         name: 'gallery.list',

@@ -252,7 +252,6 @@ export default {
     // 子フォルダクリック操作
     toggleSubFolder(subitem) {
       // 子フォルダを押下
-      console.log(subitem);
       subitem.isOpen = !subitem.isOpen;
       // 押下されない場合，isOpen = false
       this.folder.forEach((subfolderItem) => {

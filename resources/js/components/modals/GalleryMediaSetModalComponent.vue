@@ -167,8 +167,8 @@ export default {
     return {};
   },
   methods: {
+    // 更新処理
     updateMediaAction() {
-      console.log("Update BTN");
       this.closeDisplayGalleryMediaSetModal();
     },
   },

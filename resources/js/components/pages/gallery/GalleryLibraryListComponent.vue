@@ -107,14 +107,13 @@ export default {
   data() {
     return {
       img: [],
-      displayGalleryMediaSet: true,
+      displayGalleryMediaSet: false,
     };
   },
   methods: {
     //画面設定モーダルを閉じる
     closeDisplayGalleryMediaSet() {
       this.displayGalleryMediaSet = false;
-      console.log("Close BTN");
     },
   },
   async mounted() {},

@@ -64,16 +64,19 @@
           :key="n"
           class="d-flex child-flex gallery-library-img-margin"
         >
-          <v-img
-            :src="[
-              img ? 'gallery-library-img-sample' : 'gallery-library-img-sample',
-            ]"
-            aspect-ratio="1"
-            cover
-            class="bg-grey-lighten-2 gallery-library-img"
-          >
-            <!-- 写真ごとローディングアニメ -->
-            <!-- <template v-slot:placeholder>
+          <div class="btn-group" @click="displayGalleryMediaSet = true">
+            <v-img
+              src=""
+              aspect-ratio="1"
+              cover
+              :class="
+                img
+                  ? 'gallery-library-img-sample bg-grey-lighten-2 gallery-library-img'
+                  : 'gallery-library-img-sample bg-grey-lighten-2 gallery-library-img'
+              "
+            >
+              <!-- 写真ごとローディングアニメ -->
+              <!-- <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
               <v-progress-circular
                 indeterminate
@@ -81,22 +84,39 @@
               ></v-progress-circular>
             </v-row>
           </template> -->
-          </v-img>
+            </v-img>
+          </div>
         </v-col>
       </v-row>
     </div>
   </v-container>
+
+  <!-- 画像設定モーダル -->
+  <gallery-media-set-modal-component
+    :modelValue="displayGalleryMediaSet"
+    @update:modelValue="displayGalleryMediaSet = $event"
+    :closeDisplayGalleryMediaSetModal="closeDisplayGalleryMediaSet"
+  />
 </template>
 
 <script>
+import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
+
 export default {
-  components: {},
+  components: { GalleryMediaSetModalComponent },
   data() {
     return {
       img: [],
+      displayGalleryMediaSet: true,
     };
   },
-  methods: {},
+  methods: {
+    //画面設定モーダルを閉じる
+    closeDisplayGalleryMediaSet() {
+      this.displayGalleryMediaSet = false;
+      console.log("Close BTN");
+    },
+  },
   async mounted() {},
 };
 </script>
@@ -184,20 +204,21 @@ export default {
   margin: auto;
 }
 .gallery-library-img {
-  width: 9vw;
+  width: 10vw;
   transition-duration: 0.3s;
+  cursor: pointer;
 }
 @media (min-width: 1450px) {
   .gallery-library-img {
-    width: 10vw;
+    width: 8.9vw;
   }
 }
 .gallery-library-img:hover {
   transform: scale(1.1);
 }
+
+/* CRUDを実装したら、このCSSの削除することができます。 */
 .gallery-library-img-sample {
-  width: 150px;
-  height: 150px;
   background-color: #f7f7f7;
 }
 </style>

@@ -56,14 +56,14 @@
         class="d-flex child-flex gallery-library-img-margin-sp"
       >
         <v-img
-          :src="[
-            img
-              ? 'gallery-library-img-sample-sp'
-              : 'gallery-library-img-sample-sp',
-          ]"
+          src=""
           aspect-ratio="1"
           cover
-          class="bg-grey-lighten-2 gallery-library-img-sp"
+          :class="
+            img
+              ? 'gallery-library-img-sample-sp bg-grey-lighten-2 gallery-library-img-sp'
+              : 'gallery-library-img-sample-sp bg-grey-lighten-2 gallery-library-img-sp'
+          "
         >
           <!-- 写真ごとローディングアニメ -->
           <!-- <template v-slot:placeholder>
@@ -147,38 +147,6 @@ export default {
   }
 
   /* ライブラリ一覧 */
-  .gallery-library-list-area {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 55vh;
-  }
-  @media (min-width: 1450px) {
-    .gallery-library-list-area {
-      height: 57vh;
-    }
-  }
-  .gallery-library-img-margin {
-    margin: auto;
-  }
-  .gallery-library-img {
-    width: 9vw;
-    transition-duration: 0.3s;
-  }
-  @media (min-width: 1450px) {
-    .gallery-library-img {
-      width: 10vw;
-    }
-  }
-  .gallery-library-img:hover {
-    transform: scale(1.1);
-  }
-  .gallery-library-img-sample {
-    width: 150px;
-    height: 150px;
-    background-color: #f7f7f7;
-  }
-
-  /* ライブラリ一覧 */
   .gallery-library-list-area-sp {
     overflow-y: auto;
     overflow-x: hidden;
@@ -191,9 +159,8 @@ export default {
     width: 18vw;
     transition-duration: 0.3s;
   }
+  /* CRUDを実装したら、このCSSの削除することができます。 */
   .gallery-library-img-sample-sp {
-    width: 150px;
-    height: 150px;
     background-color: #f7f7f7;
   }
 }

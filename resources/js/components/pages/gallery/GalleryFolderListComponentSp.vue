@@ -268,12 +268,11 @@ export default {
     },
 
     // フォルダ一覧取得
-    getMediaFolder(){
-      axios.get("api/mediafolder")
-        .then((res) => {
-          this.folder = res.data.mediaFolder;
-          this.isParentFolder();
-        });
+    getMediaFolder() {
+      axios.get("api/mediafolder").then((res) => {
+        this.folder = res.data.mediaFolder;
+        this.isParentFolder();
+      });
     },
   },
 
@@ -323,7 +322,7 @@ export default {
     align-items: center;
     width: 60%;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     padding: 4px;
     height: 2.5rem;
   }

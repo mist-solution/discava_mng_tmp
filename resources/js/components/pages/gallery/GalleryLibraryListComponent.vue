@@ -164,7 +164,7 @@ export default {
   align-items: center;
   width: 45%;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 4px;
   margin-left: 5%;
   height: 3.5rem;

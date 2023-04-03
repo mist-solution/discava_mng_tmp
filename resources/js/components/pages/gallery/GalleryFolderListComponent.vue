@@ -286,7 +286,7 @@ export default {
   align-items: center;
   width: 72%;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 4px;
   height: 2.5rem;
 }

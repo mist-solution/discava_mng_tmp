@@ -121,7 +121,7 @@ export default {
     align-items: center;
     width: 75%;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     padding: 4px;
     height: 3.5rem;
   }

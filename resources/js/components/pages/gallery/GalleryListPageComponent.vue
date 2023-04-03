@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <title-component class="sp_disable" name="ギャラリー編集" />
-    <sp-gallery-title-component class="pc_disable" name="ギャラリー編集" />
+    <title-component class="sp_disable" name="メディア編集" />
+    <sp-gallery-title-component class="pc_disable" name="メディア編集" />
     <!-- PC -->
     <div class="gallery-flex">
       <!-- フォルダ管理 -->

@@ -711,30 +711,30 @@ text-align: center;
 }
 
 /* 画像設定 */
-.gallery-media-select > div > div{
+.gallery-mediaSet-select > div > div{
     height: 2.5rem !important;
 }
 
-.gallery-media-select > .v-input__control{
+.gallery-mediaSet-select > .v-input__control{
     background-color: #fff !important;
     border-radius: 10px;
 }
 
-.gallery-media-select > div > .v-field--variant-filled .v-field__overlay {
+.gallery-mediaSet-select > div > .v-field--variant-filled .v-field__overlay {
     background-color: #fff !important;
 }
 
-.gallery-media-select > div > div > div > div > .v-select__selection{
+.gallery-mediaSet-select > div > div > div > div > .v-select__selection{
     text-align: initial;
     width: 100%;
     left: -18px
 }
-.gallery-media-select > div > div > .v-field__append-inner > .mdi-menu-down{
+.gallery-mediaSet-select > div > div > .v-field__append-inner > .mdi-menu-down{
     position: relative;
     bottom: 8px;
 }
 
-.gallery-media-select > div > div > .v-field__field{
+.gallery-mediaSet-select > div > div > .v-field__field{
     position: relative;
     bottom: 8px;
 }

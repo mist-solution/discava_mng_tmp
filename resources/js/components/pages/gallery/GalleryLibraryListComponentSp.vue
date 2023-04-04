@@ -55,18 +55,19 @@
         :key="n"
         class="d-flex child-flex gallery-library-img-margin-sp"
       >
-        <v-img
-          src=""
-          aspect-ratio="1"
-          cover
-          :class="
-            img
-              ? 'gallery-library-img-sample-sp bg-grey-lighten-2 gallery-library-img-sp'
-              : 'gallery-library-img-sample-sp bg-grey-lighten-2 gallery-library-img-sp'
-          "
-        >
-          <!-- 写真ごとローディングアニメ -->
-          <!-- <template v-slot:placeholder>
+        <div class="btn-group" @click="displayGalleryMediaSet = true">
+          <v-img
+            src=""
+            aspect-ratio="1"
+            cover
+            :class="
+              img
+                ? 'gallery-library-img-sample-sp bg-grey-lighten-2 gallery-library-img-sp'
+                : 'gallery-library-img-sample-sp bg-grey-lighten-2 gallery-library-img-sp'
+            "
+          >
+            <!-- 写真ごとローディングアニメ -->
+            <!-- <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
               <v-progress-circular
                 indeterminate
@@ -74,19 +75,36 @@
               ></v-progress-circular>
             </v-row>
           </template> -->
-        </v-img>
+          </v-img>
+        </div>
       </v-col>
     </v-row>
   </div>
+
+  <!-- 画像設定モーダル -->
+  <gallery-media-set-modal-component
+    :modelValue="displayGalleryMediaSet"
+    @update:modelValue="displayGalleryMediaSet = $event"
+    :closeDisplayGalleryMediaSetModal="closeDisplayGalleryMediaSet"
+  />
 </template>
 
 <script>
+import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
+
 export default {
-  components: {},
+  components: { GalleryMediaSetModalComponent },
   data() {
-    return {};
+    return {
+      displayGalleryMediaSet: false,
+    };
   },
-  methods: {},
+  methods: {
+    //画面設定モーダルを閉じる
+    closeDisplayGalleryMediaSet() {
+      this.displayGalleryMediaSet = false;
+    },
+  },
 
   async mounted() {},
 };
@@ -156,7 +174,7 @@ export default {
     margin: auto;
   }
   .gallery-library-img-sp {
-    width: 18vw;
+    width: 22vw;
     transition-duration: 0.3s;
   }
   /* CRUDを実装したら、このCSSの削除することができます。 */

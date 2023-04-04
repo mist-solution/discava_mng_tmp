@@ -115,6 +115,8 @@ Route::middleware(['sessionTimeout'])->group(function () {
     Route::post('/api/mediafolder/register/{id}', [MediaFolderController::class, 'register']);
     // フォルダ削除
     Route::delete('/api/mediafolder/{id}', [MediaFolderController::class, 'delete']);
+    //フォルダ名称変更
+    Route::post('/api/mediafolder/namechange/{id}', [MediaFolderController::class, 'changeName']);
 
 
     //画像一覧取得

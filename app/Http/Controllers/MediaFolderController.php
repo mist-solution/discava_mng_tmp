@@ -52,7 +52,11 @@ class MediaFolderController extends Controller
             $mediaFolderArray['add_account'] = $value->add_account;
             $mediaFolderArray['isOpen'] = false;
             $mediaFolderArray['isShow'] = false;
-            $mediaFolderArray['fileValue'] = 0;
+            $filecount = MediaAttachment::where('shop_id', $shopId)
+            ->where('del_flg', '0')
+            ->where('media_folder_id', $mediaFolderArray['id'])
+            ->get();
+            $mediaFolderArray['fileValue'] = count($filecount);
             $mediaFolderArrays[] = $mediaFolderArray;
         }
         $response['mediaFolder'] = $mediaFolderArrays;

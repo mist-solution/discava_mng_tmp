@@ -91,19 +91,19 @@
     </div>
   </v-container>
 
-  <!-- 画像設定モーダル -->
+  <!-- 画像設定モーダル 
   <gallery-media-set-modal-component
     :modelValue="displayGalleryMediaSet"
     @update:modelValue="displayGalleryMediaSet = $event"
     :closeDisplayGalleryMediaSetModal="closeDisplayGalleryMediaSet"
-  />
+  /> -->
 </template>
 
 <script>
-import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
+//import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
 
 export default {
-  components: { GalleryMediaSetModalComponent },
+  //components: { GalleryMediaSetModalComponent },
   data() {
     return {
       img: [],

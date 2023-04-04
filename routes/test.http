@@ -1,0 +1,14 @@
+# GET http://127.0.0.1:8000/webapi/announce/list/
+# X-DiscavaMATE-API-Token: mist1
+
+# GET http://127.0.0.1:8000/webapi/announce/detail/1
+# X-DiscavaMATE-API-Token: mist1
+
+# GET http://127.0.0.1:8000/webapi/announce/image/1
+# X-DiscavaMATE-API-Token: mist1
+
+# GET http://discava-mate.discava-dev.net/api/announceCategory
+# X-DiscavaMATE-API-Token: mist1
+
+# GET http://127.0.0.1:8000/api/announceCategory
+# X-DiscavaMATE-API-Token: mist1

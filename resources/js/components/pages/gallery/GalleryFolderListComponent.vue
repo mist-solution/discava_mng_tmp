@@ -69,7 +69,7 @@
         <p class="number">{{ item.fileValue }}</p>
       </div>
       <!-- 子フォルダ -->
-      <div v-if="item.isOpen">
+      <div v-if="item.isOpen && item.id != 0">
         <div
           v-for="(subitem, subindex) in folder"
           :key="subindex"
@@ -179,6 +179,24 @@ export default {
   components: {},
   data() {
     return {
+      prefolder:[
+        {
+          id: -1,
+          parent_folder_id: 0,
+          name: "全てのファイル",
+          isShow: false,
+          isOpen: false,
+          fileValue: 0,
+        },
+        {
+          id: 0,
+          parent_folder_id: 0,
+          name: "未分類",
+          isShow: false,
+          isOpen: false,
+          fileValue: 0,
+        },
+      ],
       folder: [],
       regist_flg: false,
       parent_folder_regist_flg: false,
@@ -192,15 +210,22 @@ export default {
   methods: {
     // 親フォルダか判断
     isParentFolder() {
+      let total = 0;
       this.folder.forEach((folderItem) => {
-        if (folderItem.parent_folder_id === 0) {
+        if (folderItem.parent_folder_id === 0 && folderItem.id !== -1) {
           folderItem.isShow = true;
-          for(let i = 0; i < this.folder.length; i++){
+          for(let i = 1; i < this.folder.length; i++){
             if(this.folder[i].parent_folder_id == folderItem.id){
               folderItem.fileValue = folderItem.fileValue + this.folder[i].fileValue;
             }
           }
-        } else {
+        } else if(folderItem.id === -1){
+          folderItem.isShow = true;
+          for(let i = 1; i < this.folder.length; i++){
+            total = total + this.folder[i].fileValue
+          }
+          folderItem.fileValue = total;
+        } else{
           folderItem.isShow = false;
         }
       });
@@ -272,13 +297,18 @@ export default {
 
     // 子フォルダあるか判断
     hasChildFolder(id) {
-      return this.folder.some((item) => item.parent_folder_id === id);
+      if(id != 0){
+        return this.folder.some((item) => item.parent_folder_id === id);
+      }else if(id == 0){
+        return false;
+      }
     },
 
     // フォルダ一覧取得
     getMediaFolder() {
       axios.get("api/mediafolder").then((res) => {
         this.folder = res.data.mediaFolder;
+        this.folder = this.prefolder.concat(this.folder)
         this.isParentFolder();
       });
     },
@@ -333,16 +363,17 @@ export default {
       let childfolderid = 0
       for (let i = 0; i < this.folder.length; i++) {
         if (this.folder[i].parent_folder_id == 0 && this.folder[i].isOpen) {
-          parentfolderid = i + 1;
+          parentfolderid = this.folder[i].id;
         }
       }
-      if(parentfolderid != 0 && parentfolderid != 1){
+      if(parentfolderid != 0 && parentfolderid != -1){
         for (let i = 0; i < this.folder.length; i++) {
           if (this.folder[i].parent_folder_id == parentfolderid && this.folder[i].isOpen) {
-            childfolderid = i + 1;
+            childfolderid = this.folder[i].id;
           }
         }
         if(childfolderid != 0){
+          console.log(childfolderid)
           axios.delete('/api/mediafolder/' + childfolderid)
           .then((res) => {
             this.getMediaFolder();
@@ -353,7 +384,7 @@ export default {
           });
           for (let i = 0; i < this.folder.length; i++) {
             if (this.folder[i].parent_folder_id == parentfolderid){
-              axios.delete('/api/mediafolder/' + (i+1) )
+              axios.delete('/api/mediafolder/' + this.folder[i].id )
             }
           }
         }
@@ -369,14 +400,14 @@ export default {
       let childfolderid = 0
       for (let i = 0; i < this.folder.length; i++) {
         if (this.folder[i].parent_folder_id == 0 && this.folder[i].isOpen) {
-          parentfolderid = i + 1;
+          parentfolderid = this.folder[i].id;
           this.parentfolderTitlechange = this.folder[i].name;
         }
       }
-      if(parentfolderid != 0 && parentfolderid != 1 && parentfolderid != 2){
+      if(parentfolderid != 0 && parentfolderid != -1){
         for (let i = 0; i < this.folder.length; i++) {
           if (this.folder[i].parent_folder_id == parentfolderid && this.folder[i].isOpen) {
-            childfolderid = i + 1;
+            childfolderid = this.folder[i].id;
             this.folderTitlechange = this.folder[i].name;
           }
         }
@@ -388,6 +419,7 @@ export default {
       }
     },
 
+    //フォルダ名変更
     nameChange(id){
       let formData = new FormData();
       if(this.namechange_flg){

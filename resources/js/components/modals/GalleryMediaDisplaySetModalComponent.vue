@@ -22,6 +22,7 @@
         <div class="gallery-mediaDisplaySet-imgs-area mx-auto">
           <draggable
             :list="imgItems"
+            :itemKey="(imgItems) => imgItems.id"
             class="d-flex child-flex gallery-mediaDisplaySet-imgs-show"
           >
             <template #item="{ element }">
@@ -71,14 +72,14 @@
               画像サイズ
             </v-col>
             <v-col cols="8">
-              <sapn class="gallery-mediaDisplaySet-edit-name">横幅</sapn>
+              <span class="gallery-mediaDisplaySet-edit-name">横幅</span>
               <input
                 dense
                 type="number"
                 hide-details="false"
                 class="gallery-mediaDisplaySet-input"
               />
-              <sapn class="gallery-mediaDisplaySet-edit-name">縦幅</sapn>
+              <span class="gallery-mediaDisplaySet-edit-name">縦幅</span>
               <input
                 dense
                 type="number"
@@ -231,13 +232,19 @@
             </v-col>
             <v-col cols="8">
               <div class="gallery-mediaDisplaySet-colorInput">
-                <sapn
+                <!-- カラーピッカー -->
+                <input
+                  type="color"
+                  id="colorPicker"
+                  name="colorPicker"
                   class="gallery-mediaDisplaySet-color-span"
                   @click="selectColor"
-                ></sapn>
-                <sapn class="gallery-mediaDisplaySet-edit-name">#</sapn>
+                />
+                <!-- カラー入力欄 -->
+                <span class="gallery-mediaDisplaySet-edit-name">#</span>
                 <input
                   dense
+                  id="colorInput"
                   type="text"
                   hide-details="false"
                   class="gallery-mediaDisplaySet-input"
@@ -441,22 +448,21 @@ export default {
 
     // カラー選択
     selectColor() {
-      const colorInput = document.querySelector(
-        ".gallery-mediaDisplaySet-colorInput"
-      );
-      const colorSpan = colorInput.querySelector(
-        ".gallery-mediaDisplaySet-color-span"
-      );
-      const input = colorInput.querySelector(".gallery-mediaDisplaySet-input");
+      const colorPickerInput = document.getElementById("colorPicker");
+      const colorInput = document.getElementById("colorInput");
 
-      input.addEventListener("input", function () {
-        const value = input.value;
+      colorInput.addEventListener("input", function () {
+        const value = colorInput.value;
         // color codeのバリデーション
         if (!/^[0-9a-fA-F]{6}$/.test(value)) {
           return;
         }
         // color codeを取得するとspanで表示
-        colorSpan.style.backgroundColor = "#" + value;
+        colorPickerInput.value = "#" + value;
+      });
+
+      colorPickerInput.addEventListener("change", function () {
+        colorInput.value = colorPickerInput.value.replace("#", "");
       });
     },
 
@@ -466,7 +472,6 @@ export default {
       for (var i = 0; i < this.hoverIconSelect.length; i++) {
         if (this.hoverIconSelect[i] != mdi) {
           this.hoverIconSelect[i].isSelect = false;
-          console.log(this.hoverIconSelect[i]);
         }
       }
     },
@@ -692,7 +697,8 @@ export default {
 }
 
 .gallery-mediaDisplaySet-set-hoverIcon {
-  display: inline;
+  display: inline-flex;
+  text-align: center;
 }
 
 .gallery-mediaDisplaySet-mdi-null {
@@ -703,7 +709,8 @@ export default {
   cursor: pointer;
   color: #adadad;
   font-size: 22px;
-  padding: 0.3rem;
+  width: 35px;
+  height: 35px;
 }
 
 .gallery-mediaDisplaySet-mdi {
@@ -714,12 +721,13 @@ export default {
   cursor: pointer;
   color: #fff;
   font-size: 22px;
-  padding: 0.3rem;
+  width: 35px;
+  height: 35px;
 }
 
 .gallery-mediaDisplaySet-mdi-active {
   border: #69a5af 2px solid !important;
-  padding: -0.3rem;
+  box-sizing: border-box;
 }
 
 /* 操作ボタン */

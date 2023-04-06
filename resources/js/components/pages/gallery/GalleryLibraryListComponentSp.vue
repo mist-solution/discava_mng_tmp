@@ -2,7 +2,13 @@
   <!-- タイトル -->
   <div class="gallery-title-library">
     <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">ライブラリ</p>
-    <button class="btn white-btn" type="button">ギャラリーを作成</button>
+    <button
+      class="btn white-btn"
+      type="button"
+      @click="displayGalleryMediaDisplaySetSp = true"
+    >
+      ギャラリーを作成
+    </button>
   </div>
 
   <!-- 検索エリア -->
@@ -87,22 +93,42 @@
     @update:modelValue="displayGalleryMediaSet = $event"
     :closeDisplayGalleryMediaSetModal="closeDisplayGalleryMediaSet"
   />
+
+  <!-- 画像表示設定モーダル -->
+  <gallery-media-display-set-modal-component-sp
+    :modelValue="displayGalleryMediaDisplaySetSp"
+    @update:modelValue="displayGalleryMediaDisplaySetSp = $event"
+    :closeDisplayGalleryMediaDisplaySetSpModal="
+      closeDisplayGalleryMediaDisplaySetSp
+    "
+  />
 </template>
 
 <script>
 import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
+import GalleryMediaDisplaySetModalComponentSp from "../../modals/GalleryMediaDisplaySetModalComponentSp.vue";
 
 export default {
-  components: { GalleryMediaSetModalComponent },
+  components: {
+    GalleryMediaSetModalComponent,
+    GalleryMediaDisplaySetModalComponentSp,
+  },
   data() {
     return {
+      img: [],
       displayGalleryMediaSet: false,
+      displayGalleryMediaDisplaySetSp: true,
     };
   },
   methods: {
     //画面設定モーダルを閉じる
     closeDisplayGalleryMediaSet() {
       this.displayGalleryMediaSet = false;
+    },
+
+    //画面表示設定モーダルを閉じる
+    closeDisplayGalleryMediaDisplaySetSp() {
+      this.displayGalleryMediaDisplaySetSp = false;
     },
   },
 

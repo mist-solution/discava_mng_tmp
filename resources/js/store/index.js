@@ -9,6 +9,7 @@ import shopUser from './shopUser';
 import authority from './authority';
 import authoritySet from './authoritySet';
 import shop from './shop';
+import library from './library';
 
 export default new Vuex.Store({
     modules: {
@@ -22,5 +23,6 @@ export default new Vuex.Store({
         authority: authority,
         authoritySet: authoritySet,
         shop: shop,
+        library: library,
     }
 });

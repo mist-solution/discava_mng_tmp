@@ -43,7 +43,7 @@ class MediaAttachment extends Model
             ->where('shop_id', $shop_id);
 
         //選択したフォルダから絞り込み（0の場合はすべてのファイルフォルダ）
-        if($searchFileID){
+        if($searchFileID != -1){
             $mediaAttachmentModel = $mediaAttachmentModel->where('media_folder_id',  $searchFileID);
         }
 
@@ -65,7 +65,13 @@ class MediaAttachment extends Model
                 ->where("img_fileformat",$searchFileFormat);
         }
 
-        return $mediaAttachmentModel;
+        $mediaAttachment['count'] = $mediaAttachmentModel
+            ->count();
+
+        $mediaAttachment['mediaAttachment'] = $mediaAttachmentModel
+            ->get();
+
+        return $mediaAttachment;
     }
 
 }

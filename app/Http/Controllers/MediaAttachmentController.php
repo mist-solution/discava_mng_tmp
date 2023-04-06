@@ -14,6 +14,7 @@ class MediaAttachmentController extends Controller
     // 一覧取得
     public function getMediaAttachment(Request $request){
 
+
         $searchFileID = $request->input('searchFileID');
         $searchAddDateBegin = $request->input('searchAddDateBegin');
         $searchAddDateEnd = $request->input('searchAddDateEnd');
@@ -23,8 +24,9 @@ class MediaAttachmentController extends Controller
 
         $mediaAttachment = MediaAttachment::getMediaAttachment($searchFileID, $searchAddDateBegin, $searchAddDateEnd, $searchFileFormat, $searchCaption, $shop_id);
 
+
         return $mediaAttachment;
-        
+
     }
 
     //画像追加

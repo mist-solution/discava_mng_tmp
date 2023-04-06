@@ -77,7 +77,7 @@
           <p class="number">{{ item.fileValue }}</p>
         </div>
         <!-- 子フォルダ -->
-        <div v-if="item.isOpen">
+        <div v-if="item.isOpen && item.id != 0">
           <div
             v-for="(subitem, subindex) in folder"
             :key="subindex"

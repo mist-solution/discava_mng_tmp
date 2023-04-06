@@ -893,7 +893,6 @@ export default {
           this.getItems2List();
           let a = res.data.count
           this.PageLastIndex = Math.ceil(a/this.rowsPerPage);
-          console.log(this.rowsPerPage)
           this.$emit("LastPageChange",this.PageLastIndex,a);
         });
     },

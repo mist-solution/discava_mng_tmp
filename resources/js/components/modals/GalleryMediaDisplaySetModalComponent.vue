@@ -15,6 +15,9 @@
       </v-row>
       <!-- モーダル内容エリア -->
       <div class="gallery-mediaDisplaySet-display-body">
+        <div class="mx-auto gallery-mediaDisplaySet-imgs-title">
+          <p>順番の並び替えはドラッグ＆ドロップをしてください。</p>
+        </div>
         <!-- 画面設定表示エリア(ドラッグ・ドロップ)-->
         <div class="gallery-mediaDisplaySet-imgs-area mx-auto">
           <draggable
@@ -522,6 +525,11 @@ export default {
 }
 
 /* 画像表示設定エリア */
+.gallery-mediaDisplaySet-imgs-title {
+  text-align: center;
+  font-size: 14px;
+  color: #707070;
+}
 .gallery-mediaDisplaySet-imgs-area {
   position: relative;
   width: 75%;

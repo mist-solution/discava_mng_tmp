@@ -143,7 +143,7 @@ export default {
   text-align: center;
   margin-top: 3rem;
   color: #8f8f8f;
-  font-size: 14px;
+  font-size: 16px;
   background-color: #ededed;
   width: fit-content;
   padding: 5px 15px;

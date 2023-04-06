@@ -738,3 +738,47 @@ text-align: center;
     position: relative;
     bottom: 8px;
 }
+
+/* 画像表示設定 */
+.gallery-mediaDisplaySet-select > div > div{
+    height: 2rem !important;
+    width: 7vw;
+}
+
+.gallery-mediaDisplaySet-select > .v-input__control{
+    background-color: #fff !important;
+    border-radius: 10px;
+}
+
+.gallery-mediaDisplaySet-select > div > .v-field--variant-filled .v-field__overlay {
+    background-color: #fff !important;
+}
+
+.gallery-mediaDisplaySet-select > div > div > div > div > .v-select__selection{
+    text-align: initial;
+    width: fit-content;
+    left: -18px
+}
+@media (max-width: 901px) {
+  .gallery-mediaDisplaySet-select > div > div > div > div > .v-select__selection{
+    width: 7vw;
+  }
+}
+.gallery-mediaDisplaySet-select > div > div > .v-field__append-inner > .mdi-menu-down{
+    position: relative;
+    bottom: 10px;
+}
+@media (max-width: 901px) {
+.gallery-mediaDisplaySet-select > div > div > .v-field__append-inner > .mdi-menu-down{
+    bottom: 11px;
+    left: 14px;
+  }
+}
+.gallery-mediaDisplaySet-select > div > div > .v-field__field{
+    position: relative;
+    bottom: 10px;
+    font-size: 14px;
+}
+.gallery-mediaDisplaySet-radio .v-label {
+    font-size: 14px !important;
+}

@@ -21,8 +21,10 @@
     "node-notifier": "^10.0.1",
     "roboto-fontface": "*",
     "vue-ctk-date-time-picker": "^3.0.0-alpha.0",
+    "vue-native-color-picker": "^1.2.0",
     "vue-router": "^4.0.12",
     "vue3-easy-data-table": "^1.5.23",
+    "vuedraggable": "^4.1.0",
     "vuetify": "^3.0.3",
     "vuex": "^4.0.2",
     "webfontloader": "^1.0.0"

@@ -13,7 +13,13 @@
           </button>
         </v-col>
         <v-col cols="6" class="d-flex justify-end">
-          <button class="btn white-btn" type="button">ギャラリーを作成</button>
+          <button
+            class="btn white-btn"
+            type="button"
+            @click="displayGalleryMediaDisplaySet = true"
+          >
+            ギャラリーを作成
+          </button>
         </v-col>
       </v-row>
     </div>
@@ -97,25 +103,42 @@
     @update:modelValue="displayGalleryMediaSet = $event"
     :closeDisplayGalleryMediaSetModal="closeDisplayGalleryMediaSet"
   />
+
+  <!-- 画像表示設定モーダル -->
+  <gallery-media-display-set-modal-component
+    :modelValue="displayGalleryMediaDisplaySet"
+    @update:modelValue="displayGalleryMediaDisplaySet = $event"
+    :closeDisplayGalleryMediaDisplaySetModal="
+      closeDisplayGalleryMediaDisplaySet
+    "
+  />
 </template>
 
 <script>
 import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
+import GalleryMediaDisplaySetModalComponent from "../../modals/GalleryMediaDisplaySetModalComponent.vue";
 
 export default {
   components: {
     GalleryMediaSetModalComponent,
+    GalleryMediaDisplaySetModalComponent,
   },
   data() {
     return {
       img: [],
       displayGalleryMediaSet: false,
+      displayGalleryMediaDisplaySet: false,
     };
   },
   methods: {
     //画面設定モーダルを閉じる
     closeDisplayGalleryMediaSet() {
       this.displayGalleryMediaSet = false;
+    },
+
+    //画面表示設定モーダルを閉じる
+    closeDisplayGalleryMediaDisplaySet() {
+      this.displayGalleryMediaDisplaySet = false;
     },
   },
   async mounted() {},

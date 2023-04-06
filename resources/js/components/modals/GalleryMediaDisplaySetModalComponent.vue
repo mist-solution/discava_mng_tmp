@@ -235,7 +235,6 @@
                   class="gallery-mediaDisplaySet-color-span"
                   @click="selectColor"
                 ></sapn>
-                <v-input-colorpicker v-model="color" />
                 <sapn class="gallery-mediaDisplaySet-edit-name">#</sapn>
                 <input
                   dense

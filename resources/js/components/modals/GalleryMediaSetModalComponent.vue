@@ -437,7 +437,7 @@ export default {
   font-size: 2rem;
   margin: 0.5rem 1.5rem 1rem 0rem;
 }
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .gallery-mediaSet-close-btn {
     margin: 0.5rem 0.5rem 1rem 0rem;
   }

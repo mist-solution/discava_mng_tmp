@@ -367,7 +367,7 @@ export default {
         },
         {
           id: "5",
-          class: "mdi mdi-plus gallery-mediaDisplaySet-mdi",
+          class: "mdi mdi-plus-thick gallery-mediaDisplaySet-mdi",
           isSelect: false,
         },
       ],

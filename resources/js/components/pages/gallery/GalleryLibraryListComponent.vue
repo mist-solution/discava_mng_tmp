@@ -35,7 +35,7 @@
             label="すべてのデータ"
           />
           <DatePicker
-            class=" filter-btn gallery-library-search-select"
+            class=" filter-btn gallery-library-search-datepicker"
             v-model="createdmodel"
             placeholder="全ての月"
             :format="format"
@@ -126,6 +126,7 @@
 import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
 import GalleryMediaDisplaySetModalComponent from "../../modals/GalleryMediaDisplaySetModalComponent.vue";
 import DatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
 
 export default {
@@ -297,6 +298,10 @@ export default {
   align-items: center;
 }
 .gallery-library-search-select {
+  border: 1px solid #ccc;
+  width: 45%;
+}
+.gallery-library-search-datepicker {
   border: 1px solid #ccc;
   width: 45%;
 }

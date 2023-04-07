@@ -30,6 +30,11 @@ class MediaAttachment extends Model
         'del_flg',
     ];
 
+    public function media_folders()
+    {
+        return $this->belongsTo(MediaFolder::class, 'media_folder_id');
+    }
+
     public function add_account()
     {
         return $this->belongsTo(User::class, 'add_account');

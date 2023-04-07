@@ -87,11 +87,9 @@ export default {
     copyTextToClipboard() {
       navigator.clipboard
         .writeText(this.gallery_code)
-        .then(() => {
-          (this.isCopy = true), console.log("Copy Success" + this.gallery_code);
-        })
+        .then(() => {})
         .catch(() => {
-          console.error("Copy Error" + this.gallery_code);
+          console.error("Copy Error");
         });
     },
   },

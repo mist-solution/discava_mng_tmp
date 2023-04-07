@@ -109,17 +109,17 @@
               <v-radio-group inline>
                 <v-radio
                   label="左"
-                  value="left"
+                  value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="中央"
-                  value="center"
+                  value="2"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="右"
-                  value="right"
+                  value="3"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
               </v-radio-group>
@@ -133,12 +133,12 @@
               <v-radio-group inline>
                 <v-radio
                   label="なし"
-                  value="none"
+                  value="0"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="あり"
-                  value="exist"
+                  value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
               </v-radio-group>
@@ -152,22 +152,22 @@
               <v-radio-group inline>
                 <v-radio
                   label="なし"
-                  value="none"
+                  value="0"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="小"
-                  value="small"
+                  value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="中"
-                  value="mideum"
+                  value="2"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="最大"
-                  value="max"
+                  value="3"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
               </v-radio-group>
@@ -181,17 +181,17 @@
               <v-radio-group inline>
                 <v-radio
                   label="なし"
-                  value="none"
+                  value="0"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="マウスオーバー"
-                  value="mouseover"
+                  value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="ポップアップ"
-                  value="popup"
+                  value="2"
                   class="gallery-mediaDisplaySet-radio"
                 >
                 </v-radio>
@@ -209,17 +209,17 @@
               <v-radio-group inline>
                 <v-radio
                   label="なし"
-                  value="none"
+                  value="0"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="狭い"
-                  value="narrow"
+                  value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="太い"
-                  value="wide"
+                  value="2"
                   class="gallery-mediaDisplaySet-radio"
                 >
                 </v-radio>
@@ -259,12 +259,12 @@
               <v-radio-group inline>
                 <v-radio
                   label="なし"
-                  value="none"
+                  value="0"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="あり"
-                  value="exist"
+                  value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
               </v-radio-group>
@@ -278,12 +278,12 @@
               <v-radio-group inline>
                 <v-radio
                   label="なし"
-                  value="none"
+                  value="0"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="あり"
-                  value="exist"
+                  value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
               </v-radio-group>
@@ -309,6 +309,7 @@
                       ? mdi.class + ' gallery-mediaDisplaySet-mdi-active'
                       : mdi.class
                   "
+                  :value="mdi.value"
                 >
                 </span>
               </div>
@@ -355,26 +356,31 @@ export default {
           id: "1",
           class: "mdi mdi-solid gallery-mediaDisplaySet-mdi-null",
           isSelect: false,
+          value: "0",
         },
         {
           id: "2",
           class: "mdi mdi-magnify-plus-outline gallery-mediaDisplaySet-mdi",
           isSelect: false,
+          value: "1",
         },
         {
           id: "3",
           class: "mdi mdi-magnify gallery-mediaDisplaySet-mdi",
           isSelect: false,
+          value: "2",
         },
         {
           id: "4",
           class: "mdi mdi-plus-circle-outline gallery-mediaDisplaySet-mdi",
           isSelect: false,
+          value: "3",
         },
         {
           id: "5",
-          class: "mdi mdi-plus-thick gallery-mediaDisplaySet-mdi",
+          class: "mdi mdi-plus-box-outline gallery-mediaDisplaySet-mdi",
           isSelect: false,
+          value: "4",
         },
       ],
       imgItems: [

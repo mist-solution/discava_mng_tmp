@@ -83,6 +83,11 @@
               :src=" 'data:image/png;base64,' + item.img_path"
               aspect-ratio="1"
               cover
+              :class="
+                item.img_path
+                  ? 'gallery-library-img bg-grey-lighten-2'
+                  : 'gallery-library-img-sample bg-grey-lighten-2 gallery-library-img'
+              "
             >
               <!-- 写真ごとローディングアニメ -->
               <!-- <template v-slot:placeholder>

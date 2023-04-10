@@ -401,6 +401,11 @@ export default {
   margin: 0;
   max-width: 10vw !important;
 }
+@media (max-width: 901px) {
+  .gallery-library-img-margin {
+    max-width: 12vw !important;
+  }
+}
 .gallery-library-img {
   width: 10vw;
   transition-duration: 0.3s;

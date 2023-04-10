@@ -16,15 +16,21 @@
   <div class="gallery-library-search-area-sp">
     <v-select
       class="filter-btn gallery-library-search-select-sp"
-      :items="['AAA', 'BBB', 'CCC', 'DDD']"
+      :items="['画像データ', '動画データ', '音声データ', 'テキストデータ']"
       hide-details="false"
       label="すべてのデータ"
     />
-    <v-select
-      class="filter-btn gallery-library-search-select-sp ml-2"
-      :items="['AAA', 'BBB', 'CCC', 'DDD']"
-      hide-details="false"
-      label="すべてのデータ"
+    <DatePicker
+      class=" filter-btn gallery-library-search-datepicker-sp"
+      v-model="createdmodel"
+      placeholder="全ての月"
+      :format="format"
+      :preview-format="previewFormat"
+      selectText="確認"
+      cancelText="キャンセル"
+      month-picker
+      @update:model-value="FilterLibrary"
+      locale="jp"
     />
   </div>
   <!-- テキストボックス・追加ボタン -->
@@ -39,15 +45,15 @@
           type="search"
           maxlength="30"
           hide-details="false"
+          v-model="captionModel"
+          @change="FilterLibrary"
         />
       </div>
     </div>
-    <button
-      class="green-btn_noTransform px-2 py-1 gallery-library-add-btn-sp"
-      type="button"
-    >
-      追加
-    </button>
+    <div class="samb-box">
+        <label for="image" class="green-btn_noTransform px-2 py-1 gallery-library-add-btn-sp">追加</label>
+        <input type="file" id="image" accept="image/*" @change="readImage">
+    </div>
   </div>
 
   <!-- 仕切り線 -->
@@ -57,20 +63,15 @@
   <div class="gallery-library-list-area-sp">
     <v-row>
       <v-col
-        v-for="n in 30"
-        :key="n"
+        v-for="(item,index) in library"
+        :key="index"
         class="d-flex child-flex gallery-library-img-margin-sp"
       >
         <div class="btn-group" @click="displayGalleryMediaSet = true">
-          <v-img
-            src=""
+          <img
+            :src=" 'data:image/png;base64,' + item.img_path"
             aspect-ratio="1"
             cover
-            :class="
-              img
-                ? 'gallery-library-img-sample-sp bg-grey-lighten-2 gallery-library-img-sp'
-                : 'gallery-library-img-sample-sp bg-grey-lighten-2 gallery-library-img-sp'
-            "
           >
             <!-- 写真ごとローディングアニメ -->
             <!-- <template v-slot:placeholder>
@@ -81,7 +82,6 @@
               ></v-progress-circular>
             </v-row>
           </template> -->
-          </v-img>
         </div>
       </v-col>
     </v-row>
@@ -107,18 +107,60 @@
 <script>
 import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
 import GalleryMediaDisplaySetModalComponentSp from "../../modals/GalleryMediaDisplaySetModalComponentSp.vue";
+import DatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+import moment from 'moment';
 
 export default {
   components: {
     GalleryMediaSetModalComponent,
     GalleryMediaDisplaySetModalComponentSp,
+    DatePicker,
   },
   data() {
     return {
       img: [],
       displayGalleryMediaSet: false,
-      displayGalleryMediaDisplaySetSp: true,
+      displayGalleryMediaDisplaySet: false,
+      library: [],
+      createdmodel: null,
+      captionModel: "",
     };
+  },
+  computed: {
+    selectedFolder() {
+      return this.$store.state.library.selectedFolder;
+    },
+    AddDateBegin() {
+      return this.$store.state.library.AddDateBegin;
+    },
+    AddDateEnd() {
+      return this.$store.state.library.AddDateEnd;
+    },
+    FileFormat() {
+      return this.$store.state.library.FileFormat;
+    },
+    Caption() {
+      return this.$store.state.library.Caption;
+    },
+    
+  },
+  watch: {
+    selectedFolder() {
+      this.getLibraryList();
+    },
+    AddDateBegin(){
+      this.getLibraryList();
+    },
+    AddDateEnd(){
+      this.getLibraryList();
+    },
+    FileFormat(){
+      this.getLibraryList();
+    },
+    Caption(){
+      this.getLibraryList();
+    },
   },
   methods: {
     //画面設定モーダルを閉じる
@@ -130,9 +172,126 @@ export default {
     closeDisplayGalleryMediaDisplaySetSp() {
       this.displayGalleryMediaDisplaySetSp = false;
     },
+
+     //画像一覧取得
+    getLibraryList() {
+    axios
+      .get("/api/mediaAttachment", {
+        params: {
+          searchFileID:
+            this.$store.state.library.selectedFolder,
+          searchAddDateBegin:
+            this.$store.state.library.AddDateBegin,
+          searchAddDateEnd:
+            this.$store.state.library.AddDateEnd,
+          searchFileFormat:
+            this.$store.state.library.FileFormat,
+          searchCaption:
+            this.$store.state.library.Caption,
+        },
+      })
+      .then((res) => {
+        this.library = res.data.mediaAttachment
+      });
+    },
+
+    FilterLibrary(){
+      //投稿月検索
+      if(this.createdmodel != null){
+        let start_year
+        let start_month
+        let end_year
+        let end_month
+        if(this.createdmodel.month == 11){
+          start_month = 12;
+          start_year = this.createdmodel.year;
+          end_month = 1;
+          end_year = start_year + 1
+        }else{
+          start_month = this.createdmodel.month + 1;
+          start_year = this.createdmodel.year;
+          end_month = start_month + 1;
+          end_year = start_year;
+        }
+        let start = new Date(start_year + "-" + start_month + "-1")
+        let end = new Date(end_year + "-" + end_month + "-1")
+        start.setHours(start.getHours() + 9);
+        end.setHours(end.getHours() + 9);
+        this.$store.dispatch("library/setAddDateBegin", start);
+        this.$store.dispatch("library/setAddDateEnd", end);
+      }else{
+        this.$store.dispatch("library/setAddDateBegin", null);
+        this.$store.dispatch("library/setAddDateEnd", null);
+      }
+      //キャプション検索
+      if(this.captionModel != ""){
+        this.$store.dispatch("library/setCaption",this.captionModel);
+      }else{
+        this.$store.dispatch("library/setCaption",null);
+      }
+    },
+
+    format(date) {
+      return moment(date).format('yyyy/MM');
+    },
+
+    previewFormat(date) {
+      return moment(date).format('yyyy/MM');
+    },
+
+     //画像追加
+    readImage() {
+      let name ="";
+      const inputImage = document.getElementById('image');
+      if (inputImage.files.length === 0) {
+        return;
+      }
+
+      this.file = inputImage.files[0];
+
+      name = this.file.name;
+
+      const options = {
+        maxSizeMB: 1, // 最大ファイルサイズ
+      };
+
+      if(this.file.size > 1024*1024){
+        // 圧縮画像の生成
+        this.file = imageCompression(this.file, options); 
+      }
+
+      let flg = false;
+      if(this.$store.state.library.selectedFolder == -1 || this.$store.state.library.selectedFolder == ""){
+        flg = true;
+      }
+      
+      let formData = new FormData();
+      const item = {
+        media_folder_id: flg? 1 :this.$store.state.library.selectedFolder,
+        img_filename: name,
+        img_path: this.file,
+        img_fileformat: this.file.type,
+        img_filesize:this.file.size,
+        img_width:0,
+        img_height:0,
+      };
+      formData.append("mediaAttachment", JSON.stringify(item));
+
+      formData.append("file", this.file);
+
+      axios.post('/api/mediaAttachment/register',
+        formData,
+        { headers: { "Content-type": "multipart/form-data", }}
+      ).then((res) => {
+        this.getLibraryList();
+      });
+    },
+    
   },
 
-  async mounted() {},
+  async mounted() {
+    this.getLibraryList();
+  },
 };
 </script>
 
@@ -159,6 +318,10 @@ export default {
     border: 1px solid #ccc;
     width: 45%;
     margin: 0;
+  }
+  .gallery-library-search-datepicker-sp {
+    border: 1px solid #ccc;
+    width: 45%;
   }
   .gallery-library-search-sp {
     display: flex;

@@ -47,10 +47,16 @@ class MediaAttachment extends Model
             ->where('del_flg', false)
             ->where('shop_id', $shop_id);
 
-        //選択したフォルダから絞り込み（0の場合はすべてのファイルフォルダ）
-        if($searchFileID != -1){
+        //選択したフォルダから絞り込み（-1の場合はすべてのファイルフォルダ）
+        if($searchFileID != "" && $searchFileID != "-1" && $searchFileID != "0"){
             $mediaAttachmentModel = $mediaAttachmentModel->where('media_folder_id',  $searchFileID);
+        }else if($searchFileID == "0"){
+            $mediaAttachmentModel = $mediaAttachmentModel->where('media_folder_id',  1);
         }
+
+        $mediaAttachment['mediaAttachment'] = $mediaAttachmentModel
+            ->get();
+
 
         // 画像キャプション検索
         if ($searchCaption != "") {
@@ -69,6 +75,7 @@ class MediaAttachment extends Model
             $mediaAttachmentModel = $mediaAttachmentModel
                 ->where("img_fileformat",$searchFileFormat);
         }
+
 
         $mediaAttachment['count'] = $mediaAttachmentModel
             ->count();

@@ -5,12 +5,12 @@
       <v-row>
         <v-col cols="6" class="d-flex">
           <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">ライブラリ</p>
-          <button
-            class="green-btn_noTransform px-2 py-1 gallery-library-add-btn"
-            type="button"
-          >
-            追加
-          </button>
+          <div>
+            <div class="samb-box">
+              <label for="image" class="green-btn_noTransform px-2 py-1 gallery-library-add-btn">追加</label>
+              <input type="file" id="image" accept="image/*" @change="readImage">
+            </div>
+          </div>
         </v-col>
         <v-col cols="6" class="d-flex justify-end">
           <button
@@ -74,20 +74,15 @@
     <div class="gallery-library-list-area">
       <v-row>
         <v-col
-          v-for="(index,item) in library"
+          v-for="(item,index) in library"
           :key="index"
           class="d-flex child-flex gallery-library-img-margin"
         >
           <div class="btn-group" @click="displayGalleryMediaSet = true">
-            <v-img
-              src=""
+            <img
+              :src=" 'data:image/png;base64,' + item.img_path"
               aspect-ratio="1"
               cover
-              :class="
-                item.img_path
-                  ? item.img_path
-                  : 'gallery-library-img-sample bg-grey-lighten-2 gallery-library-img'
-              "
             >
               <!-- 写真ごとローディングアニメ -->
               <!-- <template v-slot:placeholder>
@@ -98,7 +93,6 @@
               ></v-progress-circular>
             </v-row>
           </template> -->
-            </v-img>
           </div>
         </v-col>
       </v-row>
@@ -128,6 +122,7 @@ import GalleryMediaDisplaySetModalComponent from "../../modals/GalleryMediaDispl
 import DatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
+import imageCompression from "browser-image-compression";
 
 export default {
   components: {
@@ -253,9 +248,58 @@ export default {
       return moment(date).format('yyyy/MM');
     },
 
-    previewFormat(date) {
+    previewFormat(date) {                                                                                        
       return moment(date).format('yyyy/MM');
     },
+
+    //画像追加
+    readImage() {
+      let name ="";
+      const inputImage = document.getElementById('image');
+      if (inputImage.files.length === 0) {
+        return;
+      }
+
+      this.file = inputImage.files[0];
+
+      name = this.file.name;
+
+      const options = {
+        maxSizeMB: 1, // 最大ファイルサイズ
+      };
+
+      if(this.file.size > 1024*1024){
+        // 圧縮画像の生成
+        this.file = imageCompression(this.file, options); 
+      }
+
+      let flg = false;
+      if(this.$store.state.library.selectedFolder == -1 || this.$store.state.library.selectedFolder == ""){
+        flg = true;
+      }
+      
+      let formData = new FormData();
+      const item = {
+        media_folder_id: flg? 1 :this.$store.state.library.selectedFolder,
+        img_filename: name,
+        img_path: this.file,
+        img_fileformat: this.file.type,
+        img_filesize:this.file.size,
+        img_width:0,
+        img_height:0,
+      };
+      formData.append("mediaAttachment", JSON.stringify(item));
+
+      formData.append("file", this.file);
+
+      axios.post('/api/mediaAttachment/register',
+        formData,
+        { headers: { "Content-type": "multipart/form-data", }}
+      ).then((res) => {
+        this.getLibraryList();
+      });
+    },
+
   },
   async mounted() {
     this.getLibraryList()
@@ -283,7 +327,6 @@ export default {
 
 /* タイトルエリア（追加ボタン） */
 .gallery-library-add-btn {
-  margin-left: 20%;
   height: fit-content;
 }
 

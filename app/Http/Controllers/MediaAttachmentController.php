@@ -24,6 +24,14 @@ class MediaAttachmentController extends Controller
 
         $mediaAttachment = MediaAttachment::getMediaAttachment($searchFileID, $searchAddDateBegin, $searchAddDateEnd, $searchFileFormat, $searchCaption, $shop_id);
 
+        foreach ($mediaAttachment["mediaAttachment"] as $key => $value) {
+            if ($value["img_path"]) {
+                $img_contents = Storage::get($value["img_path"]);
+                $img_base64 = base64_encode($img_contents);
+                $value["img_path"] = $img_base64;
+            }
+        }
+
 
         return $mediaAttachment;
 

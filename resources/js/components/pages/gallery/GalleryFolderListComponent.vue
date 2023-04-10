@@ -122,7 +122,7 @@
             index !== 0
           "
           class="gallery-sub-folder-show"
-          @click="openkeepFolder(item.id)"
+          
         >
           <span class="mdi mdi-folder"></span>
           <input
@@ -205,6 +205,7 @@ export default {
       namechange_flg: false,
       folderTitlechange:"",
       parentfolderTitlechange:"",
+      mibunrui:0,
     };
   },
   methods: {
@@ -212,20 +213,23 @@ export default {
     isParentFolder() {
       let total = 0;
       this.folder.forEach((folderItem) => {
-        if (folderItem.parent_folder_id === 0 && folderItem.id !== -1) {
-          folderItem.isShow = true;
-          for(let i = 1; i < this.folder.length; i++){
-            if(this.folder[i].parent_folder_id == folderItem.id){
-              folderItem.fileValue = folderItem.fileValue + this.folder[i].fileValue;
-            }
-          }
-        } else if(folderItem.id === -1){
+        if(folderItem.id === -1){
           folderItem.isShow = true;
           for(let i = 1; i < this.folder.length; i++){
             total = total + this.folder[i].fileValue
           }
-          folderItem.fileValue = total;
-        } else{
+          folderItem.fileValue = total + this.mibunrui;
+        }else if(folderItem.id === 0){
+          folderItem.isShow = true;
+          folderItem.fileValue = this.mibunrui;
+        }else if (folderItem.parent_folder_id === 0) {
+          folderItem.isShow = true;
+          for(let i = 0; i < this.folder.length; i++){
+            if(this.folder[i].parent_folder_id == folderItem.id){
+              folderItem.fileValue = folderItem.fileValue + this.folder[i].fileValue;
+            }
+          }
+        }else{
           folderItem.isShow = false;
         }
       });
@@ -233,6 +237,7 @@ export default {
 
     // 親フォルダクリック操作
     toggleFolder(item) {
+      this.$store.dispatch("library/setSelectedFolder", item.id);
       this.namechange_flg = false;
       // 親フォルダを押下
       if(this.parent_namechange_flg && item.isOpen){
@@ -280,6 +285,7 @@ export default {
 
     // 子フォルダクリック操作
     toggleSubFolder(subitem) {
+      this.$store.dispatch("library/setSelectedFolder", subitem.id);
       if(this.namechange_flg && subitem.isOpen){
       }else{
         // 子フォルダを押下
@@ -309,6 +315,7 @@ export default {
       axios.get("api/mediafolder").then((res) => {
         this.folder = res.data.mediaFolder;
         this.folder = this.prefolder.concat(this.folder)
+        this.mibunrui = res.data.mibunrui
         this.isParentFolder();
       });
     },
@@ -349,9 +356,9 @@ export default {
 
     },
 
-    openkeepFolder(id){
-      this.folder[id].isOpen = true;
-    },
+    //openkeepFolder(id){
+    //  this.folder[id].isOpen = true;
+    //},
 
     //フォルダ削除
     deleteFolder(){

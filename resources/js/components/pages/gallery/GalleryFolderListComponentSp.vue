@@ -30,6 +30,7 @@
       <button
         class="green-btn_noTransform px-2 py-1 gallery-folder-add-btn-sp"
         type="button"
+        @click="registerbtn()"
       >
         追加
       </button>
@@ -129,8 +130,8 @@
               index !== 1 &&
               index !== 0
             "
-            class="gallery-sub-folder-show"
-            @click="openkeepFolder(item.id)"
+            class="gallery-sub-folder-show-sp"
+            
           >
             <span class="mdi mdi-folder"></span>
             <input
@@ -144,10 +145,10 @@
           </div>
         </div>
       </div>
-      <div v-if="parent_folder_regist_flg" class="gallery-folder-show">
+      <div v-if="parent_folder_regist_flg" class="gallery-folder-show-sp">
         <span class="mdi mdi-folder"></span>
         <input
-          class="gallery-folder-search-input"
+          class="gallery-folder-search-input-sp"
           type="search"
           maxlength="30"
           hide-details="false"
@@ -221,15 +222,24 @@ export default {
   methods: {
     // 親フォルダか判断
     isParentFolder() {
+      let total = 0;
       this.folder.forEach((folderItem) => {
-        if (folderItem.parent_folder_id === 0) {
+        if(folderItem.id === -1){
+          folderItem.isShow = true;
+          for(let i = 1; i < this.folder.length; i++){
+            total = total + this.folder[i].fileValue
+          }
+          folderItem.fileValue = total;
+        }else if(folderItem.id === 0){
+          folderItem.isShow = true;
+        }else if (folderItem.parent_folder_id === 0) {
           folderItem.isShow = true;
           for(let i = 0; i < this.folder.length; i++){
             if(this.folder[i].parent_folder_id == folderItem.id){
               folderItem.fileValue = folderItem.fileValue + this.folder[i].fileValue;
             }
           }
-        } else {
+        }else{
           folderItem.isShow = false;
         }
       });
@@ -237,6 +247,7 @@ export default {
 
     // 親フォルダクリック操作
     toggleFolder(item) {
+      this.$store.dispatch("library/setSelectedFolder", item.id);
       this.namechange_flg = false;
       // 親フォルダを押下
       if(this.parent_namechange_flg && item.isOpen){
@@ -285,6 +296,7 @@ export default {
 
     // 子フォルダクリック操作
     toggleSubFolder(subitem) {
+      this.$store.dispatch("library/setSelectedFolder", subitem.id);
       if(this.namechange_flg && subitem.isOpen){
       }else{
         // 子フォルダを押下
@@ -354,9 +366,9 @@ export default {
 
     },
 
-    openkeepFolder(id){
-      this.folder[id].isOpen = true;
-    },
+    //openkeepFolder(id){
+    //  this.folder[id].isOpen = true;
+    //},
 
     //フォルダ削除
     deleteFolder(){
@@ -404,14 +416,14 @@ export default {
       let childfolderid = 0
       for (let i = 0; i < this.folder.length; i++) {
         if (this.folder[i].parent_folder_id == 0 && this.folder[i].isOpen) {
-          parentfolderid = i + 1;
+          parentfolderid = this.folder[i].id;
           this.parentfolderTitlechange = this.folder[i].name;
         }
       }
       if(parentfolderid != 0 && parentfolderid != -1){
         for (let i = 0; i < this.folder.length; i++) {
           if (this.folder[i].parent_folder_id == parentfolderid && this.folder[i].isOpen) {
-            childfolderid = i + 1;
+            childfolderid = this.folder[i].id;
             this.folderTitlechange = this.folder[i].name;
           }
         }

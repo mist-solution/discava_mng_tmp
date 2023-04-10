@@ -66,6 +66,7 @@
         v-for="(item,index) in library"
         :key="index"
         class="d-flex child-flex gallery-library-img-margin-sp"
+        cols="4"
       >
         <div class="btn-group" @click="displayGalleryMediaSet = true">
           <img
@@ -365,7 +366,7 @@ export default {
     height: 55vh;
   }
   .gallery-library-img-margin-sp {
-    margin: auto;
+    margin: 0;
   }
   .gallery-library-img-sp {
     width: 22vw;

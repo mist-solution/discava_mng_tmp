@@ -395,7 +395,8 @@ export default {
   }
 }
 .gallery-library-img-margin {
-  margin: auto;
+  margin: 0;
+  max-width: 10vw !important;
 }
 .gallery-library-img {
   width: 10vw;

@@ -594,13 +594,16 @@ export default {
   .gallery-mediaSet-action-area {
     margin-top: 2rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
   }
 }
 @media (max-width: 640px) {
   .gallery-mediaSet-action-area {
     margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 .gallery-mediaSet-update-btn {

@@ -6,9 +6,9 @@
         <v-col cols="6" class="d-flex">
           <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">ライブラリ</p>
           <div>
-            <div class="samb-box">
+            <div class="">
               <label for="image" class="green-btn_noTransform px-2 py-1 gallery-library-add-btn">追加</label>
-              <input type="file" id="image" accept="image/*" @change="readImage">
+              <input type="file" id="image" accept="image/*" @change="readImage" hidden>
             </div>
           </div>
         </v-col>
@@ -332,7 +332,10 @@ export default {
 
 /* タイトルエリア（追加ボタン） */
 .gallery-library-add-btn {
+  margin-left: 100%;
   height: fit-content;
+  width: 47.5px;
+  cursor: pointer;
 }
 
 /* 検索エリア */

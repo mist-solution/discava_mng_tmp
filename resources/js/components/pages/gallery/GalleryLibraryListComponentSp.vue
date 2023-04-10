@@ -355,8 +355,12 @@ export default {
   }
 
   .gallery-library-add-btn-sp {
-    width: 16%;
-    height: auto;
+    height: 3.5rem;
+    margin-left: 30%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* ライブラリ一覧 */

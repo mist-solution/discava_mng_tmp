@@ -12,8 +12,6 @@ use Storage;
 
 class AnnounceCategoryListController extends Controller
 {
-    // protected $fakeToken = 'X-DiscavaMATE-API-Token';
-    // protected $fakeShopId = 1;
     /**
      * Create a new controller instance.
      *
@@ -34,9 +32,6 @@ class AnnounceCategoryListController extends Controller
         $token = null;
         $shopId = null;
         $response = array();
-
-        // $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
-        // $shopId = $request->input('shop_id') ?? $this->fakeShopId;
 
         // ヘッダーのX-DiscavaMATE-API-Tokenを取得
         $token = $request->header('X-DiscavaMATE-API-Token');

@@ -13,8 +13,6 @@ use Carbon\Carbon;
 
 class AnnounceListController extends Controller
 {
-    // protected $fakeToken = 'X-DiscavaMATE-API-Token';
-    // protected $fakeShopId = 1;
     /**
      * Create a new controller instance.
      *
@@ -40,9 +38,6 @@ class AnnounceListController extends Controller
         $categoryID = $request->categoryID == null ? 0 : $request->categoryID;
         $sortBy = $request->sortBy == null ? 'start_date' : $request->sortBy;
         $searchText = $request->searchText == null ? '' : $request->searchText;
-
-        // $token = $request->header('X-DiscavaMATE-API-Token') ?? $this->fakeToken;
-        // $shopId = $request->input('shop_id') ?? $this->fakeShopId;
 
         // ヘッダーのX-DiscavaMATE-API-Tokenを取得
         $token = $request->header('X-DiscavaMATE-API-Token');

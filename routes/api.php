@@ -17,6 +17,8 @@ use App\Http\Controllers\WebAPI\AnnounceDetailContoller;
 use App\Http\Controllers\WebAPI\AnnounceImageController;
 use App\Http\Controllers\WebAPI\AnnounceListController;
 use App\Http\Controllers\WebAPI\AnnounceCategoryListController;
+use App\Http\Controllers\WebAPI\MediaDetailController;
+use App\Http\Controllers\WebAPI\MediaImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -137,3 +139,9 @@ Route::get('webapi/announce/list', [AnnounceListController::class, 'get']);
 Route::get('webapi/announce/detail/{id}', [AnnounceDetailContoller::class, 'get']);
 Route::get('webapi/announce/image/{id}', [AnnounceImageController::class, 'get']);
 Route::get('webapi/announce/categoryList', [AnnounceCategoryListController::class, 'get']);
+
+//------------------------------------------------
+// メディアWebAPI関連
+//------------------------------------------------
+Route::get('webapi/media/detail/{id}', [MediaDetailController::class, 'get']);
+Route::get('webapi/media/image/{id}', [MediaImageController::class, 'get']);

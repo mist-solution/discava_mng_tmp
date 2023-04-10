@@ -60,7 +60,11 @@ class MediaFolderController extends Controller
             $mediaFolderArrays[] = $mediaFolderArray;
         }
         $response['mediaFolder'] = $mediaFolderArrays;
-        $response['message'] = 'success';
+        $mibunruicount = MediaAttachment::where('shop_id', $shopId)
+        ->where('del_flg', '0')
+        ->where('media_folder_id', 1)
+        ->get();
+        $response['mibunrui'] = count($mibunruicount);
         return new JsonResponse($response);
     }
 

@@ -40,13 +40,22 @@ class MediaAttachmentController extends Controller
 
         $data = $request->all();
         $mediaAttachment = json_decode($data['mediaAttachment'], true);
+        $file = $data['file'];
 
         $regist['media_folder_id'] =  $mediaAttachment['media_folder_id'];
         $regist['img_filename'] =  urldecode($mediaAttachment['img_filename']);
-        $regist['img_caption'] =  urldecode($mediaAttachment['img_caption']);
-        $regist['img_memo'] =  urldecode($mediaAttachment['img_memo']);
-        $regist['img_alt'] =  urldecode($mediaAttachment['img_alt']);
+        $regist['img_caption'] =  "";
 
+        $regist['img_fileformat'] = $mediaAttachment['img_fileformat'];
+        $regist['img_filesize'] = $mediaAttachment['img_filesize'];
+        $regist['img_width'] = 0;
+        $regist['img_height'] = 0;
+        $regist['img_path'] = "";
+
+        $regist->save();
+
+        $path = Storage::putFile('gallery/' . $regist['shop_id'] . "/" . $regist['id'], $file);
+        $regist['img_path'] = $path;
 
         $regist->save();
 

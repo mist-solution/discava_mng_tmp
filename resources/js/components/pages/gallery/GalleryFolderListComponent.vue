@@ -675,6 +675,7 @@ export default {
 /* 名称変更・削除バタン */
 .gallery-folder-edit-btn-area {
   position: initial;
+  margin-top: -35px;
 }
 @media (max-width: 900px) {
   .gallery-folder-edit-btn-area {

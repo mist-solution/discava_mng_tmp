@@ -93,7 +93,7 @@
           :key="index"
           class="d-flex child-flex gallery-library-img-margin"
         >
-          <div class="btn-group" @click="displayGalleryMediaSet = true">
+          <div class="btn-group" @click="(displayGalleryMediaSet = true),setItem(item)">
             <img
               :src="'data:image/png;base64,' + item.img_path"
               aspect-ratio="1"
@@ -124,6 +124,7 @@
     :modelValue="displayGalleryMediaSet"
     @update:modelValue="displayGalleryMediaSet = $event"
     :closeDisplayGalleryMediaSetModal="closeDisplayGalleryMediaSet"
+    :item="mediaAttachment"
   />
 
   <!-- 画像表示設定モーダル -->
@@ -158,6 +159,7 @@ export default {
       library: [],
       createdmodel: null,
       captionModel: "",
+      mediaAttachment : null,
     };
   },
   computed: {
@@ -198,6 +200,7 @@ export default {
     //画面設定モーダルを閉じる
     closeDisplayGalleryMediaSet() {
       this.displayGalleryMediaSet = false;
+      this.getLibraryList();
     },
 
     //画面表示設定モーダルを閉じる
@@ -317,6 +320,11 @@ export default {
           this.getLibraryList();
         });
     },
+    //画像編集画面に必要な情報をセット
+    setItem(item){
+      this.mediaAttachment = item
+    }
+
   },
   async mounted() {
     this.getLibraryList();

@@ -55,7 +55,7 @@
   <script>
 export default {
   components: {},
-  props: ["closeDisplayGalleryMediaDeleteConfirmModal"],
+  props: ["closeDisplayGalleryMediaDeleteConfirmModal","id"],
   data() {
     return {};
   },
@@ -70,8 +70,9 @@ export default {
 
     // 削除処理
     deleteImage() {
+      axios.delete('/api/mediaAttachment/' + this.id);
       this.closeDisplayGalleryMediaDeleteConfirmModal();
-      console.log("press deleteImage btn from MODAL");
+      this.$emit("close");
     },
   },
   computed: {

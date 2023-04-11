@@ -127,6 +127,8 @@ Route::middleware(['sessionTimeout'])->group(function () {
     Route::post('/api/mediaAttachment/register', [MediaAttachmentController::class, 'register']);
     //画像削除
     Route::delete('/api/mediaAttachment/{id}', [MediaAttachmentController::class, 'delete']);
+    //画像更新
+    Route::post('/api/mediaAttachment/update/{id}', [MediaAttachmentController::class, 'update']);
 
 
 });

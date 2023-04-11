@@ -22,7 +22,7 @@
             @mouseleave.prevent="(showEditBtn = false), (showDeleteBtn = false)"
           >
             <v-col>
-              <v-img src="" cover class="gallery-mediaSet-img"></v-img>
+              <img :src=" 'data:image/png;base64,' + item.img_path" cover class="gallery-mediaSet-img">
               <!-- 編集ボタン -->
               <span
                 v-if="showEditBtn"
@@ -58,7 +58,7 @@
           </v-row>
           <v-row>
             <v-col>
-              <span class="gallery-mediaSet-name">test.png</span>
+              <span class="gallery-mediaSet-name">{{ item.img_filename }}</span>
             </v-col>
           </v-row>
 
@@ -72,7 +72,7 @@
                 >
               </v-col>
               <v-col cols="3">
-                <span class="gallery-mediaSet-infomation-content">png</span>
+                <span class="gallery-mediaSet-infomation-content">{{ item.img_fileformat }}</span>
               </v-col>
               <!-- 画像詳細内容（右1）　アップロードした人 -->
               <v-col cols="3">
@@ -82,7 +82,7 @@
               </v-col>
               <v-col cols="3">
                 <span class="gallery-mediaSet-infomation-content"
-                  >ああああ</span
+                  >{{ item.add_account.name }}</span
                 >
               </v-col>
             </v-row>
@@ -94,7 +94,7 @@
                 >
               </v-col>
               <v-col cols="3">
-                <span class="gallery-mediaSet-infomation-content">200KB</span>
+                <span class="gallery-mediaSet-infomation-content">{{ Math.round(item.img_filesize/1024) }}KB</span>
               </v-col>
               <!-- 画像詳細内容（右2）　アップロード日 -->
               <v-col cols="3">
@@ -104,7 +104,7 @@
               </v-col>
               <v-col cols="3">
                 <span class="gallery-mediaSet-infomation-content"
-                  >2023/01/01</span
+                  >{{ format(item.created_at) }}</span
                 >
               </v-col>
             </v-row>
@@ -115,7 +115,7 @@
               </v-col>
               <v-col cols="3">
                 <span class="gallery-mediaSet-infomation-content">
-                  960px x 540px
+                  {{ item.img_height }}px x {{ item.img_width }}px
                 </span>
               </v-col>
               <!-- 画像詳細内容（右3）　更新日 -->
@@ -124,7 +124,7 @@
               </v-col>
               <v-col cols="3">
                 <span class="gallery-mediaSet-infomation-content"
-                  >2023/01/01</span
+                  >{{ format(item.updated_at) }}</span
                 >
               </v-col>
             </v-row>
@@ -141,7 +141,7 @@
                 >
               </v-col>
               <v-col cols="6">
-                <span class="gallery-mediaSet-infomation-content">png</span>
+                <span class="gallery-mediaSet-infomation-content">{{ item.img_fileformat }}</span>
               </v-col>
             </v-row>
             <v-row class="gallery-mediaSet-infomation-area">
@@ -152,7 +152,7 @@
                 >
               </v-col>
               <v-col cols="6">
-                <span class="gallery-mediaSet-infomation-content">200KB</span>
+                <span class="gallery-mediaSet-infomation-content">{{ Math.round(item.img_filesize/1024) }}KB</span>
               </v-col>
             </v-row>
             <v-row class="gallery-mediaSet-infomation-area">
@@ -162,7 +162,7 @@
               </v-col>
               <v-col cols="6">
                 <span class="gallery-mediaSet-infomation-content">
-                  960px x 540px
+                  {{ item.img_height }}px x {{ item.img_width }}px
                 </span>
               </v-col>
             </v-row>
@@ -175,7 +175,7 @@
               </v-col>
               <v-col cols="6">
                 <span class="gallery-mediaSet-infomation-content"
-                  >ああああ</span
+                  >{{ item.add_account.name }}</span
                 >
               </v-col>
             </v-row>
@@ -188,7 +188,7 @@
               </v-col>
               <v-col cols="6">
                 <span class="gallery-mediaSet-infomation-content"
-                  >2023/01/01</span
+                  >{{ format(item.created_at) }}</span
                 >
               </v-col>
             </v-row>
@@ -199,7 +199,7 @@
               </v-col>
               <v-col cols="6">
                 <span class="gallery-mediaSet-infomation-content"
-                  >2023/01/10</span
+                  >{{ format(item.updated_at) }}</span
                 >
               </v-col>
             </v-row>
@@ -217,6 +217,7 @@
                   type="text"
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
+                  v-model="caption"
                 />
               </v-col>
               <!-- 画像設定（右1）　メモ -->
@@ -227,6 +228,7 @@
                   type="text"
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
+                  v-model="memo"
                 />
               </v-col>
               <!-- 画像設定　代替テキスト-->
@@ -237,6 +239,7 @@
                   type="text"
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
+                  v-model="alt"
                 />
               </v-col>
               <!-- 画像設定　フォルダ-->
@@ -276,6 +279,7 @@
                   type="text"
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
+                  v-model="caption"
                 />
               </v-col>
               <!-- 画像設定　メモ -->
@@ -286,6 +290,7 @@
                   type="text"
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
+                  v-model="memo"
                 />
               </v-col>
               <!-- 画像設定　代替テキスト-->
@@ -296,6 +301,7 @@
                   type="text"
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
+                  v-model="alt"
                 />
               </v-col>
               <!-- 画像設定　フォルダ-->
@@ -348,21 +354,27 @@
       :closeDisplayGalleryMediaDeleteConfirmModal="
         closeDisplayGalleryMediaDeleteConfirm
       "
+      :id="item.id"
+      @close="closeDisplayGalleryMediaSetModal()"
     />
   </v-dialog>
 </template>
   
 <script>
 import GalleryMediaDeleteConfirmModalComponent from "../modals/GalleryMediaDeleteConfirmModalComponent.vue";
+import moment from 'moment';
 
 export default {
   components: { GalleryMediaDeleteConfirmModalComponent },
-  props: ["closeDisplayGalleryMediaSetModal"],
+  props: ["closeDisplayGalleryMediaSetModal","item"],
   data() {
     return {
       showDeleteBtn: false,
       showEditBtn: false,
       displayGalleryMediaDeleteConfirm: false,
+      cap: "",
+      memo_ : "",
+      alt_ : "",
     };
   },
   methods: {
@@ -381,6 +393,19 @@ export default {
 
     // 更新処理
     updateMediaAction() {
+      let formData = new FormData();
+      const info = {
+        img_caption: this.cap,
+        img_memo: this.memo_,
+        img_alt: this.alt_,
+      };
+      formData.append("mediaAttachment", JSON.stringify(info));
+
+      axios.post('/api/mediaAttachment/update/' + this.item.id,
+        formData,
+        { headers: { "Content-type": "multipart/form-data", }}
+      )
+
       this.closeDisplayGalleryMediaSetModal();
     },
 
@@ -396,6 +421,12 @@ export default {
       // 画像編集処理
       console.log("press editImage btn");
     },
+
+    //日付設定
+    format(date) {
+      return moment(date).format('yyyy/MM/DD');
+    },
+
   },
   computed: {
     // モーダル幅さ調整
@@ -415,8 +446,39 @@ export default {
         return "100vw";
       }
     },
+
+    caption:{
+      get(){
+        this.cap = this.item.img_caption;
+        return this.item.img_caption;
+      },
+      set(newVal){
+        this.cap = newVal;
+      }
+    },
+
+    memo:{
+      get(){
+        this.memo_ = this.item.img_memo
+        return this.item.img_memo
+      },
+      set(newVal){
+        this.memo_ = newVal;
+      }
+    },
+
+    alt:{
+      get(){
+        this.alt_ = this.item.img_alt
+        return this.item.img_alt
+      },
+      set(newVal){
+        this.alt_ = newVal;
+      }
+    },
   },
-  mounted() {},
+  mounted() {
+  },
 };
 </script>
 <!-- 共通CSS -->

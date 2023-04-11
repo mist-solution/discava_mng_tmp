@@ -86,8 +86,20 @@ class MediaAttachmentController extends Controller
     //更新
     public function update(Request $request, $id)
     {
-        $mediaAttachment =  MediaAttachment::where('id', '=', $id)->firstOrFail();
+        $model =  MediaAttachment::where('id', '=', $id)->firstOrFail();
 
-        
+        $data = $request->all();
+        $mediaAttachment = json_decode($data['mediaAttachment'], true);
+
+        $update = [
+            'img_memo' => urldecode($mediaAttachment['img_memo']),
+            'img_alt' => urldecode($mediaAttachment['img_alt']),
+            'img_caption' => urldecode($mediaAttachment['img_caption']),
+            //'media_folder_id' => $mediaAttachment['media_folder_id'],
+            'upd_account' => Auth::user()->id,
+            'updated_at' => new DateTime(),
+        ];
+
+        $model->update($update);
     }
 }

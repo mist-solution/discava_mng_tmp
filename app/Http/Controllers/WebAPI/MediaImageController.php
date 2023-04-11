@@ -78,21 +78,24 @@ class MediaImageController extends Controller
         $mediaImageId = $id;
         // 対象のお知らせに添付されている画像を取得する
         $record = MediaAttachment::where('id', $mediaImageId)
-        ->where('shop_id', $shopId)
-        ->where('del_flg', '0')
-        ->first();
-        if(is_null($record)) {
+            ->where('shop_id', $shopId)
+            ->whereHas('media_folders', function ($query) {
+                $query->where('del_flg', '0');
+            })
+            ->where('del_flg', '0')
+            ->first();
+        if (is_null($record)) {
             return response()->json([
-                'message' => 'Internal Server Error'
-            ], 500);
+                'message' => 'Internal Server Error(not found shop\'s media record)'
+            ], 404);
         }
 
         // メディア添付画像
         $filePath = $record->img_path;
         $fileName = $record->img_filename;
-        $binary = Storage::disk()->get($filePath );
+        $binary = Storage::disk()->get($filePath);
         $mimeType = Storage::disk()->mimeType($filePath);
-        if(is_null($binary)) {
+        if (is_null($binary)) {
             return response()->json([
                 'message' => 'Internal Server Error',
                 'filepath' => $filePath,
@@ -100,7 +103,7 @@ class MediaImageController extends Controller
                 'mimetype' => $mimeType,
             ], 500);
         }
-        
+
         log::info(response($binary)->header('Content-Type', $mimeType));
         return response($binary)->header('Content-Type', $mimeType);
     }

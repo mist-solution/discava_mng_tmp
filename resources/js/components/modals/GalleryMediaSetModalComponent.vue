@@ -25,14 +25,14 @@
               <img :src=" 'data:image/png;base64,' + item.img_path" cover class="gallery-mediaSet-img">
               <!-- 編集ボタン -->
               <span
-                v-if="showEditBtn"
+                v-if="showEditBtn && approval_auth_flg"
                 class="mdi mdi-pencil gallery-mediaSet-edit-img-btn"
                 @click="editImage"
               >
               </span>
               <!-- 削除ボタン -->
               <span
-                v-if="showDeleteBtn"
+                v-if="showDeleteBtn && approval_auth_flg"
                 class="mdi mdi-trash-can gallery-mediaSet-delete-img-btn"
                 @click="deleteImage"
               >
@@ -41,14 +41,14 @@
               <!-- 編集・削除ボタン　SP版　BEGIN -->
               <!-- 編集ボタンSP -->
               <span
-                v-if="moblieFlg()"
+                v-if="moblieFlg() && approval_auth_flg"
                 class="mdi mdi-pencil gallery-mediaSet-edit-img-btn"
                 @click="editImage"
               >
               </span>
               <!-- 削除ボタンSP -->
               <span
-                v-if="moblieFlg()"
+                v-if="moblieFlg() && approval_auth_flg"
                 class="mdi mdi-trash-can gallery-mediaSet-delete-img-btn"
                 @click="deleteImage"
               >
@@ -207,7 +207,7 @@
           <!-- 画像詳細内容（修正不可）SP END -->
 
           <!-- 画像設定（修正可能） PC BEGIN-->
-          <div class="mt-4" v-if="!moblieFlg()">
+          <div class="mt-4" v-if="!moblieFlg() && approval_auth_flg">
             <v-row class="gallery-mediaSet-edit-area">
               <!-- 画像設定（左1）　キャプション-->
               <v-col cols="6">
@@ -269,7 +269,7 @@
           <!-- 画像設定（修正可能） PC END-->
 
           <!-- 画像設定（修正可能） SP BEGIN-->
-          <div class="mt-4" v-if="moblieFlg()">
+          <div class="mt-4" v-if="moblieFlg() && approval_auth_flg">
             <v-row class="gallery-mediaSet-edit-area">
               <!-- 画像設定　キャプション-->
               <v-col cols="12">
@@ -329,6 +329,136 @@
             </v-row>
           </div>
           <!-- 画像設定（修正可能） SP END-->
+
+          <!-- 画像設定（閲覧者） PC BEGIN-->
+          <div class="mt-4" v-if="!moblieFlg() && !approval_auth_flg">
+            <v-row class="gallery-mediaSet-edit-area">
+              <!-- 画像設定（左1）　キャプション-->
+              <v-col cols="6">
+                <span class="gallery-mediaSet-edit-item">キャプション</span>
+                <input
+                  dense
+                  type="text"
+                  hide-details="false"
+                  class="gallery-mediaSet-edit-input-disable"
+                  v-model="caption"
+                  disabled
+                />
+              </v-col>
+              <!-- 画像設定（右1）　メモ -->
+              <v-col cols="6">
+                <span class="gallery-mediaSet-edit-item">メモ</span>
+                <input
+                  dense
+                  type="text"
+                  hide-details="false"
+                  class="gallery-mediaSet-edit-input-disable"
+                  v-model="memo"
+                  disabled
+                />
+              </v-col>
+              <!-- 画像設定　代替テキスト-->
+              <v-col cols="12">
+                <span class="gallery-mediaSet-edit-item">代替テキスト</span>
+                <input
+                  dense
+                  type="text"
+                  hide-details="false"
+                  class="gallery-mediaSet-edit-input-disable"
+                  v-model="alt"
+                  disabled
+                />
+              </v-col>
+              <!-- 画像設定　フォルダ-->
+              <v-col cols="12">
+                <span class="gallery-mediaSet-edit-item">フォルダ</span>
+                <v-select
+                  class="gallery-mediaSet-select"
+                  :items="['未分類', 'BBB', 'CCC', 'DDD']"
+                  hide-details="false"
+                  text
+                />
+              </v-col>
+              <!-- 画像設定　アップロード先-->
+              <v-col cols="12">
+                <span class="gallery-mediaSet-edit-item"> アップロード先 </span>
+                <input
+                  dense
+                  type="text"
+                  hide-details="false"
+                  disabled
+                  class="gallery-mediaSet-edit-input-disable"
+                  value="xxxxx"
+                />
+              </v-col>
+            </v-row>
+          </div>
+          <!-- 画像設定（閲覧者） PC END-->
+
+          <!-- 画像設定（閲覧者） SP BEGIN-->
+          <div class="mt-4" v-if="moblieFlg() && !approval_auth_flg">
+            <v-row class="gallery-mediaSet-edit-area">
+              <!-- 画像設定　キャプション-->
+              <v-col cols="12">
+                <span class="gallery-mediaSet-edit-item">キャプション</span>
+                <input
+                  dense
+                  type="text"
+                  hide-details="false"
+                  class="gallery-mediaSet-edit-input-disable"
+                  v-model="caption"
+                  disabled
+                />
+              </v-col>
+              <!-- 画像設定　メモ -->
+              <v-col cols="12">
+                <span class="gallery-mediaSet-edit-item">メモ</span>
+                <input
+                  dense
+                  type="text"
+                  hide-details="false"
+                  class="gallery-mediaSet-edit-input-disable"
+                  v-model="memo"
+                  disabled
+                />
+              </v-col>
+              <!-- 画像設定　代替テキスト-->
+              <v-col cols="12">
+                <span class="gallery-mediaSet-edit-item">代替テキスト</span>
+                <input
+                  dense
+                  type="text"
+                  hide-details="false"
+                  class="gallery-mediaSet-edit-input-disable"
+                  v-model="alt"
+                  disabled
+                />
+              </v-col>
+              <!-- 画像設定　フォルダ-->
+              <v-col cols="12">
+                <span class="gallery-mediaSet-edit-item">フォルダ</span>
+                <v-select
+                  class="gallery-mediaSet-select"
+                  :items="['未分類', 'BBB', 'CCC', 'DDD']"
+                  hide-details="false"
+                  text
+                />
+              </v-col>
+              <!-- 画像設定　アップロード先-->
+              <v-col cols="12">
+                <span class="gallery-mediaSet-edit-item"> アップロード先 </span>
+                <input
+                  dense
+                  type="text"
+                  hide-details="false"
+                  disabled
+                  class="gallery-mediaSet-edit-input-disable"
+                  value="xxxxx"
+                />
+              </v-col>
+            </v-row>
+          </div>
+          <!-- 画像設定（閲覧者） SP END-->
         </div>
       </div>
 
@@ -338,6 +468,7 @@
         <v-btn
           @click="updateMediaAction()"
           class="green-btn_noTransform mx-2 gallery-mediaSet-update-btn"
+          v-if="approval_auth_flg"
           >更新</v-btn
         >
         <!-- キャンセルボタン -->
@@ -361,6 +492,8 @@
 </template>
   
 <script>
+import { mapActions } from "vuex";
+
 import GalleryMediaDeleteConfirmModalComponent from "../modals/GalleryMediaDeleteConfirmModalComponent.vue";
 import moment from 'moment';
 
@@ -375,9 +508,13 @@ export default {
       cap: "",
       memo_ : "",
       alt_ : "",
+      approval_auth_flg:false,
+      create_auth_flg:false,
     };
   },
   methods: {
+    ...mapActions('authority', ['fetchAllAuthority']),
+
     // モバイル判定
     moblieFlg() {
       return window.matchMedia &&
@@ -477,7 +614,12 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.create_auth_flg = authority.create_auth_flg;
+      this.approval_auth_flg = authority.approval_auth_flg;
+    }
   },
 };
 </script>

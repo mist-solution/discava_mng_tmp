@@ -6,6 +6,7 @@
       class="green-btn_noTransform px-2 py-1 gallery-folder-add-btn"
       type="button"
       @click="registerbtn()"
+      v-if="create_auth_flg"
     >
       追加
     </button>
@@ -88,6 +89,8 @@
             :class="[
               subitem.isShow && subitem.isOpen
                 ? 'mdi mdi-folder-open'
+                : hasChildFolder(subitem.id)
+                ? 'mdi mdi-folder-multiple' // 子フォルダ有り
                 : 'mdi mdi-folder',
             ]"
           ></span>
@@ -112,6 +115,49 @@
           >
             {{ subitem.fileValue }}
           </p>
+          <!-- 孫フォルダ 
+          <div v-if="subitem.isOpen">
+            <div
+              v-for="(subitem2, subindex2) in folder"
+              :key="subindex2"
+              :class="[
+                subitem2.isOpen
+                  ? 'gallery-sub2-folder-show-active'
+                  : 'gallery-sub2-folder-show',
+              ]"
+              @click.stop="toggleSubFolder2(subitem2)"
+            >
+              <span
+                v-if="subitem.isShow && subitem2.parent_folder_id == subitem.id"
+                :class="[
+                  subitem2.isShow && subitem2.isOpen
+                    ? 'mdi mdi-folder-open'
+                    : 'mdi mdi-folder',
+                ]"
+              ></span>
+              <p
+                v-if="subitem2.parent_folder_id == subitem.id && (!namechange_flg || !subitem2.isOpen)"
+                class="folder-name"
+              >
+                {{ subitem2.name }}
+              </p>
+              <input
+                v-if="subitem2.parent_folder_id == subitem.id && !(!namechange_flg || !subitem2.isOpen)"
+                class="gallery-folder-search-input"
+                type="search"
+                maxlength="30"
+                hide-details="false"
+                v-model="folderTitlechange"
+                @change="nameChange(subitem2.id)"
+              />
+              <p
+                v-if="subitem.isShow && subitem2.parent_folder_id == subitem.id"
+                class="number"
+              >
+                {{ subitem2.fileValue }}
+              </p>
+            </div>
+          </div> -->
         </div>
         <div
           v-if="
@@ -150,7 +196,7 @@
   </div>
 
   <!-- 名称変更・削除ボタン -->
-  <div class="gallery-folder-edit-btn-area">
+  <div class="gallery-folder-edit-btn-area" v-if="approval_auth_flg">
     <!-- 仕切り線 -->
     <div class="gallery-horizontal-divider"></div>
 
@@ -175,6 +221,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   components: {},
   data() {
@@ -206,16 +254,20 @@ export default {
       folderTitlechange:"",
       parentfolderTitlechange:"",
       mibunrui:0,
+      approval_auth_flg:false,
+      create_auth_flg:false,
     };
   },
   methods: {
+    ...mapActions('authority', ['fetchAllAuthority']),
+
     // 親フォルダか判断
     isParentFolder() {
       let total = 0;
       this.folder.forEach((folderItem) => {
         if(folderItem.id === -1){
           folderItem.isShow = true;
-          for(let i = 1; i < this.folder.length; i++){
+          for(let i = 2; i < this.folder.length; i++){
             total = total + this.folder[i].fileValue
           }
           folderItem.fileValue = total + this.mibunrui;
@@ -297,6 +349,48 @@ export default {
       this.folder.forEach((subfolderItem) => {
         if (subfolderItem !== subitem && subfolderItem.parent_folder_id !== 0) {
           subfolderItem.isOpen = false;
+        }
+      });
+      // 孫フォルダがある場合
+      if (this.hasChildFolder(subitem.id)) {
+        // 子フォルダが開く場合
+        if (subitem.isOpen) {
+          // 孫フォルダを表示
+          this.folder.forEach((subItem2) => {
+            if (
+              subItem2.parent_folder_id !== 0 &&
+              subItem2.parent_folder_id == item.id
+            ) {
+              subItem2.isShow = true;
+            }
+          });
+        } else if (!subitem.isOpen) {
+          this.folder.forEach((subItem2) => {
+            if (
+              subItem2.parent_folder_id !== 0 &&
+              subItem2.parent_folder_id == item.id
+            ) {
+              subItem2.isShow = false;
+            }
+          });
+        }
+      }
+    },
+
+    // 孫フォルダクリック操作
+    toggleSubFolder2(subitem2) {
+      this.$store.dispatch("library/setSelectedFolder", subitem2.id);
+      if(this.namechange_flg && subitem2.isOpen){
+      }else{
+        // 孫フォルダを押下
+        subitem2.isOpen = !subitem2.isOpen;
+        this.namechange_flg = false;
+      }
+      this.parent_namechange_flg = false;
+      // 押下されない場合，isOpen = false
+      this.folder.forEach((subfolderItem2) => {
+        if (subfolderItem2 !== subitem2 && subfolderItem2.parent_folder_id !== 0) {
+          subfolderItem2.isOpen = false;
         }
       });
     },
@@ -463,6 +557,11 @@ export default {
 
   async mounted() {
     this.getMediaFolder();
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.create_auth_flg = authority.create_auth_flg;
+      this.approval_auth_flg = authority.approval_auth_flg;
+    }
   },
 };
 </script>

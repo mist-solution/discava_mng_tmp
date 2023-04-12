@@ -5,7 +5,7 @@
       <v-row>
         <v-col cols="6" class="d-flex">
           <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">ライブラリ</p>
-          <div>
+          <div v-if="create_auth_flg">
             <div class="">
               <label
                 for="image"
@@ -24,6 +24,7 @@
         </v-col>
         <v-col cols="6" class="d-flex justify-end">
           <button
+            v-if="create_auth_flg"
             class="btn white-btn"
             type="button"
             @click="displayGalleryMediaDisplaySet = true"
@@ -138,6 +139,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
 import GalleryMediaDisplaySetModalComponent from "../../modals/GalleryMediaDisplaySetModalComponent.vue";
 import DatePicker from "@vuepic/vue-datepicker";
@@ -160,6 +163,8 @@ export default {
       createdmodel: null,
       captionModel: "",
       mediaAttachment : null,
+      approval_auth_flg:false,
+      create_auth_flg:false,
     };
   },
   computed: {
@@ -197,6 +202,8 @@ export default {
     },
   },
   methods: {
+    ...mapActions('authority', ['fetchAllAuthority']),
+
     //画面設定モーダルを閉じる
     closeDisplayGalleryMediaSet() {
       this.displayGalleryMediaSet = false;
@@ -328,6 +335,11 @@ export default {
   },
   async mounted() {
     this.getLibraryList();
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.create_auth_flg = authority.create_auth_flg;
+      this.approval_auth_flg = authority.approval_auth_flg;
+    }
   },
 };
 </script>

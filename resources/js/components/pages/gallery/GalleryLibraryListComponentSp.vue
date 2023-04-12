@@ -6,6 +6,7 @@
       class="btn white-btn"
       type="button"
       @click="displayGalleryMediaDisplaySetSp = true"
+      v-if="create_auth_flg"
     >
       ギャラリーを作成
     </button>
@@ -50,7 +51,7 @@
         />
       </div>
     </div>
-    <div class="samb-box">
+    <div class="samb-box" v-if="create_auth_flg">
         <label for="image" class="green-btn_noTransform px-2 py-1 gallery-library-add-btn-sp">追加</label>
         <input type="file" id="image" accept="image/*" @change="readImage">
     </div>
@@ -112,11 +113,14 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
 import GalleryMediaDisplaySetModalComponentSp from "../../modals/GalleryMediaDisplaySetModalComponentSp.vue";
 import DatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment';
+import imageCompression from "browser-image-compression";
 
 export default {
   components: {
@@ -133,6 +137,8 @@ export default {
       createdmodel: null,
       captionModel: "",
       mediaAttachment : null,
+      approval_auth_flg:false,
+      create_auth_flg:false,
     };
   },
   computed: {
@@ -171,6 +177,8 @@ export default {
     },
   },
   methods: {
+    ...mapActions('authority', ['fetchAllAuthority']),
+
     //画面設定モーダルを閉じる
     closeDisplayGalleryMediaSet() {
       this.displayGalleryMediaSet = false;
@@ -306,6 +314,11 @@ export default {
 
   async mounted() {
     this.getLibraryList();
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.create_auth_flg = authority.create_auth_flg;
+      this.approval_auth_flg = authority.approval_auth_flg;
+    }
   },
 };
 </script>

@@ -58,12 +58,17 @@ class MediaAttachment extends Model
             ->get();
 
 
-        // 画像キャプション検索
+        // 画像検索
         if ($searchCaption != "") {
-            $mediaAttachmentModel = $mediaAttachmentModel->where('img_caption', 'LIKE', "%{$searchCaption}%");
+            $mediaAttachmentModel = $mediaAttachmentModel->where(function ($query) use ($searchCaption) {
+                $query->orwhere('img_caption', 'LIKE', "%{$searchCaption}%")
+                    ->orwhere('img_filename', 'LIKE', "%{$searchCaption}%")
+                    ->orwhere('img_alt', 'LIKE', "%{$searchCaption}%")
+                    ->orwhere('img_memo', 'LIKE', "%{$searchCaption}%");
+            });
         }
 
-        // 検索：登録日時（開始のみ入力済 、開始/終了入力済）
+        // 検索：登録日時
         if ($searchAddDateBegin) {
             $mediaAttachmentModel = $mediaAttachmentModel
                 ->where("created_at", '>=', $searchAddDateBegin)

@@ -31,6 +31,7 @@
         class="green-btn_noTransform px-2 py-1 gallery-folder-add-btn-sp"
         type="button"
         @click="registerbtn()"
+        v-if="create_auth_flg"
       >
         追加
       </button>
@@ -160,7 +161,7 @@
 
 
     <!-- 名称変更・削除ボタン -->
-    <div class="gallery-folder-edit-btn-area-sp">
+    <div class="gallery-folder-edit-btn-area-sp" v-if="approval_auth_flg">
       <!-- 仕切り線 -->
       <div class="gallery-horizontal-divider"></div>
 
@@ -186,6 +187,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   components: {},
   data() {
@@ -217,21 +220,27 @@ export default {
       namechange_flg: false,
       folderTitlechange:"",
       parentfolderTitlechange:"",
+      mibunrui:0,
+      approval_auth_flg:false,
+      create_auth_flg:false,
     };
   },
   methods: {
+    ...mapActions('authority', ['fetchAllAuthority']),
+
     // 親フォルダか判断
     isParentFolder() {
       let total = 0;
       this.folder.forEach((folderItem) => {
         if(folderItem.id === -1){
           folderItem.isShow = true;
-          for(let i = 1; i < this.folder.length; i++){
+          for(let i = 2; i < this.folder.length; i++){
             total = total + this.folder[i].fileValue
           }
-          folderItem.fileValue = total;
+          folderItem.fileValue = total + this.mibunrui;
         }else if(folderItem.id === 0){
           folderItem.isShow = true;
+          folderItem.fileValue = this.mibunrui;
         }else if (folderItem.parent_folder_id === 0) {
           folderItem.isShow = true;
           for(let i = 0; i < this.folder.length; i++){
@@ -472,6 +481,11 @@ export default {
 
   async mounted() {
     this.getMediaFolder();
+    let authority = await this.fetchAllAuthority();
+    if(authority){
+      this.create_auth_flg = authority.create_auth_flg;
+      this.approval_auth_flg = authority.approval_auth_flg;
+    }
   },
 };
 </script>

@@ -185,7 +185,7 @@
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
-                  label="マウスオーバー"
+                  label="オーバーレイ"
                   value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>

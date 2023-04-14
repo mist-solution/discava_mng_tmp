@@ -95,6 +95,7 @@ class MediaDetailController extends Controller
         $media['media_column_num'] = $mediaFolderValue->media_column_num;
         $media['media_align'] = $mediaFolderValue->media_align;
         $media['media_link'] = $mediaFolderValue->media_link;
+        $media['media_link_url'] = $mediaFolderValue->media_link_url;
         $media['media_margin'] = $mediaFolderValue->media_margin;
         $media['media_caption'] = $mediaFolderValue->media_caption;
         $media['media_frame_design'] = $mediaFolderValue->media_frame_design;
@@ -103,7 +104,7 @@ class MediaDetailController extends Controller
         $media['media_hover_expand'] = $mediaFolderValue->media_hover_expand;
         $media['media_hover_icon'] = $mediaFolderValue->media_hover_icon;
 
-        
+
         // 対象のメディアフォルダに添付されているメディア画像を取得する
         $records = MediaAttachment::where('media_folder_id', $mediaFolderId)
             ->where('shop_id', $shopId)

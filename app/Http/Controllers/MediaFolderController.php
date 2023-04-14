@@ -27,8 +27,6 @@ class MediaFolderController extends Controller
         //    ->where('name', 'LIKE', "%{$searchFolder}%");
         //}
 
-        Log::info($mediaFolder);
-
         $mediaFolderArrays = array();
         foreach ($mediaFolder as $key => $value) {
             $mediaFolderArray = array();
@@ -50,6 +48,7 @@ class MediaFolderController extends Controller
             $mediaFolderArray['media_hover_expand'] = $value->media_hover_expand;
             $mediaFolderArray['media_hover_icon'] = $value->media_hover_icon;
             $mediaFolderArray['add_account'] = $value->add_account;
+            $mediaFolderArray['kaisou'] = $value->kaisou;
             $mediaFolderArray['isOpen'] = false;
             $mediaFolderArray['isShow'] = false;
             $filecount = MediaAttachment::where('shop_id', $shopId)
@@ -85,6 +84,7 @@ class MediaFolderController extends Controller
         // multipart/form-dataだとマルチバイトが文字化けする対応
         // VueでHTMLエンコード→PHPでHTMLデコードする。
         $regist['name'] = urldecode($mediaFolder['name']);
+        $regist['kaisou'] = $mediaFolder['kaisou'];
 
         $regist['media_sort'] = 1;
         $regist['media_width'] = 512;
@@ -143,6 +143,117 @@ class MediaFolderController extends Controller
 
         return $mediaFolder;
     }
+
+    //名前を降順で取得
+    public function getSortMediaFolder2(Request $request){
+        $shopId = $request->session()->get('shop_id');
+        $response = array();
+        //$searchFolder = $request->input('searchFolder');
+        $mediaFolder = MediaFolder::where('shop_id', $shopId)
+            ->where('del_flg', '0')
+            ->orderBy('name','desc')
+            ->get();
+
+        //if ($searchFolder != "") {
+        //    $mediaFolder = $mediaFolder->where('parent_folder_id','=','0')
+        //    ->where('name', 'LIKE', "%{$searchFolder}%");
+        //}
+
+        $mediaFolderArrays = array();
+        foreach ($mediaFolder as $key => $value) {
+            $mediaFolderArray = array();
+            $mediaFolderArray['id'] = $value->id;
+            $mediaFolderArray['shop_id'] = $value->shop_id;
+            $mediaFolderArray['parent_folder_id'] = $value->parent_folder_id;
+            $mediaFolderArray['name'] = $value->name;
+            $mediaFolderArray['media_sort'] = $value->media_sort;
+            $mediaFolderArray['media_width'] = $value->media_width;
+            $mediaFolderArray['media_height'] = $value->media_height;
+            $mediaFolderArray['media_column_num'] = $value->media_column_num;
+            $mediaFolderArray['media_align'] = $value->media_align;
+            $mediaFolderArray['media_link'] = $value->media_link;
+            $mediaFolderArray['media_margin'] = $value->media_margin;
+            $mediaFolderArray['media_caption'] = $value->media_caption;
+            $mediaFolderArray['media_frame_design'] = $value->media_frame_design;
+            $mediaFolderArray['media_frame_color'] = $value->media_frame_color;
+            $mediaFolderArray['media_shadow'] = $value->media_shadow;
+            $mediaFolderArray['media_hover_expand'] = $value->media_hover_expand;
+            $mediaFolderArray['media_hover_icon'] = $value->media_hover_icon;
+            $mediaFolderArray['add_account'] = $value->add_account;
+            $mediaFolderArray['kaisou'] = $value->kaisou;
+            $mediaFolderArray['isOpen'] = false;
+            $mediaFolderArray['isShow'] = false;
+            $filecount = MediaAttachment::where('shop_id', $shopId)
+            ->where('del_flg', '0')
+            ->where('media_folder_id', $mediaFolderArray['id'])
+            ->get();
+            $mediaFolderArray['fileValue'] = count($filecount);
+            $mediaFolderArrays[] = $mediaFolderArray;
+        }
+        $response['mediaFolder'] = $mediaFolderArrays;
+        $mibunruicount = MediaAttachment::where('shop_id', $shopId)
+        ->where('del_flg', '0')
+        ->where('media_folder_id', 1)
+        ->get();
+        $response['mibunrui'] = count($mibunruicount);
+        return new JsonResponse($response);
+    }
+
+    //名前を昇順で取得
+    public function getSortMediaFolder1(Request $request){
+        $shopId = $request->session()->get('shop_id');
+        $response = array();
+        //$searchFolder = $request->input('searchFolder');
+        $mediaFolder = MediaFolder::where('shop_id', $shopId)
+            ->where('del_flg', '0')
+            ->orderBy('name','asc')
+            ->get();
+
+        //if ($searchFolder != "") {
+        //    $mediaFolder = $mediaFolder->where('parent_folder_id','=','0')
+        //    ->where('name', 'LIKE', "%{$searchFolder}%");
+        //}
+
+        $mediaFolderArrays = array();
+        foreach ($mediaFolder as $key => $value) {
+            $mediaFolderArray = array();
+            $mediaFolderArray['id'] = $value->id;
+            $mediaFolderArray['shop_id'] = $value->shop_id;
+            $mediaFolderArray['parent_folder_id'] = $value->parent_folder_id;
+            $mediaFolderArray['name'] = $value->name;
+            $mediaFolderArray['media_sort'] = $value->media_sort;
+            $mediaFolderArray['media_width'] = $value->media_width;
+            $mediaFolderArray['media_height'] = $value->media_height;
+            $mediaFolderArray['media_column_num'] = $value->media_column_num;
+            $mediaFolderArray['media_align'] = $value->media_align;
+            $mediaFolderArray['media_link'] = $value->media_link;
+            $mediaFolderArray['media_margin'] = $value->media_margin;
+            $mediaFolderArray['media_caption'] = $value->media_caption;
+            $mediaFolderArray['media_frame_design'] = $value->media_frame_design;
+            $mediaFolderArray['media_frame_color'] = $value->media_frame_color;
+            $mediaFolderArray['media_shadow'] = $value->media_shadow;
+            $mediaFolderArray['media_hover_expand'] = $value->media_hover_expand;
+            $mediaFolderArray['media_hover_icon'] = $value->media_hover_icon;
+            $mediaFolderArray['add_account'] = $value->add_account;
+            $mediaFolderArray['kaisou'] = $value->kaisou;
+            $mediaFolderArray['isOpen'] = false;
+            $mediaFolderArray['isShow'] = false;
+            $filecount = MediaAttachment::where('shop_id', $shopId)
+            ->where('del_flg', '0')
+            ->where('media_folder_id', $mediaFolderArray['id'])
+            ->get();
+            $mediaFolderArray['fileValue'] = count($filecount);
+            $mediaFolderArrays[] = $mediaFolderArray;
+        }
+        $response['mediaFolder'] = $mediaFolderArrays;
+        $mibunruicount = MediaAttachment::where('shop_id', $shopId)
+        ->where('del_flg', '0')
+        ->where('media_folder_id', 1)
+        ->get();
+        $response['mibunrui'] = count($mibunruicount);
+        return new JsonResponse($response);
+    }
+
     
 
 

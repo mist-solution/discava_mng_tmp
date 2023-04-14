@@ -119,6 +119,10 @@ Route::middleware(['sessionTimeout'])->group(function () {
     Route::delete('/api/mediafolder/{id}', [MediaFolderController::class, 'delete']);
     //フォルダ名称変更
     Route::post('/api/mediafolder/namechange/{id}', [MediaFolderController::class, 'changeName']);
+    //フォルダソート1
+    Route::get('/api/mediafolder/asc', [MediaFolderController::class, 'getSortMediaFolder1']);
+    //フォルダソート2
+    Route::get('/api/mediafolder/desc', [MediaFolderController::class, 'getSortMediaFolder2']);
 
 
     //画像一覧取得

@@ -22,6 +22,7 @@ class MediaFolder extends Model
         'media_column_num',
         'media_align',
         'media_link',
+        'media_link_url',
         'media_margin',
         'media_caption',
         'media_frame_design',
@@ -32,5 +33,6 @@ class MediaFolder extends Model
         'add_account',
         'upd_account',
         'del_flg',
+        'kaisou',
     ];
 }

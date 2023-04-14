@@ -130,18 +130,27 @@
               リンク
             </v-col>
             <v-col cols="8">
-              <v-radio-group inline>
-                <v-radio
-                  label="なし"
-                  value="0"
-                  class="gallery-mediaDisplaySet-radio"
-                ></v-radio>
-                <v-radio
-                  label="あり"
-                  value="1"
-                  class="gallery-mediaDisplaySet-radio"
-                ></v-radio>
-              </v-radio-group>
+              <div class="d-flex">
+                <v-radio-group inline>
+                  <v-radio
+                    label="なし"
+                    value="0"
+                    class="gallery-mediaDisplaySet-radio"
+                  ></v-radio>
+                  <v-radio
+                    label="あり"
+                    value="1"
+                    class="gallery-mediaDisplaySet-radio"
+                  ></v-radio>
+                </v-radio-group>
+                <input
+                  dense
+                  type="text"
+                  hide-details="false"
+                  class="gallery-mediaDisplaySet-input-link"
+                  placeholder="外部URL"
+                />
+              </div>
             </v-col>
 
             <!-- 画像同士の間の余白 -->
@@ -666,6 +675,24 @@ export default {
 @media (max-width: 901px) {
   .gallery-mediaDisplaySet-input {
     width: 7vw;
+  }
+}
+
+.gallery-mediaDisplaySet-input-link {
+  font-size: 14px;
+  color: #707070;
+  border: 1px solid #c0c0c0;
+  border-radius: 5px;
+  width: 18vw;
+  line-height: 2rem;
+  padding-left: 0.5rem;
+  margin-right: 2rem;
+}
+@media (max-width: 901px) {
+  .gallery-mediaDisplaySet-input-link {
+    width: 20vw;
+    font-size: 11px;
+    line-height: 2rem;
   }
 }
 

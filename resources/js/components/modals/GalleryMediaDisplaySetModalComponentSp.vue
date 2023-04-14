@@ -143,6 +143,13 @@
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
               </v-radio-group>
+              <input
+                dense
+                type="text"
+                hide-details="false"
+                class="gallery-mediaDisplaySet-input-link"
+                placeholder="外部URL"
+              />
             </v-col>
 
             <!-- 画像同士の間の余白 -->
@@ -618,6 +625,17 @@ export default {
     padding-left: 0.5rem;
     margin-right: 2rem;
     margin-bottom: 1rem;
+  }
+
+  .gallery-mediaDisplaySet-input-link {
+    font-size: 12px;
+    color: #707070;
+    border: 1px solid #c0c0c0;
+    border-radius: 5px;
+    width: 35vw;
+    line-height: 2rem;
+    padding-left: 0.5rem;
+    margin-right: 2rem;
   }
 
   .gallery-mediaDisplaySet-edit-name {

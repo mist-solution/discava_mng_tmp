@@ -21,15 +21,15 @@
         <!-- 画面設定表示エリア(ドラッグ・ドロップ)-->
         <div class="gallery-mediaDisplaySet-imgs-area mx-auto">
           <draggable
-            :list="imgItems"
-            :itemKey="(imgItems) => imgItems.id"
+            :list="Library"
+            :itemKey="(Library) => Library.id"
             class="d-flex child-flex gallery-mediaDisplaySet-imgs-show"
           >
             <template #item="{ element }">
               <v-col cols="3" class="d-flex align-center justify-center pb-0">
                 <v-img
                   :key="element.id"
-                  :src="element.src"
+                  :src="'data:image/png;base64,' + element.img_path"
                   aspect-ratio="1"
                   cover
                   class="gallery-mediaDisplay-img"
@@ -78,6 +78,7 @@
                 type="number"
                 hide-details="false"
                 class="gallery-mediaDisplaySet-input"
+                :value="GalleryItem.media_width"
               />
               <span class="gallery-mediaDisplaySet-edit-name">縦幅</span>
               <input
@@ -85,6 +86,7 @@
                 type="number"
                 hide-details="false"
                 class="gallery-mediaDisplaySet-input"
+                :value="GalleryItem.media_height"
               />
             </v-col>
 
@@ -149,6 +151,10 @@
                   hide-details="false"
                   class="gallery-mediaDisplaySet-input-link"
                   placeholder="外部URL"
+                  :value="
+                    [GalleryItem.media_link_url
+                    ?GalleryItem.media_link_url
+                    :'']"
                 />
               </div>
             </v-col>
@@ -258,6 +264,10 @@
                   hide-details="false"
                   class="gallery-mediaDisplaySet-input"
                   @input="selectColor"
+                  :value="
+                    [GalleryItem.media_frame_color
+                    ?GalleryItem.media_frame_color
+                    :'']"
                 />
               </div>
             </v-col>
@@ -357,7 +367,7 @@ import GalleryMediaShortCodeMakeModalComponent from "../modals/GalleryMediaShort
 
 export default {
   components: { Draggable, GalleryMediaShortCodeMakeModalComponent },
-  props: ["closeDisplayGalleryMediaDisplaySetModal"],
+  props: ["closeDisplayGalleryMediaDisplaySetModal","GalleryItem","Library"],
   data() {
     return {
       hoverIconSelect: [
@@ -392,59 +402,8 @@ export default {
           value: "4",
         },
       ],
-      imgItems: [
-        {
-          id: 1,
-          title: "Image 1",
-          src: "",
-        },
-        {
-          id: 2,
-          title: "Image 2",
-          src: "",
-        },
-        {
-          id: 3,
-          title: "Image 3",
-          src: "",
-        },
-        {
-          id: 4,
-          title: "Image 4",
-          src: "",
-        },
-        {
-          id: 5,
-          title: "Image 5",
-          src: "",
-        },
-        {
-          id: 6,
-          title: "Image 6",
-          src: "",
-        },
-        {
-          id: 7,
-          title: "Image 7",
-          src: "",
-        },
-        {
-          id: 8,
-          title: "Image 8",
-          src: "",
-        },
-        {
-          id: 9,
-          title: "Image 9",
-          src: "",
-        },
-        {
-          id: 10,
-          title: "Image 10",
-          src: "",
-        },
-      ],
       displayGalleryMediaShortCodeMake: false,
+      item: null,
     };
   },
   methods: {
@@ -515,7 +474,8 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+  },
 };
 </script>
 <!-- 共通CSS -->

@@ -254,6 +254,14 @@ class MediaFolderController extends Controller
         return new JsonResponse($response);
     }
 
+    //詳細取得
+    public function ShowMediaFolder($id){
+        $mediaFolder =  MediaFolder::where('id', '=', $id)->firstOrFail();
+
+        return $mediaFolder;
+
+    }
+
     
 
 

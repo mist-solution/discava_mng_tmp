@@ -77,8 +77,19 @@ class MediaAttachment extends Model
 
         //ファイルタイプ絞り込み
         if($searchFileFormat){
-            $mediaAttachmentModel = $mediaAttachmentModel
-                ->where("img_fileformat",$searchFileFormat);
+            if($searchFileFormat == 1){
+                $mediaAttachmentModel = $mediaAttachmentModel
+                ->where("img_fileformat","image/png");
+            }else if($searchFileFormat == 2){
+                $mediaAttachmentModel = $mediaAttachmentModel
+                ->where("img_fileformat","movie/mp4");
+            }else if($searchFileFormat == 3){
+                $mediaAttachmentModel = $mediaAttachmentModel
+                ->where("img_fileformat","audio/wav");
+            }else if($searchFileFormat == 4){
+                $mediaAttachmentModel = $mediaAttachmentModel
+                ->where("img_fileformat","text/txt");
+            }
         }
 
 

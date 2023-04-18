@@ -123,6 +123,8 @@ Route::middleware(['sessionTimeout'])->group(function () {
     Route::get('/api/mediafolder/asc', [MediaFolderController::class, 'getSortMediaFolder1']);
     //フォルダソート2
     Route::get('/api/mediafolder/desc', [MediaFolderController::class, 'getSortMediaFolder2']);
+    // フォルダ詳細取得
+    Route::get('/api/mediafolder/{id}', [MediaFolderController::class, 'ShowMediaFolder']);
 
 
     //画像一覧取得

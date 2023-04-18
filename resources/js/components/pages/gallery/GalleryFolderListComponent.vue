@@ -441,8 +441,7 @@ export default {
 
     // 子フォルダあるか判断
     hasChildFolder(id) {
-      console.log(id)
-      console.log(this.folder)
+
       if(id != 0){
         return this.folder.some((item) => item.parent_folder_id === id);
       }else if(id == 0){

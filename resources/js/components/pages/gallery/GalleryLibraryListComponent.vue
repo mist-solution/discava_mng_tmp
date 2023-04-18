@@ -25,8 +25,12 @@
         <v-col cols="6" class="d-flex justify-end">
           <button
             v-if="create_auth_flg"
-            class="btn white-btn"
+            :class="
+              [selectedfolderid != null && selectedfolderid != -1 && selectedfolderid != 0
+              ?'btn white-btn'
+              :'btn disable-btn']"
             type="button"
+            :disabled="selectedfolderid == null || selectedfolderid == -1 || selectedfolderid == 0"
             @click="displayGalleryMediaDisplaySet = true"
           >
             ギャラリーを作成
@@ -41,14 +45,12 @@
         <v-col cols="6" class="d-flex justify-start">
           <v-select
             class="filter-btn gallery-library-search-select"
-            :items="[
-              '画像データ',
-              '動画データ',
-              '音声データ',
-              'テキストデータ',
-            ]"
+            :items="items"
+            item-title="text"
+            item-value="id"
             hide-details="false"
-            label="すべてのデータ"
+            :label="this.data_id === null ? 'すべてのデータ' : ''"
+            @update:modelValue="dataidChange"
           />
           <DatePicker
             class="filter-btn gallery-library-search-datepicker"
@@ -135,6 +137,8 @@
     :closeDisplayGalleryMediaDisplaySetModal="
       closeDisplayGalleryMediaDisplaySet
     "
+    :GalleryItem="GalleryItem"
+    :Library="library"
   />
 </template>
 
@@ -165,6 +169,16 @@ export default {
       mediaAttachment : null,
       approval_auth_flg:false,
       create_auth_flg:false,
+      selectedfolderid: null,
+      GalleryItem: "",
+      items: [ 
+        {id: 0, text: "すべてのデータ" },
+        {id: 1, text: "画像データ" },
+        {id: 2, text: "動画データ" },
+        {id: 3, text: "音声データ" },
+        {id: 4, text: "テキストデータ" },
+      ],
+      data_id:null,
     };
   },
   computed: {
@@ -187,6 +201,12 @@ export default {
   watch: {
     selectedFolder() {
       this.getLibraryList();
+      this.selectedfolderid = this.$store.state.library.selectedFolder
+      if(this.$store.state.library.selectedFolder != 0 && this.$store.state.library.selectedFolder != -1){
+        axios.get("api/mediafolder/" + this.$store.state.library.selectedFolder).then((res) => {
+          this.GalleryItem = res.data
+        });
+      }
     },
     AddDateBegin() {
       this.getLibraryList();
@@ -330,7 +350,17 @@ export default {
     //画像編集画面に必要な情報をセット
     setItem(item){
       this.mediaAttachment = item
-    }
+    },
+
+    dataidChange: function(id) {
+      const postData = {
+        id: id,
+      };
+      this.data_id = id;
+      this.$store.dispatch("library/setFileFormat", this.data_id);
+    },
+
+
 
   },
   async mounted() {
@@ -455,5 +485,12 @@ export default {
 /* CRUDを実装したら、このCSSの削除することができます。 */
 .gallery-library-img-sample {
   background-color: #f7f7f7;
+}
+
+.disable_btn{
+  border-radius: 5px;
+  background-color: transparent;
+  color: rgb(172, 171, 171);
+  border: solid 0.5px rgb(172, 171, 171);
 }
 </style>

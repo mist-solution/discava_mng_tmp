@@ -90,6 +90,7 @@ class MediaDetailController extends Controller
         $media = array();
         $media['id'] = $mediaFolderValue->id;
         $media['shop_id'] = $mediaFolderValue->shop_id;
+        $media['media_sort'] = $mediaFolderValue->media_sort;
         $media['media_width'] = $mediaFolderValue->media_width;
         $media['media_height'] = $mediaFolderValue->media_height;
         $media['media_column_num'] = $mediaFolderValue->media_column_num;

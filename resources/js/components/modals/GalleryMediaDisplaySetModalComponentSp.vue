@@ -103,6 +103,11 @@
                 text
               />
             </v-col>
+            <v-col cols="11" class="gallery-mediaDisplaySet-set-item">
+              <p class="gallery-mediaDisplaySet-set-hint">
+                「画像サイズ」と「表示列数」をお知らせの本文表示領域に応じて調整して表示する。
+              </p>
+            </v-col>
 
             <!-- 配置 -->
             <v-col cols="5" class="gallery-mediaDisplaySet-set-item">
@@ -151,10 +156,9 @@
                 hide-details="false"
                 class="gallery-mediaDisplaySet-input-link"
                 placeholder="外部URL"
-                :value="
-                  [GalleryItem.media_link_url
-                  ?GalleryItem.media_link_url
-                  :'']"
+                :value="[
+                  GalleryItem.media_link_url ? GalleryItem.media_link_url : '',
+                ]"
               />
             </v-col>
 
@@ -263,10 +267,11 @@
                   hide-details="false"
                   class="gallery-mediaDisplaySet-input"
                   @input="selectColor"
-                  :value="
-                    [GalleryItem.media_frame_color
-                    ?GalleryItem.media_frame_color
-                    :'']"
+                  :value="[
+                    GalleryItem.media_frame_color
+                      ? GalleryItem.media_frame_color
+                      : '',
+                  ]"
                 />
               </div>
             </v-col>
@@ -366,7 +371,11 @@ import GalleryMediaShortCodeMakeModalComponent from "../modals/GalleryMediaShort
 
 export default {
   components: { Draggable, GalleryMediaShortCodeMakeModalComponent },
-  props: ["closeDisplayGalleryMediaDisplaySetSpModal","GalleryItem","Library"],
+  props: [
+    "closeDisplayGalleryMediaDisplaySetSpModal",
+    "GalleryItem",
+    "Library",
+  ],
   data() {
     return {
       hoverIconSelect: [

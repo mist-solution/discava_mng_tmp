@@ -94,7 +94,7 @@
                 >
               </v-col>
               <v-col cols="3">
-                <span class="gallery-mediaSet-infomation-content">{{ Math.round(item.img_filesize/1024) }}KB</span>
+                <span class="gallery-mediaSet-infomation-content">{{ Math.round(item.img_filesize/1000) }}KB</span>
               </v-col>
               <!-- 画像詳細内容（右2）　アップロード日 -->
               <v-col cols="3">
@@ -152,7 +152,7 @@
                 >
               </v-col>
               <v-col cols="6">
-                <span class="gallery-mediaSet-infomation-content">{{ Math.round(item.img_filesize/1024) }}KB</span>
+                <span class="gallery-mediaSet-infomation-content">{{ Math.round(item.img_filesize/1000) }}KB</span>
               </v-col>
             </v-row>
             <v-row class="gallery-mediaSet-infomation-area">

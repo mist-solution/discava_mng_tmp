@@ -297,8 +297,10 @@ export default {
     },
 
     //画像追加
-    readImage() {
-      let name = "";
+    async readImage() {
+      let name;
+      let type;
+      let size;
       const inputImage = document.getElementById("image");
       if (inputImage.files.length === 0) {
         return;
@@ -307,14 +309,17 @@ export default {
       this.file = inputImage.files[0];
 
       name = this.file.name;
+      type = this.file.type;
+      size = this.file.size;
 
       const options = {
         maxSizeMB: 1, // 最大ファイルサイズ
       };
 
-      if (this.file.size > 1024 * 1024) {
+      if (this.file.size > 1000000) {
         // 圧縮画像の生成
-        this.file = imageCompression(this.file, options);
+        this.file = await imageCompression(this.file, options)
+        size = 1000000;
       }
 
       let flg = false;
@@ -329,9 +334,8 @@ export default {
       const item = {
         media_folder_id: flg ? 1 : this.$store.state.library.selectedFolder,
         img_filename: name,
-        img_path: this.file,
-        img_fileformat: this.file.type,
-        img_filesize: this.file.size,
+        img_fileformat: type,
+        img_filesize: size,
         img_width: 0,
         img_height: 0,
       };

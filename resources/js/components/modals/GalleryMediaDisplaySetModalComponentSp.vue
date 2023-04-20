@@ -143,11 +143,13 @@
                   label="なし"
                   value="0"
                   class="gallery-mediaDisplaySet-radio"
+                  @click="disableInput(0)"
                 ></v-radio>
                 <v-radio
                   label="あり"
                   value="1"
                   class="gallery-mediaDisplaySet-radio"
+                  @click="disableInput(1)"
                 ></v-radio>
               </v-radio-group>
               <input
@@ -156,6 +158,8 @@
                 hide-details="false"
                 class="gallery-mediaDisplaySet-input-link"
                 placeholder="外部URL"
+                :disabled="mediaLinkInputDisabled"
+                :required="mediaLinkInputRequired === '1'"
                 :value="[
                   GalleryItem.media_link_url ? GalleryItem.media_link_url : '',
                 ]"
@@ -201,12 +205,17 @@
                   label="なし"
                   value="0"
                   class="gallery-mediaDisplaySet-radio"
-                ></v-radio>
+                >
+                </v-radio>
                 <v-radio
                   label="オーバーレイ"
                   value="1"
                   class="gallery-mediaDisplaySet-radio"
-                ></v-radio>
+                >
+                </v-radio>
+                <div class="gallery-mediaDisplaySet-set-insideHint">
+                  リンクなしの場合のみ
+                </div>
                 <v-radio
                   label="ポップアップ"
                   value="2"
@@ -411,6 +420,8 @@ export default {
         },
       ],
       displayGalleryMediaShortCodeMake: false,
+      mediaLinkInputDisabled: false,
+      mediaLinkInputRequired: "",
     };
   },
   methods: {
@@ -425,6 +436,17 @@ export default {
     // 作成処理
     makeMediaAction() {
       this.displayGalleryMediaShortCodeMake = true;
+    },
+
+    // リンクがありの場合、外部リンクテキストボックスがrequiredにする
+    disableInput(value) {
+      if (value == 1) {
+        this.mediaLinkInputDisabled = false;
+        this.mediaLinkInputRequired = value;
+      } else {
+        this.mediaLinkInputDisabled = true;
+        this.mediaLinkInputRequired = value;
+      }
     },
 
     // カラー選択
@@ -574,6 +596,7 @@ export default {
     color: #cacaca;
     margin-left: 17%;
     margin-top: -0.6rem;
+    font-weight: 700 !important;
   }
   .gallery-mediaDisplaySet-select {
     background-color: #fff;

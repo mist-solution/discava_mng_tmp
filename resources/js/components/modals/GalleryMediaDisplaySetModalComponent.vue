@@ -143,11 +143,13 @@
                     label="なし"
                     value="0"
                     class="gallery-mediaDisplaySet-radio"
+                    @click="disableInput(0)"
                   ></v-radio>
                   <v-radio
                     label="あり"
                     value="1"
                     class="gallery-mediaDisplaySet-radio"
+                    @click="disableInput(1)"
                   ></v-radio>
                 </v-radio-group>
                 <input
@@ -156,6 +158,8 @@
                   hide-details="false"
                   class="gallery-mediaDisplaySet-input-link"
                   placeholder="外部URL"
+                  :disabled="mediaLinkInputDisabled"
+                  :required="mediaLinkInputRequired === '1'"
                   :value="[
                     GalleryItem.media_link_url
                       ? GalleryItem.media_link_url
@@ -199,24 +203,29 @@
               キャプションの表示
             </v-col>
             <v-col cols="8">
-              <v-radio-group inline>
+              <v-radio-group inline class="gallery-mediaDisplaySet-radioGroup">
                 <v-radio
                   label="なし"
                   value="0"
                   class="gallery-mediaDisplaySet-radio"
-                ></v-radio>
+                >
+                </v-radio>
                 <v-radio
                   label="オーバーレイ"
                   value="1"
                   class="gallery-mediaDisplaySet-radio"
-                ></v-radio>
+                >
+                </v-radio>
+                <div class="gallery-mediaDisplaySet-set-insideHint-overlay">
+                  リンクなしの場合のみ
+                </div>
                 <v-radio
                   label="ポップアップ"
                   value="2"
                   class="gallery-mediaDisplaySet-radio"
                 >
                 </v-radio>
-                <div class="gallery-mediaDisplaySet-set-insideHint">
+                <div class="gallery-mediaDisplaySet-set-insideHint-popup">
                   リンクありの場合のみ
                 </div>
               </v-radio-group>
@@ -411,6 +420,8 @@ export default {
       ],
       displayGalleryMediaShortCodeMake: false,
       item: null,
+      mediaLinkInputDisabled: false,
+      mediaLinkInputRequired: "",
     };
   },
   methods: {
@@ -425,6 +436,17 @@ export default {
     // 作成処理
     makeMediaAction() {
       this.displayGalleryMediaShortCodeMake = true;
+    },
+
+    // リンクがありの場合、外部リンクテキストボックスがrequiredにする
+    disableInput(value) {
+      if (value == 1) {
+        this.mediaLinkInputDisabled = false;
+        this.mediaLinkInputRequired = value;
+      } else {
+        this.mediaLinkInputDisabled = true;
+        this.mediaLinkInputRequired = value;
+      }
     },
 
     // カラー選択
@@ -599,21 +621,42 @@ export default {
   font-size: 12px;
   color: #cacaca;
 }
-.gallery-mediaDisplaySet-set-insideHint {
-  font-size: 14px;
+.gallery-mediaDisplaySet-set-insideHint-overlay {
+  font-size: 12px;
+  font-weight: 700 !important;
   color: #cacaca;
-  margin-left: 53%;
-  margin-top: -0.6rem;
+  position: absolute;
+  left: 9.2vw;
+  bottom: -0.5rem;
 }
 @media (max-width: 901px) {
-  .gallery-mediaDisplaySet-set-insideHint {
-    margin-left: 64%;
-    margin-right: -1rem;
+  .gallery-mediaDisplaySet-set-insideHint-overlay {
+    font-size: 10px;
+    left: 14.4vw;
   }
 }
 @media (min-width: 1450px) {
-  .gallery-mediaDisplaySet-set-insideHint {
-    margin-left: 40.5%;
+  .gallery-mediaDisplaySet-set-insideHint-overlay {
+    left: 6.3vw;
+  }
+}
+.gallery-mediaDisplaySet-set-insideHint-popup {
+  font-size: 12px;
+  font-weight: 700 !important;
+  color: #cacaca;
+  position: absolute;
+  left: 20.2vw;
+  bottom: -0.5rem;
+}
+@media (max-width: 901px) {
+  .gallery-mediaDisplaySet-set-insideHint-popup {
+    font-size: 10px;
+    left: 31.7vw;
+  }
+}
+@media (min-width: 1450px) {
+  .gallery-mediaDisplaySet-set-insideHint-popup {
+    left: 14.1vw;
   }
 }
 .gallery-mediaDisplaySet-select {
@@ -640,7 +683,7 @@ export default {
 }
 @media (max-width: 901px) {
   .gallery-mediaDisplaySet-input {
-    width: 7vw;
+    width: 9vw;
   }
 }
 
@@ -668,15 +711,24 @@ export default {
   margin-right: 5px;
 }
 
+.gallery-mediaDisplaySet-radioGroup {
+  position: relative;
+}
+
 .gallery-mediaDisplaySet-radio {
   color: #707070;
   margin-left: -12px;
-  margin-right: 2rem;
+  margin-right: 2.3rem;
   --v-medium-emphasis-opacity: 1;
 }
 @media (max-width: 901px) {
   .gallery-mediaDisplaySet-radio {
-    margin-right: 1rem;
+    margin-right: 2rem;
+  }
+}
+@media (max-width: 1450px) {
+  .gallery-mediaDisplaySet-radio {
+    margin-right: 3rem;
   }
 }
 

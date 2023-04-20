@@ -105,7 +105,7 @@
             </v-col>
             <v-col cols="11" class="gallery-mediaDisplaySet-set-item">
               <p class="gallery-mediaDisplaySet-set-hint">
-                「画像サイズ」と「表示列数」をお知らせの本文表示領域に応じて調整して表示する。
+                「画像サイズ」と「表示列数」をお知らせの本文表示範囲に応じて調整して表示する。
               </p>
             </v-col>
 

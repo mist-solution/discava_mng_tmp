@@ -87,7 +87,9 @@ export default {
     copyTextToClipboard() {
       navigator.clipboard
         .writeText(this.gallery_code)
-        .then(() => {})
+        .then(() => {
+          this.isCopy = true;
+        })
         .catch(() => {
           console.error("Copy Error");
         });

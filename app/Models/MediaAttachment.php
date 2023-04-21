@@ -79,7 +79,7 @@ class MediaAttachment extends Model
         if($searchFileFormat){
             if($searchFileFormat == 1){
                 $mediaAttachmentModel = $mediaAttachmentModel
-                ->where("img_fileformat","image/png");
+                ->where("img_fileformat",'LIKE',"%image%");
             }else if($searchFileFormat == 2){
                 $mediaAttachmentModel = $mediaAttachmentModel
                 ->where("img_fileformat","movie/mp4");

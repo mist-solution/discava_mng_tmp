@@ -25,7 +25,7 @@
             :itemKey="(Library) => Library.id"
             class="d-flex child-flex gallery-mediaDisplaySet-imgs-show"
           >
-            <template #item="{ element }">
+            <template #item="{ element , index}">
               <v-col cols="6" class="d-flex align-center justify-center pb-0">
                 <v-img
                   :key="element.id"
@@ -34,7 +34,7 @@
                   cover
                   class="gallery-mediaDisplay-img"
                 >
-                  <p class="gallery-mediaDisplay-img-id">{{ element.id }}</p>
+                  <p class="gallery-mediaDisplay-img-id">{{ index }}</p>
                 </v-img>
               </v-col>
             </template>
@@ -61,8 +61,11 @@
             <v-col cols="7">
               <v-select
                 class="gallery-mediaDisplaySet-select"
-                :items="['降順', '昇順']"
+                :items="sorts"
+                item-value="id"
+                item-title="text"
                 hide-details="false"
+                v-model="sortModel"
                 text
               />
             </v-col>
@@ -78,7 +81,7 @@
                 type="number"
                 hide-details="false"
                 class="gallery-mediaDisplaySet-input"
-                :value="GalleryItem.media_width"
+                v-model="widthModel"
               />
               <br />
               <span class="gallery-mediaDisplaySet-edit-name">縦幅</span>
@@ -87,7 +90,7 @@
                 type="number"
                 hide-details="false"
                 class="gallery-mediaDisplaySet-input"
-                :value="GalleryItem.media_height"
+                v-model="heightModel"
               />
             </v-col>
 
@@ -98,8 +101,11 @@
             <v-col cols="7">
               <v-select
                 class="gallery-mediaDisplaySet-select"
-                :items="['1', '2', '3', '4']"
+                :items="column_num"
                 hide-details="false"
+                v-model="column_numModel"
+                item-value="id"
+                item-title="text"
                 text
               />
             </v-col>
@@ -114,20 +120,20 @@
               配置
             </v-col>
             <v-col cols="7">
-              <v-radio-group inline>
+              <v-radio-group inline v-model="alignModel">
                 <v-radio
                   label="左"
-                  value="1"
+                  :value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="中央"
-                  value="2"
+                  :value="2"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="右"
-                  value="3"
+                  :value="3"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
               </v-radio-group>
@@ -138,16 +144,16 @@
               リンク
             </v-col>
             <v-col cols="7">
-              <v-radio-group inline>
+              <v-radio-group inline v-model="linkModel">
                 <v-radio
                   label="なし"
-                  value="0"
+                  :value="0"
                   class="gallery-mediaDisplaySet-radio"
                   @click="disableInput(0)"
                 ></v-radio>
                 <v-radio
                   label="あり"
-                  value="1"
+                  :value="1"
                   class="gallery-mediaDisplaySet-radio"
                   @click="disableInput(1)"
                 ></v-radio>
@@ -158,11 +164,10 @@
                 hide-details="false"
                 class="gallery-mediaDisplaySet-input-link"
                 placeholder="外部URL"
+                v-model="link_urlModel"
                 :disabled="mediaLinkInputDisabled"
                 :required="mediaLinkInputRequired === '1'"
-                :value="[
-                  GalleryItem.media_link_url ? GalleryItem.media_link_url : '',
-                ]"
+
               />
             </v-col>
 
@@ -171,25 +176,25 @@
               画像同士の<br />間の余白
             </v-col>
             <v-col cols="7">
-              <v-radio-group inline>
+              <v-radio-group inline v-model="marginModel">
                 <v-radio
                   label="なし"
-                  value="0"
+                  :value="0"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="小"
-                  value="1"
+                  :value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="中"
-                  value="2"
+                  :value="2"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="最大"
-                  value="3"
+                  :value="3"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
               </v-radio-group>
@@ -200,16 +205,16 @@
               キャプションの<br />表示
             </v-col>
             <v-col cols="7">
-              <v-radio-group inline>
+              <v-radio-group inline v-model="captionModel">
                 <v-radio
                   label="なし"
-                  value="0"
+                  :value="0"
                   class="gallery-mediaDisplaySet-radio"
                 >
                 </v-radio>
                 <v-radio
                   label="オーバーレイ"
-                  value="1"
+                  :value="1"
                   class="gallery-mediaDisplaySet-radio"
                 >
                 </v-radio>
@@ -218,7 +223,7 @@
                 </div>
                 <v-radio
                   label="ポップアップ"
-                  value="2"
+                  :value="2"
                   class="gallery-mediaDisplaySet-radio"
                 >
                 </v-radio>
@@ -233,20 +238,20 @@
               枠のデザイン
             </v-col>
             <v-col cols="7">
-              <v-radio-group inline>
+              <v-radio-group inline v-model="frame_designModel">
                 <v-radio
                   label="なし"
-                  value="0"
+                  :value="0"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="狭い"
-                  value="1"
+                  :value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="太い"
-                  value="2"
+                  :value="2"
                   class="gallery-mediaDisplaySet-radio"
                 >
                 </v-radio>
@@ -266,6 +271,7 @@
                   name="colorPicker"
                   class="gallery-mediaDisplaySet-color-span"
                   @click="selectColor"
+                  :value="'#' + frame_colorModel"
                 />
                 <!-- カラー入力欄 -->
                 <span class="gallery-mediaDisplaySet-edit-name">#</span>
@@ -275,12 +281,8 @@
                   type="text"
                   hide-details="false"
                   class="gallery-mediaDisplaySet-input"
-                  @input="selectColor"
-                  :value="[
-                    GalleryItem.media_frame_color
-                      ? GalleryItem.media_frame_color
-                      : '',
-                  ]"
+                  @change="selectColor"
+                  v-model="frame_colorModel"
                 />
               </div>
             </v-col>
@@ -288,15 +290,15 @@
             <!-- 影 -->
             <v-col cols="5" class="gallery-mediaDisplaySet-set-item">影</v-col>
             <v-col cols="7">
-              <v-radio-group inline>
+              <v-radio-group inline v-model="shadowModel">
                 <v-radio
                   label="なし"
-                  value="0"
+                  :value="0"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="あり"
-                  value="1"
+                  :value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
               </v-radio-group>
@@ -307,15 +309,15 @@
               ホバー時の<br />画像拡大
             </v-col>
             <v-col cols="7">
-              <v-radio-group inline>
+              <v-radio-group inline v-model="hover_expandModel">
                 <v-radio
                   label="なし"
-                  value="0"
+                  :value="0"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
                 <v-radio
                   label="あり"
-                  value="1"
+                  :value="1"
                   class="gallery-mediaDisplaySet-radio"
                 ></v-radio>
               </v-radio-group>
@@ -380,11 +382,10 @@ import GalleryMediaShortCodeMakeModalComponent from "../modals/GalleryMediaShort
 
 export default {
   components: { Draggable, GalleryMediaShortCodeMakeModalComponent },
-  props: [
-    "closeDisplayGalleryMediaDisplaySetSpModal",
-    "GalleryItem",
-    "Library",
-  ],
+   props: ["closeDisplayGalleryMediaDisplaySetspModal","Library","sort","width","height","column_num","align","link","linkurl","margin","caption","frame_design","frame_color",
+      "shadow","hover_expand","hover_icon"],
+  emits: ["update:sort","update:width","update:height","update:column_num","update:align","update:link","update:linkurl","update:margin","update:caption","update:frame_design","update:frame_color",
+      "update:shadow","update:hover_expand","update:hover_icon"],
   data() {
     return {
       hoverIconSelect: [
@@ -419,10 +420,165 @@ export default {
           value: "4",
         },
       ],
+      sorts:[
+        {
+          id: 1,
+          text: "昇順",
+        },
+        {
+          id: 2,
+          text: "降順",
+        },
+      ],
+      column_num:[
+        {
+          id: 1,
+          text: "1",
+        },
+        {
+          id: 2,
+          text: "2",
+        },
+        {
+          id: 3,
+          text: "3",
+        },
+        {
+          id: 4,
+          text: "4",
+        },
+      ],
       displayGalleryMediaShortCodeMake: false,
+      item: null,
+      sethover_icon: null,
       mediaLinkInputDisabled: false,
       mediaLinkInputRequired: "",
     };
+  },
+  computed:{
+    sortModel:{
+      get(){
+        return this.$props.sort;
+      },
+      set(newVal){
+        this.$emit("update:sort", newVal);
+      }
+    },
+    widthModel:{
+      get(){
+        return this.$props.width;
+      },
+      set(newVal){
+        this.$emit("update:width", newVal);
+      }
+    },
+    heightModel:{
+      get(){
+        return this.$props.height;
+      },
+      set(newVal){
+        this.$emit("update:height", newVal);
+      }
+    },
+    column_numModel:{
+      get(){
+        return this.$props.column_num;
+      },
+      set(newVal){
+        this.$emit("update:column_num", newVal);
+      }
+    },
+    alignModel:{
+      get(){
+        return this.$props.align;
+      },
+      set(newVal){
+       this.$emit("update:align", newVal);
+      }
+    },
+    linkModel:{
+      get(){
+        return this.$props.link;
+      },
+      set(newVal){
+        this.$emit("update:link", newVal);
+      }
+    },
+    link_urlModel:{
+      get(){
+        return this.$props.linkurl;
+      },
+      set(newVal){
+        this.$emit("update:linkurl", newVal);
+      }
+    },
+    marginModel:{
+      get(){
+        return this.$props.margin;
+      },
+      set(newVal){
+        this.$emit("update:margin", newVal);
+      }
+    },
+    captionModel:{
+      get(){
+        return this.$props.caption;
+      },
+      set(newVal){
+        this.$emit("update:caption", newVal);
+      }
+    },
+    frame_designModel:{
+      get(){
+        return this.$props.frame_design;
+      },
+      set(newVal){
+        this.$emit("update:frame_design", newVal);
+      }
+    },
+    frame_colorModel:{
+      get(){
+        return this.$props.frame_color;
+      },
+      set(newVal){
+        this.$emit("update:frame_color", newVal);
+      }
+    },
+    shadowModel:{
+      get(){
+        return this.$props.shadow;
+      },
+      set(newVal){
+        this.$emit("update:shadow", newVal);
+      }
+    },
+    hover_expandModel:{
+      get(){
+        this.hoverIconSelect[this.$props.hover_icon].isSelect = true;
+        this.sethover_icon = this.$props.hover_icon
+        return this.$props.hover_expand;
+      },
+      set(newVal){
+        this.$emit("update:hover_expand", newVal);
+      }
+    },
+    modalWidth() {
+      const device = document.body.clientWidth;
+      if (device > 1450) {
+        // モニター
+        return "80vw";
+      } else if (device > 901 && device < 1450) {
+        // PC
+        return "75vw";
+      } else if (device > 641 && device < 900) {
+        // TB
+        return "80vw";
+      } else if (device >= 0 && device < 640) {
+        // SP
+        return "100vw";
+      }
+    },
+
   },
   methods: {
     // モバイル判定
@@ -435,6 +591,30 @@ export default {
 
     // 作成処理
     makeMediaAction() {
+      let formData = new FormData();
+      const item = {
+        media_width: this.widthModel,
+        media_height: this.heightModel,
+        media_sort: this.sortModel,
+        media_column_num: this.column_numModel,
+        media_align: this.alignModel,
+        media_link: this.linkModel,
+        media_link_url: encodeURIComponent(this.link_urlModel),
+        media_margin: this.marginModel,
+        media_caption: this.captionModel,
+        media_frame_design: this.frame_designModel,
+        media_frame_color: encodeURIComponent(this.frame_colorModel),
+        media_shadow: this.shadowModel,
+        media_hover_expand: this.hover_expandModel,
+        media_hover_icon: this.sethover_icon,
+      }
+
+      formData.append("mediafolder", JSON.stringify(item));
+      axios.post("api/mediafolder/" + this.$store.state.library.selectedFolder + "/update",
+       formData,
+        { headers: { "Content-type": "multipart/form-data", }}
+          ).then((res) => {
+        });
       this.displayGalleryMediaShortCodeMake = true;
     },
 
@@ -466,12 +646,14 @@ export default {
 
       colorPickerInput.addEventListener("change", function () {
         colorInput.value = colorPickerInput.value.replace("#", "");
+        this.frame_colorModel = colorInput.value
       });
     },
 
     // ホバー時のアイコンCSS
     hoverIconFocus(mdi) {
       mdi.isSelect = !mdi.isSelect;
+      this.sethover_icon = mdi.value
       for (var i = 0; i < this.hoverIconSelect.length; i++) {
         if (this.hoverIconSelect[i] != mdi) {
           this.hoverIconSelect[i].isSelect = false;

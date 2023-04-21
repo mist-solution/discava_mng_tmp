@@ -26,12 +26,14 @@
           <button
             v-if="create_auth_flg"
             :class="
-              [selectedfolderid != null && selectedfolderid != -1 && selectedfolderid != 0
+              [selectMediaFlg
+              ? 'btn green-btn_noTransform'
+              :selectedfolderid != null && selectedfolderid != -1 && selectedfolderid != 0
               ?'btn white-btn'
               :'btn disable-btn']"
             type="button"
             :disabled="selectedfolderid == null || selectedfolderid == -1 || selectedfolderid == 0"
-            @click="displayGalleryMediaDisplaySet = true"
+            @click="GalleryToggle()"
           >
             ギャラリーを作成
           </button>
@@ -96,8 +98,8 @@
           :key="index"
           class="d-flex child-flex gallery-library-img-margin"
         >
-          <div class="btn-group" @click="(displayGalleryMediaSet = true),setItem(item)">
-            <img
+          <div class="btn-group" @click="clickMedia(item,item.selected)">
+            <v-img
               :src="'data:image/png;base64,' + item.img_path"
               aspect-ratio="1"
               cover
@@ -106,7 +108,9 @@
                   ? 'gallery-library-img bg-grey-lighten-2'
                   : 'gallery-library-img-sample bg-grey-lighten-2 gallery-library-img'
               "
-            />
+            >
+              <p v-if="selectMediaFlg && item.selected" class="gallery-library-img-id">{{ item.selectNo }}</p>
+            </v-img>
             <!-- 写真ごとローディングアニメ -->
             <!-- <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
@@ -137,8 +141,21 @@
     :closeDisplayGalleryMediaDisplaySetModal="
       closeDisplayGalleryMediaDisplaySet
     "
-    :GalleryItem="GalleryItem"
-    :Library="library"
+    v-model:align="GalleryItem.media_align"
+    v-model:sort="GalleryItem.media_sort"
+    v-model:width="GalleryItem.media_width"
+    v-model:height="GalleryItem.media_height"
+    v-model:link="GalleryItem.media_link"
+    v-model:linkurl="GalleryItem.media_link_url"
+    v-model:column_num="GalleryItem.media_column_num"
+    v-model:margin="GalleryItem.media_margin"
+    v-model:caption="GalleryItem.media_caption"
+    v-model:frame_design="GalleryItem.media_frame_design"
+    v-model:frame_color="GalleryItem.media_frame_color"
+    v-model:shadow="GalleryItem.media_shadow"
+    v-model:hover_expand="GalleryItem.media_hover_expand"
+    v-model:hover_icon="GalleryItem.media_hover_icon"
+    :Library="selectedMedia"
   />
 </template>
 
@@ -179,6 +196,8 @@ export default {
         {id: 4, text: "テキストデータ" },
       ],
       data_id:null,
+      selectedMedia: [],
+      selectMediaFlg: false,
     };
   },
   computed: {
@@ -202,6 +221,7 @@ export default {
     selectedFolder() {
       this.getLibraryList();
       this.selectedfolderid = this.$store.state.library.selectedFolder
+      this.selectMediaFlg = false
       if(this.$store.state.library.selectedFolder != 0 && this.$store.state.library.selectedFolder != -1){
         axios.get("api/mediafolder/" + this.$store.state.library.selectedFolder).then((res) => {
           this.GalleryItem = res.data
@@ -232,6 +252,7 @@ export default {
 
     //画面表示設定モーダルを閉じる
     closeDisplayGalleryMediaDisplaySet() {
+      this.selectMediaFlg = false;
       this.displayGalleryMediaDisplaySet = false;
     },
 
@@ -351,11 +372,13 @@ export default {
           this.getLibraryList();
         });
     },
+
     //画像編集画面に必要な情報をセット
     setItem(item){
       this.mediaAttachment = item
     },
 
+    //データの種類で検索
     dataidChange: function(id) {
       const postData = {
         id: id,
@@ -364,6 +387,41 @@ export default {
       this.$store.dispatch("library/setFileFormat", this.data_id);
     },
 
+    //ギャラリー作成ボタン押下
+    GalleryToggle(){
+      if(!this.selectMediaFlg){
+        this.selectMediaFlg = true
+      }else{
+        this.displayGalleryMediaDisplaySet = true
+      }
+    },
+
+    //画像クリック
+    clickMedia(item,selected){
+      if(!this.selectMediaFlg){
+        this.setItem(item)
+        this.displayGalleryMediaSet = true
+      }else if(!selected){
+        item.selected = true
+        item.selectNo = this.selectedMedia.length + 1
+        this.selectedMedia[this.selectedMedia.length] = item
+      }else{
+        item.selected = false
+        for(let i = 0;i < this.selectedMedia.length;i++){
+          if(this.selectedMedia[i].id == item.id){
+            for(let j = i; j < this.selectedMedia.length; j++){
+              if(this.selectedMedia.length != 1 && j < (this.selectedMedia.length - 1)){
+                this.selectedMedia[j] = this.selectedMedia[j + 1]
+                this.selectedMedia[j].selectNo = this.selectedMedia[j].selectNo - 1
+              }else{
+                this.selectedMedia.pop()
+              }
+            }
+            break;
+          }
+        }
+      }
+    }
 
 
   },
@@ -484,6 +542,19 @@ export default {
 }
 .gallery-library-img:hover {
   transform: scale(1.1);
+}
+.gallery-library-img-id {
+  color: #fff;
+  background-color: #69a5af;
+  border: #fff 2px solid;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* CRUDを実装したら、このCSSの削除することができます。 */

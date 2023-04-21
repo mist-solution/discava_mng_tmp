@@ -21,6 +21,8 @@ class MediaAttachmentController extends Controller
         $searchFileFormat = $request->input('searchFileFormat');
         $searchCaption = $request->input('searchCaption');
         $shop_id = $request->session()->get('shop_id');
+        $selected = false;
+        $selectNo = 0;
 
         $mediaAttachment = MediaAttachment::getMediaAttachment($searchFileID, $searchAddDateBegin, $searchAddDateEnd, $searchFileFormat, $searchCaption, $shop_id);
 

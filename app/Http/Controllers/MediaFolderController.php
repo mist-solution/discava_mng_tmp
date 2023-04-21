@@ -96,9 +96,8 @@ class MediaFolderController extends Controller
         $regist['media_caption'] = 0;
         $regist['media_frame_design'] = 0;
         $regist['media_shadow'] = 0;
-        $regist['media_hover_expand'] = 1;
-        $regist['media_hover_icon'] = 1;
-        $regist['media_margin'] = 1;
+        $regist['media_hover_expand'] = 0;
+        $regist['media_hover_icon'] = 0;
 
         $regist->save();
 
@@ -259,6 +258,33 @@ class MediaFolderController extends Controller
         $mediaFolder =  MediaFolder::where('id', '=', $id)->firstOrFail();
 
         return $mediaFolder;
+
+    }
+
+    // 更新
+    public function update(Request $request, $id)
+    {
+        $data = $request->all();
+        $mediaFolder = json_decode($data['mediafolder'], true);
+        $update = [
+            'media_width' => $mediaFolder['media_width'],
+            'media_height' => $mediaFolder['media_height'],
+            'media_sort' => $mediaFolder['media_sort'],
+            'media_align' => $mediaFolder['media_align'],
+            'media_frame_color' => urldecode($mediaFolder['media_frame_color']),
+            'media_frame_design' => $mediaFolder['media_frame_design'],
+            'media_column_num' => $mediaFolder['media_column_num'],
+            'media_link' => $mediaFolder['media_link'],
+            'media_link_url' => urldecode($mediaFolder['media_link_url']),
+            'media_margin' => $mediaFolder['media_margin'],
+            'media_caption' => $mediaFolder['media_caption'],
+            'media_shadow' => $mediaFolder['media_shadow'],
+            'media_hover_expand' => $mediaFolder['media_hover_expand'],
+            'media_hover_icon' => $mediaFolder['media_hover_icon'],
+            'upd_account' => Auth::user()->id,
+        ];
+        $model = MediaFolder::find($id);
+        $model->update($update);
 
     }
 

@@ -125,6 +125,8 @@ Route::middleware(['sessionTimeout'])->group(function () {
     Route::get('/api/mediafolder/desc', [MediaFolderController::class, 'getSortMediaFolder2']);
     // フォルダ詳細取得
     Route::get('/api/mediafolder/{id}', [MediaFolderController::class, 'ShowMediaFolder']);
+    // 編集
+    Route::post('/api/mediafolder/{id}/update', [MediaFolderController::class, 'update']);
 
 
     //画像一覧取得

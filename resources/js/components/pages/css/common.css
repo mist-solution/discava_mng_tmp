@@ -215,6 +215,8 @@ a {
     color:#CDCDCD;
     cursor:default;
     pointer-events: none;
+    font-weight: 600;
+    letter-spacing: 1.3px;
 }
 .disable-btn:hover{
     opacity:1 !important;

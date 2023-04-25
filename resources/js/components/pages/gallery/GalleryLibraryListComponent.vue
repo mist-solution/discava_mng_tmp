@@ -132,6 +132,8 @@
     @update:modelValue="displayGalleryMediaSet = $event"
     :closeDisplayGalleryMediaSetModal="closeDisplayGalleryMediaSet"
     :item="mediaAttachment"
+    :folders="folder2"
+    v-model:folderid="folderid"
   />
 
   <!-- 画像表示設定モーダル -->
@@ -198,6 +200,9 @@ export default {
       data_id:null,
       selectedMedia: [],
       selectMediaFlg: false,
+      folder: [],
+      folder2: [],
+      folderid: "",
     };
   },
   computed: {
@@ -376,6 +381,7 @@ export default {
     //画像編集画面に必要な情報をセット
     setItem(item){
       this.mediaAttachment = item
+      this.folderid= item.media_folder_id
     },
 
     //データの種類で検索
@@ -399,6 +405,37 @@ export default {
     //画像クリック
     clickMedia(item,selected){
       if(!this.selectMediaFlg){
+        this.folder2 = [];
+        axios.get("api/mediafolder").then((res) => {
+          this.folder = res.data.mediaFolder;
+          this.folder2[0] = {
+            id: 1,
+            parent_folder_id: 0,
+            name: "未分類",
+            kaisou: 1,
+          };
+          let number = 1;
+          for(let i = 0; i < this.folder.length;i++){
+            if(this.folder[i].kaisou == 1){
+              this.folder2[number] = this.folder[i]
+              number = number + 1
+              for(let j = 0; j < this.folder.length;j++){
+                if(this.folder[j].parent_folder_id == this.folder[i].id){
+                  this.folder2[number] = this.folder[j]
+                  this.folder2[number].name = "　" + this.folder2[number].name
+                  number = number + 1;
+                  for(let k = 0; k < this.folder.length;k++){
+                    if(this.folder[k].parent_folder_id == this.folder[j].id){
+                      this.folder2[number] = this.folder[k]
+                      this.folder2[number].name = "　　" + this.folder2[number].name
+                      number = number + 1;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        });
         this.setItem(item)
         this.displayGalleryMediaSet = true
       }else if(!selected){

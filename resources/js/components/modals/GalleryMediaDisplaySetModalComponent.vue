@@ -164,9 +164,10 @@
                   hide-details="false"
                   class="gallery-mediaDisplaySet-input-link"
                   placeholder="外部URL"
-				  :disabled="mediaLinkInputDisabled"
+				          :disabled="mediaLinkInputDisabled"
                   :required="mediaLinkInputRequired === '1'"
-				  v-model="link_urlModel"                />
+				          v-model="link_urlModel"
+                />
               </div>
             </v-col>
 

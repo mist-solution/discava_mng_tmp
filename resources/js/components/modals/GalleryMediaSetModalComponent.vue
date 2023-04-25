@@ -247,7 +247,10 @@
                 <span class="gallery-mediaSet-edit-item">フォルダ</span>
                 <v-select
                   class="gallery-mediaSet-select"
-                  :items="['未分類', 'BBB', 'CCC', 'DDD']"
+                  :items="folders"
+                  item-title="name"
+                  item-value="id"
+                  v-model="folderidModel"
                   hide-details="false"
                   text
                 />
@@ -309,7 +312,10 @@
                 <span class="gallery-mediaSet-edit-item">フォルダ</span>
                 <v-select
                   class="gallery-mediaSet-select"
-                  :items="['未分類', 'BBB', 'CCC', 'DDD']"
+                  :items="folders"
+                  item-title="name"
+                  item-value="id"
+                  v-model="folderidModel"
                   hide-details="false"
                   text
                 />
@@ -374,8 +380,11 @@
                 <span class="gallery-mediaSet-edit-item">フォルダ</span>
                 <v-select
                   class="gallery-mediaSet-select"
-                  :items="['未分類', 'BBB', 'CCC', 'DDD']"
-                  hide-details="false"
+                  :items="folders"
+                  item-title="name"
+                  item-value="id"
+                  v-model="folderidModel"
+                  disabled
                   text
                 />
               </v-col>
@@ -439,7 +448,11 @@
                 <span class="gallery-mediaSet-edit-item">フォルダ</span>
                 <v-select
                   class="gallery-mediaSet-select"
-                  :items="['未分類', 'BBB', 'CCC', 'DDD']"
+                  :items="folders"
+                  item-title="name"
+                  item-value="id"
+                  v-model="folderidModel"
+                  disabled
                   hide-details="false"
                   text
                 />
@@ -499,7 +512,8 @@ import moment from 'moment';
 
 export default {
   components: { GalleryMediaDeleteConfirmModalComponent },
-  props: ["closeDisplayGalleryMediaSetModal","item"],
+  props: ["closeDisplayGalleryMediaSetModal","item","folders","folderid"],
+  emits: ["update:folderid"],
   data() {
     return {
       showDeleteBtn: false,
@@ -510,6 +524,7 @@ export default {
       alt_ : "",
       approval_auth_flg:false,
       create_auth_flg:false,
+      folderid: "",
     };
   },
   methods: {
@@ -611,6 +626,15 @@ export default {
       },
       set(newVal){
         this.alt_ = newVal;
+      }
+    },
+
+    folderidModel:{
+      get(){
+        return this.$props.folderid;
+      },
+      set(newVal){
+        this.$emit("update:folderid", newVal);
       }
     },
   },

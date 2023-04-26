@@ -100,7 +100,7 @@
             <v-col cols="8">
               <v-select
                 class="gallery-mediaDisplaySet-select"
-                :items="column_num"
+                :items="column_num2"
                 hide-details="false"
                 v-model="column_numModel"
                 item-value="id"
@@ -430,7 +430,7 @@ export default {
           text: "降順",
         },
       ],
-      column_num:[
+      column_num2:[
         {
           id: 1,
           text: "1",
@@ -646,14 +646,14 @@ export default {
 
       colorPickerInput.addEventListener("change", function () {
         colorInput.value = colorPickerInput.value.replace("#", "");
-        this.frame_colorModel = colorInput.value
+        this.frame_colorModel = colorInput.value;
       });
     },
 
     // ホバー時のアイコンCSS
     hoverIconFocus(mdi) {
       mdi.isSelect = !mdi.isSelect;
-      this.sethover_icon = mdi.value
+      this.sethover_icon = mdi.value;
       for (var i = 0; i < this.hoverIconSelect.length; i++) {
         if (this.hoverIconSelect[i] != mdi) {
           this.hoverIconSelect[i].isSelect = false;

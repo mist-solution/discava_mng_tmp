@@ -346,6 +346,7 @@ export default {
           this.selected_kaisou = 1;
         }else{
           this.selected_kaisou = 0;
+          this.$store.dispatch("library/setSelectedFolder", null);
         }
       }
       this.regist_flg = false;

@@ -385,6 +385,7 @@
                   item-value="id"
                   v-model="folderidModel"
                   disabled
+                  hide-details="false"
                   text
                 />
               </v-col>
@@ -524,7 +525,6 @@ export default {
       alt_ : "",
       approval_auth_flg:false,
       create_auth_flg:false,
-      folderid: "",
     };
   },
   methods: {
@@ -550,6 +550,7 @@ export default {
         img_caption: this.cap,
         img_memo: this.memo_,
         img_alt: this.alt_,
+        media_folder_id: this.folderidModel
       };
       formData.append("mediaAttachment", JSON.stringify(info));
 

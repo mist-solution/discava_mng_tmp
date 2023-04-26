@@ -283,15 +283,15 @@ export default {
       parent_namechange_flg: false,
       namechange_flg: false,
       namechange_flg2: false,
-      folderTitlechange:"",
-      parentfolderTitlechange:"",
-      mibunrui:0,
-      approval_auth_flg:false,
-      create_auth_flg:false,
+      folderTitlechange: "",
+      parentfolderTitlechange: "",
+      mibunrui: 0,
+      approval_auth_flg: false,
+      create_auth_flg: false,
       selected_kaisou: 0,
       sortNo: 1,
-      searchResult:[],
-      searchWord:"",
+      searchResult: [],
+      searchWord: "",
     };
   },
   methods: {
@@ -337,6 +337,7 @@ export default {
           this.selected_kaisou = 1;
         }else{
           this.selected_kaisou = 0;
+          this.$store.dispatch("library/setSelectedFolder", null);
         }
       }
       this.regist_flg = false;

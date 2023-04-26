@@ -26,11 +26,11 @@
           <button
             v-if="create_auth_flg"
             :class="
-              [selectMediaFlg
+              [selectedfolderid == null || selectedfolderid == -1 || selectedfolderid == 0
+              ? 'btn disable-btn'
+              :selectMediaFlg
               ? 'btn green-btn_noTransform'
-              :selectedfolderid != null && selectedfolderid != -1 && selectedfolderid != 0
-              ?'btn white-btn'
-              :'btn disable-btn']"
+              : 'btn white-btn']"
             type="button"
             :disabled="selectedfolderid == null || selectedfolderid == -1 || selectedfolderid == 0"
             @click="GalleryToggle()"

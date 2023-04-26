@@ -12,7 +12,7 @@
 
       <!-- コード表示 -->
       <div class="gallery-mediaCode-code mx-auto" @click="copyTextToClipboard">
-        <p class="mb-0">{{ gallery_code }}</p>
+        <p class="mb-0">[gallery id="{{ this.$store.state.library.selectedFolder }}"]</p>
       </div>
       <p v-if="isCopy" class="mb-0 mx-auto gallery-mediaCode-copySuccess">
         コピーしました！
@@ -43,7 +43,7 @@
 
       <!-- コード表示 -->
       <div class="gallery-mediaCode-code mx-auto" @click="copyTextToClipboard">
-        <p class="mb-0">{{ gallery_code }}</p>
+        <p class="mb-0"> [gallery id="{{ this.$store.state.library.selectedFolder }}"]</p>
       </div>
       <p v-if="isCopy" class="mb-0 mx-auto gallery-mediaCode-copySuccess">
         コピーしました！
@@ -70,7 +70,6 @@ export default {
   props: ["closeDisplayGalleryMediaShortCodeMakeModal"],
   data() {
     return {
-      gallery_code: '[gallery id="111"]',
       isCopy: false,
     };
   },
@@ -86,7 +85,7 @@ export default {
     // クリックとコピーする
     copyTextToClipboard() {
       navigator.clipboard
-        .writeText(this.gallery_code)
+        .writeText('[gallery id="'+this.$store.state.library.selectedFolder+'"]')
         .then(() => {
           this.isCopy = true;
         })

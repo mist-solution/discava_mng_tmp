@@ -4,11 +4,11 @@
     <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">ライブラリ</p>
     <button
        :class="
-        [selectMediaFlg
-        ? 'btn green-btn_noTransform'
-        :selectedfolderid != null && selectedfolderid != -1 && selectedfolderid != 0
-        ?'btn white-btn'
-        :'btn disable-btn']"
+        [selectedfolderid == null || selectedfolderid == -1 || selectedfolderid == 0
+          ? 'btn disable-btn'
+          :selectMediaFlg
+          ? 'btn green-btn_noTransform'
+          : 'btn white-btn']"
       type="button"
       :disabled="selectedfolderid == null || selectedfolderid == -1 || selectedfolderid == 0"
       @click="GalleryToggle()"

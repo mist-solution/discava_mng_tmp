@@ -97,7 +97,7 @@ class MediaAttachmentController extends Controller
             'img_memo' => urldecode($mediaAttachment['img_memo']),
             'img_alt' => urldecode($mediaAttachment['img_alt']),
             'img_caption' => urldecode($mediaAttachment['img_caption']),
-            //'media_folder_id' => $mediaAttachment['media_folder_id'],
+            'media_folder_id' => $mediaAttachment['media_folder_id'],
             'upd_account' => Auth::user()->id,
             'updated_at' => new DateTime(),
         ];

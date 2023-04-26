@@ -101,7 +101,7 @@
             <v-col cols="7">
               <v-select
                 class="gallery-mediaDisplaySet-select"
-                :items="column_num"
+                :items="column_num2"
                 hide-details="false"
                 v-model="column_numModel"
                 item-value="id"
@@ -430,7 +430,7 @@ export default {
           text: "降順",
         },
       ],
-      column_num:[
+      column_num2:[
         {
           id: 1,
           text: "1",

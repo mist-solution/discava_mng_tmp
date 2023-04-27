@@ -26,8 +26,6 @@ class SessionTimeout
         $sessionStartTime = $request->session()->get('auth.password_confirmed_at');
         $currentTime = time();
         $remainingLifetime = ($sessionLifetime - ($currentTime - $sessionStartTime));
-        log::info("SESSION 残り(秒)");
-        log::info($remainingLifetime);
         if ($remainingLifetime <= 0) {
             Auth::logout();
             $request->session()->flush();

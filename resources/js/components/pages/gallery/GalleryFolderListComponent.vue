@@ -304,13 +304,13 @@ export default {
         if(folderItem.id === -1){
           folderItem.isShow = true;
           for(let i = 2; i < this.folder.length; i++){
-            total = total + this.folder[i].fileValue
+            total = total + this.folder[i].fileValue;
           }
           folderItem.fileValue = total + this.mibunrui;
         }else if(folderItem.id === 0){
           folderItem.isShow = true;
           folderItem.fileValue = this.mibunrui;
-        }else if (folderItem.parent_folder_id === 0) {
+        }else if(folderItem.parent_folder_id === 0){
           folderItem.isShow = true;
           for(let i = 0; i < this.folder.length; i++){
             if(this.folder[i].parent_folder_id == folderItem.id){

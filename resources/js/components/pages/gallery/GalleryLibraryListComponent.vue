@@ -225,11 +225,12 @@ export default {
   watch: {
     selectedFolder() {
       this.getLibraryList();
-      this.selectedfolderid = this.$store.state.library.selectedFolder
-      this.selectMediaFlg = false
+      this.selectedfolderid = this.$store.state.library.selectedFolder;
+      this.selectMediaFlg = false;
+      this.selectedMedia = [];
       if(this.$store.state.library.selectedFolder != 0 && this.$store.state.library.selectedFolder != -1){
         axios.get("api/mediafolder/" + this.$store.state.library.selectedFolder).then((res) => {
-          this.GalleryItem = res.data
+          this.GalleryItem = res.data;
         });
       }
     },
@@ -437,7 +438,7 @@ export default {
           }
         });
         this.setItem(item)
-        this.displayGalleryMediaSet = true
+        this.displayGalleryMediaSet = true;
       }else if(!selected){
         item.selected = true
         item.selectNo = this.selectedMedia.length + 1

@@ -29,8 +29,8 @@
       <button
         :class="[
           sortNo == 1
-            ? 'btn white-btn gallery-folder-search-sort'
-            : 'btn green-btn_noTransform gallery-folder-search-sort',
+            ? 'btn white-btn gallery-folder-search-sort-sp'
+            : 'btn green-btn_noTransform gallery-folder-search-sort-sp',
         ]"
         type="button"
         @click="sort"

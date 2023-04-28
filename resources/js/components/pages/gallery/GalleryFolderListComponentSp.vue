@@ -586,8 +586,10 @@ export default {
           }
         }
       } else if (
-        !this.$store.state.library.selectedFolder ||
-        this.$store.state.library.selectedFolder != 0
+        !this.$store.state.library.selectedFolder &&
+        this.$store.state.library.selectedFolder !== 0 &&
+        (this.$store.state.library.selectedFolder == "" ||
+         this.$store.state.library.selectedFolder == null)
       ) {
         this.parent_folder_regist_flg = true;
       }

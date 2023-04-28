@@ -562,6 +562,7 @@ export default {
       this.regist_flg = false;
       this.regist_flg2 = false;
       this.parent_folder_regist_flg = false;
+      console.log(this.$store.state.library.selectedFolder)
       if (this.$store.state.library.selectedFolder) {
         if (
           this.$store.state.library.selectedFolder != 0 &&
@@ -576,8 +577,10 @@ export default {
           }
         }
       } else if (
-        !this.$store.state.library.selectedFolder ||
-        this.$store.state.library.selectedFolder != 0
+        !this.$store.state.library.selectedFolder &&
+        this.$store.state.library.selectedFolder !== 0 &&
+        (this.$store.state.library.selectedFolder == "" ||
+         this.$store.state.library.selectedFolder == null)
       ) {
         this.parent_folder_regist_flg = true;
       }

@@ -225,6 +225,7 @@
               item.id == subitem.parent_folder_id
             "
             class="gallery-sub2-folder-show-sp"
+            @click.stop="toggleSubFolder(subitem)"
           >
             <span class="mdi mdi-folder"></span>
             <input
@@ -247,6 +248,7 @@
             item.isOpen
           "
           class="gallery-sub-folder-show-sp"
+          @click.stop="toggleFolder(item)"
         >
           <span class="mdi mdi-folder"></span>
           <input
@@ -381,9 +383,11 @@ export default {
       this.namechange_flg2 = false;
       // 親フォルダを押下
       if (this.parent_namechange_flg && item.isOpen) {
+      } else if(this.regist_flg && item.isOpen) {
       } else {
         item.isOpen = !item.isOpen;
         this.parent_namechange_flg = false;
+        this.regist_flg = false;
         if (item.isOpen) {
           this.selected_kaisou = 1;
         } else {
@@ -391,7 +395,6 @@ export default {
           this.$store.dispatch("library/setSelectedFolder", null);
         }
       }
-      this.regist_flg = false;
       this.regist_flg2 = false;
       this.parent_folder_regist_flg = false;
 
@@ -435,10 +438,12 @@ export default {
       this.$store.dispatch("library/setSelectedFolder", subitem.id);
       this.selected_kaisou = 2;
       if (this.namechange_flg && subitem.isOpen) {
+      } else if (this.regist_flg2 && subitem.isOpen) {
       } else {
         // 子フォルダを押下
         subitem.isOpen = !subitem.isOpen;
         this.namechange_flg = false;
+        this.regist_flg2 = false;
         if (subitem.isOpen) {
           this.selected_kaisou = 2;
         } else {
@@ -451,6 +456,8 @@ export default {
       }
       this.parent_namechange_flg = false;
       this.namechange_flg2 = false;
+      this.regist_flg = false;
+      this.parent_folder_regist_flg = false;
       // 押下されない場合，isOpen = false
       this.folder.forEach((subfolderItem) => {
         if (
@@ -503,6 +510,10 @@ export default {
           );
         }
         this.namechange_flg2 = false;
+        this.regist_flg2 = false;
+        this.regist_flg = false;
+        this.namechange_flg = false;
+        this.parent_folder_regist_flg = false;
       }
       this.parent_namechange_flg = false;
       this.namechange_flg = false;
@@ -561,18 +572,19 @@ export default {
       this.regist_flg = false;
       this.regist_flg2 = false;
       this.parent_folder_regist_flg = false;
-      if (
-        !this.$store.state.library.selectedFolder ||
-        (this.$store.state.library.selectedFolder != 0 &&
-          this.$store.state.library.selectedFolder != -1)
-      ) {
-        if (this.selected_kaisou == 1) {
-          this.regist_flg = true;
-        } else if (this.selected_kaisou == 2) {
-          this.regist_flg2 = true;
-        } else if (this.selected_kaisou == 0) {
-          this.parent_folder_regist_flg = true;
-        }
+      if ( this.$store.state.library.selectedFolder ){
+        if(this.$store.state.library.selectedFolder != 0 &&
+          this.$store.state.library.selectedFolder != -1){
+          if (this.selected_kaisou == 1) {
+            this.regist_flg = true;
+          } else if (this.selected_kaisou == 2) {
+            this.regist_flg2 = true;
+          } else if (this.selected_kaisou == 0) {
+            this.parent_folder_regist_flg = true;
+          }
+        } 
+      } else if (this.$store.state.library.selectedFolder != 0){
+        this.parent_folder_regist_flg = true;
       }
     },
 
@@ -596,6 +608,7 @@ export default {
           this.parent_folder_regist_flg = false;
           this.folderTitle = "";
           this.getMediaFolder();
+          this.$store.dispatch("library/setSelectedFolder", null);
         });
     },
 
@@ -609,35 +622,24 @@ export default {
       this.parent_folder_regist_flg = false;
       this.namechange_flg = false;
       this.parent_namechange_flg = false;
-      let parentfolderid = 0;
-      let childfolderid = 0;
-      for (let i = 0; i < this.folder.length; i++) {
-        if (this.folder[i].parent_folder_id == 0 && this.folder[i].isOpen) {
-          parentfolderid = this.folder[i].id;
-        }
-      }
-      if (parentfolderid != 0 && parentfolderid != -1) {
-        for (let i = 0; i < this.folder.length; i++) {
-          if (
-            this.folder[i].parent_folder_id == parentfolderid &&
-            this.folder[i].isOpen
-          ) {
-            childfolderid = this.folder[i].id;
-          }
-        }
-        if (childfolderid != 0) {
-          axios.delete("/api/mediafolder/" + childfolderid).then((res) => {
-            this.getMediaFolder();
-          });
-        } else {
-          axios.delete("/api/mediafolder/" + parentfolderid).then((res) => {});
+      this.regist_flg2 = false;
+      this.namechange_flg2 = false;
+      if (this.$store.state.library.selectedFolder) {
+        if(this.$store.state.library.selectedFolder !=0 && this.$store.state.library.selectedFolder != 1 ){
+          axios.delete("/api/mediafolder/" + this.$store.state.library.selectedFolder);
           for (let i = 0; i < this.folder.length; i++) {
-            if (this.folder[i].parent_folder_id == parentfolderid) {
+            if (this.folder[i].parent_folder_id == this.$store.state.library.selectedFolder) {
               axios.delete("/api/mediafolder/" + this.folder[i].id);
+              for (let j = 0; j < this.folder.length; j++) {
+                if (this.folder[j].parent_folder_id == this.folder[i].id) {
+                  axios.delete("/api/mediafolder/" + this.folder[j].id);
+                }
+              }
             }
           }
         }
         this.getMediaFolder();
+        this.$store.dispatch("library/setSelectedFolder", null);
       }
     },
 
@@ -682,6 +684,7 @@ export default {
           this.parent_namechange_flg = false;
           this.folderTitlechange = "";
           this.getMediaFolder();
+          this.$store.dispatch("library/setSelectedFolder", null);
         });
     },
 

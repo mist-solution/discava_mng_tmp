@@ -548,10 +548,12 @@ export default {
 .gallery-library-search-select {
   border: 1px solid #ccc;
   width: 45%;
+  height: 2.5rem;
 }
 .gallery-library-search-datepicker {
   border: 1px solid #ccc;
   width: 45%;
+  height: 2.5rem;
 }
 .gallery-library-search {
   display: flex;
@@ -561,7 +563,7 @@ export default {
   border-radius: 10px;
   padding: 4px;
   margin-left: 5%;
-  height: 3.5rem;
+  height: 2.5rem;
 }
 .gallery-library-search-input {
   font-size: 16px !important;

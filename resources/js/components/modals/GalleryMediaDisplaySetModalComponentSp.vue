@@ -34,7 +34,7 @@
                   cover
                   class="gallery-mediaDisplay-img"
                 >
-                  <p class="gallery-mediaDisplay-img-id">{{ index }}</p>
+                  <p class="gallery-mediaDisplay-img-id">{{ index + 1 }}</p>
                 </v-img>
               </v-col>
             </template>
@@ -382,7 +382,7 @@ import GalleryMediaShortCodeMakeModalComponent from "../modals/GalleryMediaShort
 
 export default {
   components: { Draggable, GalleryMediaShortCodeMakeModalComponent },
-   props: ["closeDisplayGalleryMediaDisplaySetspModal","Library","sort","width","height","column_num","align","link","linkurl","margin","caption","frame_design","frame_color",
+   props: ["closeDisplayGalleryMediaDisplaySetSpModal","Library","sort","width","height","column_num","align","link","linkurl","margin","caption","frame_design","frame_color",
       "shadow","hover_expand","hover_icon"],
   emits: ["update:sort","update:width","update:height","update:column_num","update:align","update:link","update:linkurl","update:margin","update:caption","update:frame_design","update:frame_color",
       "update:shadow","update:hover_expand","update:hover_icon"],
@@ -664,25 +664,6 @@ export default {
     //ショートコードモーダルを閉じる
     closeDisplayGalleryMediaShortCodeMake() {
       this.displayGalleryMediaShortCodeMake = false;
-    },
-  },
-  computed: {
-    // モーダル幅さ調整
-    modalWidth() {
-      const device = document.body.clientWidth;
-      if (device > 1450) {
-        // モニター
-        return "80vw";
-      } else if (device > 901 && device < 1450) {
-        // PC
-        return "75vw";
-      } else if (device > 641 && device < 900) {
-        // TB
-        return "80vw";
-      } else if (device >= 0 && device < 640) {
-        // SP
-        return "100vw";
-      }
     },
   },
   mounted() {},

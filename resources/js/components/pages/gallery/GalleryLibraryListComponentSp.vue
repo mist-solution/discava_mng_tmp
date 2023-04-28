@@ -383,7 +383,7 @@ export default {
       if(!this.selectMediaFlg){
         this.selectMediaFlg = true
       }else{
-        this.displayGalleryMediaDisplaySet = true
+        this.displayGalleryMediaDisplaySetSp = true
       }
     },
 

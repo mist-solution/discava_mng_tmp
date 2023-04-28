@@ -82,7 +82,7 @@
           type="search"
           maxlength="30"
           hide-details="false"
-          v-model="parentfolderTitlechange"
+          v-model="folderTitlechange"
           @change="nameChange(item.id)"
         />
         <p class="number">{{ item.fileValue }}</p>
@@ -98,9 +98,6 @@
           ]"
           @click.stop="toggleSubFolder(subitem)"
         >
-          <!-- <span v-if="item.isShow && subitem.parent_folder_id == item.id">{{
-          subitem.name
-        }}</span> -->
           <span
             v-if="item.isShow && subitem.parent_folder_id == item.id"
             :class="[
@@ -149,7 +146,7 @@
               item.id != 0 &&
               item.id != subitem.id &&
               subitem.parent_folder_id != 0 &&
-              subitem.id != 0
+              subitem.id != 0 
             "
             :class="[
               subitem2.isOpen
@@ -162,7 +159,8 @@
               v-if="
                 subitem.isShow &&
                 subitem.isOpen &&
-                subitem2.parent_folder_id == subitem.id
+                subitem2.parent_folder_id == subitem.id &&
+                subitem.parent_folder_id == item.id
               "
               :class="[
                 subitem2.isShow && subitem2.isOpen
@@ -173,7 +171,8 @@
             <p
               v-if="
                 subitem2.parent_folder_id == subitem.id &&
-                (!namechange_flg2 || !subitem2.isOpen)
+                (!namechange_flg2 || !subitem2.isOpen) &&
+                subitem.parent_folder_id == item.id
               "
               class="folder-name"
             >
@@ -182,46 +181,38 @@
             <input
               v-if="
                 subitem2.parent_folder_id == subitem.id &&
-                !(!namechange_flg2 || !subitem2.isOpen)
+                !(!namechange_flg2 || !subitem2.isOpen) &&
+                subitem.parent_folder_id == item.id
               "
               class="gallery-folder-search-input"
               type="search"
               maxlength="30"
               hide-details="false"
               v-model="folderTitlechange"
+              @click.stop="toggleSubFolder2(subitem2)"
               @change="nameChange(subitem2.id)"
             />
             <p
-              v-if="subitem.isShow && subitem2.parent_folder_id == subitem.id"
+              v-if="subitem.isShow && subitem2.parent_folder_id == subitem.id && subitem.parent_folder_id == item.id"
               class="number"
             >
               {{ subitem2.fileValue }}
             </p>
           </div>
-          <div
-            v-if="subitem.isShow && regist_flg2"
-            class="gallery-sub2-folder-show"
-          >
-            <span class="mdi mdi-folder"></span>
-            <input
-              class="gallery-folder-search-input"
-              type="search"
-              maxlength="30"
-              hide-details="false"
-              v-model="folderTitle"
-              @change="createFolder(subitem.id)"
-            />
-          </div>
         </div>
         <div
           v-if="
             item.isShow &&
-            regist_flg &&
+            regist_flg2 &&
             item.parent_folder_id == 0 &&
             index !== 1 &&
-            index !== 0
+            index !== 0 &&
+            item.isOpen &&
+            subitem.isOpen &&
+            subitem.isShow &&
+            item.id == subitem.parent_folder_id
           "
-          class="gallery-sub-folder-show"
+          class="gallery-sub2-folder-show"
         >
           <span class="mdi mdi-folder"></span>
           <input
@@ -230,9 +221,30 @@
             maxlength="30"
             hide-details="false"
             v-model="folderTitle"
-            @change="createFolder(item.id)"
+            @change="createFolder(subitem.id)"
           />
         </div>
+      </div>
+      <div
+        v-if="
+          item.isShow &&
+          regist_flg &&
+          item.parent_folder_id == 0 &&
+          index !== 1 &&
+          index !== 0 &&
+          item.isOpen
+        "
+        class="gallery-sub-folder-show"
+      >
+        <span class="mdi mdi-folder"></span>
+        <input
+          class="gallery-folder-search-input"
+          type="search"
+          maxlength="30"
+          hide-details="false"
+          v-model="folderTitle"
+          @change="createFolder(item.id)"
+        />
       </div>
     </div>
     <div v-if="parent_folder_regist_flg" class="gallery-folder-show">
@@ -309,7 +321,6 @@ export default {
       namechange_flg: false,
       namechange_flg2: false,
       folderTitlechange: "",
-      parentfolderTitlechange: "",
       mibunrui: 0,
       approval_auth_flg: false,
       create_auth_flg: false,
@@ -414,8 +425,15 @@ export default {
         // 子フォルダを押下
         subitem.isOpen = !subitem.isOpen;
         this.namechange_flg = false;
+        if (subitem.isOpen) {
+          this.selected_kaisou = 2;
+        } else {
+          this.selected_kaisou = 1;
+          this.$store.dispatch("library/setSelectedFolder", subitem.parent_folder_id);
+        }
       }
       this.parent_namechange_flg = false;
+      this.namechange_flg2 = false;
       // 押下されない場合，isOpen = false
       this.folder.forEach((subfolderItem) => {
         if (
@@ -454,18 +472,26 @@ export default {
     // 孫フォルダクリック操作
     toggleSubFolder2(subitem2) {
       this.$store.dispatch("library/setSelectedFolder", subitem2.id);
-      if (this.namechange_flg && subitem2.isOpen) {
+      if (this.namechange_flg2 && subitem2.isOpen) {
       } else {
         // 孫フォルダを押下
         subitem2.isOpen = !subitem2.isOpen;
-        this.namechange_flg = false;
+        if (subitem2.isOpen) {
+          this.selected_kaisou = 3;
+        } else {
+          this.selected_kaisou = 2;
+          this.$store.dispatch("library/setSelectedFolder", subitem2.parent_folder_id);
+        }
+        this.namechange_flg2 = false;
       }
+      this.namechange_flg = false;
       this.parent_namechange_flg = false;
       // 押下されない場合，isOpen = false
       this.folder.forEach((subfolderItem2) => {
         if (
           subfolderItem2 !== subitem2 &&
-          subfolderItem2.parent_folder_id !== 0
+          subfolderItem2.parent_folder_id !== 0 &&
+          subfolderItem2.id !== subitem2.parent_folder_id
         ) {
           subfolderItem2.isOpen = false;
         }
@@ -515,13 +541,14 @@ export default {
       this.regist_flg = false;
       this.regist_flg2 = false;
       this.parent_folder_regist_flg = false;
-      console.log(this.selected_kaisou);
-      if (this.selected_kaisou == 1) {
-        this.regist_flg = true;
-      } else if (this.selected_kaisou == 2) {
-        this.regist_flg2 = true;
-      } else {
-        this.parent_folder_regist_flg = true;
+      if(this.$store.state.library.selectedFolder != 0 && this.$store.state.library.selectedFolder != -1){
+        if (this.selected_kaisou == 1) {
+          this.regist_flg = true;
+        } else if (this.selected_kaisou == 2) {
+          this.regist_flg2 = true;
+        } else if (this.selected_kaisou == 0){
+          this.parent_folder_regist_flg = true;
+        }
       }
     },
 
@@ -593,29 +620,18 @@ export default {
     //フォルダ名称変更ボタン押下
     changeNameBtn() {
       this.regist_flg = false;
+      this.regist_flg2 = false;
       this.parent_folder_regist_flg = false;
-      let parentfolderid = 0;
-      let childfolderid = 0;
       for (let i = 0; i < this.folder.length; i++) {
-        if (this.folder[i].parent_folder_id == 0 && this.folder[i].isOpen) {
-          parentfolderid = this.folder[i].id;
-          this.parentfolderTitlechange = this.folder[i].name;
-        }
-      }
-      if (parentfolderid != 0 && parentfolderid != -1) {
-        for (let i = 0; i < this.folder.length; i++) {
-          if (
-            this.folder[i].parent_folder_id == parentfolderid &&
-            this.folder[i].isOpen
-          ) {
-            childfolderid = this.folder[i].id;
-            this.folderTitlechange = this.folder[i].name;
+        if (this.folder[i].id == this.$store.state.library.selectedFolder && this.$store.state.library.selectedFolder && this.folder[i].id != 0 && this.folder[i].id != -1) {
+          this.folderTitlechange = this.folder[i].name;
+          if (this.selected_kaisou == 1) {
+            this.parent_namechange_flg = true;
+          } else if (this.selected_kaisou == 2){
+            this.namechange_flg = true;
+          } else if (this.selected_kaisou == 3){
+            this.namechange_flg2 = true;
           }
-        }
-        if (childfolderid != 0) {
-          this.namechange_flg = true;
-        } else {
-          this.parent_namechange_flg = true;
         }
       }
     },
@@ -623,37 +639,21 @@ export default {
     //フォルダ名変更
     nameChange(id) {
       let formData = new FormData();
-      if (this.namechange_flg) {
-        const item = {
-          name: encodeURIComponent(this.folderTitlechange),
-        };
-        formData.append("mediaFolder", JSON.stringify(item));
-        axios
-          .post("/api/mediafolder/namechange/" + id, formData, {
-            headers: { "Content-type": "multipart/form-data" },
-          })
-          .then((res) => {
-            this.namechange_flg = false;
-            this.parent_namechange_flg = false;
-            this.folderTitlechange = "";
-            this.getMediaFolder();
-          });
-      } else if (this.parent_namechange_flg) {
-        const item = {
-          name: encodeURIComponent(this.parentfolderTitlechange),
-        };
-        formData.append("mediaFolder", JSON.stringify(item));
-        axios
-          .post("/api/mediafolder/namechange/" + id, formData, {
-            headers: { "Content-type": "multipart/form-data" },
-          })
-          .then((res) => {
-            this.namechange_flg = false;
-            this.parent_namechange_flg = false;
-            this.folderTitlechange = "";
-            this.getMediaFolder();
-          });
-      }
+      const item = {
+        name: encodeURIComponent(this.folderTitlechange),
+      };
+      formData.append("mediaFolder", JSON.stringify(item));
+      axios
+        .post("/api/mediafolder/namechange/" + id, formData, {
+          headers: { "Content-type": "multipart/form-data" },
+        })
+        .then((res) => {
+          this.namechange_flg = false;
+          this.namechange_flg2 = false;
+          this.parent_namechange_flg = false;
+          this.folderTitlechange = "";
+          this.getMediaFolder();
+        });
     },
 
     //ソート機能

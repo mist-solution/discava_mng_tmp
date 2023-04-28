@@ -713,7 +713,6 @@ export default {
 
     suggestClick(index) {
       this.usermodel = this.suggestlist[index].name;
-      console.log(this.suggestlist[index].name)
       this.open = false;
       this.current = 0;
       this.suggestlist = this.suggestlist[index];

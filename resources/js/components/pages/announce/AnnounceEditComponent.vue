@@ -537,8 +537,6 @@ export default {
                 formData.append("thumbnail_file", this.file);
               }
 
-              console.log(this.file)
-
               for (let i = 0; i < this.insertAttachments.length; i++) {
                 formData.append('insertAttachments[' + i + ']', this.insertAttachments[i]);
               }
@@ -728,7 +726,6 @@ export default {
     // 申請処理
     approvalRequest(announceId) {
       // お知らせが申請する場合、開始掲載日、カテゴリーカラムを必須にする
-      console.log(this.announce.approval_status)
       if(this.announce.approval_status == 0 || this.announce.approval_status == 3){
         this.isRequired = true;
       }else{

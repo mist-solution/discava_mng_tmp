@@ -137,8 +137,6 @@ Route::middleware(['sessionTimeout'])->group(function () {
     Route::delete('/api/mediaAttachment/{id}', [MediaAttachmentController::class, 'delete']);
     //画像更新
     Route::post('/api/mediaAttachment/update/{id}', [MediaAttachmentController::class, 'update']);
-
-
 });
 
 
@@ -155,3 +153,4 @@ Route::get('webapi/announce/categoryList', [AnnounceCategoryListController::clas
 //------------------------------------------------
 Route::get('webapi/media/detail/{id}', [MediaDetailController::class, 'get']);
 Route::get('webapi/media/image/{id}', [MediaImageController::class, 'get']);
+Route::post('webapi/media/imageSort/{id}', [MediaDetailController::class, 'setImageSort']);

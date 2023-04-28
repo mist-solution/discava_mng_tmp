@@ -141,6 +141,21 @@ class MediaDetailController extends Controller
         $response['media'] = $media;
         $response['mediaAttachments'] = $mediaAttachments;
 
+        // ソートした画像配列のJSONファイルを取得
+        $getJsonFile = Storage::get('gallery/galleryBySortJson/' . $mediaFolderId . '/galleryArraysBySorted.json');
+        $response['mediaAttachmentsBySorted'] = json_decode($getJsonFile, true);
+
         return $response;
+    }
+
+    // ソートした画像配列のJSONファイルを保存
+    public function setImageSort(Request $request, String $id)
+    {
+        $response = array();
+        $mediaFolderId = $id;
+        $galleryArrays = $request->all();
+        $galleryArraysJson = json_encode($galleryArrays);
+        $path = Storage::put('gallery/galleryBySortJson/' . $mediaFolderId . '/galleryArraysBySorted.json', $galleryArraysJson);
+        return $galleryArrays;
     }
 }

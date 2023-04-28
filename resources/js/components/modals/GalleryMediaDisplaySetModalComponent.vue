@@ -25,7 +25,7 @@
             :itemKey="(Library) => Library.id"
             class="d-flex child-flex gallery-mediaDisplaySet-imgs-show"
           >
-            <template #item="{ element , index}">
+            <template #item="{ element, index }">
               <v-col cols="3" class="d-flex align-center justify-center pb-0">
                 <v-img
                   :key="element.id"
@@ -34,7 +34,7 @@
                   cover
                   class="gallery-mediaDisplay-img"
                 >
-                  <p class="gallery-mediaDisplay-img-id">{{ index + 1}}</p>
+                  <p class="gallery-mediaDisplay-img-id">{{ index + 1 }}</p>
                 </v-img>
               </v-col>
             </template>
@@ -164,9 +164,9 @@
                   hide-details="false"
                   class="gallery-mediaDisplaySet-input-link"
                   placeholder="外部URL"
-				          :disabled="mediaLinkInputDisabled"
+                  :disabled="mediaLinkInputDisabled"
                   :required="mediaLinkInputRequired === '1'"
-				          v-model="link_urlModel"
+                  v-model="link_urlModel"
                 />
               </div>
             </v-col>
@@ -205,7 +205,11 @@
               キャプションの表示
             </v-col>
             <v-col cols="8">
-              <v-radio-group inline v-model="captionModel" class="gallery-mediaDisplaySet-radioGroup">
+              <v-radio-group
+                inline
+                v-model="captionModel"
+                class="gallery-mediaDisplaySet-radioGroup"
+              >
                 <v-radio
                   label="なし"
                   :value="0"
@@ -382,10 +386,40 @@ import GalleryMediaShortCodeMakeModalComponent from "../modals/GalleryMediaShort
 
 export default {
   components: { Draggable, GalleryMediaShortCodeMakeModalComponent },
-  props: ["closeDisplayGalleryMediaDisplaySetModal","Library","sort","width","height","column_num","align","link","linkurl","margin","caption","frame_design","frame_color",
-      "shadow","hover_expand","hover_icon"],
-  emits: ["update:sort","update:width","update:height","update:column_num","update:align","update:link","update:linkurl","update:margin","update:caption","update:frame_design","update:frame_color",
-      "update:shadow","update:hover_expand","update:hover_icon"],
+  props: [
+    "closeDisplayGalleryMediaDisplaySetModal",
+    "Library",
+    "sort",
+    "width",
+    "height",
+    "column_num",
+    "align",
+    "link",
+    "linkurl",
+    "margin",
+    "caption",
+    "frame_design",
+    "frame_color",
+    "shadow",
+    "hover_expand",
+    "hover_icon",
+  ],
+  emits: [
+    "update:sort",
+    "update:width",
+    "update:height",
+    "update:column_num",
+    "update:align",
+    "update:link",
+    "update:linkurl",
+    "update:margin",
+    "update:caption",
+    "update:frame_design",
+    "update:frame_color",
+    "update:shadow",
+    "update:hover_expand",
+    "update:hover_icon",
+  ],
   data() {
     return {
       hoverIconSelect: [
@@ -420,7 +454,7 @@ export default {
           value: "4",
         },
       ],
-      sorts:[
+      sorts: [
         {
           id: 1,
           text: "昇順",
@@ -430,7 +464,7 @@ export default {
           text: "降順",
         },
       ],
-      column_num2:[
+      column_num2: [
         {
           id: 1,
           text: "1",
@@ -455,112 +489,113 @@ export default {
       mediaLinkInputRequired: "",
     };
   },
-  computed:{
-    sortModel:{
-      get(){
+  computed: {
+    sortModel: {
+      get() {
         return this.$props.sort;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:sort", newVal);
-      }
+      },
     },
-    widthModel:{
-      get(){
+    widthModel: {
+      get() {
         return this.$props.width;
       },
-      set(newVal){
+      set(newVal) {
+        console.log(newVal);
         this.$emit("update:width", newVal);
-      }
+      },
     },
-    heightModel:{
-      get(){
+    heightModel: {
+      get() {
         return this.$props.height;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:height", newVal);
-      }
+      },
     },
-    column_numModel:{
-      get(){
+    column_numModel: {
+      get() {
         return this.$props.column_num;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:column_num", newVal);
-      }
+      },
     },
-    alignModel:{
-      get(){
+    alignModel: {
+      get() {
         return this.$props.align;
       },
-      set(newVal){
-       this.$emit("update:align", newVal);
-      }
+      set(newVal) {
+        this.$emit("update:align", newVal);
+      },
     },
-    linkModel:{
-      get(){
+    linkModel: {
+      get() {
         return this.$props.link;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:link", newVal);
-      }
+      },
     },
-    link_urlModel:{
-      get(){
+    link_urlModel: {
+      get() {
         return this.$props.linkurl;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:linkurl", newVal);
-      }
+      },
     },
-    marginModel:{
-      get(){
+    marginModel: {
+      get() {
         return this.$props.margin;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:margin", newVal);
-      }
+      },
     },
-    captionModel:{
-      get(){
+    captionModel: {
+      get() {
         return this.$props.caption;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:caption", newVal);
-      }
+      },
     },
-    frame_designModel:{
-      get(){
+    frame_designModel: {
+      get() {
         return this.$props.frame_design;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:frame_design", newVal);
-      }
+      },
     },
-    frame_colorModel:{
-      get(){
+    frame_colorModel: {
+      get() {
         return this.$props.frame_color;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:frame_color", newVal);
-      }
+      },
     },
-    shadowModel:{
-      get(){
+    shadowModel: {
+      get() {
         return this.$props.shadow;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:shadow", newVal);
-      }
+      },
     },
-    hover_expandModel:{
-      get(){
+    hover_expandModel: {
+      get() {
         this.hoverIconSelect[this.$props.hover_icon].isSelect = true;
-        this.sethover_icon = this.$props.hover_icon
+        this.sethover_icon = this.$props.hover_icon;
         return this.$props.hover_expand;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:hover_expand", newVal);
-      }
+      },
     },
     modalWidth() {
       const device = document.body.clientWidth;
@@ -578,7 +613,6 @@ export default {
         return "100vw";
       }
     },
-
   },
   methods: {
     // モバイル判定
@@ -607,14 +641,39 @@ export default {
         media_shadow: this.shadowModel,
         media_hover_expand: this.hover_expandModel,
         media_hover_icon: this.sethover_icon,
-      }
+      };
 
       formData.append("mediafolder", JSON.stringify(item));
-      axios.post("api/mediafolder/" + this.$store.state.library.selectedFolder + "/update",
-       formData,
-        { headers: { "Content-type": "multipart/form-data", }}
-          ).then((res) => {
+      axios
+        .post(
+          "api/mediafolder/" +
+            this.$store.state.library.selectedFolder +
+            "/update",
+          formData,
+          { headers: { "Content-type": "multipart/form-data" } }
+        )
+        .then((res) => {});
+
+      // ドラッグ＆ドロップの並び順の処理
+      const id = this.$store.state.library.selectedFolder;
+      let galleryFormData = new FormData();
+      let galleryImages = this.Library;
+      const sortBy = this.sortModel;
+
+      // 降順処理
+      if (sortBy == 2) {
+        galleryImages = this.Library.reverse();
+      }
+
+      axios
+        .post("webapi/media/imageSort/" + id, galleryImages)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
+
       this.displayGalleryMediaShortCodeMake = true;
     },
 
@@ -665,8 +724,6 @@ export default {
     closeDisplayGalleryMediaShortCodeMake() {
       this.displayGalleryMediaShortCodeMake = false;
     },
-
-
   },
   mounted() {},
 };

@@ -526,7 +526,7 @@ export default {
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 4px;
-    height: 3.5rem;
+    height: 2.5rem;
   }
   .gallery-library-search-input-sp {
     font-size: 16px !important;
@@ -545,7 +545,7 @@ export default {
   }
 
   .gallery-library-add-btn-sp {
-    height: 3.5rem;
+    height: 2.5rem;
     margin-left: 30%;
     font-size: 18px;
     display: flex;

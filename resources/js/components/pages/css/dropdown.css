@@ -37,3 +37,25 @@
 .gallery-library-search-datepicker>div {
     height: 2.5rem;
 }
+
+.gallery-library-search-select-sp>div>.v-field.v-field--appended {
+    margin-top: -0.5rem;
+}
+
+.gallery-library-search-select-sp>div>div>div>.v-field__input {
+    margin-top: -0.5rem;
+}
+
+.gallery-library-search-select-sp>div>div>div>div>.v-select__selection{
+    margin-top: 0.5rem;
+    margin-bottom: -0.5rem;
+    margin-left: -2rem;
+}
+
+.gallery-library-search-datepicker-sp>div>.dp__input_wrap {
+    top: -0.5rem;
+}
+
+.gallery-library-search-datepicker-sp>div {
+    height: 2.5rem;
+}

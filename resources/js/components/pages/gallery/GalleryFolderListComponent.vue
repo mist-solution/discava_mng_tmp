@@ -373,7 +373,7 @@ export default {
       this.namechange_flg2 = false;
       // 親フォルダを押下
       if (this.parent_namechange_flg && item.isOpen) {
-      } else if(this.regist_flg && item.isOpen) {
+      } else if (this.regist_flg && item.isOpen) {
       } else {
         item.isOpen = !item.isOpen;
         this.parent_namechange_flg = false;
@@ -562,9 +562,11 @@ export default {
       this.regist_flg = false;
       this.regist_flg2 = false;
       this.parent_folder_regist_flg = false;
-      if ( this.$store.state.library.selectedFolder ){
-        if(this.$store.state.library.selectedFolder != 0 &&
-          this.$store.state.library.selectedFolder != -1){
+      if (this.$store.state.library.selectedFolder) {
+        if (
+          this.$store.state.library.selectedFolder != 0 &&
+          this.$store.state.library.selectedFolder != -1
+        ) {
           if (this.selected_kaisou == 1) {
             this.regist_flg = true;
           } else if (this.selected_kaisou == 2) {
@@ -572,8 +574,11 @@ export default {
           } else if (this.selected_kaisou == 0) {
             this.parent_folder_regist_flg = true;
           }
-        } 
-      } else if (this.$store.state.library.selectedFolder != 0){
+        }
+      } else if (
+        !this.$store.state.library.selectedFolder ||
+        this.$store.state.library.selectedFolder != 0
+      ) {
         this.parent_folder_regist_flg = true;
       }
     },
@@ -615,10 +620,18 @@ export default {
       this.regist_flg2 = false;
       this.namechange_flg2 = false;
       if (this.$store.state.library.selectedFolder) {
-        if(this.$store.state.library.selectedFolder !=0 && this.$store.state.library.selectedFolder != 1 ){
-          axios.delete("/api/mediafolder/" + this.$store.state.library.selectedFolder);
+        if (
+          this.$store.state.library.selectedFolder != 0 &&
+          this.$store.state.library.selectedFolder != 1
+        ) {
+          axios.delete(
+            "/api/mediafolder/" + this.$store.state.library.selectedFolder
+          );
           for (let i = 0; i < this.folder.length; i++) {
-            if (this.folder[i].parent_folder_id == this.$store.state.library.selectedFolder) {
+            if (
+              this.folder[i].parent_folder_id ==
+              this.$store.state.library.selectedFolder
+            ) {
               axios.delete("/api/mediafolder/" + this.folder[i].id);
               for (let j = 0; j < this.folder.length; j++) {
                 if (this.folder[j].parent_folder_id == this.folder[i].id) {

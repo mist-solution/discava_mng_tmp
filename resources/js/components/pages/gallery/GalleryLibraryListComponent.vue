@@ -31,7 +31,7 @@
               selectedfolderid == 0
                 ? 'btn disable-btn'
                 : selectMediaFlg
-                ? 'btn green-btn_noTransform'
+                ? 'btn gallery-library-gallery-make-btn'
                 : 'btn white-btn',
             ]"
             type="button"
@@ -509,6 +509,27 @@ export default {
   height: fit-content;
   width: 47.5px;
   cursor: pointer;
+}
+
+/* ギャラリー作成ボタン（フォルダが選択した時） */
+.gallery-library-gallery-make-btn {
+  background-color: #69a5af;
+  border: #69a5af 2px solid !important;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+}
+.gallery-library-gallery-make-btn .v-btn__content {
+  color: #fff !important;
+}
+.gallery-library-gallery-make-btn {
+  color: #fff !important;
+}
+.gallery-library-gallery-make-btn:hover {
+  box-shadow: unset !important;
+  background-color: #69a5af !important;
+  color: #fff !important;
+  opacity: 0.8 !important;
+  transition: 0.4s;
 }
 
 /* 検索エリア */

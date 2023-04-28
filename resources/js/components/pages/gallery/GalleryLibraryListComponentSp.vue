@@ -9,7 +9,7 @@
         selectedfolderid == 0
           ? 'btn disable-btn'
           : selectMediaFlg
-          ? 'btn green-btn_noTransform'
+          ? 'btn gallery-library-gallery-make-btn-sp'
           : 'btn white-btn',
       ]"
       type="button"
@@ -474,6 +474,27 @@ export default {
 <!-- 固有CSS -->
 <style scoped>
 @media (max-width: 640px) {
+  /* ギャラリー作成ボタン（フォルダが選択した時） */
+  .gallery-library-gallery-make-btn-sp {
+    background-color: #69a5af;
+    border: #69a5af 2px solid !important;
+    font-weight: 600;
+    letter-spacing: 1.3px;
+  }
+  .gallery-library-gallery-make-btn-sp .v-btn__content {
+    color: #fff !important;
+  }
+  .gallery-library-gallery-make-btn-sp {
+    color: #fff !important;
+  }
+  .gallery-library-gallery-make-btn-sp:hover {
+    box-shadow: unset !important;
+    background-color: #69a5af !important;
+    color: #fff !important;
+    opacity: 0.8 !important;
+    transition: 0.4s;
+  }
+
   /* 検索エリア */
   .filter-btn {
     background-color: #fff;

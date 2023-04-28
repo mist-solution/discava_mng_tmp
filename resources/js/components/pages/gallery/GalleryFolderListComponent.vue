@@ -27,14 +27,22 @@
         @change="searchFolder"
       />
     </div>
-    <button :class="
-      [sortNo == 1 
-      ?'btn white-btn gallery-folder-search-sort'
-      :'btn green-btn_noTransform gallery-folder-search-sort']" type="button" @click="sort">
-      <span :class=
-        "[sortNo == 3 
-        ? 'mdi mdi-sort-alphabetical-descending'
-        : 'mdi mdi-sort-alphabetical-ascending']"></span>
+    <button
+      :class="[
+        sortNo == 1
+          ? 'btn white-btn gallery-folder-search-sort'
+          : 'btn green-btn_noTransform gallery-folder-search-sort',
+      ]"
+      type="button"
+      @click="sort"
+    >
+      <span
+        :class="[
+          sortNo == 3
+            ? 'mdi mdi-sort-alphabetical-descending'
+            : 'mdi mdi-sort-alphabetical-ascending',
+        ]"
+      ></span>
     </button>
   </div>
 
@@ -65,13 +73,14 @@
               : 'mdi mdi-folder', // 子フォルダ無し
           ]"
         ></span>
-        <p v-if="!parent_namechange_flg || !item.isOpen" class="folder-name">{{ item.name }}</p>
+        <p v-if="!parent_namechange_flg || !item.isOpen" class="folder-name">
+          {{ item.name }}
+        </p>
         <input
           v-if="item.isOpen && parent_namechange_flg"
           class="gallery-folder-search-input"
           type="search"
           maxlength="30"
-
           hide-details="false"
           v-model="parentfolderTitlechange"
           @change="nameChange(item.id)"
@@ -79,10 +88,9 @@
         <p class="number">{{ item.fileValue }}</p>
       </div>
       <!-- 子フォルダ -->
-      <div v-if="item.isOpen && item.parent_folder_id == 0 && item.id != 0">
+      <div v-for="(subitem, subindex) in folder" :key="subindex">
         <div
-          v-for="(subitem, subindex) in folder"
-          :key="subindex"
+          v-if="item.isOpen && item.parent_folder_id == 0 && item.id != 0"
           :class="[
             subitem.isOpen
               ? 'gallery-sub-folder-show-active'
@@ -99,18 +107,24 @@
               subitem.isShow && subitem.isOpen
                 ? 'mdi mdi-folder-open'
                 : hasChildFolder(subitem.id)
-                ? 'mdi mdi-folder-multiple' // 子フォルダ有り
+                ? 'mdi mdi-folder-multiple' // 孫フォルダ有り
                 : 'mdi mdi-folder',
             ]"
           ></span>
           <p
-            v-if="subitem.parent_folder_id == item.id && (!namechange_flg || !subitem.isOpen)"
+            v-if="
+              subitem.parent_folder_id == item.id &&
+              (!namechange_flg || !subitem.isOpen)
+            "
             class="folder-name"
           >
             {{ subitem.name }}
           </p>
           <input
-            v-if="subitem.parent_folder_id == item.id && !(!namechange_flg || !subitem.isOpen)"
+            v-if="
+              subitem.parent_folder_id == item.id &&
+              !(!namechange_flg || !subitem.isOpen)
+            "
             class="gallery-folder-search-input"
             type="search"
             maxlength="30"
@@ -125,67 +139,79 @@
           >
             {{ subitem.fileValue }}
           </p>
-          <!-- 孫フォルダ -->
-          <div v-if="subitem.isOpen && item.isOpen && item.id != 0 && item.id != subitem.id">
-            <div
-              v-for="(subitem2, subindex2) in folder"
-              :key="subindex2"
-              :class="[
-                subitem2.isOpen
-                  ? 'gallery-sub2-folder-show-active'
-                  : 'gallery-sub2-folder-show',
-              ]"
-              @click.stop="toggleSubFolder2(subitem2)"
-            >
-              <span
-                v-if="subitem.isShow && subitem.isOpen && subitem2.parent_folder_id == subitem.id"
-                :class="[
-                  subitem2.isShow && subitem2.isOpen
-                    ? 'mdi mdi-folder-open'
-                    : 'mdi mdi-folder',
-                ]"
-              ></span>
-              <p
-                v-if="subitem2.parent_folder_id == subitem.id && (!namechange_flg2 || !subitem2.isOpen)"
-                class="folder-name"
-              >
-                {{ subitem2.name }}
-              </p>
-              <input
-                v-if="subitem2.parent_folder_id == subitem.id && !(!namechange_flg2 || !subitem2.isOpen)"
-                class="gallery-folder-search-input"
-                type="search"
-                maxlength="30"
-                hide-details="false"
-                v-model="folderTitlechange"
-                @change="nameChange(subitem2.id)"
-              />
-              <p
-                v-if="subitem.isShow && subitem2.parent_folder_id == subitem.id"
-                class="number"
-              >
-                {{ subitem2.fileValue }}
-              </p>
-            </div>
-            <div
+        </div>
+        <!-- 孫フォルダ -->
+        <div v-for="(subitem2, subindex2) in folder" :key="subindex2">
+          <div
+            v-if="
+              subitem.isOpen &&
+              item.isOpen &&
+              item.id != 0 &&
+              item.id != subitem.id &&
+              subitem.parent_folder_id != 0 &&
+              subitem.id != 0
+            "
+            :class="[
+              subitem2.isOpen
+                ? 'gallery-sub2-folder-show-active'
+                : 'gallery-sub2-folder-show',
+            ]"
+            @click.stop="toggleSubFolder2(subitem2)"
+          >
+            <span
               v-if="
                 subitem.isShow &&
-                regist_flg2 
+                subitem.isOpen &&
+                subitem2.parent_folder_id == subitem.id
               "
-              class="gallery-sub2-folder-show"
-              
+              :class="[
+                subitem2.isShow && subitem2.isOpen
+                  ? 'mdi mdi-folder-open'
+                  : 'mdi mdi-folder',
+              ]"
+            ></span>
+            <p
+              v-if="
+                subitem2.parent_folder_id == subitem.id &&
+                (!namechange_flg2 || !subitem2.isOpen)
+              "
+              class="folder-name"
             >
-              <span class="mdi mdi-folder"></span>
-              <input
-                class="gallery-folder-search-input"
-                type="search"
-                maxlength="30"
-                hide-details="false"
-                v-model="folderTitle"
-                @change="createFolder(subitem.id)"
-              />
-            </div>
-          </div> 
+              {{ subitem2.name }}
+            </p>
+            <input
+              v-if="
+                subitem2.parent_folder_id == subitem.id &&
+                !(!namechange_flg2 || !subitem2.isOpen)
+              "
+              class="gallery-folder-search-input"
+              type="search"
+              maxlength="30"
+              hide-details="false"
+              v-model="folderTitlechange"
+              @change="nameChange(subitem2.id)"
+            />
+            <p
+              v-if="subitem.isShow && subitem2.parent_folder_id == subitem.id"
+              class="number"
+            >
+              {{ subitem2.fileValue }}
+            </p>
+          </div>
+          <div
+            v-if="subitem.isShow && regist_flg2"
+            class="gallery-sub2-folder-show"
+          >
+            <span class="mdi mdi-folder"></span>
+            <input
+              class="gallery-folder-search-input"
+              type="search"
+              maxlength="30"
+              hide-details="false"
+              v-model="folderTitle"
+              @change="createFolder(subitem.id)"
+            />
+          </div>
         </div>
         <div
           v-if="
@@ -196,7 +222,6 @@
             index !== 0
           "
           class="gallery-sub-folder-show"
-          
         >
           <span class="mdi mdi-folder"></span>
           <input
@@ -230,8 +255,8 @@
 
     <!-- ボタン -->
     <div class="gallery-folder-edit-btn-container">
-      <button 
-        class="btn white-btn gallery-folder-name-edit-btn" 
+      <button
+        class="btn white-btn gallery-folder-name-edit-btn"
         type="button"
         @click="changeNameBtn()"
       >
@@ -255,7 +280,7 @@ export default {
   components: {},
   data() {
     return {
-      prefolder:[
+      prefolder: [
         {
           id: -1,
           parent_folder_id: 0,
@@ -295,29 +320,30 @@ export default {
     };
   },
   methods: {
-    ...mapActions('authority', ['fetchAllAuthority']),
+    ...mapActions("authority", ["fetchAllAuthority"]),
 
     // 親フォルダか判断
     isParentFolder() {
       let total = 0;
       this.folder.forEach((folderItem) => {
-        if(folderItem.id === -1){
+        if (folderItem.id === -1) {
           folderItem.isShow = true;
-          for(let i = 2; i < this.folder.length; i++){
+          for (let i = 2; i < this.folder.length; i++) {
             total = total + this.folder[i].fileValue;
           }
           folderItem.fileValue = total + this.mibunrui;
-        }else if(folderItem.id === 0){
+        } else if (folderItem.id === 0) {
           folderItem.isShow = true;
           folderItem.fileValue = this.mibunrui;
-        }else if(folderItem.parent_folder_id === 0){
+        } else if (folderItem.parent_folder_id === 0) {
           folderItem.isShow = true;
-          for(let i = 0; i < this.folder.length; i++){
-            if(this.folder[i].parent_folder_id == folderItem.id){
-              folderItem.fileValue = folderItem.fileValue + this.folder[i].fileValue;
+          for (let i = 0; i < this.folder.length; i++) {
+            if (this.folder[i].parent_folder_id == folderItem.id) {
+              folderItem.fileValue =
+                folderItem.fileValue + this.folder[i].fileValue;
             }
           }
-        }else{
+        } else {
           folderItem.isShow = false;
         }
       });
@@ -329,13 +355,13 @@ export default {
       this.namechange_flg = false;
       this.namechange_flg2 = false;
       // 親フォルダを押下
-      if(this.parent_namechange_flg && item.isOpen){
-      }else{
+      if (this.parent_namechange_flg && item.isOpen) {
+      } else {
         item.isOpen = !item.isOpen;
         this.parent_namechange_flg = false;
-        if(item.isOpen){
+        if (item.isOpen) {
           this.selected_kaisou = 1;
-        }else{
+        } else {
           this.selected_kaisou = 0;
           this.$store.dispatch("library/setSelectedFolder", null);
         }
@@ -383,8 +409,8 @@ export default {
     toggleSubFolder(subitem) {
       this.$store.dispatch("library/setSelectedFolder", subitem.id);
       this.selected_kaisou = 2;
-      if(this.namechange_flg && subitem.isOpen){
-      }else{
+      if (this.namechange_flg && subitem.isOpen) {
+      } else {
         // 子フォルダを押下
         subitem.isOpen = !subitem.isOpen;
         this.namechange_flg = false;
@@ -392,7 +418,10 @@ export default {
       this.parent_namechange_flg = false;
       // 押下されない場合，isOpen = false
       this.folder.forEach((subfolderItem) => {
-        if (subfolderItem !== subitem && subfolderItem.id !== subitem.parent_folder_id) {
+        if (
+          subfolderItem !== subitem &&
+          subfolderItem.id !== subitem.parent_folder_id
+        ) {
           subfolderItem.isOpen = false;
         }
       });
@@ -425,8 +454,8 @@ export default {
     // 孫フォルダクリック操作
     toggleSubFolder2(subitem2) {
       this.$store.dispatch("library/setSelectedFolder", subitem2.id);
-      if(this.namechange_flg && subitem2.isOpen){
-      }else{
+      if (this.namechange_flg && subitem2.isOpen) {
+      } else {
         // 孫フォルダを押下
         subitem2.isOpen = !subitem2.isOpen;
         this.namechange_flg = false;
@@ -434,7 +463,10 @@ export default {
       this.parent_namechange_flg = false;
       // 押下されない場合，isOpen = false
       this.folder.forEach((subfolderItem2) => {
-        if (subfolderItem2 !== subitem2 && subfolderItem2.parent_folder_id !== 0) {
+        if (
+          subfolderItem2 !== subitem2 &&
+          subfolderItem2.parent_folder_id !== 0
+        ) {
           subfolderItem2.isOpen = false;
         }
       });
@@ -442,36 +474,35 @@ export default {
 
     // 子フォルダあるか判断
     hasChildFolder(id) {
-
-      if(id != 0){
+      if (id != 0) {
         return this.folder.some((item) => item.parent_folder_id === id);
-      }else if(id == 0){
+      } else if (id == 0) {
         return false;
       }
     },
 
     // フォルダ一覧取得
     getMediaFolder() {
-      if(this.sortNo == 1){
+      if (this.sortNo == 1) {
         axios.get("api/mediafolder").then((res) => {
           this.folder = res.data.mediaFolder;
-          this.folder = this.prefolder.concat(this.folder)
-          this.mibunrui = res.data.mibunrui
-          this.isParentFolder()
+          this.folder = this.prefolder.concat(this.folder);
+          this.mibunrui = res.data.mibunrui;
+          this.isParentFolder();
         });
-      }else if(this.sortNo == 2){
+      } else if (this.sortNo == 2) {
         axios.get("api/mediafolder/asc").then((res) => {
           this.folder = res.data.mediaFolder;
-          this.folder = this.prefolder.concat(this.folder)
-          this.mibunrui = res.data.mibunrui
-          this.isParentFolder()
+          this.folder = this.prefolder.concat(this.folder);
+          this.mibunrui = res.data.mibunrui;
+          this.isParentFolder();
         });
-      }else if(this.sortNo == 3){
+      } else if (this.sortNo == 3) {
         axios.get("api/mediafolder/desc").then((res) => {
           this.folder = res.data.mediaFolder;
-          this.folder = this.prefolder.concat(this.folder)
-          this.mibunrui = res.data.mibunrui
-          this.isParentFolder()
+          this.folder = this.prefolder.concat(this.folder);
+          this.mibunrui = res.data.mibunrui;
+          this.isParentFolder();
         });
       }
     },
@@ -481,40 +512,40 @@ export default {
       this.namechange_flg = false;
       this.parent_namechange_flg = false;
       this.namechange_flg2 = false;
-      this.regist_flg= false;
-      this.regist_flg2= false;
+      this.regist_flg = false;
+      this.regist_flg2 = false;
       this.parent_folder_regist_flg = false;
-      console.log(this.selected_kaisou)
-      if(this.selected_kaisou == 1){
+      console.log(this.selected_kaisou);
+      if (this.selected_kaisou == 1) {
         this.regist_flg = true;
-      }else if(this.selected_kaisou == 2){
+      } else if (this.selected_kaisou == 2) {
         this.regist_flg2 = true;
-      }else{
+      } else {
         this.parent_folder_regist_flg = true;
       }
     },
 
     //フォルダ追加
-    createFolder(id){
-      if(id == 0){
-        this.selected_kaisou = 0
+    createFolder(id) {
+      if (id == 0) {
+        this.selected_kaisou = 0;
       }
       let formData = new FormData();
       const item = {
         name: encodeURIComponent(this.folderTitle),
-        kaisou: this.selected_kaisou + 1
+        kaisou: this.selected_kaisou + 1,
       };
       formData.append("mediaFolder", JSON.stringify(item));
-      axios.post('api/mediafolder/register/' + id ,
-      formData,
-      { headers: { "Content-type": "multipart/form-data", }})
-      .then((res) => {
-        this.regist_flg = false;
-        this.parent_folder_regist_flg = false;
-        this.folderTitle = "";
-        this.getMediaFolder();
-      });
-
+      axios
+        .post("api/mediafolder/register/" + id, formData, {
+          headers: { "Content-type": "multipart/form-data" },
+        })
+        .then((res) => {
+          this.regist_flg = false;
+          this.parent_folder_regist_flg = false;
+          this.folderTitle = "";
+          this.getMediaFolder();
+        });
     },
 
     //openkeepFolder(id){
@@ -522,36 +553,36 @@ export default {
     //},
 
     //フォルダ削除
-    deleteFolder(){
+    deleteFolder() {
       this.regist_flg = false;
       this.parent_folder_regist_flg = false;
       this.namechange_flg = false;
       this.parent_namechange_flg = false;
-      let parentfolderid = 0
-      let childfolderid = 0
+      let parentfolderid = 0;
+      let childfolderid = 0;
       for (let i = 0; i < this.folder.length; i++) {
         if (this.folder[i].parent_folder_id == 0 && this.folder[i].isOpen) {
           parentfolderid = this.folder[i].id;
         }
       }
-      if(parentfolderid != 0 && parentfolderid != -1){
+      if (parentfolderid != 0 && parentfolderid != -1) {
         for (let i = 0; i < this.folder.length; i++) {
-          if (this.folder[i].parent_folder_id == parentfolderid && this.folder[i].isOpen) {
+          if (
+            this.folder[i].parent_folder_id == parentfolderid &&
+            this.folder[i].isOpen
+          ) {
             childfolderid = this.folder[i].id;
           }
         }
-        if(childfolderid != 0){
-          axios.delete('/api/mediafolder/' + childfolderid)
-          .then((res) => {
+        if (childfolderid != 0) {
+          axios.delete("/api/mediafolder/" + childfolderid).then((res) => {
             this.getMediaFolder();
           });
-        }else{
-          axios.delete('/api/mediafolder/' + parentfolderid)
-          .then((res) => {
-          });
+        } else {
+          axios.delete("/api/mediafolder/" + parentfolderid).then((res) => {});
           for (let i = 0; i < this.folder.length; i++) {
-            if (this.folder[i].parent_folder_id == parentfolderid){
-              axios.delete('/api/mediafolder/' + this.folder[i].id )
+            if (this.folder[i].parent_folder_id == parentfolderid) {
+              axios.delete("/api/mediafolder/" + this.folder[i].id);
             }
           }
         }
@@ -560,121 +591,145 @@ export default {
     },
 
     //フォルダ名称変更ボタン押下
-    changeNameBtn(){
+    changeNameBtn() {
       this.regist_flg = false;
       this.parent_folder_regist_flg = false;
-      let parentfolderid = 0
-      let childfolderid = 0
+      let parentfolderid = 0;
+      let childfolderid = 0;
       for (let i = 0; i < this.folder.length; i++) {
         if (this.folder[i].parent_folder_id == 0 && this.folder[i].isOpen) {
           parentfolderid = this.folder[i].id;
           this.parentfolderTitlechange = this.folder[i].name;
         }
       }
-      if(parentfolderid != 0 && parentfolderid != -1){
+      if (parentfolderid != 0 && parentfolderid != -1) {
         for (let i = 0; i < this.folder.length; i++) {
-          if (this.folder[i].parent_folder_id == parentfolderid && this.folder[i].isOpen) {
+          if (
+            this.folder[i].parent_folder_id == parentfolderid &&
+            this.folder[i].isOpen
+          ) {
             childfolderid = this.folder[i].id;
             this.folderTitlechange = this.folder[i].name;
           }
         }
-        if(childfolderid != 0){
+        if (childfolderid != 0) {
           this.namechange_flg = true;
-        }else{
+        } else {
           this.parent_namechange_flg = true;
         }
       }
     },
 
     //フォルダ名変更
-    nameChange(id){
+    nameChange(id) {
       let formData = new FormData();
-      if(this.namechange_flg){
+      if (this.namechange_flg) {
         const item = {
           name: encodeURIComponent(this.folderTitlechange),
         };
         formData.append("mediaFolder", JSON.stringify(item));
-        axios.post('/api/mediafolder/namechange/' + id ,
-        formData,
-        { headers: { "Content-type": "multipart/form-data", }})
-        .then((res) => {
-          this.namechange_flg = false;
-          this.parent_namechange_flg = false;
-          this.folderTitlechange = "";
-          this.getMediaFolder();
-        });
-      }else if(this.parent_namechange_flg){
+        axios
+          .post("/api/mediafolder/namechange/" + id, formData, {
+            headers: { "Content-type": "multipart/form-data" },
+          })
+          .then((res) => {
+            this.namechange_flg = false;
+            this.parent_namechange_flg = false;
+            this.folderTitlechange = "";
+            this.getMediaFolder();
+          });
+      } else if (this.parent_namechange_flg) {
         const item = {
           name: encodeURIComponent(this.parentfolderTitlechange),
         };
         formData.append("mediaFolder", JSON.stringify(item));
-        axios.post('/api/mediafolder/namechange/' + id ,
-        formData,
-        { headers: { "Content-type": "multipart/form-data", }})
-        .then((res) => {
-          this.namechange_flg = false;
-          this.parent_namechange_flg = false;
-          this.folderTitlechange = "";
-          this.getMediaFolder();
-        });
+        axios
+          .post("/api/mediafolder/namechange/" + id, formData, {
+            headers: { "Content-type": "multipart/form-data" },
+          })
+          .then((res) => {
+            this.namechange_flg = false;
+            this.parent_namechange_flg = false;
+            this.folderTitlechange = "";
+            this.getMediaFolder();
+          });
       }
     },
 
     //ソート機能
-    sort(){
+    sort() {
       this.sortNo = this.sortNo + 1;
-      if(this.sortNo == 4){
+      if (this.sortNo == 4) {
         this.sortNo = 1;
       }
       this.getMediaFolder();
     },
 
     //検索機能
-    searchFolder(){
-      this.getMediaFolder()
+    searchFolder() {
+      this.getMediaFolder();
       this.searchResult = [];
-      if(this.searchWord != ""){
-        for (let i = 0; i < this.folder.length; i++){
-          if((this.folder[i].name).indexOf(this.searchWord) != -1){
-            this.searchResult = this.searchResult.concat([this.folder[i]])
-          }else if(this.folder[i].kaisou == 1 && this.folder[i].id != 0){
-            outer:for (let j = 0; j < this.folder.length; j++){
-              if(this.folder[j].parent_folder_id == this.folder[i].id){
-                if((this.folder[j].name).indexOf(this.searchWord) != -1){
-                  this.searchResult = this.searchResult.concat([this.folder[i]]);
+      if (this.searchWord != "") {
+        for (let i = 0; i < this.folder.length; i++) {
+          if (this.folder[i].name.indexOf(this.searchWord) != -1) {
+            this.searchResult = this.searchResult.concat([this.folder[i]]);
+          } else if (this.folder[i].kaisou == 1 && this.folder[i].id != 0) {
+            outer: for (let j = 0; j < this.folder.length; j++) {
+              if (this.folder[j].parent_folder_id == this.folder[i].id) {
+                if (this.folder[j].name.indexOf(this.searchWord) != -1) {
+                  this.searchResult = this.searchResult.concat([
+                    this.folder[i],
+                  ]);
                   break;
-                }else{
-                  for (let k = 0; k < this.folder.length; k++){
-                    if(this.folder[k].parent_folder_id == this.folder[j].id && (this.folder[k].name).indexOf(this.searchWord) != -1){
-                      this.searchResult = this.searchResult.concat([this.folder[i]]);
+                } else {
+                  for (let k = 0; k < this.folder.length; k++) {
+                    if (
+                      this.folder[k].parent_folder_id == this.folder[j].id &&
+                      this.folder[k].name.indexOf(this.searchWord) != -1
+                    ) {
+                      this.searchResult = this.searchResult.concat([
+                        this.folder[i],
+                      ]);
                       break outer;
                     }
                   }
                 }
               }
             }
-          }else if(this.folder[i].kaisou == 2){
-            for (let j = 0; j < this.folder.length; j++){
-              if(this.folder[i].parent_folder_id == this.folder[j].id && (this.folder[j].name).indexOf(this.searchWord) != -1){
+          } else if (this.folder[i].kaisou == 2) {
+            for (let j = 0; j < this.folder.length; j++) {
+              if (
+                this.folder[i].parent_folder_id == this.folder[j].id &&
+                this.folder[j].name.indexOf(this.searchWord) != -1
+              ) {
                 this.searchResult = this.searchResult.concat([this.folder[i]]);
                 break;
-              }else if(this.folder[j].parent_folder_id == this.folder[i].id){
-                if((this.folder[j].name).indexOf(this.searchWord) != -1){
-                  this.searchResult = this.searchResult.concat([this.folder[i]]);
+              } else if (this.folder[j].parent_folder_id == this.folder[i].id) {
+                if (this.folder[j].name.indexOf(this.searchWord) != -1) {
+                  this.searchResult = this.searchResult.concat([
+                    this.folder[i],
+                  ]);
                   break;
                 }
               }
             }
-          }else if(this.folder[i].kaisou == 3){
-            outer2: for (let j = 0; j < this.folder.length; j++){
-              if(this.folder[i].parent_folder_id == this.folder[j].id){
-                if((this.folder[j].name).indexOf(this.searchWord) != -1){
-                  this.searchResult = this.searchResult.concat([this.folder[i]]);
+          } else if (this.folder[i].kaisou == 3) {
+            outer2: for (let j = 0; j < this.folder.length; j++) {
+              if (this.folder[i].parent_folder_id == this.folder[j].id) {
+                if (this.folder[j].name.indexOf(this.searchWord) != -1) {
+                  this.searchResult = this.searchResult.concat([
+                    this.folder[i],
+                  ]);
                   break;
-                }else{
-                  for(let k = 0; k < this.folder.length; k++){
-                    if(this.folder[j].parent_folder_id == this.folder[k].id && (this.folder[k].name).indexOf(this.searchWord) != -1){
-                      this.searchResult = this.searchResult.concat([this.folder[i]]);
+                } else {
+                  for (let k = 0; k < this.folder.length; k++) {
+                    if (
+                      this.folder[j].parent_folder_id == this.folder[k].id &&
+                      this.folder[k].name.indexOf(this.searchWord) != -1
+                    ) {
+                      this.searchResult = this.searchResult.concat([
+                        this.folder[i],
+                      ]);
                       break outer2;
                     }
                   }
@@ -685,13 +740,13 @@ export default {
         }
         this.folder = this.searchResult;
       }
-    } 
+    },
   },
 
   async mounted() {
     this.getMediaFolder();
     let authority = await this.fetchAllAuthority();
-    if(authority){
+    if (authority) {
       this.create_auth_flg = authority.create_auth_flg;
       this.approval_auth_flg = authority.approval_auth_flg;
     }
@@ -768,6 +823,7 @@ export default {
   height: 48vh;
   padding: 0 7px;
   margin-top: -5px;
+  width: 100%;
 }
 
 @media (min-width: 1450px) {
@@ -883,6 +939,7 @@ export default {
   border-radius: 5px;
   margin-left: 1rem;
   margin-top: -0.3rem;
+  width: 95%;
 }
 .gallery-sub-folder-show-active span {
   color: #69a4af;
@@ -913,7 +970,7 @@ export default {
   font-size: 16px;
   line-height: 2rem;
   margin: 5px 0;
-  margin-left: 1.5rem;
+  margin-left: 3rem;
   margin-top: -0.3rem;
 }
 .gallery-sub2-folder-show span {
@@ -935,7 +992,7 @@ export default {
   line-height: initial;
 }
 
-/* 選択された子フォルダスタイル */
+/* 選択された孫フォルダスタイル */
 .gallery-sub2-folder-show-active {
   display: flex;
   align-items: center;
@@ -948,7 +1005,7 @@ export default {
   border-right: 7px solid #f5f9fa;
   border-left: 7px solid #f5f9fa;
   border-radius: 5px;
-  margin-left: 1rem;
+  margin-left: 2.5rem;
   margin-top: -0.3rem;
 }
 .gallery-sub2-folder-show-active span {

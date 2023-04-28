@@ -727,6 +727,7 @@ export default {
     //ショートコードモーダルを閉じる
     closeDisplayGalleryMediaShortCodeMake() {
       this.displayGalleryMediaShortCodeMake = false;
+      this.closeDisplayGalleryMediaDisplaySetSpModal();
     },
   },
   mounted() {},

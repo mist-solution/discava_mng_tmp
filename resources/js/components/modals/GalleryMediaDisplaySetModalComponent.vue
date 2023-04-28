@@ -503,7 +503,6 @@ export default {
         return this.$props.width;
       },
       set(newVal) {
-        console.log(newVal);
         this.$emit("update:width", newVal);
       },
     },
@@ -723,6 +722,7 @@ export default {
     //ショートコードモーダルを閉じる
     closeDisplayGalleryMediaShortCodeMake() {
       this.displayGalleryMediaShortCodeMake = false;
+      this.closeDisplayGalleryMediaDisplaySetModal();
     },
   },
   mounted() {},

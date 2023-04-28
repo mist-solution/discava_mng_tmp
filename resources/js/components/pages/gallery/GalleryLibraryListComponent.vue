@@ -235,11 +235,13 @@ export default {
         this.$store.state.library.selectedFolder != 0 &&
         this.$store.state.library.selectedFolder != -1
       ) {
-        axios
-          .get("api/mediafolder/" + this.$store.state.library.selectedFolder)
-          .then((res) => {
-            this.GalleryItem = res.data;
-          });
+        if (this.$store.state.library.selectedFolder) {
+          axios
+            .get("api/mediafolder/" + this.$store.state.library.selectedFolder)
+            .then((res) => {
+              this.GalleryItem = res.data;
+            });
+        }
       }
     },
     AddDateBegin() {
@@ -267,6 +269,7 @@ export default {
     //画面表示設定モーダルを閉じる
     closeDisplayGalleryMediaDisplaySet() {
       this.selectMediaFlg = false;
+      this.selectedMedia = [];
       this.displayGalleryMediaDisplaySet = false;
     },
 
@@ -406,7 +409,7 @@ export default {
     GalleryToggle() {
       if (!this.selectMediaFlg) {
         this.selectMediaFlg = true;
-      } else {
+      } else if (this.selectedMedia.length != 0) {
         this.displayGalleryMediaDisplaySet = true;
       }
     },

@@ -201,7 +201,11 @@
                 @change="nameChange(subitem2.id)"
               />
               <p
-                v-if="subitem.isShow && subitem2.parent_folder_id == subitem.id && subitem.parent_folder_id == item.id"
+                v-if="
+                  subitem.isShow &&
+                  subitem2.parent_folder_id == subitem.id &&
+                  subitem.parent_folder_id == item.id
+                "
                 class="number"
               >
                 {{ subitem2.fileValue }}
@@ -253,7 +257,7 @@
             v-model="folderTitle"
             @change="createFolder(item.id)"
           />
-          </div>
+        </div>
       </div>
       <div v-if="parent_folder_regist_flg" class="gallery-folder-show-sp">
         <span class="mdi mdi-folder"></span>
@@ -439,7 +443,10 @@ export default {
           this.selected_kaisou = 2;
         } else {
           this.selected_kaisou = 1;
-          this.$store.dispatch("library/setSelectedFolder", subitem.parent_folder_id);
+          this.$store.dispatch(
+            "library/setSelectedFolder",
+            subitem.parent_folder_id
+          );
         }
       }
       this.parent_namechange_flg = false;
@@ -486,11 +493,14 @@ export default {
       } else {
         // 孫フォルダを押下
         subitem2.isOpen = !subitem2.isOpen;
-         if (subitem2.isOpen) {
+        if (subitem2.isOpen) {
           this.selected_kaisou = 3;
         } else {
           this.selected_kaisou = 2;
-          this.$store.dispatch("library/setSelectedFolder", subitem2.parent_folder_id);
+          this.$store.dispatch(
+            "library/setSelectedFolder",
+            subitem2.parent_folder_id
+          );
         }
         this.namechange_flg2 = false;
       }
@@ -551,12 +561,16 @@ export default {
       this.regist_flg = false;
       this.regist_flg2 = false;
       this.parent_folder_regist_flg = false;
-      if(this.$store.state.library.selectedFolder != 0 && this.$store.state.library.selectedFolder != -1){
+      if (
+        !this.$store.state.library.selectedFolder ||
+        (this.$store.state.library.selectedFolder != 0 &&
+          this.$store.state.library.selectedFolder != -1)
+      ) {
         if (this.selected_kaisou == 1) {
           this.regist_flg = true;
         } else if (this.selected_kaisou == 2) {
           this.regist_flg2 = true;
-        } else if (this.selected_kaisou == 0){
+        } else if (this.selected_kaisou == 0) {
           this.parent_folder_regist_flg = true;
         }
       }
@@ -633,13 +647,18 @@ export default {
       this.regist_flg2 = false;
       this.parent_folder_regist_flg = false;
       for (let i = 0; i < this.folder.length; i++) {
-        if (this.folder[i].id == this.$store.state.library.selectedFolder && this.$store.state.library.selectedFolder && this.folder[i].id != 0 && this.folder[i].id != -1) {
+        if (
+          this.folder[i].id == this.$store.state.library.selectedFolder &&
+          this.$store.state.library.selectedFolder &&
+          this.folder[i].id != 0 &&
+          this.folder[i].id != -1
+        ) {
           this.folderTitlechange = this.folder[i].name;
           if (this.selected_kaisou == 1) {
             this.parent_namechange_flg = true;
-          } else if (this.selected_kaisou == 2){
+          } else if (this.selected_kaisou == 2) {
             this.namechange_flg = true;
-          } else if (this.selected_kaisou == 3){
+          } else if (this.selected_kaisou == 3) {
             this.namechange_flg2 = true;
           }
         }

@@ -3,14 +3,21 @@
   <div class="gallery-title-library">
     <p class="text-subtitle-1 mb-0 pb-0 font-weight-bold">ライブラリ</p>
     <button
-       :class="
-        [selectedfolderid == null || selectedfolderid == -1 || selectedfolderid == 0
+      :class="[
+        selectedfolderid == null ||
+        selectedfolderid == -1 ||
+        selectedfolderid == 0
           ? 'btn disable-btn'
-          :selectMediaFlg
+          : selectMediaFlg
           ? 'btn green-btn_noTransform'
-          : 'btn white-btn']"
+          : 'btn white-btn',
+      ]"
       type="button"
-      :disabled="selectedfolderid == null || selectedfolderid == -1 || selectedfolderid == 0"
+      :disabled="
+        selectedfolderid == null ||
+        selectedfolderid == -1 ||
+        selectedfolderid == 0
+      "
       @click="GalleryToggle()"
       v-if="create_auth_flg"
     >
@@ -82,10 +89,7 @@
         class="d-flex child-flex gallery-library-img-margin-sp"
         cols="4"
       >
-        <div
-          class="btn-group"
-          @click="clickMedia(item,item.selected)"
-        >
+        <div class="btn-group" @click="clickMedia(item, item.selected)">
           <v-img
             :src="'data:image/png;base64,' + item.img_path"
             aspect-ratio="1"
@@ -96,17 +100,13 @@
                 : 'gallery-library-img-sample-sp bg-grey-lighten-2 gallery-library-img-sp'
             "
           >
-           <p v-if="selectMediaFlg && item.selected" class="gallery-library-img-id-sp">{{ item.selectNo }}</p>
+            <p
+              v-if="selectMediaFlg && item.selected"
+              class="gallery-library-img-id-sp"
+            >
+              {{ item.selectNo }}
+            </p>
           </v-img>
-          <!-- 写真ごとローディングアニメ -->
-          <!-- <template v-slot:placeholder>
-            <v-row class="fill-height ma-0" align="center" justify="center">
-              <v-progress-circular
-                indeterminate
-                color="grey-lighten-5"
-              ></v-progress-circular>
-            </v-row>
-          </template> -->
         </div>
       </v-col>
     </v-row>
@@ -176,12 +176,12 @@ export default {
       create_auth_flg: false,
       selectedfolderid: null,
       GalleryItem: "",
-      items: [ 
-        {id: 0, text: "すべてのデータ" },
-        {id: 1, text: "画像データ" },
-        {id: 2, text: "動画データ" },
-        {id: 3, text: "音声データ" },
-        {id: 4, text: "テキストデータ" },
+      items: [
+        { id: 0, text: "すべてのデータ" },
+        { id: 1, text: "画像データ" },
+        { id: 2, text: "動画データ" },
+        { id: 3, text: "音声データ" },
+        { id: 4, text: "テキストデータ" },
       ],
       data_id: null,
       selectedMedia: [],
@@ -214,10 +214,15 @@ export default {
       this.selectedfolderid = this.$store.state.library.selectedFolder;
       this.selectMediaFlg = false;
       this.selectedMedia = [];
-      if(this.$store.state.library.selectedFolder != 0 && this.$store.state.library.selectedFolder != -1){
-        axios.get("api/mediafolder/" + this.$store.state.library.selectedFolder).then((res) => {
-          this.GalleryItem = res.data
-        });
+      if (
+        this.$store.state.library.selectedFolder != 0 &&
+        this.$store.state.library.selectedFolder != -1
+      ) {
+        axios
+          .get("api/mediafolder/" + this.$store.state.library.selectedFolder)
+          .then((res) => {
+            this.GalleryItem = res.data;
+          });
       }
     },
     AddDateBegin() {
@@ -329,7 +334,7 @@ export default {
 
       if (this.file.size > 1000000) {
         // 圧縮画像の生成
-        this.file = await imageCompression(this.file, options)
+        this.file = await imageCompression(this.file, options);
         size = 1000000;
       }
 
@@ -366,11 +371,11 @@ export default {
     //画像編集画面に必要な情報をセット
     setItem(item) {
       this.mediaAttachment = item;
-      this.folderid= item.media_folder_id
+      this.folderid = item.media_folder_id;
     },
 
     //データの種類で検索
-    dataidChange: function(id) {
+    dataidChange: function (id) {
       const postData = {
         id: id,
       };
@@ -379,17 +384,17 @@ export default {
     },
 
     //ギャラリー作成ボタン押下
-    GalleryToggle(){
-      if(!this.selectMediaFlg){
-        this.selectMediaFlg = true
-      }else{
-        this.displayGalleryMediaDisplaySetSp = true
+    GalleryToggle() {
+      if (!this.selectMediaFlg) {
+        this.selectMediaFlg = true;
+      } else {
+        this.displayGalleryMediaDisplaySetSp = true;
       }
     },
 
     //画像クリック
-    clickMedia(item,selected){
-      if(!this.selectMediaFlg){
+    clickMedia(item, selected) {
+      if (!this.selectMediaFlg) {
         this.folder2 = [];
         axios.get("api/mediafolder").then((res) => {
           this.folder = res.data.mediaFolder;
@@ -400,19 +405,20 @@ export default {
             kaisou: 1,
           };
           let number = 1;
-          for(let i = 0; i < this.folder.length;i++){
-            if(this.folder[i].kaisou == 1){
-              this.folder2[number] = this.folder[i]
-              number = number + 1
-              for(let j = 0; j < this.folder.length;j++){
-                if(this.folder[j].parent_folder_id == this.folder[i].id){
-                  this.folder2[number] = this.folder[j]
-                  this.folder2[number].name = "　" + this.folder2[number].name
+          for (let i = 0; i < this.folder.length; i++) {
+            if (this.folder[i].kaisou == 1) {
+              this.folder2[number] = this.folder[i];
+              number = number + 1;
+              for (let j = 0; j < this.folder.length; j++) {
+                if (this.folder[j].parent_folder_id == this.folder[i].id) {
+                  this.folder2[number] = this.folder[j];
+                  this.folder2[number].name = "　" + this.folder2[number].name;
                   number = number + 1;
-                  for(let k = 0; k < this.folder.length;k++){
-                    if(this.folder[k].parent_folder_id == this.folder[j].id){
-                      this.folder2[number] = this.folder[k]
-                      this.folder2[number].name = "　　" + this.folder2[number].name
+                  for (let k = 0; k < this.folder.length; k++) {
+                    if (this.folder[k].parent_folder_id == this.folder[j].id) {
+                      this.folder2[number] = this.folder[k];
+                      this.folder2[number].name =
+                        "　　" + this.folder2[number].name;
                       number = number + 1;
                     }
                   }
@@ -421,29 +427,33 @@ export default {
             }
           }
         });
-        this.setItem(item)
-        this.displayGalleryMediaSet = true
-      }else if(!selected){
-        item.selected = true
-        item.selectNo = this.selectedMedia.length + 1
-        this.selectedMedia[this.selectedMedia.length] = item
-      }else{
-        item.selected = false
-        for(let i = 0;i < this.selectedMedia.length;i++){
-          if(this.selectedMedia[i].id == item.id){
-            for(let j = i; j < this.selectedMedia.length; j++){
-              if(this.selectedMedia.length != 1 && j < (this.selectedMedia.length - 1)){
-                this.selectedMedia[j] = this.selectedMedia[j + 1]
-                this.selectedMedia[j].selectNo = this.selectedMedia[j].selectNo - 1
-              }else{
-                this.selectedMedia.pop()
+        this.setItem(item);
+        this.displayGalleryMediaSet = true;
+      } else if (!selected) {
+        item.selected = true;
+        item.selectNo = this.selectedMedia.length + 1;
+        this.selectedMedia[this.selectedMedia.length] = item;
+      } else {
+        item.selected = false;
+        for (let i = 0; i < this.selectedMedia.length; i++) {
+          if (this.selectedMedia[i].id == item.id) {
+            for (let j = i; j < this.selectedMedia.length; j++) {
+              if (
+                this.selectedMedia.length != 1 &&
+                j < this.selectedMedia.length - 1
+              ) {
+                this.selectedMedia[j] = this.selectedMedia[j + 1];
+                this.selectedMedia[j].selectNo =
+                  this.selectedMedia[j].selectNo - 1;
+              } else {
+                this.selectedMedia.pop();
               }
             }
             break;
           }
         }
       }
-    }
+    },
   },
 
   async mounted() {
@@ -533,7 +543,7 @@ export default {
     transition-duration: 0.3s;
   }
 
-  .gallery-library-img-id-sp{
+  .gallery-library-img-id-sp {
     color: #fff;
     background-color: #69a5af;
     border: #fff 2px solid;
@@ -552,7 +562,7 @@ export default {
     background-color: #f7f7f7;
   }
 
-  .disable_btn{
+  .disable_btn {
     border-radius: 5px;
     background-color: transparent;
     color: rgb(172, 171, 171);

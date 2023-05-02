@@ -252,7 +252,6 @@ export default {
     //画面表示設定モーダルを閉じる
     closeDisplayGalleryMediaDisplaySetSp() {
       this.selectMediaFlg = false;
-      this.selectedMedia = [];
       this.displayGalleryMediaDisplaySetSp = false;
     },
 

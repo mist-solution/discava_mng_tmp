@@ -562,7 +562,7 @@ export default {
       this.regist_flg = false;
       this.regist_flg2 = false;
       this.parent_folder_regist_flg = false;
-      console.log(this.$store.state.library.selectedFolder)
+      console.log(this.$store.state.library.selectedFolder);
       if (this.$store.state.library.selectedFolder) {
         if (
           this.$store.state.library.selectedFolder != 0 &&
@@ -580,7 +580,7 @@ export default {
         !this.$store.state.library.selectedFolder &&
         this.$store.state.library.selectedFolder !== 0 &&
         (this.$store.state.library.selectedFolder == "" ||
-         this.$store.state.library.selectedFolder == null)
+          this.$store.state.library.selectedFolder == null)
       ) {
         this.parent_folder_regist_flg = true;
       }
@@ -858,15 +858,16 @@ export default {
 .gallery-folder-show-area {
   overflow-x: hidden;
   overflow-y: auto !important;
-  height: 48vh;
-  padding: 0 7px;
+  height: 52vh;
+  padding: 0px 7px 20px 7px;
   margin-top: -5px;
   width: 100%;
 }
 
 @media (min-width: 1450px) {
   .gallery-folder-show-area {
-    height: 53vh;
+    padding: 0px 7px 30px 7px;
+    height: 55vh;
   }
 }
 .gallery-folder-show {
@@ -1068,8 +1069,9 @@ export default {
 
 /* 名称変更・削除バタン */
 .gallery-folder-edit-btn-area {
-  position: initial;
+  position: inherit;
   margin-top: -35px;
+  background-color: #fff;
 }
 @media (max-width: 900px) {
   .gallery-folder-edit-btn-area {

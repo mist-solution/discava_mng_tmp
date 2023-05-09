@@ -870,6 +870,7 @@ export default {
   /* タイトルエリア（追加ボタン） */
   .gallery-folder-add-btn-sp {
     width: 20%;
+    font-size: 18px;
   }
 
   /* 親フォルダ名初期表示スタイル */

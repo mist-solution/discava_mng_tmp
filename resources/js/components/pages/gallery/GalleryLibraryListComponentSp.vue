@@ -318,7 +318,9 @@ export default {
 
     //画像追加
     async readImage() {
-      let name = "";
+      let name;
+      let type;
+      let size;
       const inputImage = document.getElementById("image");
       if (inputImage.files.length === 0) {
         return;

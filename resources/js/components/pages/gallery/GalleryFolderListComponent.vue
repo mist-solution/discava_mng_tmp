@@ -906,7 +906,7 @@ export default {
   color: #69a4af;
   font-size: 16px;
   line-height: 2rem;
-  margin: 5px -7px;
+  margin: 0px -7px;
   background-color: #f5f9fa;
   border-right: 7px solid #f5f9fa;
   border-left: 7px solid #f5f9fa;
@@ -977,13 +977,13 @@ export default {
   border-left: 7px solid #f5f9fa;
   border-radius: 5px;
   margin-left: 1.1rem;
-  margin-top: -4.5px;
+  /* margin-top: -4.5px; */
   width: 95%;
 }
 @media (min-width: 1450px) {
   .gallery-sub-folder-show-active {
     margin-left: 1.2rem;
-    margin-top: -4px;
+    /* margin-top: -4px; */
     width: 96.1%;
   }
 }
@@ -1053,7 +1053,7 @@ export default {
   border-left: 7px solid #f5f9fa;
   border-radius: 5px;
   margin-left: 2.5rem;
-  margin-top: -0.3rem;
+  margin-top: -4px;
 }
 .gallery-sub2-folder-show-active span {
   color: #69a4af;

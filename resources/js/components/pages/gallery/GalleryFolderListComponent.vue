@@ -976,9 +976,16 @@ export default {
   border-right: 7px solid #f5f9fa;
   border-left: 7px solid #f5f9fa;
   border-radius: 5px;
-  margin-left: 1rem;
-  margin-top: -0.3rem;
+  margin-left: 1.1rem;
+  margin-top: -4.5px;
   width: 95%;
+}
+@media (min-width: 1450px) {
+  .gallery-sub-folder-show-active {
+    margin-left: 1.2rem;
+    margin-top: -4px;
+    width: 96.1%;
+  }
 }
 .gallery-sub-folder-show-active span {
   color: #69a4af;
@@ -998,6 +1005,7 @@ export default {
   padding: 5px;
   font-size: 12px;
   line-height: initial;
+  margin-right: 1px;
 }
 
 /* 孫フォルダ名初期表示スタイル */

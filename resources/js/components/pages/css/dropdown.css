@@ -29,6 +29,9 @@
 .gallery-library-search-select>div>div>div>.v-field__input {
     margin-top: -0.5rem;
 }
+.gallery-library-search-select>div>div>div>div> .v-select__selection {
+    top: 0.5rem;
+}
 
 .gallery-library-search-datepicker>div>.dp__input_wrap {
     top: -0.5rem;

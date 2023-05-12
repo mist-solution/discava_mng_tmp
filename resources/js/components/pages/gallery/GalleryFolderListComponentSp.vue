@@ -312,7 +312,7 @@ export default {
           id: -1,
           parent_folder_id: 0,
           name: "全てのファイル",
-          kaiso: 1,
+          kaisou: 1,
           isShow: false,
           isOpen: false,
           fileValue: 0,
@@ -321,7 +321,7 @@ export default {
           id: 0,
           parent_folder_id: 0,
           name: "未分類",
-          kaiso: 1,
+          kaisou: 1,
           isShow: false,
           isOpen: false,
           fileValue: 0,
@@ -589,7 +589,7 @@ export default {
         !this.$store.state.library.selectedFolder &&
         this.$store.state.library.selectedFolder !== 0 &&
         (this.$store.state.library.selectedFolder == "" ||
-         this.$store.state.library.selectedFolder == null)
+          this.$store.state.library.selectedFolder == null)
       ) {
         this.parent_folder_regist_flg = true;
       }

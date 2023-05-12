@@ -533,29 +533,29 @@ export default {
     hasChildFolder(id) {
       if (id != 0) {
         return this.folder.some((item) => item.parent_folder_id === id);
-      } else if (id == 0) {
+      } else if (id === 0 || id === -1) {
         return false;
       }
     },
 
     // フォルダ一覧取得
-    getMediaFolder() {
+    getMediaFolder: async function() {
       if (this.sortNo == 1) {
-        axios.get("api/mediafolder").then((res) => {
+        await axios.get("api/mediafolder").then((res) => {
           this.folder = res.data.mediaFolder;
           this.folder = this.prefolder.concat(this.folder);
           this.mibunrui = res.data.mibunrui;
           this.isParentFolder();
         });
       } else if (this.sortNo == 2) {
-        axios.get("api/mediafolder/asc").then((res) => {
+        await axios.get("api/mediafolder/asc").then((res) => {
           this.folder = res.data.mediaFolder;
           this.folder = this.prefolder.concat(this.folder);
           this.mibunrui = res.data.mibunrui;
           this.isParentFolder();
         });
       } else if (this.sortNo == 3) {
-        axios.get("api/mediafolder/desc").then((res) => {
+        await axios.get("api/mediafolder/desc").then((res) => {
           this.folder = res.data.mediaFolder;
           this.folder = this.prefolder.concat(this.folder);
           this.mibunrui = res.data.mibunrui;
@@ -713,8 +713,8 @@ export default {
     },
 
     //検索機能
-    searchFolder() {
-      this.getMediaFolder();
+    searchFolder: async function() {
+      await this.getMediaFolder();
       this.searchResult = [];
       if (this.searchWord != "") {
         for (let i = 0; i < this.folder.length; i++) {
@@ -786,6 +786,7 @@ export default {
           }
         }
         this.folder = this.searchResult;
+        this.$store.dispatch("library/setSelectedFolder", null);
       }
     },
   },

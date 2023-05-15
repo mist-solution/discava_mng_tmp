@@ -617,7 +617,7 @@ export default {
       if (this.$store.state.library.selectedFolder) {
         if (
           this.$store.state.library.selectedFolder != 0 &&
-          this.$store.state.library.selectedFolder != 1
+          this.$store.state.library.selectedFolder != -1
         ) {
           axios.delete(
             "/api/mediafolder/" + this.$store.state.library.selectedFolder

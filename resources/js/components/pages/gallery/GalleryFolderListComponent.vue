@@ -88,9 +88,18 @@
         <p class="number">{{ item.fileValue }}</p>
       </div>
       <!-- 子フォルダ -->
-      <div v-for="(subitem, subindex) in folder" :key="subindex">
+      <div
+        v-show="hasChildFolder(item.id)"
+        v-for="(subitem, subindex) in folder"
+        :key="subindex"
+      >
         <div
-          v-if="item.isOpen && item.parent_folder_id == 0 && item.id != 0"
+          v-if="
+            item.isOpen &&
+            item.parent_folder_id == 0 &&
+            item.id >= 1 &&
+            subitem.parent_folder_id == item.id
+          "
           :class="[
             subitem.isOpen
               ? 'gallery-sub-folder-show-active'
@@ -138,15 +147,18 @@
           </p>
         </div>
         <!-- 孫フォルダ -->
-        <div v-for="(subitem2, subindex2) in folder" :key="subindex2">
+        <div
+          v-show="hasChildFolder(subitem.id)"
+          v-for="(subitem2, subindex2) in folder"
+          :key="subindex2"
+        >
           <div
             v-if="
-              subitem.isOpen &&
               item.isOpen &&
-              item.id != 0 &&
-              item.id != subitem.id &&
-              subitem.parent_folder_id != 0 &&
-              subitem.id != 0
+              subitem.isOpen &&
+              item.id >= 1 &&
+              item.id == subitem.parent_folder_id &&
+              subitem2.parent_folder_id == subitem.id
             "
             :class="[
               subitem2.isOpen
@@ -204,6 +216,7 @@
             </p>
           </div>
         </div>
+        <!-- 孫フォルダを追加 -->
         <div
           v-if="
             item.isShow &&
@@ -230,6 +243,7 @@
           />
         </div>
       </div>
+      <!-- 子フォルダを追加 -->
       <div
         v-if="
           item.isShow &&
@@ -253,6 +267,7 @@
         />
       </div>
     </div>
+    <!-- 親フォルダを追加 -->
     <div v-if="parent_folder_regist_flg" class="gallery-folder-show">
       <span class="mdi mdi-folder"></span>
       <input
@@ -521,7 +536,7 @@ export default {
 
     // 子フォルダあるか判断
     hasChildFolder(id) {
-      if (id != 0) {
+      if (id >= 1) {
         return this.folder.some((item) => item.parent_folder_id === id);
       } else if (id === 0 || id === -1) {
         return false;
@@ -847,7 +862,6 @@ export default {
   padding: 0px 5px;
 }
 
-/* 親フォルダ名初期表示スタイル */
 .gallery-folder-show-area {
   overflow-x: hidden;
   overflow-y: auto !important;
@@ -863,6 +877,8 @@ export default {
     height: 55vh;
   }
 }
+
+/* 親フォルダ名初期表示スタイル */
 .gallery-folder-show {
   display: flex;
   align-items: center;
@@ -870,7 +886,7 @@ export default {
   color: #9f9f9f;
   font-size: 16px;
   line-height: 2rem;
-  margin: 5px 0;
+  margin: 5px 0px 0px 0px;
 }
 .gallery-folder-show span {
   color: #9f9f9f;
@@ -899,7 +915,7 @@ export default {
   color: #69a4af;
   font-size: 16px;
   line-height: 2rem;
-  margin: 0px -7px;
+  margin: 5px -7px 0px -7px;
   background-color: #f5f9fa;
   border-right: 7px solid #f5f9fa;
   border-left: 7px solid #f5f9fa;
@@ -933,9 +949,8 @@ export default {
   color: #9f9f9f;
   font-size: 16px;
   line-height: 2rem;
-  margin: 5px 0;
+  margin: 5px 0px 0px 0px;
   margin-left: 1.5rem;
-  margin-top: -0.3rem;
 }
 .gallery-sub-folder-show span {
   color: #9f9f9f;
@@ -964,14 +979,13 @@ export default {
   color: #69a4af;
   font-size: 16px;
   line-height: 2rem;
-  margin: 5px -30px;
+  margin: 5px -7px 0px -7px;
   background-color: #f5f9fa;
   border-right: 7px solid #f5f9fa;
   border-left: 7px solid #f5f9fa;
   border-radius: 5px;
-  margin-left: 1.1rem;
-  /* margin-top: -4.5px; */
-  width: 95%;
+  margin-left: calc(1.5rem - 7px);
+  margin-right: -7px;
 }
 @media (min-width: 1450px) {
   .gallery-sub-folder-show-active {
@@ -1009,9 +1023,8 @@ export default {
   color: #9f9f9f;
   font-size: 16px;
   line-height: 2rem;
-  margin: 5px 0;
+  margin: 5px 0px 0px 0px;
   margin-left: 3rem;
-  margin-top: -0.3rem;
 }
 .gallery-sub2-folder-show span {
   color: #9f9f9f;
@@ -1040,13 +1053,12 @@ export default {
   color: #69a4af;
   font-size: 16px;
   line-height: 2rem;
-  margin: 5px -7px;
+  margin: 5px -7px 0px -7px;
   background-color: #f5f9fa;
   border-right: 7px solid #f5f9fa;
   border-left: 7px solid #f5f9fa;
   border-radius: 5px;
-  margin-left: 2.5rem;
-  margin-top: -4px;
+  margin-left: calc(3rem - 7px);
 }
 .gallery-sub2-folder-show-active span {
   color: #69a4af;

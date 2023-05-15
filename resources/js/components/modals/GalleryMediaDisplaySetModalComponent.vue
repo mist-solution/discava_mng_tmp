@@ -285,7 +285,6 @@
                   type="text"
                   hide-details="false"
                   class="gallery-mediaDisplaySet-input"
-                  @change="selectColor"
                   v-model="frame_colorModel"
                 />
               </div>
@@ -691,20 +690,23 @@ export default {
     selectColor() {
       const colorPickerInput = document.getElementById("colorPicker");
       const colorInput = document.getElementById("colorInput");
+      let self = this;
 
+      // テキストボックスで入力したcolor codeをカラーピッカーに表示
       colorInput.addEventListener("input", function () {
         const value = colorInput.value;
         // color codeのバリデーション
         if (!/^[0-9a-fA-F]{6}$/.test(value)) {
           return;
         }
-        // color codeを取得するとspanで表示
+        // color codeを取得するとカラーピッカーに表示
         colorPickerInput.value = "#" + value;
       });
 
+      // カラーピッカーで選択したcolor codeをテキストボックスに表示
       colorPickerInput.addEventListener("change", function () {
         colorInput.value = colorPickerInput.value.replace("#", "");
-        this.frame_colorModel = colorInput.value;
+        self.frame_colorModel = colorInput.value;
       });
     },
 

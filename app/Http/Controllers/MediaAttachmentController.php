@@ -12,7 +12,8 @@ use Storage;
 class MediaAttachmentController extends Controller
 {
     // 一覧取得
-    public function getMediaAttachment(Request $request){
+    public function getMediaAttachment(Request $request)
+    {
 
 
         $searchFileID = $request->input('searchFileID');
@@ -35,11 +36,11 @@ class MediaAttachmentController extends Controller
         }
 
         return $mediaAttachment;
-
     }
 
     //画像追加
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $regist = new MediaAttachment();
         $regist['add_account'] = Auth::user()->id;
         $regist['upd_account'] = Auth::user()->id;
@@ -57,8 +58,8 @@ class MediaAttachmentController extends Controller
 
         $regist['img_fileformat'] = $mediaAttachment['img_fileformat'];
         $regist['img_filesize'] = $mediaAttachment['img_filesize'];
-        $regist['img_width'] = 0;
-        $regist['img_height'] = 0;
+        $regist['img_width'] = $mediaAttachment['img_width'];
+        $regist['img_height'] = $mediaAttachment['img_height'];
         $regist['img_path'] = "";
 
         $regist->save();
@@ -69,7 +70,6 @@ class MediaAttachmentController extends Controller
         $regist->save();
 
         return $regist;
-
     }
 
     //削除

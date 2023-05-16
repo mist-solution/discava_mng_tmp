@@ -5,7 +5,7 @@
       <v-row>
         <v-col class="d-flex justify-end">
           <button
-            @click="(closeDisplayGalleryMediaSetModal(),edit_img_flg = false)"
+            @click="closeDisplayGalleryMediaSetModal(), (edit_img_flg = false)"
             class="gallery-mediaSet-close-btn"
             type="button"
           >
@@ -22,8 +22,20 @@
             @mouseleave.prevent="(showEditBtn = false), (showDeleteBtn = false)"
           >
             <v-col>
-              <img v-if="!edit_img_flg" :src=" 'data:image/png;base64,' + item.img_path" cover class="gallery-mediaSet-img">
-              <img v-if="edit_img_flg" :src=" 'data:image/png;base64,' + crop_img " cover class="gallery-mediaSet-img">
+              <img
+                v-if="!edit_img_flg"
+                :src="'data:image/png;base64,' + item.img_path"
+                cover
+                class="gallery-mediaSet-img"
+                :alt="item.img_alt == null ? item.img_filename : item.img_alt"
+              />
+              <img
+                v-if="edit_img_flg"
+                :src="'data:image/png;base64,' + crop_img"
+                cover
+                class="gallery-mediaSet-img"
+                :alt="item.img_alt == null ? item.img_filename : item.img_alt"
+              />
               <!-- 編集ボタン -->
               <span
                 v-if="showEditBtn && approval_auth_flg"
@@ -73,7 +85,9 @@
                 >
               </v-col>
               <v-col cols="3">
-                <span class="gallery-mediaSet-infomation-content">{{ item.img_fileformat }}</span>
+                <span class="gallery-mediaSet-infomation-content">
+                  {{ item.img_fileformat }}
+                </span>
               </v-col>
               <!-- 画像詳細内容（右1）　アップロードした人 -->
               <v-col cols="3">
@@ -82,9 +96,9 @@
                 </span>
               </v-col>
               <v-col cols="3">
-                <span class="gallery-mediaSet-infomation-content"
-                  >{{ item.add_account.name }}</span
-                >
+                <span class="gallery-mediaSet-infomation-content">
+                  {{ item.add_account.name }}
+                </span>
               </v-col>
             </v-row>
             <v-row class="gallery-mediaSet-infomation-area">
@@ -95,7 +109,9 @@
                 >
               </v-col>
               <v-col cols="3">
-                <span class="gallery-mediaSet-infomation-content">{{ Math.round(item.img_filesize/1000) }}KB</span>
+                <span class="gallery-mediaSet-infomation-content">
+                  {{ Math.round(item.img_filesize / 1000) }}KB
+                </span>
               </v-col>
               <!-- 画像詳細内容（右2）　アップロード日 -->
               <v-col cols="3">
@@ -104,9 +120,9 @@
                 </span>
               </v-col>
               <v-col cols="3">
-                <span class="gallery-mediaSet-infomation-content"
-                  >{{ format(item.created_at) }}</span
-                >
+                <span class="gallery-mediaSet-infomation-content">
+                  {{ format(item.created_at) }}
+                </span>
               </v-col>
             </v-row>
             <v-row class="gallery-mediaSet-infomation-area">
@@ -124,9 +140,9 @@
                 <span class="gallery-mediaSet-infomation-name">更新日</span>
               </v-col>
               <v-col cols="3">
-                <span class="gallery-mediaSet-infomation-content"
-                  >{{ format(item.updated_at) }}</span
-                >
+                <span class="gallery-mediaSet-infomation-content">
+                  {{ format(item.updated_at) }}
+                </span>
               </v-col>
             </v-row>
           </div>
@@ -142,7 +158,9 @@
                 >
               </v-col>
               <v-col cols="6">
-                <span class="gallery-mediaSet-infomation-content">{{ item.img_fileformat }}</span>
+                <span class="gallery-mediaSet-infomation-content">
+                  {{ item.img_fileformat }}
+                </span>
               </v-col>
             </v-row>
             <v-row class="gallery-mediaSet-infomation-area">
@@ -153,7 +171,9 @@
                 >
               </v-col>
               <v-col cols="6">
-                <span class="gallery-mediaSet-infomation-content">{{ Math.round(item.img_filesize/1000) }}KB</span>
+                <span class="gallery-mediaSet-infomation-content">
+                  {{ Math.round(item.img_filesize / 1000) }}KB
+                </span>
               </v-col>
             </v-row>
             <v-row class="gallery-mediaSet-infomation-area">
@@ -175,9 +195,9 @@
                 </span>
               </v-col>
               <v-col cols="6">
-                <span class="gallery-mediaSet-infomation-content"
-                  >{{ item.add_account.name }}</span
-                >
+                <span class="gallery-mediaSet-infomation-content">
+                  {{ item.add_account.name }}
+                </span>
               </v-col>
             </v-row>
             <v-row class="gallery-mediaSet-infomation-area">
@@ -188,9 +208,9 @@
                 >
               </v-col>
               <v-col cols="6">
-                <span class="gallery-mediaSet-infomation-content"
-                  >{{ format(item.created_at) }}</span
-                >
+                <span class="gallery-mediaSet-infomation-content">
+                  {{ format(item.created_at) }}
+                </span>
               </v-col>
             </v-row>
             <v-row class="gallery-mediaSet-infomation-area">
@@ -199,9 +219,9 @@
                 <span class="gallery-mediaSet-infomation-name">更新日</span>
               </v-col>
               <v-col cols="6">
-                <span class="gallery-mediaSet-infomation-content"
-                  >{{ format(item.updated_at) }}</span
-                >
+                <span class="gallery-mediaSet-infomation-content">
+                  {{ format(item.updated_at) }}
+                </span>
               </v-col>
             </v-row>
           </div>
@@ -265,7 +285,7 @@
                   hide-details="false"
                   disabled
                   class="gallery-mediaSet-edit-input-disable"
-                  value="xxxxx"
+                  :value="showUpdatePath(item)"
                 />
               </v-col>
             </v-row>
@@ -330,7 +350,7 @@
                   hide-details="false"
                   disabled
                   class="gallery-mediaSet-edit-input-disable"
-                  value="xxxxx"
+                  :value="showUpdatePath(item)"
                 />
               </v-col>
             </v-row>
@@ -399,7 +419,7 @@
                   hide-details="false"
                   disabled
                   class="gallery-mediaSet-edit-input-disable"
-                  value="xxxxx"
+                  :value="showUpdatePath(item)"
                 />
               </v-col>
             </v-row>
@@ -468,7 +488,7 @@
                   hide-details="false"
                   disabled
                   class="gallery-mediaSet-edit-input-disable"
-                  value="xxxxx"
+                  :value="showUpdatePath(item)"
                 />
               </v-col>
             </v-row>
@@ -488,7 +508,7 @@
         >
         <!-- キャンセルボタン -->
         <v-btn
-          @click="(closeDisplayGalleryMediaSetModal(),edit_img_flg = false)"
+          @click="closeDisplayGalleryMediaSetModal(), (edit_img_flg = false)"
           class="gray-btn mx-2 gallery-mediaSet-cancel-btn"
           >キャンセル</v-btn
         >
@@ -520,11 +540,14 @@ import { mapActions } from "vuex";
 
 import GalleryMediaDeleteConfirmModalComponent from "../modals/GalleryMediaDeleteConfirmModalComponent.vue";
 import GalleryMediaEditModalComponent from "../modals/GalleryMediaEditModalComponent.vue";
-import moment from 'moment';
+import moment from "moment";
 
 export default {
-  components: { GalleryMediaDeleteConfirmModalComponent, GalleryMediaEditModalComponent },
-  props: ["closeDisplayGalleryMediaSetModal","item","folders","folderid"],
+  components: {
+    GalleryMediaDeleteConfirmModalComponent,
+    GalleryMediaEditModalComponent,
+  },
+  props: ["closeDisplayGalleryMediaSetModal", "item", "folders", "folderid"],
   emits: ["update:folderid"],
   data() {
     return {
@@ -533,16 +556,16 @@ export default {
       displayGalleryMediaDeleteConfirm: false,
       displayGalleryMediaEditConfirm: false,
       cap: "",
-      memo_ : "",
-      alt_ : "",
-      approval_auth_flg:false,
-      create_auth_flg:false,
-      edit_img_flg:false,
+      memo_: "",
+      alt_: "",
+      approval_auth_flg: false,
+      create_auth_flg: false,
+      edit_img_flg: false,
       crop_img: "",
     };
   },
   methods: {
-    ...mapActions('authority', ['fetchAllAuthority']),
+    ...mapActions("authority", ["fetchAllAuthority"]),
 
     // モバイル判定
     moblieFlg() {
@@ -569,16 +592,15 @@ export default {
         img_caption: this.cap,
         img_memo: this.memo_,
         img_alt: this.alt_,
-        media_folder_id: this.folderidModel
+        media_folder_id: this.folderidModel,
       };
       formData.append("mediaAttachment", JSON.stringify(info));
 
       formData.append("crop_img", this.crop_img);
 
-      axios.post('/api/mediaAttachment/update/' + this.item.id,
-        formData,
-        { headers: { "Content-type": "multipart/form-data", }}
-      )
+      axios.post("/api/mediaAttachment/update/" + this.item.id, formData, {
+        headers: { "Content-type": "multipart/form-data" },
+      });
 
       this.edit_img_flg = false;
 
@@ -600,7 +622,7 @@ export default {
 
     //日付設定
     format(date) {
-      return moment(date).format('yyyy/MM/DD');
+      return moment(date).format("yyyy/MM/DD");
     },
 
     // 画像更新処理
@@ -609,6 +631,14 @@ export default {
       this.edit_img_flg = true;
     },
 
+    // 画像 アップロード先取得
+    showUpdatePath(item) {
+      const siteUrl = window.location.href;
+      // アップロード先 = siteUrl/店舗id/画像id/画像名.拡張子
+      let updatePath =
+        siteUrl + "/" + item.shop_id + "/" + item.id + "/" + item.img_filename;
+      return updatePath;
+    },
   },
   computed: {
     // モーダル幅さ調整
@@ -629,48 +659,48 @@ export default {
       }
     },
 
-    caption:{
-      get(){
+    caption: {
+      get() {
         this.cap = this.item.img_caption;
         return this.item.img_caption;
       },
-      set(newVal){
+      set(newVal) {
         this.cap = newVal;
-      }
+      },
     },
 
-    memo:{
-      get(){
-        this.memo_ = this.item.img_memo
-        return this.item.img_memo
+    memo: {
+      get() {
+        this.memo_ = this.item.img_memo;
+        return this.item.img_memo;
       },
-      set(newVal){
+      set(newVal) {
         this.memo_ = newVal;
-      }
-    },
-
-    alt:{
-      get(){
-        this.alt_ = this.item.img_alt
-        return this.item.img_alt
       },
-      set(newVal){
-        this.alt_ = newVal;
-      }
     },
 
-    folderidModel:{
-      get(){
+    alt: {
+      get() {
+        this.alt_ = this.item.img_alt;
+        return this.item.img_alt;
+      },
+      set(newVal) {
+        this.alt_ = newVal;
+      },
+    },
+
+    folderidModel: {
+      get() {
         return this.$props.folderid;
       },
-      set(newVal){
+      set(newVal) {
         this.$emit("update:folderid", newVal);
-      }
+      },
     },
   },
   async mounted() {
     let authority = await this.fetchAllAuthority();
-    if(authority){
+    if (authority) {
       this.create_auth_flg = authority.create_auth_flg;
       this.approval_auth_flg = authority.approval_auth_flg;
     }

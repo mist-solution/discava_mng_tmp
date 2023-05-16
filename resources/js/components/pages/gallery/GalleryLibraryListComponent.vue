@@ -367,26 +367,38 @@ export default {
         flg = true;
       }
 
-      let formData = new FormData();
-      const item = {
-        media_folder_id: flg ? 1 : this.$store.state.library.selectedFolder,
-        img_filename: name,
-        img_fileformat: type,
-        img_filesize: size,
-        img_width: 0,
-        img_height: 0,
+      // 画像情報を取得してDBに保存する
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          // 画像のサイズ
+          const width = img.width;
+          const height = img.height;
+
+          let formData = new FormData();
+          const item = {
+            media_folder_id: flg ? 1 : this.$store.state.library.selectedFolder,
+            img_filename: name,
+            img_fileformat: type,
+            img_filesize: size,
+            img_width: width,
+            img_height: height,
+          };
+
+          formData.append("mediaAttachment", JSON.stringify(item));
+          formData.append("file", this.file);
+          axios
+            .post("/api/mediaAttachment/register", formData, {
+              headers: { "Content-type": "multipart/form-data" },
+            })
+            .then((res) => {
+              this.getLibraryList();
+            });
+        };
+        img.src = event.target.result;
       };
-      formData.append("mediaAttachment", JSON.stringify(item));
-
-      formData.append("file", this.file);
-
-      axios
-        .post("/api/mediaAttachment/register", formData, {
-          headers: { "Content-type": "multipart/form-data" },
-        })
-        .then((res) => {
-          this.getLibraryList();
-        });
+      reader.readAsDataURL(this.file);
     },
 
     //画像編集画面に必要な情報をセット

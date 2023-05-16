@@ -21,6 +21,7 @@
     "moment": "^2.29.4",
     "node-notifier": "^10.0.1",
     "roboto-fontface": "*",
+    "vue-cropperjs": "^5.0.0",
     "vue-ctk-date-time-picker": "^3.0.0-alpha.0",
     "vue-native-color-picker": "^1.2.0",
     "vue-router": "^4.0.12",

@@ -5,7 +5,7 @@
       <v-row>
         <v-col class="d-flex justify-end">
           <button
-            @click="closeDisplayGalleryMediaSetModal()"
+            @click="(closeDisplayGalleryMediaSetModal(),edit_img_flg = false)"
             class="gallery-mediaSet-close-btn"
             type="button"
           >
@@ -22,7 +22,8 @@
             @mouseleave.prevent="(showEditBtn = false), (showDeleteBtn = false)"
           >
             <v-col>
-              <img :src=" 'data:image/png;base64,' + item.img_path" cover class="gallery-mediaSet-img">
+              <img v-if="!edit_img_flg" :src=" 'data:image/png;base64,' + item.img_path" cover class="gallery-mediaSet-img">
+              <img v-if="edit_img_flg" :src=" 'data:image/png;base64,' + crop_img " cover class="gallery-mediaSet-img">
               <!-- 編集ボタン -->
               <span
                 v-if="showEditBtn && approval_auth_flg"
@@ -487,7 +488,7 @@
         >
         <!-- キャンセルボタン -->
         <v-btn
-          @click="closeDisplayGalleryMediaSetModal()"
+          @click="(closeDisplayGalleryMediaSetModal(),edit_img_flg = false)"
           class="gray-btn mx-2 gallery-mediaSet-cancel-btn"
           >キャンセル</v-btn
         >
@@ -502,6 +503,15 @@
       :id="item.id"
       @close="closeDisplayGalleryMediaSetModal()"
     />
+    <!-- 画像編集モーダル -->
+    <gallery-media-edit-modal-component
+      :modelValue="displayGalleryMediaEditConfirm"
+      :closeDisplayGalleryMediaEditConfirmModal="
+        closeDisplayGalleryMediaEditConfirm
+      "
+      :img="item.img_path"
+      @update="updateImg"
+    />
   </v-dialog>
 </template>
   
@@ -509,10 +519,11 @@
 import { mapActions } from "vuex";
 
 import GalleryMediaDeleteConfirmModalComponent from "../modals/GalleryMediaDeleteConfirmModalComponent.vue";
+import GalleryMediaEditModalComponent from "../modals/GalleryMediaEditModalComponent.vue";
 import moment from 'moment';
 
 export default {
-  components: { GalleryMediaDeleteConfirmModalComponent },
+  components: { GalleryMediaDeleteConfirmModalComponent, GalleryMediaEditModalComponent },
   props: ["closeDisplayGalleryMediaSetModal","item","folders","folderid"],
   emits: ["update:folderid"],
   data() {
@@ -520,11 +531,14 @@ export default {
       showDeleteBtn: false,
       showEditBtn: false,
       displayGalleryMediaDeleteConfirm: false,
+      displayGalleryMediaEditConfirm: false,
       cap: "",
       memo_ : "",
       alt_ : "",
       approval_auth_flg:false,
       create_auth_flg:false,
+      edit_img_flg:false,
+      crop_img: "",
     };
   },
   methods: {
@@ -543,6 +557,11 @@ export default {
       this.displayGalleryMediaDeleteConfirm = false;
     },
 
+    //画面編集モーダルを閉じる
+    closeDisplayGalleryMediaEditConfirm() {
+      this.displayGalleryMediaEditConfirm = false;
+    },
+
     // 更新処理
     updateMediaAction() {
       let formData = new FormData();
@@ -554,10 +573,14 @@ export default {
       };
       formData.append("mediaAttachment", JSON.stringify(info));
 
+      formData.append("crop_img", this.crop_img);
+
       axios.post('/api/mediaAttachment/update/' + this.item.id,
         formData,
         { headers: { "Content-type": "multipart/form-data", }}
       )
+
+      this.edit_img_flg = false;
 
       this.closeDisplayGalleryMediaSetModal();
     },
@@ -569,15 +592,21 @@ export default {
       console.log("press deleteImage btn");
     },
 
-    // 画像編集処理
+    // 画像編集モーダルを開く
     editImage() {
-      // 画像編集処理
-      console.log("press editImage btn");
+      // 画像編集モーダル開く
+      this.displayGalleryMediaEditConfirm = true;
     },
 
     //日付設定
     format(date) {
       return moment(date).format('yyyy/MM/DD');
+    },
+
+    // 画像更新処理
+    updateImg(value) {
+      this.crop_img = value;
+      this.edit_img_flg = true;
     },
 
   },

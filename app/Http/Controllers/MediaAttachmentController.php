@@ -34,7 +34,6 @@ class MediaAttachmentController extends Controller
             }
         }
 
-
         return $mediaAttachment;
 
     }
@@ -103,5 +102,15 @@ class MediaAttachmentController extends Controller
         ];
 
         $model->update($update);
+
+        if($data['crop_img']){
+            $update = [
+                'img_path' => base64_decode($data['crop_img']),
+            ];
+
+            Log::info(base64_decode($data['crop_img']));
+
+            $model->update($update);
+        };
     }
 }

@@ -530,6 +530,7 @@
         closeDisplayGalleryMediaEditConfirm
       "
       :img="item.img_path"
+      :type="item.img_fileformat"
       @update="updateImg"
     />
   </v-dialog>
@@ -562,6 +563,7 @@ export default {
       create_auth_flg: false,
       edit_img_flg: false,
       crop_img: "",
+      editedFile: null,
     };
   },
   methods: {
@@ -596,7 +598,8 @@ export default {
       };
       formData.append("mediaAttachment", JSON.stringify(info));
 
-      formData.append("crop_img", this.crop_img);
+
+      formData.append("file", this.editedFile);
 
       axios.post("/api/mediaAttachment/update/" + this.item.id, formData, {
         headers: { "Content-type": "multipart/form-data" },
@@ -626,8 +629,9 @@ export default {
     },
 
     // 画像更新処理
-    updateImg(value) {
-      this.crop_img = value;
+    updateImg(value1, value2) {
+      this.crop_img = value1;
+      this.editedFile = value2;
       this.edit_img_flg = true;
     },
 

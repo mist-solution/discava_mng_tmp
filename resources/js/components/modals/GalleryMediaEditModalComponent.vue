@@ -20,10 +20,11 @@
           :src="'data:image/png;base64,' + img"
         />
       </div>
-      <div>
+      <v-card-actions class ="justify-center gallery-mediaSet-action-area">
         <a
           href="#"
           role="button"
+          class="green-btn_noTransform mx-2 gallery-mediaSet-update-btn"
           @click.prevent="rotate(90)"
         >
           右回転
@@ -31,6 +32,7 @@
         <a
           href="#"
           role="button"
+          class="green-btn_noTransform mx-2 gallery-mediaSet-update-btn"
           @click.prevent="rotate(-90)"
         >
           左回転
@@ -38,11 +40,12 @@
         <a
           href="#"
           role="button"
+          class="green-btn_noTransform mx-2 gallery-mediaSet-update-btn"
           @click.prevent="save()"
         >
           保存
         </a>
-      </div>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -52,10 +55,11 @@ import VueCropper from 'vue-cropperjs';
 import 'cropperjs/dist/cropper.css';
 export default {
   components: { VueCropper },
-  props: ["closeDisplayGalleryMediaEditConfirmModal", "img"],
+  props: ["closeDisplayGalleryMediaEditConfirmModal", "img" , "type"],
   data() {
     return {
       cropImage: "",
+      file: null,
     };
   },    
   methods: {
@@ -69,7 +73,19 @@ export default {
     // 画像切り抜き
     save() {
       this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
-      this.$emit("update", this.cropImg.slice(22));
+      var dataurl = this.$refs.cropper.getCroppedCanvas().toDataURL(this.type);
+      // Base64からバイナリへ変換
+      var bin = atob(dataurl.replace(/^.*,/, ''));
+      var buffer = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) {
+          buffer[i] = bin.charCodeAt(i);
+      }
+      // Blobを作成
+      var blob = new Blob([buffer.buffer], {
+          type: this.type
+      });
+      this.file = blob;
+      this.$emit("update", this.cropImg.slice(22), this.file);
       this.closeDisplayGalleryMediaEditConfirmModal();
     },
 
@@ -119,5 +135,41 @@ export default {
 }
 .gallery-mediaEdit-close-btn:active {
   border-color: none !important;
+}
+
+/* 操作ボタン */
+.gallery-mediaSet-action-area {
+  margin-top: 3rem;
+}
+@media (max-width: 901px) {
+  .gallery-mediaSet-action-area {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+@media (max-width: 640px) {
+  .gallery-mediaSet-action-area {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.gallery-mediaSet-update-btn {
+  width: 5vw;
+  border-radius: 3px;
+}
+@media (max-width: 901px) {
+  .gallery-mediaSet-update-btn {
+    width: 13vw;
+  }
+}
+@media (max-width: 640px) {
+  .gallery-mediaSet-update-btn {
+    width: 50vw;
+    margin-bottom: 0.7rem;
+  }
 }
 </style>

@@ -103,12 +103,11 @@ class MediaAttachmentController extends Controller
 
         $model->update($update);
 
-        if($data['crop_img']){
+        if($data['file']){
             $update = [
-                'img_path' => base64_decode($data['crop_img']),
+                'img_path' => Storage::putFile('gallery/' . $request->session()->get('shop_id') . "/" . $id, $data['file']),
             ];
 
-            Log::info(base64_decode($data['crop_img']));
 
             $model->update($update);
         };

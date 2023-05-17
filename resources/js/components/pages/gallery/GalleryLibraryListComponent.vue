@@ -58,7 +58,7 @@
             item-title="text"
             item-value="id"
             hide-details="false"
-            :label="this.data_id === null ? 'すべてのデータ' : ''"
+            :label="this.data_id === 0 ? 'すべてのデータ' : ''"
             @update:modelValue="dataidChange"
           />
           <DatePicker
@@ -92,6 +92,10 @@
           </div>
         </v-col>
       </v-row>
+    </div>
+    <div>
+      <!-- 提示メッセージ -->
+      <validation-hints :hints="validationHints" v-if="validationHints" />
     </div>
 
     <!-- 仕切り線 -->
@@ -165,7 +169,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
 import GalleryMediaDisplaySetModalComponent from "../../modals/GalleryMediaDisplaySetModalComponent.vue";
@@ -173,12 +177,14 @@ import DatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import moment from "moment";
 import imageCompression from "browser-image-compression";
+import ValidationHints from "../../ValidationHints";
 
 export default {
   components: {
     GalleryMediaSetModalComponent,
     GalleryMediaDisplaySetModalComponent,
     DatePicker,
+    ValidationHints,
   },
   data() {
     return {
@@ -200,7 +206,7 @@ export default {
         { id: 3, text: "音声データ" },
         { id: 4, text: "テキストデータ" },
       ],
-      data_id: null,
+      data_id: 0,
       selectedMedia: [],
       selectMediaFlg: false,
       folder: [],
@@ -224,6 +230,10 @@ export default {
     Caption() {
       return this.$store.state.library.Caption;
     },
+    // 提示メッセージ
+    ...mapState({
+      validationHints: (state) => state.gallery.galleryHintMessages,
+    }),
   },
   watch: {
     selectedFolder() {
@@ -286,6 +296,49 @@ export default {
         })
         .then((res) => {
           this.library = res.data.mediaAttachment;
+          // 提示文言を初期化する
+          this.$store.dispatch("gallery/setGalleryHintMessages", "");
+
+          // 検索結果は0件の場合、提示文言を表示
+          if (this.library.length == 0) {
+            const searchByFileFormat = this.$store.state.library.FileFormat;
+            const searchByDate = this.$store.state.library.AddDateBegin;
+            const searchByCaption = this.$store.state.library.Caption;
+
+            // ファイル形式選択あり＋投稿月選択あり＋キーワード入力あり
+            if (
+              (searchByFileFormat != 0 && searchByDate && searchByCaption) ||
+              (searchByFileFormat != 0 && searchByDate) ||
+              (searchByFileFormat != 0 && searchByCaption)
+            ) {
+              var hintMsg = ["条件に満たす検索結果はありません。"];
+              this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+            } else if (
+              // ファイル形式のみ選択
+              searchByFileFormat != 0 &&
+              !searchByDate &&
+              !searchByCaption
+            ) {
+              var hintMsg = ["選択したファイル形式の検索結果はありません。"];
+              this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+            } else if (
+              // 投稿月のみ選択
+              searchByFileFormat == 0 &&
+              searchByDate &&
+              !searchByCaption
+            ) {
+              var hintMsg = ["選択した投稿月の検索結果はありません。"];
+              this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+            } else if (
+              // キーワードのみ入力
+              searchByFileFormat == 0 &&
+              !searchByDate &&
+              searchByCaption
+            ) {
+              var hintMsg = ["入力したキーワードの検索結果はありません。"];
+              this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+            }
+          }
         });
     },
 
@@ -399,6 +452,11 @@ export default {
         img.src = event.target.result;
       };
       reader.readAsDataURL(this.file);
+
+      // 提示文言が表示された場合、初期化する
+      if (this.$store.state.gallery.galleryHintMessages) {
+        this.$store.dispatch("gallery/setGalleryHintMessages", "");
+      }
     },
 
     //画像編集画面に必要な情報をセット
@@ -418,10 +476,22 @@ export default {
 
     //ギャラリー作成ボタン押下
     GalleryToggle() {
-      if (!this.selectMediaFlg) {
-        this.selectMediaFlg = true;
-      } else if (this.selectedMedia.length != 0) {
-        this.displayGalleryMediaDisplaySet = true;
+      // 該当フォルダに画像は0件の場合
+      if (this.library.length == 0) {
+        var hintMsg = ["画像をアップロードしてください。"];
+        this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+      } else {
+        // 選択した場合
+        if (!this.selectMediaFlg) {
+          // 該当フォルダに画像は1件以上存在し、選択しない場合
+          var hintMsg = ["ギャラリーに表示する画像の順番を選択してください。"];
+          this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+          this.selectMediaFlg = true;
+        } else if (this.selectedMedia.length != 0) {
+          this.displayGalleryMediaDisplaySet = true;
+          // 提示文言を初期化する
+          this.$store.dispatch("gallery/setGalleryHintMessages", "");
+        }
       }
     },
 

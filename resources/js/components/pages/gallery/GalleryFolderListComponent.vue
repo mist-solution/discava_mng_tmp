@@ -544,7 +544,7 @@ export default {
     },
 
     // フォルダ一覧取得
-    getMediaFolder: async function() {
+    getMediaFolder: async function () {
       if (this.sortNo == 1) {
         await axios.get("api/mediafolder").then((res) => {
           this.folder = res.data.mediaFolder;
@@ -711,7 +711,7 @@ export default {
     },
 
     //検索機能
-    searchFolder: async function() {
+    searchFolder: async function () {
       await this.getMediaFolder();
       this.searchResult = [];
       if (this.searchWord != "") {
@@ -865,7 +865,7 @@ export default {
 .gallery-folder-show-area {
   overflow-x: hidden;
   overflow-y: auto !important;
-  height: 52vh;
+  height: calc(52vh - 40px);
   padding: 0px 7px 20px 7px;
   margin-top: -5px;
   width: 100%;
@@ -1083,7 +1083,7 @@ export default {
 /* 名称変更・削除バタン */
 .gallery-folder-edit-btn-area {
   position: inherit;
-  margin-top: -35px;
+  /* margin-top: -35px; */
   background-color: #fff;
 }
 @media (max-width: 900px) {

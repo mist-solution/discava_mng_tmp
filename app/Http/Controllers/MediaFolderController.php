@@ -115,15 +115,22 @@ class MediaFolderController extends Controller
             'del_flg' => 1
         ]);
 
-        $mediaAttachment = MediaAttachment::where('media_folder_id', '=', $id);
+        $shop_id = $request->session()->get('shop_id');
 
-        foreach ($mediaAttachment as $key => $value) {
-            $value['media_folder_id'] = 0;
-            $value['upd_account'] = Auth::user()->id;
-            $value['updated_at'] = new DateTime();
+        $mediaAttachment = MediaAttachment::getMediaAttachment($id, null, null, null, null, $shop_id);
+
+
+        foreach ($mediaAttachment["mediaAttachment"] as $key => $value) {
+            $value->update([
+                'media_folder_id' => 1,
+                'upd_account' => Auth::user()->id,
+                'updated_at' => new DateTime()
+            ]);
         }
 
         return $mediaFolder;
+
+        return $mediaAttachment;
     }
 
     //名称変更

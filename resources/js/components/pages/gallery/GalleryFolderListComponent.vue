@@ -865,7 +865,7 @@ export default {
 .gallery-folder-show-area {
   overflow-x: hidden;
   overflow-y: auto !important;
-  height: calc(52vh - 40px);
+  height: 51vh;
   padding: 0px 7px 20px 7px;
   margin-top: -5px;
   width: 100%;
@@ -1083,7 +1083,7 @@ export default {
 /* 名称変更・削除バタン */
 .gallery-folder-edit-btn-area {
   position: inherit;
-  /* margin-top: -35px; */
+  margin-top: -35px;
   background-color: #fff;
 }
 @media (max-width: 900px) {

@@ -339,9 +339,13 @@ export default {
               this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
             }
           }
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
 
+    // 検索処理
     FilterLibrary() {
       //投稿月検索
       if (this.createdmodel != null) {

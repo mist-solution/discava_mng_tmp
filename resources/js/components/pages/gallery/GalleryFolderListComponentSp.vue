@@ -379,12 +379,12 @@ export default {
           folderItem.fileValue = this.mibunrui;
         } else if (folderItem.parent_folder_id === 0) {
           folderItem.isShow = true;
-          for (let i = 0; i < this.folder.length; i++) {
+          /* for (let i = 0; i < this.folder.length; i++) {
             if (this.folder[i].parent_folder_id == folderItem.id) {
               folderItem.fileValue =
                 folderItem.fileValue + this.folder[i].fileValue;
             }
-          }
+          } */
         } else {
           folderItem.isShow = false;
         }

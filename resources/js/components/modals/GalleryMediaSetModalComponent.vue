@@ -530,6 +530,7 @@
         closeDisplayGalleryMediaEditConfirm
       "
       :img="item.img_path"
+      :img_alt="item.img_alt == null ? item.img_filename : item.img_alt"
       :type="item.img_fileformat"
       @update="updateImg"
     />
@@ -597,7 +598,6 @@ export default {
         media_folder_id: this.folderidModel,
       };
       formData.append("mediaAttachment", JSON.stringify(info));
-
 
       formData.append("file", this.editedFile);
 

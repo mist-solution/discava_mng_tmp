@@ -18,9 +18,10 @@
         <vue-cropper
           ref="cropper"
           :src="'data:image/png;base64,' + img"
+          :alt="img_alt"
         />
       </div>
-      <v-card-actions class ="justify-center gallery-mediaSet-action-area">
+      <v-card-actions class="justify-center gallery-mediaSet-action-area">
         <a
           href="#"
           role="button"
@@ -51,17 +52,17 @@
 </template>
   
 <script>
-import VueCropper from 'vue-cropperjs';
-import 'cropperjs/dist/cropper.css';
+import VueCropper from "vue-cropperjs";
+import "cropperjs/dist/cropper.css";
 export default {
   components: { VueCropper },
-  props: ["closeDisplayGalleryMediaEditConfirmModal", "img" , "type"],
+  props: ["closeDisplayGalleryMediaEditConfirmModal", "img", "type", "img_alt"],
   data() {
     return {
       cropImage: "",
       file: null,
     };
-  },    
+  },
   methods: {
     // モバイル判定
     moblieFlg() {
@@ -75,14 +76,14 @@ export default {
       this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
       var dataurl = this.$refs.cropper.getCroppedCanvas().toDataURL(this.type);
       // Base64からバイナリへ変換
-      var bin = atob(dataurl.replace(/^.*,/, ''));
+      var bin = atob(dataurl.replace(/^.*,/, ""));
       var buffer = new Uint8Array(bin.length);
       for (var i = 0; i < bin.length; i++) {
-          buffer[i] = bin.charCodeAt(i);
+        buffer[i] = bin.charCodeAt(i);
       }
       // Blobを作成
       var blob = new Blob([buffer.buffer], {
-          type: this.type
+        type: this.type,
       });
       this.file = blob;
       this.$emit("update", this.cropImg.slice(22), this.file);

@@ -34,7 +34,7 @@
       item-title="text"
       item-value="id"
       hide-details="false"
-      :label="this.data_id === 0 ? 'すべてのデータ' : ''"
+      :label="this.data_id === null ? 'すべてのデータ' : ''"
       @update:modelValue="dataidChange"
     />
     <DatePicker
@@ -189,7 +189,7 @@ export default {
         { id: 3, text: "音声データ" },
         { id: 4, text: "テキストデータ" },
       ],
-      data_id: 0,
+      data_id: null,
       selectedMedia: [],
       selectMediaFlg: false,
       folder: [],

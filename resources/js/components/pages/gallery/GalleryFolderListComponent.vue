@@ -1093,7 +1093,7 @@ export default {
 /* 名称変更・削除バタン */
 .gallery-folder-edit-btn-area {
   position: inherit;
-  margin-top: -60px;
+  margin-top: -35px;
   background-color: #fff;
 }
 @media (max-width: 900px) {

@@ -161,6 +161,7 @@ export default {
 .gallery-mediaSet-update-btn {
   width: 5vw;
   border-radius: 3px;
+  text-align: center;
 }
 @media (max-width: 901px) {
   .gallery-mediaSet-update-btn {

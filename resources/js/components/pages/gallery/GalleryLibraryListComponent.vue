@@ -273,6 +273,7 @@ export default {
     //画面設定モーダルを閉じる
     closeDisplayGalleryMediaSet() {
       this.displayGalleryMediaSet = false;
+      this.selectedMedia = [];
       this.getLibraryList();
     },
 

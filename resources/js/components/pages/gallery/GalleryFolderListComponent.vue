@@ -619,6 +619,9 @@ export default {
           this.folderTitle = "";
           this.getMediaFolder();
           this.$store.dispatch("library/setSelectedFolder", null);
+          if (this.searchWord != "") {
+            this.searchFolder();
+          }
         });
     },
 
@@ -654,6 +657,9 @@ export default {
         }
         this.getMediaFolder();
         this.$store.dispatch("library/setSelectedFolder", null);
+        if (this.searchWord != "") {
+          this.searchFolder();
+        }
       }
     },
 
@@ -703,12 +709,15 @@ export default {
     },
 
     //ソート機能
-    sort() {
+    sort: async function() {
       this.sortNo = this.sortNo + 1;
       if (this.sortNo == 4) {
         this.sortNo = 1;
       }
       this.getMediaFolder();
+      if (this.searchWord != "") {
+        await this.searchFolder();
+      }
     },
 
     //検索機能
@@ -1084,7 +1093,7 @@ export default {
 /* 名称変更・削除バタン */
 .gallery-folder-edit-btn-area {
   position: inherit;
-  margin-top: -40px;
+  margin-top: -60px;
   background-color: #fff;
 }
 @media (max-width: 900px) {

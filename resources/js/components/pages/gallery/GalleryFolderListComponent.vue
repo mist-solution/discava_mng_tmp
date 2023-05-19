@@ -349,6 +349,7 @@ export default {
       sortNo: 1,
       searchResult: [],
       searchWord: "",
+      nameChange_folder_id: null,
     };
   },
   methods: {
@@ -669,6 +670,7 @@ export default {
           this.folder[i].id != -1
         ) {
           this.folderTitlechange = this.folder[i].name;
+          this.nameChange_folder_id = i;
           if (this.selected_kaisou == 1) {
             this.parent_namechange_flg = true;
           } else if (this.selected_kaisou == 2) {
@@ -695,9 +697,8 @@ export default {
           this.namechange_flg = false;
           this.namechange_flg2 = false;
           this.parent_namechange_flg = false;
+          this.folder[this.nameChange_folder_id].name = this.folderTitlechange;
           this.folderTitlechange = "";
-          this.getMediaFolder();
-          this.$store.dispatch("library/setSelectedFolder", null);
         });
     },
 

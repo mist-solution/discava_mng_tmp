@@ -599,6 +599,9 @@ export default {
         item.selected = true;
         item.selectNo = this.selectedMedia.length + 1;
         this.selectedMedia[this.selectedMedia.length] = item;
+
+        // 画像を選択した場合、提示文言を初期化する
+        this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", "");
       } else {
         item.selected = false;
         for (let i = 0; i < this.selectedMedia.length; i++) {
@@ -614,6 +617,17 @@ export default {
               } else {
                 this.selectedMedia.pop();
               }
+            }
+
+            // 該当フォルダに画像は1件以上存在し、選択しない場合
+            if (this.selectedMedia.length == 0) {
+              var hintMsg = [
+                "ギャラリーに表示する画像の順番を選択してください。",
+              ];
+              this.$store.dispatch(
+                "gallery/setGalleryHintMessagesLibrary",
+                hintMsg
+              );
             }
             break;
           }

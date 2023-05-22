@@ -872,6 +872,17 @@ export default {
   margin-top: 0.3rem;
   padding-left: 0.5rem;
 }
+@media (max-width: 900px) {
+  .gallery-mediaSet-edit-input-disable {
+    background-color: #e0e0e0;
+  }
+}
+@media (max-width: 640px) {
+  .gallery-mediaSet-edit-input-disable {
+    background-color: #e0e0e0;
+    font-size: x-small;
+  }
+}
 .gallery-mediaSet-select {
   background-color: #fff;
   border-radius: 10px;

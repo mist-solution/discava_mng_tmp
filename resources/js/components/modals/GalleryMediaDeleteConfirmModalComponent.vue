@@ -55,7 +55,7 @@
   <script>
 export default {
   components: {},
-  props: ["closeDisplayGalleryMediaDeleteConfirmModal","id"],
+  props: ["closeDisplayGalleryMediaDeleteConfirmModal", "id"],
   data() {
     return {};
   },
@@ -70,7 +70,7 @@ export default {
 
     // 削除処理
     deleteImage() {
-      axios.delete('/api/mediaAttachment/' + this.id);
+      axios.delete("/api/mediaAttachment/" + this.id);
       this.closeDisplayGalleryMediaDeleteConfirmModal();
       this.$emit("close");
     },
@@ -133,11 +133,11 @@ export default {
 }
 @media (max-width: 901px) {
   .gallery-mediaDelete-delete-btn {
-    width: 50vw;
+    width: 20vw;
     margin-bottom: 0.7rem;
   }
   .gallery-mediaDelete-cancel-btn {
-    width: 50vw;
+    width: 20vw;
     margin-bottom: 1rem;
   }
 }

@@ -51,6 +51,8 @@
 
   <!-- フォルダ一覧表示 -->
   <div class="gallery-folder-show-area">
+    <!-- 提示メッセージ -->
+    <validation-hints :hints="validationHints" v-if="validationHints" />
     <div
       v-for="(item, index) in folder"
       :key="index"
@@ -307,10 +309,13 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
+import ValidationHints from "../../ValidationHints";
 
 export default {
-  components: {},
+  components: {
+    ValidationHints,
+  },
   data() {
     return {
       prefolder: [
@@ -351,6 +356,12 @@ export default {
       searchWord: "",
       nameChange_folder_id: null,
     };
+  },
+  computed: {
+    // 提示メッセージ
+    ...mapState({
+      validationHints: (state) => state.gallery.galleryHintMessagesInFolder,
+    }),
   },
   methods: {
     ...mapActions("authority", ["fetchAllAuthority"]),
@@ -709,7 +720,7 @@ export default {
     },
 
     //ソート機能
-    sort: async function() {
+    sort: async function () {
       this.sortNo = this.sortNo + 1;
       if (this.sortNo == 4) {
         this.sortNo = 1;
@@ -795,6 +806,14 @@ export default {
         }
         this.folder = this.searchResult;
         this.$store.dispatch("library/setSelectedFolder", null);
+        if (this.folder.length == 0) {
+          var hintMsg = ["条件に満たす検索結果はありません。"];
+          this.$store.dispatch("gallery/setGalleryHintMessagesFolder", hintMsg);
+        } else {
+          this.$store.dispatch("gallery/setGalleryHintMessagesFolder", "");
+        }
+      } else {
+        this.$store.dispatch("gallery/setGalleryHintMessagesFolder", "");
       }
     },
   },
@@ -1103,8 +1122,8 @@ export default {
 }
 @media (max-width: 900px) {
   .gallery-folder-edit-btn-area {
-  padding: 0px 7px 0px 7px;
-  width: 100%;
+    padding: 0px 7px 0px 7px;
+    width: 100%;
   }
 }
 .gallery-folder-edit-btn-container {
@@ -1117,7 +1136,7 @@ export default {
 }
 @media (max-width: 900px) {
   .gallery-folder-name-edit-btn {
-  width: 60%;
+    width: 60%;
   }
 }
 .gallery-folder-name-delete-btn {

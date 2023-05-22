@@ -78,11 +78,7 @@
   </div>
   <div>
     <!-- 提示メッセージ -->
-    <validation-hints
-      v-show="hintMsgShow_Library"
-      :hints="validationHints"
-      v-if="validationHints"
-    />
+    <validation-hints :hints="validationHints" v-if="validationHints" />
   </div>
 
   <!-- 仕切り線 -->
@@ -199,7 +195,6 @@ export default {
       folder: [],
       folder2: [],
       folderid: "",
-      hintMsgShow_Library: false,
     };
   },
   computed: {
@@ -220,7 +215,7 @@ export default {
     },
     // 提示メッセージ
     ...mapState({
-      validationHints: (state) => state.gallery.galleryHintMessages,
+      validationHints: (state) => state.gallery.galleryHintMessagesInLibrary,
     }),
   },
   watch: {
@@ -286,8 +281,7 @@ export default {
           this.library = res.data.mediaAttachment;
 
           // 提示文言を初期化する
-          this.hintMsgShow_Library = false;
-          this.$store.dispatch("gallery/setGalleryHintMessages", "");
+          this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", "");
 
           // 検索結果は0件の場合、提示文言を表示
           if (this.library.length == 0) {
@@ -302,8 +296,10 @@ export default {
               !searchByCaption
             ) {
               var hintMsg = ["選択したファイル形式の検索結果はありません。"];
-              this.hintMsgShow_Library = true;
-              this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+              this.$store.dispatch(
+                "gallery/setGalleryHintMessagesLibrary",
+                hintMsg
+              );
             } else if (
               // 投稿月のみ選択
               searchByFileFormat == 0 &&
@@ -311,8 +307,10 @@ export default {
               !searchByCaption
             ) {
               var hintMsg = ["選択した投稿月の検索結果はありません。"];
-              this.hintMsgShow_Library = true;
-              this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+              this.$store.dispatch(
+                "gallery/setGalleryHintMessagesLibrary",
+                hintMsg
+              );
             } else if (
               // キーワードのみ入力
               searchByFileFormat == 0 &&
@@ -320,12 +318,16 @@ export default {
               searchByCaption
             ) {
               var hintMsg = ["入力したキーワードの検索結果はありません。"];
-              this.hintMsgShow_Library = true;
-              this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+              this.$store.dispatch(
+                "gallery/setGalleryHintMessagesLibrary",
+                hintMsg
+              );
             } else {
               var hintMsg = ["条件に満たす検索結果はありません。"];
-              this.hintMsgShow_Library = true;
-              this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+              this.$store.dispatch(
+                "gallery/setGalleryHintMessagesLibrary",
+                hintMsg
+              );
             }
           }
         })
@@ -447,9 +449,8 @@ export default {
       reader.readAsDataURL(this.file);
 
       // 提示文言が表示された場合、初期化する
-      if (this.$store.state.gallery.galleryHintMessages) {
-        this.hintMsgShow_Library = false;
-        this.$store.dispatch("gallery/setGalleryHintMessages", "");
+      if (this.$store.state.gallery.galleryHintMessagesInLibrary) {
+        this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", "");
       }
     },
 
@@ -473,21 +474,21 @@ export default {
       // 該当フォルダに画像は0件の場合
       if (this.library.length == 0) {
         var hintMsg = ["画像をアップロードしてください。"];
-        this.hintMsgShow_Library = true;
-        this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+        this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", hintMsg);
       } else {
         // 選択した場合
         if (!this.selectMediaFlg) {
           // 該当フォルダに画像は1件以上存在し、選択しない場合
           var hintMsg = ["ギャラリーに表示する画像の順番を選択してください。"];
-          this.hintMsgShow_Library = true;
-          this.$store.dispatch("gallery/setGalleryHintMessages", hintMsg);
+          this.$store.dispatch(
+            "gallery/setGalleryHintMessagesLibrary",
+            hintMsg
+          );
           this.selectMediaFlg = true;
         } else if (this.selectedMedia.length != 0) {
           this.displayGalleryMediaDisplaySet = true;
           // 提示文言を初期化する
-          this.hintMsgShow_Library = false;
-          this.$store.dispatch("gallery/setGalleryHintMessages", "");
+          this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", "");
         }
       }
     },

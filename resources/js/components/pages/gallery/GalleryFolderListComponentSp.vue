@@ -58,6 +58,8 @@
 
     <!-- フォルダ一覧表示 -->
     <div class="gallery-folder-show-area-sp">
+      <!-- 提示メッセージ -->
+      <validation-hints :hints="validationHints" v-if="validationHints" />
       <div
         v-for="(item, index) in folder"
         :key="index"
@@ -316,10 +318,13 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
+import ValidationHints from "../../ValidationHints";
 
 export default {
-  components: {},
+  components: {
+    ValidationHints,
+  },
   data() {
     return {
       prefolder: [
@@ -361,6 +366,12 @@ export default {
       searchWord: "",
       nameChange_folder_id: null,
     };
+  },
+  computed: {
+    // 提示メッセージ
+    ...mapState({
+      validationHints: (state) => state.gallery.galleryHintMessagesInFolder,
+    }),
   },
   methods: {
     ...mapActions("authority", ["fetchAllAuthority"]),
@@ -555,7 +566,7 @@ export default {
     },
 
     // フォルダ一覧取得
-    getMediaFolder: async function() {
+    getMediaFolder: async function () {
       if (this.sortNo == 1) {
         await axios.get("api/mediafolder").then((res) => {
           this.folder = res.data.mediaFolder;
@@ -726,7 +737,7 @@ export default {
     },
 
     //検索機能
-    searchFolder: async function() {
+    searchFolder: async function () {
       await this.getMediaFolder();
       this.searchResult = [];
       if (this.searchWord != "") {
@@ -800,6 +811,14 @@ export default {
         }
         this.folder = this.searchResult;
         this.$store.dispatch("library/setSelectedFolder", null);
+        if (this.folder.length == 0) {
+          var hintMsg = ["条件に満たす検索結果はありません。"];
+          this.$store.dispatch("gallery/setGalleryHintMessagesFolder", hintMsg);
+        } else {
+          this.$store.dispatch("gallery/setGalleryHintMessagesFolder", "");
+        }
+      } else {
+        this.$store.dispatch("gallery/setGalleryHintMessagesFolder", "");
       }
     },
   },

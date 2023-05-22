@@ -875,7 +875,7 @@ export default {
 .gallery-folder-show-area {
   overflow-x: hidden;
   overflow-y: auto !important;
-  height: 51vh;
+  height: 53.2vh;
   padding: 0px 7px 20px 7px;
   margin-top: -5px;
   width: 100%;
@@ -1098,8 +1098,8 @@ export default {
 }
 @media (max-width: 900px) {
   .gallery-folder-edit-btn-area {
-    left: 10px;
-    right: 10px;
+  padding: 0px 7px 20px 7px;
+  width: 100%;
   }
 }
 .gallery-folder-edit-btn-container {
@@ -1108,7 +1108,12 @@ export default {
 }
 .gallery-folder-name-edit-btn {
   margin-left: 0.5rem;
-  width: 65%;
+  width: 60%;
+}
+@media (max-width: 900px) {
+.gallery-folder-name-edit-btn {
+  width: 60%;
+  }
 }
 .gallery-folder-name-delete-btn {
   width: 35%;

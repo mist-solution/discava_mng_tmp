@@ -571,13 +571,11 @@ text-align: center;
     width: 21%;
     height: fit-content;
     margin-right: 20px;
-    height: 75vh;
 }
 
 .gallery-flex .main-cont:nth-child(2){
     width: 80%;
     height: fit-content;
-    height: 75vh;
 }
 
 .gallery-flex p{

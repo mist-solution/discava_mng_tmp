@@ -887,6 +887,11 @@ export default {
     height: 55vh;
   }
 }
+@media (max-width: 900px) {
+  .gallery-folder-show-area {
+    height: 53.8vh;
+  }
+}
 
 /* 親フォルダ名初期表示スタイル */
 .gallery-folder-show {
@@ -1098,7 +1103,7 @@ export default {
 }
 @media (max-width: 900px) {
   .gallery-folder-edit-btn-area {
-  padding: 0px 7px 20px 7px;
+  padding: 0px 7px 0px 7px;
   width: 100%;
   }
 }
@@ -1111,7 +1116,7 @@ export default {
   width: 60%;
 }
 @media (max-width: 900px) {
-.gallery-folder-name-edit-btn {
+  .gallery-folder-name-edit-btn {
   width: 60%;
   }
 }

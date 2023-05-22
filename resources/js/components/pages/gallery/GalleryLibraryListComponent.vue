@@ -93,6 +93,52 @@
         </v-col>
       </v-row>
     </div>
+
+    <!-- 検索エリア TB -->
+    <div class="gallery-library-search-area-tb">
+      <v-row>
+        <v-col cols="8" class="d-flex justify-start">
+          <v-select
+            class="filter-btn gallery-library-search-select"
+            :items="items"
+            item-title="text"
+            item-value="id"
+            hide-details="false"
+            :label="this.data_id === null ? 'すべてのデータ' : ''"
+            @update:modelValue="dataidChange"
+          />
+          <DatePicker
+            class="filter-btn gallery-library-search-datepicker"
+            v-model="createdmodel"
+            placeholder="全ての月"
+            :format="format"
+            :preview-format="previewFormat"
+            selectText="確認"
+            cancelText="キャンセル"
+            month-picker
+            @update:model-value="FilterLibrary"
+            locale="jp"
+          />
+        </v-col>
+        <v-col cols="4" class="d-flex justify-end">
+          <div class="gallery-library-search">
+            <button type="button" class="gallery-library-search-icon">
+              <v-icon>mdi-magnify</v-icon>
+            </button>
+            <div class="d-flex">
+              <input
+                class="gallery-library-search-input"
+                type="search"
+                maxlength="30"
+                hide-details="false"
+                v-model="captionModel"
+                @change="FilterLibrary"
+              />
+            </div>
+          </div>
+        </v-col>
+      </v-row>
+    </div>
     <div>
       <!-- 提示メッセージ -->
       <validation-hints :hints="validationHints" v-if="validationHints" />
@@ -641,6 +687,19 @@ export default {
   display: flex;
   align-items: center;
 }
+@media (max-width: 900px) {
+  .gallery-library-search-area {
+    display: none;
+  }
+}
+.gallery-library-search-area-tb {
+  display: none;
+}
+@media (max-width: 900px) {
+  .gallery-library-search-area-tb {
+    display: block;
+  }
+}
 .gallery-library-search-select {
   border: 1px solid #ccc;
   width: 45%;
@@ -650,6 +709,11 @@ export default {
   border: 1px solid #ccc;
   width: 45%;
   height: 2.5rem;
+}
+@media (max-width: 900px) {
+  .gallery-library-search-datepicker {
+    width: 30vw;
+  }
 }
 .gallery-library-search {
   display: flex;
@@ -661,6 +725,11 @@ export default {
   margin-left: 5%;
   height: 2.5rem;
 }
+@media (max-width: 900px) {
+  .gallery-library-search {
+    width: 65%;
+  }
+}
 .gallery-library-search-input {
   font-size: 16px !important;
   height: 2rem;
@@ -671,6 +740,11 @@ export default {
 @media (min-width: 1450px) {
   .gallery-library-search-input {
     width: 11.5vw;
+  }
+}
+@media (max-width: 900px) {
+  .gallery-library-search-input {
+    width: 9.5vw;
   }
 }
 .gallery-library-search-icon {

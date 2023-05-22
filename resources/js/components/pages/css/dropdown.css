@@ -1,24 +1,27 @@
 @charset "utf-8";
 
-.v-menu .v-overlay__content > .v-list{
+.v-menu .v-overlay__content>.v-list {
     background-color: #7B7B7B;
 }
+
 .v-overlay .v-list-item-title {
-    color:#fff;
-    font-size:.85rem;
+    color: #fff;
+    font-size: .85rem;
 }
-.v-overlay .v-list-item:hover{
+
+.v-overlay .v-list-item:hover {
     background-color: #8E8E8E;
 }
+
 .v-overlay .v-list-item--density-default.v-list-item--one-line {
     min-height: 30px;
 }
 
-.filter-btn > .v-input__control > .v-field > .v-field__overlay{
+.filter-btn>.v-input__control>.v-field>.v-field__overlay {
     display: none;
 }
 
-.whiteline{
+.whiteline {
     border-top: 1px solid white;
 }
 
@@ -29,8 +32,21 @@
 .gallery-library-search-select>div>div>div>.v-field__input {
     margin-top: -0.5rem;
 }
-.gallery-library-search-select>div>div>div>div> .v-select__selection {
+
+@media (max-width: 900px) {
+    .gallery-library-search-select>div>div>div>.v-field__input {
+        padding-right: 0.2rem !important;
+    }
+}
+
+.gallery-library-search-select>div>div>div>div>.v-select__selection {
     top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+    .gallery-library-search-select>div>div>div>div>.v-select__selection {
+        left: -1rem;
+    }
 }
 
 .gallery-library-search-datepicker>div>.dp__input_wrap {
@@ -49,7 +65,7 @@
     margin-top: -0.5rem;
 }
 
-.gallery-library-search-select-sp>div>div>div>div>.v-select__selection{
+.gallery-library-search-select-sp>div>div>div>div>.v-select__selection {
     margin-top: 0.5rem;
     margin-bottom: -0.5rem;
     margin-left: -2rem;

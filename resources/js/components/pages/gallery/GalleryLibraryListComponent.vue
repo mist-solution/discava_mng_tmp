@@ -383,11 +383,13 @@ export default {
                 hintMsg
               );
             } else {
-              var hintMsg = ["条件に満たす検索結果はありません。"];
-              this.$store.dispatch(
-                "gallery/setGalleryHintMessagesLibrary",
-                hintMsg
-              );
+              if (this.library.length != 0) {
+                var hintMsg = ["条件に満たす検索結果はありません。"];
+                this.$store.dispatch(
+                  "gallery/setGalleryHintMessagesLibrary",
+                  hintMsg
+                );
+              }
             }
           } else {
             // 提示文言を初期化する

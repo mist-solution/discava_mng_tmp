@@ -521,6 +521,7 @@
         closeDisplayGalleryMediaDeleteConfirm
       "
       :id="item.id"
+      :folderid="item.media_folder_id"
       @close="closeDisplayGalleryMediaSetModal()"
     />
     <!-- 画像編集モーダル -->

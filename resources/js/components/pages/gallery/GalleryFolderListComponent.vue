@@ -362,6 +362,51 @@ export default {
     ...mapState({
       validationHints: (state) => state.gallery.galleryHintMessagesInFolder,
     }),
+
+    //　ファイル数更新
+    galleryCreate() {
+      return this.$store.state.gallery.galleryCreate;
+    },
+    galleryDelete() {
+      return this.$store.state.gallery.galleryDelete;
+    },
+  },
+  watch: {
+    galleryCreate() {
+      if(this.$store.state.gallery.galleryCreate){
+        if(this.$store.state.library.selectedFolder === -1){
+          this.folder[0].fileValue = this.folder[0].fileValue + 1;
+          this.folder[1].fileValue = this.folder[1].fileValue + 1;
+        } else if(this.$store.state.library.selectedFolder === null){
+          this.folder[0].fileValue = this.folder[0].fileValue + 1;
+          this.folder[1].fileValue = this.folder[1].fileValue + 1;
+        } else {
+         for (let i = 0; i < this.folder.length; i++) {
+          if (this.folder[i].id === this.$store.state.library.selectedFolder) {
+            this.folder[i].fileValue = this.folder[i].fileValue + 1;
+          }
+         }
+         this.folder[0].fileValue = this.folder[0].fileValue + 1;
+        this.$store.dispatch("gallery/setGalleryCreate", null);
+        }
+      }
+    },
+    galleryDelete() {
+      if(this.$store.state.gallery.galleryDelete){
+        if(this.$store.state.gallery.galleryDelete === 1){
+          this.folder[1].fileValue = this.folder[1].fileValue - 1;
+        } else {
+          for (let i = 0; i < this.folder.length; i++) {
+            if(this.folder[i].id === this.$store.state.gallery.galleryDelete){
+              this.folder[i].fileValue = this.folder[i].fileValue - 1;
+            }
+          }
+        }
+        this.folder[0].fileValue = this.folder[0].fileValue - 1;
+        this.$store.dispatch("gallery/setGalleryDelete", null);
+      }
+    },
+
   },
   methods: {
     ...mapActions("authority", ["fetchAllAuthority"]),
@@ -381,12 +426,6 @@ export default {
           folderItem.fileValue = this.mibunrui;
         } else if (folderItem.parent_folder_id === 0) {
           folderItem.isShow = true;
-          /* for (let i = 0; i < this.folder.length; i++) {
-            if (this.folder[i].parent_folder_id == folderItem.id) {
-              folderItem.fileValue =
-                folderItem.fileValue + this.folder[i].fileValue;
-            }
-          } */
         } else {
           folderItem.isShow = false;
         }
@@ -807,7 +846,7 @@ export default {
         this.folder = this.searchResult;
         this.$store.dispatch("library/setSelectedFolder", null);
         if (this.folder.length == 0) {
-          var hintMsg = ["条件に満たす検索結果はありません。"];
+          var hintMsg = ["条件を満たす検索結果はありません。"];
           this.$store.dispatch("gallery/setGalleryHintMessagesFolder", hintMsg);
         } else {
           this.$store.dispatch("gallery/setGalleryHintMessagesFolder", "");

@@ -1,6 +1,8 @@
 const state = {
     galleryHintMessagesInLibrary: null,
     galleryHintMessagesInFolder: null,
+    galleryCreate: null,
+    galleryDelete: null,
 }
 const getters = {
 
@@ -13,6 +15,12 @@ const mutations = {
     setGalleryHintMessagesFolder(state, messages) {
         state.galleryHintMessagesInFolder = messages;
     },
+    setGalleryCreate(state, messages) {
+        state.galleryCreate = messages;
+    },
+    setGalleryDelete(state, messages) {
+        state.galleryDelete = messages;
+    }
 };
 
 const actions = {
@@ -22,6 +30,12 @@ const actions = {
     setGalleryHintMessagesFolder(context, messages) {
         context.commit('setGalleryHintMessagesFolder', messages);
     },
+    setGalleryCreate(context, messages) {
+        context.commit('setGalleryCreate', messages);
+    },
+    setGalleryDelete(context, messages) {
+        context.commit('setGalleryDelete', messages);
+    }
 };
 
 export default {

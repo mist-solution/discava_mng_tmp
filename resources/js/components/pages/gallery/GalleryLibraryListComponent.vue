@@ -384,7 +384,7 @@ export default {
               );
             } else {
               if (this.library.length != 0) {
-                var hintMsg = ["条件に満たす検索結果はありません。"];
+                var hintMsg = ["条件を満たす検索結果はありません。"];
                 this.$store.dispatch(
                   "gallery/setGalleryHintMessagesLibrary",
                   hintMsg
@@ -507,6 +507,7 @@ export default {
             })
             .then((res) => {
               this.getLibraryList();
+              this.$store.dispatch("gallery/setGalleryCreate", "1");
             });
         };
         img.src = event.target.result;

@@ -323,13 +323,11 @@ export default {
                 hintMsg
               );
             } else {
-              if (this.library.length != 0) {
-                var hintMsg = ["条件を満たす検索結果はありません。"];
-                this.$store.dispatch(
-                  "gallery/setGalleryHintMessagesLibrary",
-                  hintMsg
-                );
-              }
+              var hintMsg = ["条件を満たす検索結果はありません。"];
+              this.$store.dispatch(
+                "gallery/setGalleryHintMessagesLibrary",
+                hintMsg
+              );
             }
           }
         })
@@ -479,15 +477,36 @@ export default {
         var hintMsg = ["画像をアップロードしてください。"];
         this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", hintMsg);
       } else {
-        // 選択した場合
+        // 該当フォルダに画像は1件以上ある場合
         if (!this.selectMediaFlg) {
-          // 該当フォルダに画像は1件以上存在し、選択しない場合
-          var hintMsg = ["ギャラリーに表示する画像の順番を選択してください。"];
-          this.$store.dispatch(
-            "gallery/setGalleryHintMessagesLibrary",
-            hintMsg
-          );
           this.selectMediaFlg = true;
+
+          // ギャラリー作成したかしないかを確認する
+          let folderId = this.$store.state.library.selectedFolder;
+          let item = "";
+          axios
+            .get("api/mediafolder/getGallery/" + folderId)
+            .then((res) => {
+              // ギャラリーを作成したことがある
+              this.selectedMedia = res.data;
+              for (let i = 0; i < this.selectedMedia.length; i++) {
+                item = this.selectedMedia[i];
+                this.clickMedia(item);
+              }
+            })
+            .catch((error) => {
+              // ギャラリーを作成したことがない場合、APIから404を返却
+              if (error.response.status == 404) {
+                // 該当フォルダに画像は1件以上存在し、選択しない場合
+                var hintMsg = [
+                  "ギャラリーに表示する画像の順番を選択してください。",
+                ];
+                this.$store.dispatch(
+                  "gallery/setGalleryHintMessagesLibrary",
+                  hintMsg
+                );
+              }
+            });
         } else if (this.selectedMedia.length != 0) {
           this.displayGalleryMediaDisplaySet = true;
           // 提示文言を初期化する
@@ -534,9 +553,27 @@ export default {
         this.setItem(item);
         this.displayGalleryMediaSet = true;
       } else if (!selected) {
-        item.selected = true;
-        item.selectNo = this.selectedMedia.length + 1;
-        this.selectedMedia[this.selectedMedia.length] = item;
+        // ギャラリーに選択された画像の順番を取得して表示する
+        if (
+          this.selectedMedia.some(
+            (selectedMedia) => selectedMedia.id === item.id
+          )
+        ) {
+          const index = this.selectedMedia.indexOf(item);
+          if (index != -1) {
+            for (let i = 0; i < this.library.length; i++) {
+              if (this.library[i].id == item.id) {
+                this.library[i].selected = true;
+                this.library[i].selectNo = index + 1;
+              }
+            }
+          }
+        } else {
+          // ギャラリーに選択されない画像は新番号をあげる
+          item.selected = true;
+          item.selectNo = this.selectedMedia.length + 1;
+          this.selectedMedia.push(item);
+        }
 
         // 画像を選択した場合、提示文言を初期化する
         this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", "");

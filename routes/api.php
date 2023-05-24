@@ -113,6 +113,8 @@ Route::middleware(['sessionTimeout'])->group(function () {
     //------------------------------------------------
     // フォルダ一覧取得
     Route::get('/api/mediafolder', [MediaFolderController::class, 'getMediaFolder']);
+    // フォルダ一覧取得(ギャラリーを作成した)
+    Route::get('/api/mediafolder/getGallery/{id}', [MediaFolderController::class, 'getGallery']);
     // フォルダ新規作成
     Route::post('/api/mediafolder/register/{id}', [MediaFolderController::class, 'register']);
     // フォルダ削除

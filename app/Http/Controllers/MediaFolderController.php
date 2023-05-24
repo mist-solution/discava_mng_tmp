@@ -14,7 +14,8 @@ use Storage;
 class MediaFolderController extends Controller
 {
     //一覧取得
-    public function getMediaFolder(Request $request){
+    public function getMediaFolder(Request $request)
+    {
         $shopId = $request->session()->get('shop_id');
         $response = array();
         //$searchFolder = $request->input('searchFolder');
@@ -52,17 +53,17 @@ class MediaFolderController extends Controller
             $mediaFolderArray['isOpen'] = false;
             $mediaFolderArray['isShow'] = false;
             $filecount = MediaAttachment::where('shop_id', $shopId)
-            ->where('del_flg', '0')
-            ->where('media_folder_id', $mediaFolderArray['id'])
-            ->get();
+                ->where('del_flg', '0')
+                ->where('media_folder_id', $mediaFolderArray['id'])
+                ->get();
             $mediaFolderArray['fileValue'] = count($filecount);
             $mediaFolderArrays[] = $mediaFolderArray;
         }
         $response['mediaFolder'] = $mediaFolderArrays;
         $mibunruicount = MediaAttachment::where('shop_id', $shopId)
-        ->where('del_flg', '0')
-        ->where('media_folder_id', 1)
-        ->get();
+            ->where('del_flg', '0')
+            ->where('media_folder_id', 1)
+            ->get();
         $response['mibunrui'] = count($mibunruicount);
         return new JsonResponse($response);
     }
@@ -151,13 +152,14 @@ class MediaFolderController extends Controller
     }
 
     //名前を降順で取得
-    public function getSortMediaFolder2(Request $request){
+    public function getSortMediaFolder2(Request $request)
+    {
         $shopId = $request->session()->get('shop_id');
         $response = array();
         //$searchFolder = $request->input('searchFolder');
         $mediaFolder = MediaFolder::where('shop_id', $shopId)
             ->where('del_flg', '0')
-            ->orderBy('name','desc')
+            ->orderBy('name', 'desc')
             ->get();
 
         //if ($searchFolder != "") {
@@ -190,29 +192,30 @@ class MediaFolderController extends Controller
             $mediaFolderArray['isOpen'] = false;
             $mediaFolderArray['isShow'] = false;
             $filecount = MediaAttachment::where('shop_id', $shopId)
-            ->where('del_flg', '0')
-            ->where('media_folder_id', $mediaFolderArray['id'])
-            ->get();
+                ->where('del_flg', '0')
+                ->where('media_folder_id', $mediaFolderArray['id'])
+                ->get();
             $mediaFolderArray['fileValue'] = count($filecount);
             $mediaFolderArrays[] = $mediaFolderArray;
         }
         $response['mediaFolder'] = $mediaFolderArrays;
         $mibunruicount = MediaAttachment::where('shop_id', $shopId)
-        ->where('del_flg', '0')
-        ->where('media_folder_id', 1)
-        ->get();
+            ->where('del_flg', '0')
+            ->where('media_folder_id', 1)
+            ->get();
         $response['mibunrui'] = count($mibunruicount);
         return new JsonResponse($response);
     }
 
     //名前を昇順で取得
-    public function getSortMediaFolder1(Request $request){
+    public function getSortMediaFolder1(Request $request)
+    {
         $shopId = $request->session()->get('shop_id');
         $response = array();
         //$searchFolder = $request->input('searchFolder');
         $mediaFolder = MediaFolder::where('shop_id', $shopId)
             ->where('del_flg', '0')
-            ->orderBy('name','asc')
+            ->orderBy('name', 'asc')
             ->get();
 
         //if ($searchFolder != "") {
@@ -245,27 +248,43 @@ class MediaFolderController extends Controller
             $mediaFolderArray['isOpen'] = false;
             $mediaFolderArray['isShow'] = false;
             $filecount = MediaAttachment::where('shop_id', $shopId)
-            ->where('del_flg', '0')
-            ->where('media_folder_id', $mediaFolderArray['id'])
-            ->get();
+                ->where('del_flg', '0')
+                ->where('media_folder_id', $mediaFolderArray['id'])
+                ->get();
             $mediaFolderArray['fileValue'] = count($filecount);
             $mediaFolderArrays[] = $mediaFolderArray;
         }
         $response['mediaFolder'] = $mediaFolderArrays;
         $mibunruicount = MediaAttachment::where('shop_id', $shopId)
-        ->where('del_flg', '0')
-        ->where('media_folder_id', 1)
-        ->get();
+            ->where('del_flg', '0')
+            ->where('media_folder_id', 1)
+            ->get();
         $response['mibunrui'] = count($mibunruicount);
         return new JsonResponse($response);
     }
 
     //詳細取得
-    public function ShowMediaFolder($id){
+    public function ShowMediaFolder($id)
+    {
         $mediaFolder =  MediaFolder::where('id', '=', $id)->firstOrFail();
-
+        log::info($id);
         return $mediaFolder;
+    }
 
+    // ギャラリー内容を取得
+    public function getGallery($id)
+    {
+        // ソートした画像配列のJSONファイルを取得
+        if (Storage::exists('gallery/galleryBySortJson/' . $id . '/galleryArraysBySorted.json')) {
+            $getJsonFile = Storage::get('gallery/galleryBySortJson/' . $id . '/galleryArraysBySorted.json');
+            $getGalleryJson = json_decode($getJsonFile, true);
+            $galleryArrays = $getGalleryJson;
+            return $galleryArrays;
+        } else {
+            return response()->json([
+                'message' => 'Json file is not exist.'
+            ], 404);
+        }
     }
 
     // 更新
@@ -292,10 +311,5 @@ class MediaFolderController extends Controller
         ];
         $model = MediaFolder::find($id);
         $model->update($update);
-
     }
-
-    
-
-
 }

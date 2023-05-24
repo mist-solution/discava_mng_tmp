@@ -61,6 +61,7 @@ export default {
     return {
       cropImage: "",
       file: null,
+      data: null,
     };
   },
   methods: {
@@ -73,6 +74,7 @@ export default {
     },
     // 画像切り抜き
     save() {
+      this.data = this.$refs.cropper.getData();
       this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
       var dataurl = this.$refs.cropper.getCroppedCanvas().toDataURL(this.type);
       // Base64からバイナリへ変換
@@ -86,7 +88,7 @@ export default {
         type: this.type,
       });
       this.file = blob;
-      this.$emit("update", this.cropImg.slice(22), this.file);
+      this.$emit("update", this.cropImg.slice(22), this.file, this.data);
       this.closeDisplayGalleryMediaEditConfirmModal();
     },
 

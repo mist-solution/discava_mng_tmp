@@ -109,8 +109,11 @@
                 >
               </v-col>
               <v-col cols="3">
-                <span class="gallery-mediaSet-infomation-content">
+                <span v-if="!edit_img_flg" class="gallery-mediaSet-infomation-content">
                   {{ Math.round(item.img_filesize / 1000) }}KB
+                </span>
+                <span v-if="edit_img_flg" class="gallery-mediaSet-infomation-content">
+                  {{ Math.round(editedFile.size / 1000) }}KB
                 </span>
               </v-col>
               <!-- 画像詳細内容（右2）　アップロード日 -->
@@ -131,8 +134,11 @@
                 <span class="gallery-mediaSet-infomation-name">サイズ</span>
               </v-col>
               <v-col cols="3">
-                <span class="gallery-mediaSet-infomation-content">
+                <span  v-if="!edit_img_flg" class="gallery-mediaSet-infomation-content">
                   {{ item.img_height }}px x {{ item.img_width }}px
+                </span>
+                <span  v-if="edit_img_flg" class="gallery-mediaSet-infomation-content">
+                  {{  Math.round(date.height) }}px x {{  Math.round(date.width) }}px
                 </span>
               </v-col>
               <!-- 画像詳細内容（右3）　更新日 -->
@@ -171,8 +177,11 @@
                 >
               </v-col>
               <v-col cols="6">
-                <span class="gallery-mediaSet-infomation-content">
+                <span v-if="!edit_img_flg" class="gallery-mediaSet-infomation-content">
                   {{ Math.round(item.img_filesize / 1000) }}KB
+                </span>
+                <span v-if="edit_img_flg" class="gallery-mediaSet-infomation-content">
+                  {{ Math.round(editedFile.size / 1000) }}KB
                 </span>
               </v-col>
             </v-row>
@@ -182,8 +191,11 @@
                 <span class="gallery-mediaSet-infomation-name">サイズ</span>
               </v-col>
               <v-col cols="6">
-                <span class="gallery-mediaSet-infomation-content">
+                <span v-if="!edit_img_flg" class="gallery-mediaSet-infomation-content">
                   {{ item.img_height }}px x {{ item.img_width }}px
+                </span>
+                <span v-if="edit_img_flg" class="gallery-mediaSet-infomation-content">
+                  {{  Math.round(date.height) }}px x {{  Math.round(date.width) }}px
                 </span>
               </v-col>
             </v-row>
@@ -566,6 +578,7 @@ export default {
       edit_img_flg: false,
       crop_img: "",
       editedFile: null,
+      date: null,
     };
   },
   methods: {
@@ -600,7 +613,15 @@ export default {
       };
       formData.append("mediaAttachment", JSON.stringify(info));
 
-      formData.append("file", this.editedFile);
+      if(this.edit_img_flg){
+        const info2 = {
+          img_filesize: this.editedFile.size,
+          img_width: this.date.width,
+          img_height: this.date.height,
+        }
+        formData.append("file", this.editedFile);
+        formData.append("fileDate", JSON.stringify(info2));
+      };
 
       axios.post("/api/mediaAttachment/update/" + this.item.id, formData, {
         headers: { "Content-type": "multipart/form-data" },
@@ -630,10 +651,12 @@ export default {
     },
 
     // 画像更新処理
-    updateImg(value1, value2) {
+    updateImg(value1, value2, value3) {
       this.crop_img = value1;
       this.editedFile = value2;
       this.edit_img_flg = true;
+      this.date = value3;
+      console.log(this.date);
     },
 
     // 画像 アップロード先取得

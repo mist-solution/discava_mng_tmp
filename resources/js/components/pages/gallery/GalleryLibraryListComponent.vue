@@ -561,6 +561,7 @@ export default {
               }
             })
             .catch((error) => {
+              console.log(error);
               // ギャラリーを作成したことがない場合、APIから404を返却
               if (error.response.status == 404) {
                 // 該当フォルダに画像は1件以上存在し、選択しない場合
@@ -655,6 +656,18 @@ export default {
                 this.selectedMedia[j] = this.selectedMedia[j + 1];
                 this.selectedMedia[j].selectNo =
                   this.selectedMedia[j].selectNo - 1;
+
+                // ギャラリーで選択された画像を選択しない場合のselectNo処理
+                for (let i = 0; i < this.library.length; i++) {
+                  for (let j = 0; j < this.selectedMedia.length; j++) {
+                    if (this.library[i].id == this.selectedMedia[j].id) {
+                      const index = this.selectedMedia.indexOf(
+                        this.library[i].id
+                      );
+                      this.library[i].selectNo = this.selectedMedia[j].selectNo;
+                    }
+                  }
+                }
               } else {
                 this.selectedMedia.pop();
               }

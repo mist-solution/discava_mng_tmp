@@ -344,11 +344,10 @@ export default {
         .then((res) => {
           this.library = res.data.mediaAttachment;
           // 検索結果は0件の場合、提示文言を表示
-          if (this.library.length == 0) {
-            const searchByFileFormat = this.$store.state.library.FileFormat;
-            const searchByDate = this.$store.state.library.AddDateBegin;
-            const searchByCaption = this.$store.state.library.Caption;
-
+          const searchByFileFormat = this.$store.state.library.FileFormat;
+          const searchByDate = this.$store.state.library.AddDateBegin;
+          const searchByCaption = this.$store.state.library.Caption;
+          if (this.library.length == 0 && searchByFileFormat == null) {
             if (
               // ファイル形式のみ選択
               searchByFileFormat != 0 &&

@@ -403,25 +403,29 @@ export default {
     FilterLibrary() {
       //投稿月検索
       if (this.createdmodel != null) {
-        let start_year;
-        let start_month;
-        let end_year;
-        let end_month;
-        if (this.createdmodel.month == 11) {
-          start_month = 12;
-          start_year = this.createdmodel.year;
-          end_month = 1;
-          end_year = start_year + 1;
-        } else {
-          start_month = this.createdmodel.month + 1;
-          start_year = this.createdmodel.year;
-          end_month = start_month + 1;
-          end_year = start_year;
-        }
-        let start = new Date(start_year + "-" + start_month + "-1");
-        let end = new Date(end_year + "-" + end_month + "-1");
-        start.setHours(start.getHours() + 9);
-        end.setHours(end.getHours() + 9);
+        // let start_year;
+        // let start_month;
+        // let end_year;
+        // let end_month;
+        // if (this.createdmodel.month == 11) {
+        //   start_month = 12;
+        //   start_year = this.createdmodel.year;
+        //   end_month = 1;
+        //   end_year = start_year + 1;
+        // } else {
+        //   start_month = this.createdmodel.month + 1;
+        //   start_year = this.createdmodel.year;
+        //   end_month = start_month + 1;
+        //   end_year = start_year;
+        // }
+        // let start = new Date(start_year + "-" + start_month + "-1");
+        // let end = new Date(end_year + "-" + end_month + "-1");
+        // start.setHours(start.getHours() + 9);
+        // end.setHours(end.getHours() + 9);
+
+        let start = moment(this.createdmodel).format("yyyy/MM/01");
+        let end = moment(this.createdmodel).endOf("month").format("YYYY/MM/DD");
+
         this.$store.dispatch("library/setAddDateBegin", start);
         this.$store.dispatch("library/setAddDateEnd", end);
       } else {

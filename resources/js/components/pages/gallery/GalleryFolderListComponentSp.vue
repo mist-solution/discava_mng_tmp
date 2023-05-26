@@ -349,6 +349,7 @@ export default {
       ],
       cardOpen: false,
       folder: [],
+      sortfolder: [],
       regist_flg: false,
       regist_flg2: false,
       parent_folder_regist_flg: false,
@@ -659,6 +660,29 @@ export default {
       }
     },
 
+    // フォルダ一覧取得(ソート用)
+    getMediaFolder2: async function () {
+      if (this.sortNo == 1) {
+        await axios.get("api/mediafolder").then((res) => {
+          this.sortfolder = res.data.mediaFolder;
+          this.sortfolder = this.prefolder.concat(this.sortfolder);
+          this.mibunrui = res.data.mibunrui;
+        });
+      } else if (this.sortNo == 2) {
+        await axios.get("api/mediafolder/asc").then((res) => {
+          this.sortfolder = res.data.mediaFolder;
+          this.sortfolder = this.prefolder.concat(this.sortfolder);
+          this.mibunrui = res.data.mibunrui;
+        });
+      } else if (this.sortNo == 3) {
+        await axios.get("api/mediafolder/desc").then((res) => {
+          this.sortfolder = res.data.mediaFolder;
+          this.sortfolder = this.prefolder.concat(this.sortfolder);
+          this.mibunrui = res.data.mibunrui;
+        });
+      }
+    },
+
     //追加ボタン押下
     registerbtn() {
       this.namechange_flg = false;
@@ -796,12 +820,18 @@ export default {
     },
 
     //ソート機能
-    sort() {
+    sort: async function () {
       this.sortNo = this.sortNo + 1;
       if (this.sortNo == 4) {
         this.sortNo = 1;
       }
-      this.getMediaFolder();
+      if (this.searchWord != "") {
+        await this.searchFolder2();
+        this.folder = this.sortfolder;
+        this.isParentFolder();
+      }else{
+        await this.getMediaFolder();
+      }
     },
 
     //検索機能
@@ -880,6 +910,92 @@ export default {
         this.folder = this.searchResult;
         this.$store.dispatch("library/setSelectedFolder", null);
         if (this.folder.length == 0) {
+          var hintMsg = ["条件を満たす検索結果はありません。"];
+          this.$store.dispatch("gallery/setGalleryHintMessagesFolder", hintMsg);
+        } else {
+          this.$store.dispatch("gallery/setGalleryHintMessagesFolder", "");
+        }
+      } else {
+        this.$store.dispatch("gallery/setGalleryHintMessagesFolder", "");
+      }
+    },
+
+    //検索機能（ソート用）
+    searchFolder2: async function () {
+      await this.getMediaFolder2();
+      this.searchResult = [];
+      if (this.searchWord != "") {
+        for (let i = 0; i < this.sortfolder.length; i++) {
+          if (this.sortfolder[i].name.indexOf(this.searchWord) != -1) {
+            this.searchResult = this.searchResult.concat([this.sortfolder[i]]);
+          } else if (this.sortfolder[i].kaisou == 1 && this.sortfolder[i].id != 0) {
+            outer: for (let j = 0; j < this.sortfolder.length; j++) {
+              if (this.sortfolder[j].parent_folder_id == this.sortfolder[i].id) {
+                if (this.sortfolder[j].name.indexOf(this.searchWord) != -1) {
+                  this.searchResult = this.searchResult.concat([
+                    this.sortfolder[i],
+                  ]);
+                  break;
+                } else {
+                  for (let k = 0; k < this.sortfolder.length; k++) {
+                    if (
+                      this.sortfolder[k].parent_folder_id == this.sortfolder[j].id &&
+                      this.sortfolder[k].name.indexOf(this.searchWord) != -1
+                    ) {
+                      this.searchResult = this.searchResult.concat([
+                        this.sortfolder[i],
+                      ]);
+                      break outer;
+                    }
+                  }
+                }
+              }
+            }
+          } else if (this.sortfolder[i].kaisou == 2) {
+            for (let j = 0; j < this.sortfolder.length; j++) {
+              if (
+                this.sortfolder[i].parent_folder_id == this.sortfolder[j].id &&
+                this.sortfolder[j].name.indexOf(this.searchWord) != -1
+              ) {
+                this.searchResult = this.searchResult.concat([this.sortfolder[i]]);
+                break;
+              } else if (this.sortfolder[j].parent_folder_id == this.sortfolder[i].id) {
+                if (this.sortfolder[j].name.indexOf(this.searchWord) != -1) {
+                  this.searchResult = this.searchResult.concat([
+                    this.sortfolder[i],
+                  ]);
+                  break;
+                }
+              }
+            }
+          } else if (this.sortfolder[i].kaisou == 3) {
+            outer2: for (let j = 0; j < this.sortfolder.length; j++) {
+              if (this.sortfolder[i].parent_folder_id == this.sortfolder[j].id) {
+                if (this.sortfolder[j].name.indexOf(this.searchWord) != -1) {
+                  this.searchResult = this.searchResult.concat([
+                    this.sortfolder[i],
+                  ]);
+                  break;
+                } else {
+                  for (let k = 0; k < this.sortfolder.length; k++) {
+                    if (
+                      this.sortfolder[j].parent_folder_id == this.sortfolder[k].id &&
+                      this.sortfolder[k].name.indexOf(this.searchWord) != -1
+                    ) {
+                      this.searchResult = this.searchResult.concat([
+                        this.sortfolder[i],
+                      ]);
+                      break outer2;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        this.sortfolder = this.searchResult;
+        this.$store.dispatch("library/setSelectedFolder", null);
+        if (this.sortfolder.length == 0) {
           var hintMsg = ["条件を満たす検索結果はありません。"];
           this.$store.dispatch("gallery/setGalleryHintMessagesFolder", hintMsg);
         } else {

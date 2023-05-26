@@ -60,11 +60,12 @@ class MediaAttachment extends Model
 
         // 画像検索
         if ($searchCaption != "") {
-            $mediaAttachmentModel = $mediaAttachmentModel->where(function ($query) use ($searchCaption) {
-                $query->orwhere('img_caption', 'LIKE', "%{$searchCaption}%")
-                    ->orwhere('img_filename', 'LIKE', "%{$searchCaption}%")
-                    ->orwhere('img_alt', 'LIKE', "%{$searchCaption}%")
-                    ->orwhere('img_memo', 'LIKE', "%{$searchCaption}%");
+            $pat = '%' . addcslashes($searchCaption, '%_\\') . '%';
+            $mediaAttachmentModel = $mediaAttachmentModel->where(function ($query) use ($pat) {
+                $query->orwhere('img_caption', 'LIKE', $pat)
+                    ->orwhere('img_filename', 'LIKE', $pat)
+                    ->orwhere('img_alt', 'LIKE', $pat)
+                    ->orwhere('img_memo', 'LIKE', $pat);
             });
         }
 

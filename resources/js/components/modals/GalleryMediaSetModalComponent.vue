@@ -520,7 +520,7 @@
         >
         <!-- キャンセルボタン -->
         <v-btn
-          @click="closeDisplayGalleryMediaSetModal(), (edit_img_flg = false)"
+          @click="closeDisplayGalleryMediaSetModal(), (edit_img_flg = false , beforefolderID = null , afterfolderID = null)"
           class="gray-btn mx-2 gallery-mediaSet-cancel-btn"
           >キャンセル</v-btn
         >
@@ -579,6 +579,8 @@ export default {
       crop_img: "",
       editedFile: null,
       date: null,
+      afterfolderID: null,
+      beforefolderID: null,
     };
   },
   methods: {
@@ -621,13 +623,21 @@ export default {
         }
         formData.append("file", this.editedFile);
         formData.append("fileDate", JSON.stringify(info2));
-      };
-
+      }
       axios.post("/api/mediaAttachment/update/" + this.item.id, formData, {
         headers: { "Content-type": "multipart/form-data" },
       });
 
       this.edit_img_flg = false;
+      if(this.beforefolderID !== this.afterfolderID){
+        console.log("beforefolderID:" + this.beforefolderID);
+        console.log("afterfolderID:" + this.afterfolderID);
+        this.$store.dispatch("gallery/setGalleryMove", this.beforefolderID);
+        this.$store.dispatch("gallery/setGalleryMove2", this.afterfolderID);
+      }
+
+      this.beforefolderID = null;
+      this.afterfolderID = null;
 
       this.closeDisplayGalleryMediaSetModal();
     },
@@ -656,7 +666,6 @@ export default {
       this.editedFile = value2;
       this.edit_img_flg = true;
       this.date = value3;
-      console.log(this.date);
     },
 
     // 画像 アップロード先取得
@@ -719,12 +728,16 @@ export default {
 
     folderidModel: {
       get() {
+        if(this.beforefolderID === null){
+          this.beforefolderID = this.$props.folderid;
+        }
         return this.$props.folderid;
       },
       set(newVal) {
         this.$emit("update:folderid", newVal);
+        this.afterfolderID = newVal;
       },
-    },
+      },
   },
   async mounted() {
     let authority = await this.fetchAllAuthority();

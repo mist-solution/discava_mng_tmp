@@ -370,6 +370,9 @@ export default {
     galleryDelete() {
       return this.$store.state.gallery.galleryDelete;
     },
+    galleryMove2() {
+      return this.$store.state.gallery.galleryMove2;
+    },
   },
   watch: {
     galleryCreate() {
@@ -406,7 +409,32 @@ export default {
         this.$store.dispatch("gallery/setGalleryDelete", null);
       }
     },
-
+    galleryMove2() {
+      if(this.$store.state.gallery.galleryMove){
+        if(this.$store.state.gallery.galleryMove === 1){
+          this.folder[1].fileValue = this.folder[1].fileValue - 1;
+        } else {
+          for (let i = 0; i < this.folder.length; i++) {
+            if(this.folder[i].id === this.$store.state.gallery.galleryMove){
+              this.folder[i].fileValue = this.folder[i].fileValue - 1;
+            }
+          }
+        }
+        this.$store.dispatch("gallery/setGalleryMove", null);
+      }
+      if(this.$store.state.gallery.galleryMove2){
+        if(this.$store.state.gallery.galleryMove2 === 1){
+          this.folder[1].fileValue = this.folder[1].fileValue + 1;
+        } else {
+          for (let i = 0; i < this.folder.length; i++) {
+            if(this.folder[i].id === this.$store.state.gallery.galleryMove2){
+              this.folder[i].fileValue = this.folder[i].fileValue + 1;
+            }
+          }
+        }
+        this.$store.dispatch("gallery/setGalleryMove2", null);
+      }
+    },
   },
   methods: {
     ...mapActions("authority", ["fetchAllAuthority"]),

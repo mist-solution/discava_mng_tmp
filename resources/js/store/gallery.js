@@ -3,6 +3,8 @@ const state = {
     galleryHintMessagesInFolder: null,
     galleryCreate: null,
     galleryDelete: null,
+    galleryMove: null,
+    galleryMove2: null,
 }
 const getters = {
 
@@ -20,6 +22,12 @@ const mutations = {
     },
     setGalleryDelete(state, messages) {
         state.galleryDelete = messages;
+    },
+    setGalleryMove(state, messages) {
+        state.galleryMove = messages;
+    },
+    setGalleryMove2(state, messages) {
+        state.galleryMove2 = messages;
     }
 };
 
@@ -35,6 +43,12 @@ const actions = {
     },
     setGalleryDelete(context, messages) {
         context.commit('setGalleryDelete', messages);
+    },
+    setGalleryMove(context, messages) {
+        context.commit('setGalleryMove', messages);
+    },
+    setGalleryMove2(context, messages) {
+        context.commit('setGalleryMove2', messages);
     }
 };
 

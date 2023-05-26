@@ -103,7 +103,7 @@ class MediaAttachmentController extends Controller
 
         $model->update($update);
 
-        if($data['file']){
+         if($data['file']){
             $mediaDate = json_decode($data['fileDate'], true);
             $update = [
                 'img_path' => Storage::putFile('gallery/' . $request->session()->get('shop_id') . "/" . $id, $data['file']),
@@ -114,6 +114,6 @@ class MediaAttachmentController extends Controller
 
 
             $model->update($update);
-        };
+        }; 
     }
 }

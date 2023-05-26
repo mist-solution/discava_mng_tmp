@@ -73,7 +73,6 @@ export default {
       axios.delete("/api/mediaAttachment/" + this.id);
       this.closeDisplayGalleryMediaDeleteConfirmModal();
       this.$store.dispatch("gallery/setGalleryDelete", this.folderid);
-      console.log(this.folderid);
       this.$emit("close");
     },
   },

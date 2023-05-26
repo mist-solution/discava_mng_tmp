@@ -220,6 +220,12 @@ export default {
   },
   watch: {
     selectedFolder() {
+      this.$store.dispatch("library/setAddDateBegin", null);
+      this.$store.dispatch("library/setAddDateEnd", null);
+      this.$store.dispatch("library/setCaption", null);
+      this.$store.dispatch("library/setFileFormat", null);
+      this.createdmodel = null;
+      this.captionModel = "";
       this.getLibraryList();
       this.selectedfolderid = this.$store.state.library.selectedFolder;
       this.selectMediaFlg = false;

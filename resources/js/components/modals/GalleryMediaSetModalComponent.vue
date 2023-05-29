@@ -931,7 +931,7 @@ export default {
 }
 .gallery-mediaSet-edit-input-disable {
   font-size: 16px;
-  color: #707070;
+  color: #9f9f9f;
   background-color: #f5f5f5;
   border: 1px solid #c0c0c0;
   border-radius: 10px;
@@ -942,12 +942,12 @@ export default {
 }
 @media (max-width: 900px) {
   .gallery-mediaSet-edit-input-disable {
-    background-color: #f8f8f8;
+    background-color: #f0f0f0;
   }
 }
 @media (max-width: 640px) {
   .gallery-mediaSet-edit-input-disable {
-    background-color: #f8f8f8;
+    background-color: #f0f0f0;
     font-size: x-small;
   }
 }

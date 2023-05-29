@@ -931,7 +931,7 @@ export default {
 }
 .gallery-mediaSet-edit-input-disable {
   font-size: 16px;
-  color: #9f9f9f;
+  color: #707070;
   background-color: #f5f5f5;
   border: 1px solid #c0c0c0;
   border-radius: 10px;

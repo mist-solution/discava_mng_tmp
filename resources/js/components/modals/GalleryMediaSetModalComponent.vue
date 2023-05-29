@@ -109,10 +109,16 @@
                 >
               </v-col>
               <v-col cols="3">
-                <span v-if="!edit_img_flg" class="gallery-mediaSet-infomation-content">
+                <span
+                  v-if="!edit_img_flg"
+                  class="gallery-mediaSet-infomation-content"
+                >
                   {{ Math.round(item.img_filesize / 1000) }}KB
                 </span>
-                <span v-if="edit_img_flg" class="gallery-mediaSet-infomation-content">
+                <span
+                  v-if="edit_img_flg"
+                  class="gallery-mediaSet-infomation-content"
+                >
                   {{ Math.round(editedFile.size / 1000) }}KB
                 </span>
               </v-col>
@@ -134,11 +140,18 @@
                 <span class="gallery-mediaSet-infomation-name">サイズ</span>
               </v-col>
               <v-col cols="3">
-                <span  v-if="!edit_img_flg" class="gallery-mediaSet-infomation-content">
+                <span
+                  v-if="!edit_img_flg"
+                  class="gallery-mediaSet-infomation-content"
+                >
                   {{ item.img_height }}px x {{ item.img_width }}px
                 </span>
-                <span  v-if="edit_img_flg" class="gallery-mediaSet-infomation-content">
-                  {{  Math.round(date.height) }}px x {{  Math.round(date.width) }}px
+                <span
+                  v-if="edit_img_flg"
+                  class="gallery-mediaSet-infomation-content"
+                >
+                  {{ Math.round(date.height) }}px x
+                  {{ Math.round(date.width) }}px
                 </span>
               </v-col>
               <!-- 画像詳細内容（右3）　更新日 -->
@@ -177,10 +190,16 @@
                 >
               </v-col>
               <v-col cols="6">
-                <span v-if="!edit_img_flg" class="gallery-mediaSet-infomation-content">
+                <span
+                  v-if="!edit_img_flg"
+                  class="gallery-mediaSet-infomation-content"
+                >
                   {{ Math.round(item.img_filesize / 1000) }}KB
                 </span>
-                <span v-if="edit_img_flg" class="gallery-mediaSet-infomation-content">
+                <span
+                  v-if="edit_img_flg"
+                  class="gallery-mediaSet-infomation-content"
+                >
                   {{ Math.round(editedFile.size / 1000) }}KB
                 </span>
               </v-col>
@@ -191,11 +210,18 @@
                 <span class="gallery-mediaSet-infomation-name">サイズ</span>
               </v-col>
               <v-col cols="6">
-                <span v-if="!edit_img_flg" class="gallery-mediaSet-infomation-content">
+                <span
+                  v-if="!edit_img_flg"
+                  class="gallery-mediaSet-infomation-content"
+                >
                   {{ item.img_height }}px x {{ item.img_width }}px
                 </span>
-                <span v-if="edit_img_flg" class="gallery-mediaSet-infomation-content">
-                  {{  Math.round(date.height) }}px x {{  Math.round(date.width) }}px
+                <span
+                  v-if="edit_img_flg"
+                  class="gallery-mediaSet-infomation-content"
+                >
+                  {{ Math.round(date.height) }}px x
+                  {{ Math.round(date.width) }}px
                 </span>
               </v-col>
             </v-row>
@@ -520,7 +546,12 @@
         >
         <!-- キャンセルボタン -->
         <v-btn
-          @click="closeDisplayGalleryMediaSetModal(), (edit_img_flg = false , beforefolderID = null , afterfolderID = null)"
+          @click="
+            closeDisplayGalleryMediaSetModal(),
+              ((edit_img_flg = false),
+              (beforefolderID = null),
+              (afterfolderID = null))
+          "
           class="gray-btn mx-2 gallery-mediaSet-cancel-btn"
           >キャンセル</v-btn
         >
@@ -615,12 +646,12 @@ export default {
       };
       formData.append("mediaAttachment", JSON.stringify(info));
 
-      if(this.edit_img_flg){
+      if (this.edit_img_flg) {
         const info2 = {
           img_filesize: this.editedFile.size,
           img_width: this.date.width,
           img_height: this.date.height,
-        }
+        };
         formData.append("file", this.editedFile);
         formData.append("fileDate", JSON.stringify(info2));
       }
@@ -629,7 +660,7 @@ export default {
       });
 
       this.edit_img_flg = false;
-      if(this.beforefolderID !== this.afterfolderID){
+      if (this.beforefolderID !== this.afterfolderID) {
         console.log("beforefolderID:" + this.beforefolderID);
         console.log("afterfolderID:" + this.afterfolderID);
         this.$store.dispatch("gallery/setGalleryMove", this.beforefolderID);
@@ -728,7 +759,7 @@ export default {
 
     folderidModel: {
       get() {
-        if(this.beforefolderID === null){
+        if (this.beforefolderID === null) {
           this.beforefolderID = this.$props.folderid;
         }
         return this.$props.folderid;
@@ -737,7 +768,7 @@ export default {
         this.$emit("update:folderid", newVal);
         this.afterfolderID = newVal;
       },
-      },
+    },
   },
   async mounted() {
     let authority = await this.fetchAllAuthority();
@@ -911,12 +942,12 @@ export default {
 }
 @media (max-width: 900px) {
   .gallery-mediaSet-edit-input-disable {
-    background-color: #e0e0e0;
+    background-color: #f8f8f8;
   }
 }
 @media (max-width: 640px) {
   .gallery-mediaSet-edit-input-disable {
-    background-color: #e0e0e0;
+    background-color: #f8f8f8;
     font-size: x-small;
   }
 }

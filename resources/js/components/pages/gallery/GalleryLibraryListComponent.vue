@@ -353,9 +353,10 @@ export default {
           const searchByFileFormat = this.$store.state.library.FileFormat;
           const searchByDate = this.$store.state.library.AddDateBegin;
           const searchByCaption = this.$store.state.library.Caption;
-          if (this.library.length == 0 && searchByFileFormat == null) {
+          if (this.library.length == 0) {
             if (
               // ファイル形式のみ選択
+              searchByFileFormat &&
               searchByFileFormat != 0 &&
               !searchByDate &&
               !searchByCaption
@@ -383,6 +384,18 @@ export default {
               searchByCaption
             ) {
               var hintMsg = ["入力したキーワードの検索結果はありません。"];
+              this.$store.dispatch(
+                "gallery/setGalleryHintMessagesLibrary",
+                hintMsg
+              );
+            } else if (
+              // 該当フォルダ内画像はなしの場合
+              this.library.length == 0 &&
+              searchByFileFormat == null &&
+              searchByDate == null &&
+              searchByCaption == null
+            ) {
+              var hintMsg = [""];
               this.$store.dispatch(
                 "gallery/setGalleryHintMessagesLibrary",
                 hintMsg

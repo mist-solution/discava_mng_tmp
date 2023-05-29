@@ -327,6 +327,18 @@ export default {
                 "gallery/setGalleryHintMessagesLibrary",
                 hintMsg
               );
+            } else if (
+              // 該当フォルダ内画像はなしの場合
+              this.library.length == 0 &&
+              searchByFileFormat == null &&
+              searchByDate == null &&
+              searchByCaption == null
+            ) {
+              var hintMsg = [""];
+              this.$store.dispatch(
+                "gallery/setGalleryHintMessagesLibrary",
+                hintMsg
+              );
             } else {
               var hintMsg = ["条件を満たす検索結果はありません。"];
               this.$store.dispatch(
@@ -720,7 +732,7 @@ export default {
 
   .gallery-library-add-btn-sp {
     height: 2.5rem;
-    margin-left: 30%;
+    margin-left: 24%;
     font-size: 18px;
     display: flex;
     align-items: center;

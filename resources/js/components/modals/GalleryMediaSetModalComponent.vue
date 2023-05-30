@@ -86,7 +86,7 @@
               </v-col>
               <v-col cols="3">
                 <span class="gallery-mediaSet-infomation-content">
-                  {{ item.img_fileformat }}
+                  {{ showExt(item.img_fileformat) }}
                 </span>
               </v-col>
               <!-- 画像詳細内容（右1）　アップロードした人 -->
@@ -178,7 +178,7 @@
               </v-col>
               <v-col cols="6">
                 <span class="gallery-mediaSet-infomation-content">
-                  {{ item.img_fileformat }}
+                  {{ showExt(item.img_fileformat) }}
                 </span>
               </v-col>
             </v-row>
@@ -575,7 +575,7 @@
       "
       :img="item.img_path"
       :img_alt="item.img_alt == null ? item.img_filename : item.img_alt"
-      :type="item.img_fileformat"
+      :type="showExt(item.img_fileformat)"
       @update="updateImg"
     />
   </v-dialog>
@@ -706,6 +706,12 @@ export default {
       let updatePath =
         siteUrl + "/" + item.shop_id + "/" + item.id + "/" + item.img_filename;
       return updatePath;
+    },
+
+    // 拡張子の処理
+    showExt(fullExt) {
+      const shortExt = fullExt.split("/")[1];
+      return shortExt;
     },
   },
   computed: {

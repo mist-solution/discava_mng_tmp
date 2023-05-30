@@ -262,6 +262,7 @@ export default {
     //画面設定モーダルを閉じる
     closeDisplayGalleryMediaSet() {
       this.displayGalleryMediaSet = false;
+      this.selectedMedia = [];
       this.getLibraryList();
     },
 
@@ -285,10 +286,6 @@ export default {
         })
         .then((res) => {
           this.library = res.data.mediaAttachment;
-
-          // 提示文言を初期化する
-          this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", "");
-
           // 検索結果は0件の場合、提示文言を表示
           const searchByFileFormat = this.$store.state.library.FileFormat;
           const searchByDate = this.$store.state.library.AddDateBegin;
@@ -514,9 +511,26 @@ export default {
             .then((res) => {
               // ギャラリーを作成したことがある
               this.selectedMedia = res.data;
-              for (let i = 0; i < this.selectedMedia.length; i++) {
+              for (let i = 0; i < res.data.length; i++) {
                 item = this.selectedMedia[i];
-                this.clickMedia(item);
+                for (let j = 0; j < this.library.length; j++) {
+                  // 画像が存在する
+                  if (item.id == this.library[j].id) {
+                    this.clickMedia(item);
+
+                    // 画像が存在しない
+                  } else if (
+                    !this.library.some((library) => library.id === item.id)
+                  ) {
+                    // selectedMedia配列から削除する
+                    const index = this.selectedMedia.findIndex(
+                      (selectedMedia) => selectedMedia.id === item.id
+                    );
+                    if (index !== -1) {
+                      this.selectedMedia.splice(index, 1);
+                    }
+                  }
+                }
               }
             })
             .catch((error) => {
@@ -534,7 +548,7 @@ export default {
               }
             });
         } else if (this.selectedMedia.length != 0) {
-          this.displayGalleryMediaDisplaySet = true;
+          this.displayGalleryMediaDisplaySetSp = true;
           // 提示文言を初期化する
           this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", "");
         }
@@ -648,7 +662,6 @@ export default {
       }
     },
   },
-
   async mounted() {
     this.getLibraryList();
     let authority = await this.fetchAllAuthority();

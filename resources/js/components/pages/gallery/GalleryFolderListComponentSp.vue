@@ -1114,7 +1114,7 @@ export default {
   /* 親フォルダ名初期表示スタイル */
   .gallery-folder-show-sp {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     cursor: pointer;
     color: #9f9f9f;
     font-size: 16px;
@@ -1144,7 +1144,7 @@ export default {
   /* 選択された親フォルダスタイル */
   .gallery-folder-show-active-sp {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     cursor: pointer;
     color: #69a4af;
     font-size: 16px;
@@ -1178,7 +1178,7 @@ export default {
   /* 子フォルダ名初期表示スタイル */
   .gallery-sub-folder-show-sp {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     cursor: pointer;
     color: #9f9f9f;
     font-size: 16px;
@@ -1208,7 +1208,7 @@ export default {
   /* 選択された親フォルダスタイル */
   .gallery-sub-folder-show-active-sp {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     cursor: pointer;
     color: #69a4af;
     font-size: 16px;
@@ -1241,39 +1241,10 @@ export default {
     line-height: initial;
   }
 
-  /* フォルダ名初期表示スタイル */
-  .gallery-folder-show-sp {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    color: #9f9f9f;
-    font-size: 16px;
-    line-height: 2rem;
-    margin: 5px 0;
-  }
-  .gallery-folder-show-sp span {
-    color: #9f9f9f;
-    font-size: 22px;
-  }
-  .gallery-folder-show-sp .folder-name {
-    font-size: 16px;
-    padding-left: 5px;
-    width: -webkit-fill-available;
-  }
-  .gallery-folder-show-sp .number {
-    text-align: right;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    width: fit-content;
-    padding: 5px;
-    font-size: 12px;
-    line-height: initial;
-  }
-
   /* 孫フォルダ名初期表示スタイル */
   .gallery-sub2-folder-show-sp {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     cursor: pointer;
     color: #9f9f9f;
     font-size: 16px;
@@ -1303,7 +1274,7 @@ export default {
   /* 選択された孫フォルダスタイル */
   .gallery-sub2-folder-show-active-sp {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     cursor: pointer;
     color: #69a4af;
     font-size: 16px;

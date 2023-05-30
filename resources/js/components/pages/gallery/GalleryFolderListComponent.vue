@@ -377,31 +377,33 @@ export default {
   },
   watch: {
     galleryCreate() {
-      if(this.$store.state.gallery.galleryCreate){
-        if(this.$store.state.library.selectedFolder === -1){
+      if (this.$store.state.gallery.galleryCreate) {
+        if (this.$store.state.library.selectedFolder === -1) {
           this.folder[0].fileValue = this.folder[0].fileValue + 1;
           this.folder[1].fileValue = this.folder[1].fileValue + 1;
-        } else if(this.$store.state.library.selectedFolder === null){
+        } else if (this.$store.state.library.selectedFolder === null) {
           this.folder[0].fileValue = this.folder[0].fileValue + 1;
           this.folder[1].fileValue = this.folder[1].fileValue + 1;
         } else {
-         for (let i = 0; i < this.folder.length; i++) {
-          if (this.folder[i].id === this.$store.state.library.selectedFolder) {
-            this.folder[i].fileValue = this.folder[i].fileValue + 1;
+          for (let i = 0; i < this.folder.length; i++) {
+            if (
+              this.folder[i].id === this.$store.state.library.selectedFolder
+            ) {
+              this.folder[i].fileValue = this.folder[i].fileValue + 1;
+            }
           }
-         }
-         this.folder[0].fileValue = this.folder[0].fileValue + 1;
-        this.$store.dispatch("gallery/setGalleryCreate", null);
+          this.folder[0].fileValue = this.folder[0].fileValue + 1;
+          this.$store.dispatch("gallery/setGalleryCreate", null);
         }
       }
     },
     galleryDelete() {
-      if(this.$store.state.gallery.galleryDelete){
-        if(this.$store.state.gallery.galleryDelete === 1){
+      if (this.$store.state.gallery.galleryDelete) {
+        if (this.$store.state.gallery.galleryDelete === 1) {
           this.folder[1].fileValue = this.folder[1].fileValue - 1;
         } else {
           for (let i = 0; i < this.folder.length; i++) {
-            if(this.folder[i].id === this.$store.state.gallery.galleryDelete){
+            if (this.folder[i].id === this.$store.state.gallery.galleryDelete) {
               this.folder[i].fileValue = this.folder[i].fileValue - 1;
             }
           }
@@ -411,24 +413,24 @@ export default {
       }
     },
     galleryMove2() {
-      if(this.$store.state.gallery.galleryMove){
-        if(this.$store.state.gallery.galleryMove === 1){
+      if (this.$store.state.gallery.galleryMove) {
+        if (this.$store.state.gallery.galleryMove === 1) {
           this.folder[1].fileValue = this.folder[1].fileValue - 1;
         } else {
           for (let i = 0; i < this.folder.length; i++) {
-            if(this.folder[i].id === this.$store.state.gallery.galleryMove){
+            if (this.folder[i].id === this.$store.state.gallery.galleryMove) {
               this.folder[i].fileValue = this.folder[i].fileValue - 1;
             }
           }
         }
         this.$store.dispatch("gallery/setGalleryMove", null);
       }
-      if(this.$store.state.gallery.galleryMove2){
-        if(this.$store.state.gallery.galleryMove2 === 1){
+      if (this.$store.state.gallery.galleryMove2) {
+        if (this.$store.state.gallery.galleryMove2 === 1) {
           this.folder[1].fileValue = this.folder[1].fileValue + 1;
         } else {
           for (let i = 0; i < this.folder.length; i++) {
-            if(this.folder[i].id === this.$store.state.gallery.galleryMove2){
+            if (this.folder[i].id === this.$store.state.gallery.galleryMove2) {
               this.folder[i].fileValue = this.folder[i].fileValue + 1;
             }
           }
@@ -820,7 +822,7 @@ export default {
         await this.searchFolder2();
         this.folder = this.sortfolder;
         this.isParentFolder();
-      }else{
+      } else {
         await this.getMediaFolder();
       }
     },
@@ -919,9 +921,14 @@ export default {
         for (let i = 0; i < this.sortfolder.length; i++) {
           if (this.sortfolder[i].name.indexOf(this.searchWord) != -1) {
             this.searchResult = this.searchResult.concat([this.sortfolder[i]]);
-          } else if (this.sortfolder[i].kaisou == 1 && this.sortfolder[i].id != 0) {
+          } else if (
+            this.sortfolder[i].kaisou == 1 &&
+            this.sortfolder[i].id != 0
+          ) {
             outer: for (let j = 0; j < this.sortfolder.length; j++) {
-              if (this.sortfolder[j].parent_folder_id == this.sortfolder[i].id) {
+              if (
+                this.sortfolder[j].parent_folder_id == this.sortfolder[i].id
+              ) {
                 if (this.sortfolder[j].name.indexOf(this.searchWord) != -1) {
                   this.searchResult = this.searchResult.concat([
                     this.sortfolder[i],
@@ -930,7 +937,8 @@ export default {
                 } else {
                   for (let k = 0; k < this.sortfolder.length; k++) {
                     if (
-                      this.sortfolder[k].parent_folder_id == this.sortfolder[j].id &&
+                      this.sortfolder[k].parent_folder_id ==
+                        this.sortfolder[j].id &&
                       this.sortfolder[k].name.indexOf(this.searchWord) != -1
                     ) {
                       this.searchResult = this.searchResult.concat([
@@ -948,9 +956,13 @@ export default {
                 this.sortfolder[i].parent_folder_id == this.sortfolder[j].id &&
                 this.sortfolder[j].name.indexOf(this.searchWord) != -1
               ) {
-                this.searchResult = this.searchResult.concat([this.sortfolder[i]]);
+                this.searchResult = this.searchResult.concat([
+                  this.sortfolder[i],
+                ]);
                 break;
-              } else if (this.sortfolder[j].parent_folder_id == this.sortfolder[i].id) {
+              } else if (
+                this.sortfolder[j].parent_folder_id == this.sortfolder[i].id
+              ) {
                 if (this.sortfolder[j].name.indexOf(this.searchWord) != -1) {
                   this.searchResult = this.searchResult.concat([
                     this.sortfolder[i],
@@ -961,7 +973,9 @@ export default {
             }
           } else if (this.sortfolder[i].kaisou == 3) {
             outer2: for (let j = 0; j < this.sortfolder.length; j++) {
-              if (this.sortfolder[i].parent_folder_id == this.sortfolder[j].id) {
+              if (
+                this.sortfolder[i].parent_folder_id == this.sortfolder[j].id
+              ) {
                 if (this.sortfolder[j].name.indexOf(this.searchWord) != -1) {
                   this.searchResult = this.searchResult.concat([
                     this.sortfolder[i],
@@ -970,7 +984,8 @@ export default {
                 } else {
                   for (let k = 0; k < this.sortfolder.length; k++) {
                     if (
-                      this.sortfolder[j].parent_folder_id == this.sortfolder[k].id &&
+                      this.sortfolder[j].parent_folder_id ==
+                        this.sortfolder[k].id &&
                       this.sortfolder[k].name.indexOf(this.searchWord) != -1
                     ) {
                       this.searchResult = this.searchResult.concat([
@@ -1095,7 +1110,7 @@ export default {
 /* 親フォルダ名初期表示スタイル */
 .gallery-folder-show {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   cursor: pointer;
   color: #9f9f9f;
   font-size: 16px;
@@ -1124,7 +1139,7 @@ export default {
 /* 選択された親フォルダスタイル */
 .gallery-folder-show-active {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   cursor: pointer;
   color: #69a4af;
   font-size: 16px;
@@ -1158,7 +1173,7 @@ export default {
 /* 子フォルダ名初期表示スタイル */
 .gallery-sub-folder-show {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   cursor: pointer;
   color: #9f9f9f;
   font-size: 16px;
@@ -1188,7 +1203,7 @@ export default {
 /* 選択された子フォルダスタイル */
 .gallery-sub-folder-show-active {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   cursor: pointer;
   color: #69a4af;
   font-size: 16px;
@@ -1232,7 +1247,7 @@ export default {
 /* 孫フォルダ名初期表示スタイル */
 .gallery-sub2-folder-show {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   cursor: pointer;
   color: #9f9f9f;
   font-size: 16px;
@@ -1262,7 +1277,7 @@ export default {
 /* 選択された孫フォルダスタイル */
 .gallery-sub2-folder-show-active {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   cursor: pointer;
   color: #69a4af;
   font-size: 16px;

@@ -511,7 +511,7 @@ export default {
             .then((res) => {
               // ギャラリーを作成したことがある
               this.selectedMedia = res.data;
-              for (let i = 0; i < res.data.length; i++) {
+              for (let i = 0; i < this.selectedMedia.length; i++) {
                 item = this.selectedMedia[i];
                 for (let j = 0; j < this.library.length; j++) {
                   // 画像が存在する

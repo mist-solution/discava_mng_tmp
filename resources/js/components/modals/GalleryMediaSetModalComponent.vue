@@ -653,7 +653,7 @@ export default {
           img_height: this.date.height,
         };
         formData.append("file", this.editedFile);
-        formData.append("fileDate", JSON.stringify(info2));
+        formData.append("fileData", JSON.stringify(info2));
       }
       axios.post("/api/mediaAttachment/update/" + this.item.id, formData, {
         headers: { "Content-type": "multipart/form-data" },

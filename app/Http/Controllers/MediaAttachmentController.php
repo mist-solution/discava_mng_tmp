@@ -87,6 +87,7 @@ class MediaAttachmentController extends Controller
     //更新
     public function update(Request $request, $id)
     {
+
         $model =  MediaAttachment::where('id', '=', $id)->firstOrFail();
 
         $data = $request->all();
@@ -103,8 +104,8 @@ class MediaAttachmentController extends Controller
 
         $model->update($update);
 
-         if($data['file']){
-            $mediaDate = json_decode($data['fileDate'], true);
+        if (isset($data['file']) && $data['file']) {
+            $mediaDate = json_decode($data['fileData'], true);
             $update = [
                 'img_path' => Storage::putFile('gallery/' . $request->session()->get('shop_id') . "/" . $id, $data['file']),
                 'img_filesize' => $mediaDate['img_filesize'],
@@ -112,8 +113,7 @@ class MediaAttachmentController extends Controller
                 'img_width' => $mediaDate['img_width'],
             ];
 
-
             $model->update($update);
-        }; 
+        };
     }
 }

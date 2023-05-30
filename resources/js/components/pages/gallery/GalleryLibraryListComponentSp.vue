@@ -293,9 +293,10 @@ export default {
           const searchByFileFormat = this.$store.state.library.FileFormat;
           const searchByDate = this.$store.state.library.AddDateBegin;
           const searchByCaption = this.$store.state.library.Caption;
-          if (this.library.length == 0 && searchByFileFormat == null) {
+          if (this.library.length == 0) {
             if (
               // ファイル形式のみ選択
+              searchByFileFormat &&
               searchByFileFormat != 0 &&
               !searchByDate &&
               !searchByCaption
@@ -346,6 +347,9 @@ export default {
                 hintMsg
               );
             }
+          } else {
+            // 提示文言を初期化する
+            this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", "");
           }
         })
         .catch((error) => {

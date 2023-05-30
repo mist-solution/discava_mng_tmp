@@ -670,9 +670,7 @@ export default {
 
       axios
         .post("webapi/media/imageSort/" + id, galleryImages)
-        .then((res) => {
-          console.log(res.data);
-        })
+        .then((res) => {})
         .catch((error) => {
           console.log(error);
         });

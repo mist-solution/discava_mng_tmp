@@ -527,6 +527,16 @@ export default {
                   this.clickMedia(item);
                 }
               }
+              // selectedMediaの画像が全て削除された場合
+              if (this.selectedMedia.length == 0) {
+                var hintMsg = [
+                  "ギャラリーに表示する画像の順番を選択してください。",
+                ];
+                this.$store.dispatch(
+                  "gallery/setGalleryHintMessagesLibrary",
+                  hintMsg
+                );
+              }
             })
             .catch((error) => {
               console.log(error);

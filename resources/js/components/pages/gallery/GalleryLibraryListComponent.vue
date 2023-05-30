@@ -574,25 +574,20 @@ export default {
             .then((res) => {
               // ギャラリーを作成したことがある
               this.selectedMedia = res.data;
-              for (let i = 0; i < this.selectedMedia.length; i++) {
-                item = this.selectedMedia[i];
-                for (let j = 0; j < this.library.length; j++) {
-                  // 画像が存在する
-                  if (item.id == this.library[j].id) {
-                    this.clickMedia(item);
+              let selectedMediaResult = this.selectedMedia;
+              for (let i = 0; i < selectedMediaResult.length; i++) {
+                item = selectedMediaResult[i];
 
-                    // 画像が存在しない
-                  } else if (
-                    !this.library.some((library) => library.id === item.id)
-                  ) {
-                    // selectedMedia配列から削除する
-                    const index = this.selectedMedia.findIndex(
-                      (selectedMedia) => selectedMedia.id === item.id
-                    );
-                    if (index !== -1) {
-                      this.selectedMedia.splice(index, 1);
-                    }
-                  }
+                // 画像が存在しない
+                if (!this.library.some((library) => library.id === item.id)) {
+                  // selectedMedia配列から削除する
+                  this.selectedMedia = this.selectedMedia.filter(
+                    (selectedMedia) => selectedMedia.id !== item.id
+                  );
+
+                  // 画像が存在する
+                } else {
+                  this.clickMedia(item);
                 }
               }
             })

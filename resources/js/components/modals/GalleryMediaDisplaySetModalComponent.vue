@@ -166,7 +166,7 @@
                   placeholder="外部URL"
                   :disabled="mediaLinkInputDisabled"
                   :required="mediaLinkInputRequired === '1'"
-                  v-model="link_urlModel"
+                  :v-model="link_urlModel ? link_urlModel : ''"
                 />
               </div>
             </v-col>
@@ -484,7 +484,7 @@ export default {
       displayGalleryMediaShortCodeMake: false,
       item: null,
       sethover_icon: null,
-      mediaLinkInputDisabled: false,
+      mediaLinkInputDisabled: true,
       mediaLinkInputRequired: "",
     };
   },

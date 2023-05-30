@@ -164,7 +164,7 @@
                 hide-details="false"
                 class="gallery-mediaDisplaySet-input-link"
                 placeholder="外部URL"
-                v-model="link_urlModel"
+                :v-model="link_urlModel ? link_urlModel : ''"
                 :disabled="mediaLinkInputDisabled"
                 :required="mediaLinkInputRequired === '1'"
               />
@@ -479,7 +479,7 @@ export default {
       displayGalleryMediaShortCodeMake: false,
       item: null,
       sethover_icon: null,
-      mediaLinkInputDisabled: false,
+      mediaLinkInputDisabled: true,
       mediaLinkInputRequired: "",
     };
   },

@@ -671,7 +671,7 @@ text-align: center;
 @media (max-width: 640px){
     .gallery-title-folder {
         display: flex;
-        align-items: center;
+        align-items: baseline;
         justify-content: space-between;
         margin-left: 0;
         width: 100%;

@@ -716,7 +716,6 @@ export default {
 
             // 該当フォルダに画像は1件以上存在し、選択しない場合
             if (this.selectedMedia.length == 0) {
-              console.log("IN");
               var hintMsg = [
                 "ギャラリーに表示する画像の順番を選択してください。",
               ];

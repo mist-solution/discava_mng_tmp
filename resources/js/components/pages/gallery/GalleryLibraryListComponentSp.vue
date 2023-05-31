@@ -574,7 +574,7 @@ export default {
           };
           let number = 1;
           for (let i = 0; i < this.folder.length; i++) {
-            if (this.folder[i].kaisou == 1) {
+            if (this.folder[i].parent_folder_id == 0) {
               this.folder2[number] = this.folder[i];
               number = number + 1;
               for (let j = 0; j < this.folder.length; j++) {

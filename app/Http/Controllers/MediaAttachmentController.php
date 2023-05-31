@@ -21,11 +21,15 @@ class MediaAttachmentController extends Controller
         $searchAddDateEnd = $request->input('searchAddDateEnd');
         $searchFileFormat = $request->input('searchFileFormat');
         $searchCaption = $request->input('searchCaption');
+        $counter = $request->input('counter');
         $shop_id = $request->session()->get('shop_id');
         $selected = false;
         $selectNo = 0;
 
         $mediaAttachment = MediaAttachment::getMediaAttachment($searchFileID, $searchAddDateBegin, $searchAddDateEnd, $searchFileFormat, $searchCaption, $shop_id);
+
+        $mediaAttachment['mediaAttachment'] = $mediaAttachment['mediaAttachment']
+            ->slice(0, $counter + 15);
 
         foreach ($mediaAttachment["mediaAttachment"] as $key => $value) {
             if ($value["img_path"]) {

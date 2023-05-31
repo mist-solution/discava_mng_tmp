@@ -93,7 +93,6 @@ class MediaAttachment extends Model
             }
         }
 
-
         $mediaAttachment['count'] = $mediaAttachmentModel
             ->count();
 

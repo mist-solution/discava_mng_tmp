@@ -85,7 +85,7 @@
   <div class="gallery-horizontal-divider"></div>
 
   <!-- ライブラリ一覧 -->
-  <div class="gallery-library-list-area-sp">
+  <div class="gallery-library-list-area-sp" ref="scrollarea">
     <v-row>
       <v-col
         v-for="(item, index) in library"
@@ -195,6 +195,7 @@ export default {
       folder: [],
       folder2: [],
       folderid: "",
+      count: 0,
     };
   },
   computed: {
@@ -226,6 +227,7 @@ export default {
       this.$store.dispatch("library/setFileFormat", null);
       this.createdmodel = null;
       this.captionModel = "";
+      this.count = 0;
       this.getLibraryList();
       this.selectedfolderid = this.$store.state.library.selectedFolder;
       this.selectMediaFlg = false;
@@ -282,6 +284,7 @@ export default {
             searchAddDateEnd: this.$store.state.library.AddDateEnd,
             searchFileFormat: this.$store.state.library.FileFormat,
             searchCaption: this.$store.state.library.Caption,
+            counter: this.count,
           },
         })
         .then((res) => {
@@ -358,26 +361,6 @@ export default {
     FilterLibrary() {
       //投稿月検索
       if (this.createdmodel != null) {
-        // let start_year;
-        // let start_month;
-        // let end_year;
-        // let end_month;
-        // if (this.createdmodel.month == 11) {
-        //   start_month = 12;
-        //   start_year = this.createdmodel.year;
-        //   end_month = 1;
-        //   end_year = start_year + 1;
-        // } else {
-        //   start_month = this.createdmodel.month + 1;
-        //   start_year = this.createdmodel.year;
-        //   end_month = start_month + 1;
-        //   end_year = start_year;
-        // }
-        // let start = new Date(start_year + "-" + start_month + "-1");
-        // let end = new Date(end_year + "-" + end_month + "-1");
-        // start.setHours(start.getHours() + 9);
-        // end.setHours(end.getHours() + 9);
-
         let start = moment(this.createdmodel).format("yyyy/MM/01");
         let end = moment(this.createdmodel).endOf("month").format("YYYY/MM/DD");
 
@@ -673,7 +656,17 @@ export default {
     if (authority) {
       this.create_auth_flg = authority.create_auth_flg;
       this.approval_auth_flg = authority.approval_auth_flg;
-    }
+    };
+    const reference = this.$refs.scrollarea
+    const self = this
+    reference.onscroll = function() {
+        const element = self.$refs.scrollarea
+        const clientHeight = element.clientHeight;
+        const scrollHeight = element.scrollHeight;
+        if (scrollHeight - (clientHeight + element.scrollTop) < 0.5) {
+          self.count += 15;
+          self.getLibraryList();}
+    };
   },
 };
 </script>

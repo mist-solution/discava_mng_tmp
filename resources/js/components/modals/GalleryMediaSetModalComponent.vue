@@ -660,9 +660,7 @@ export default {
       });
 
       this.edit_img_flg = false;
-      if (this.beforefolderID !== this.afterfolderID) {
-        console.log("beforefolderID:" + this.beforefolderID);
-        console.log("afterfolderID:" + this.afterfolderID);
+      if (this.beforefolderID !== this.afterfolderID && this.afterfolderID !== null) {
         this.$store.dispatch("gallery/setGalleryMove", this.beforefolderID);
         this.$store.dispatch("gallery/setGalleryMove2", this.afterfolderID);
       }

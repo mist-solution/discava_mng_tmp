@@ -1130,6 +1130,7 @@ export default {
     font-size: 16px;
     padding-left: 5px;
     width: -webkit-fill-available;
+    line-height: initial;
   }
   .gallery-folder-show-sp .number {
     text-align: right;
@@ -1163,6 +1164,7 @@ export default {
     font-size: 16px;
     padding-left: 5px;
     width: -webkit-fill-available;
+    line-height: initial;
   }
   .gallery-folder-show-active-sp .number {
     text-align: right;
@@ -1194,6 +1196,7 @@ export default {
     font-size: 16px;
     padding-left: 5px;
     width: -webkit-fill-available;
+    line-height: initial;
   }
   .gallery-sub-folder-show-sp .number {
     text-align: right;
@@ -1229,6 +1232,7 @@ export default {
     font-size: 16px;
     padding-left: 5px;
     width: -webkit-fill-available;
+    line-height: initial;
   }
   .gallery-sub-folder-show-active-sp .number {
     text-align: right;
@@ -1260,6 +1264,7 @@ export default {
     font-size: 16px;
     padding-left: 5px;
     width: -webkit-fill-available;
+    line-height: initial;
   }
   .gallery-sub2-folder-show-sp .number {
     text-align: right;
@@ -1294,6 +1299,7 @@ export default {
     font-size: 16px;
     padding-left: 5px;
     width: -webkit-fill-available;
+    line-height: initial;
   }
   .gallery-sub2-folder-show-active-sp .number {
     text-align: right;

@@ -1114,7 +1114,7 @@ export default {
   /* 親フォルダ名初期表示スタイル */
   .gallery-folder-show-sp {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     cursor: pointer;
     color: #9f9f9f;
     font-size: 16px;
@@ -1144,7 +1144,7 @@ export default {
   /* 選択された親フォルダスタイル */
   .gallery-folder-show-active-sp {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     cursor: pointer;
     color: #69a4af;
     font-size: 16px;
@@ -1178,7 +1178,7 @@ export default {
   /* 子フォルダ名初期表示スタイル */
   .gallery-sub-folder-show-sp {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     cursor: pointer;
     color: #9f9f9f;
     font-size: 16px;
@@ -1205,10 +1205,10 @@ export default {
     line-height: initial;
   }
 
-  /* 選択された親フォルダスタイル */
+  /* 選択された子フォルダスタイル */
   .gallery-sub-folder-show-active-sp {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     cursor: pointer;
     color: #69a4af;
     font-size: 16px;
@@ -1244,7 +1244,7 @@ export default {
   /* 孫フォルダ名初期表示スタイル */
   .gallery-sub2-folder-show-sp {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     cursor: pointer;
     color: #9f9f9f;
     font-size: 16px;
@@ -1274,7 +1274,7 @@ export default {
   /* 選択された孫フォルダスタイル */
   .gallery-sub2-folder-show-active-sp {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     cursor: pointer;
     color: #69a4af;
     font-size: 16px;

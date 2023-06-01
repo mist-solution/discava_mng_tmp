@@ -267,7 +267,6 @@ class MediaFolderController extends Controller
     public function ShowMediaFolder($id)
     {
         $mediaFolder =  MediaFolder::where('id', '=', $id)->firstOrFail();
-        log::info($id);
         return $mediaFolder;
     }
 

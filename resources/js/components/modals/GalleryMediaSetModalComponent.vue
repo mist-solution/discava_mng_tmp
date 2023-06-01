@@ -763,7 +763,7 @@ export default {
 
     folderidModel: {
       get() {
-        if (this.beforefolderID === null) {
+        if (this.beforefolderID === null || this.afterfolderID === null) {
           this.beforefolderID = this.$props.folderid;
         }
         return this.$props.folderid;

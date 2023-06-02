@@ -706,14 +706,14 @@ export default {
     },
 
     //フォルダ追加
-    createFolder(id) {
+    createFolder: async function(id) {
       let formData = new FormData();
       const item = {
         name: encodeURIComponent(this.folderTitle),
         kaisou: this.selected_kaisou + 1,
       };
       formData.append("mediaFolder", JSON.stringify(item));
-      axios
+      await axios
         .post("api/mediafolder/register/" + id, formData, {
           headers: { "Content-type": "multipart/form-data" },
         })
@@ -721,10 +721,11 @@ export default {
           this.regist_flg = false;
           this.parent_folder_regist_flg = false;
           this.folderTitle = "";
-          this.getMediaFolder();
           this.$store.dispatch("library/setSelectedFolder", null);
-          if (this.searchWord != "") {
-            this.searchFolder();
+          if (this.searchWord == "") {
+            this.getMediaFolder();
+          } else {
+            this.searchFolder2();
           }
         });
     },
@@ -759,10 +760,11 @@ export default {
             }
           }
         }
-        this.getMediaFolder();
         this.$store.dispatch("library/setSelectedFolder", null);
-        if (this.searchWord != "") {
-          this.searchFolder();
+        if (this.searchWord == "") {
+          this.getMediaFolder();
+        } else {
+          this.searchFolder2();
         }
       }
     },
@@ -820,8 +822,6 @@ export default {
       }
       if (this.searchWord != "") {
         await this.searchFolder2();
-        this.folder = this.sortfolder;
-        this.isParentFolder();
       } else {
         await this.getMediaFolder();
       }
@@ -1010,6 +1010,8 @@ export default {
       } else {
         this.$store.dispatch("gallery/setGalleryHintMessagesFolder", "");
       }
+      this.folder = this.sortfolder;
+      this.isParentFolder();
     },
   },
 

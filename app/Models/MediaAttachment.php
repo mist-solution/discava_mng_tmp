@@ -11,7 +11,7 @@ class MediaAttachment extends Model
     use HasFactory;
 
     protected $table = 'media_attachments';
-    
+
     protected $fillable = [
         'shop_id',
         'media_folder_id',
@@ -48,9 +48,9 @@ class MediaAttachment extends Model
             ->where('shop_id', $shop_id);
 
         //選択したフォルダから絞り込み（-1の場合はすべてのファイルフォルダ）
-        if($searchFileID != "" && $searchFileID != "-1" && $searchFileID != "0"){
+        if ($searchFileID != "" && $searchFileID != "-1" && $searchFileID != "0") {
             $mediaAttachmentModel = $mediaAttachmentModel->where('media_folder_id',  $searchFileID);
-        }else if($searchFileID == "0"){
+        } else if ($searchFileID == "0") {
             $mediaAttachmentModel = $mediaAttachmentModel->where('media_folder_id',  1);
         }
 
@@ -77,19 +77,19 @@ class MediaAttachment extends Model
         }
 
         //ファイルタイプ絞り込み
-        if($searchFileFormat){
-            if($searchFileFormat == 1){
+        if ($searchFileFormat) {
+            if ($searchFileFormat == 1) {
                 $mediaAttachmentModel = $mediaAttachmentModel
-                ->where("img_fileformat",'LIKE',"%image%");
-            }else if($searchFileFormat == 2){
+                    ->where("img_fileformat", 'LIKE', "%image%");
+            } else if ($searchFileFormat == 2) {
                 $mediaAttachmentModel = $mediaAttachmentModel
-                ->where("img_fileformat","movie/mp4");
-            }else if($searchFileFormat == 3){
+                    ->where("img_fileformat", 'LIKE', "%video%");
+            } else if ($searchFileFormat == 3) {
                 $mediaAttachmentModel = $mediaAttachmentModel
-                ->where("img_fileformat","audio/wav");
-            }else if($searchFileFormat == 4){
+                    ->where("img_fileformat", 'LIKE', "%audio%");
+            } else if ($searchFileFormat == 4) {
                 $mediaAttachmentModel = $mediaAttachmentModel
-                ->where("img_fileformat","text/txt");
+                    ->where("img_fileformat", 'LIKE', "%text%");
             }
         }
 
@@ -101,5 +101,4 @@ class MediaAttachment extends Model
 
         return $mediaAttachment;
     }
-
 }

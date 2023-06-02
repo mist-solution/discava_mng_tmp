@@ -17,25 +17,45 @@
       <div class="gallery-mediaSet-display-body">
         <div class="gallery-mediaSet-display-area">
           <!-- 画像、画像名 -->
+          <!-- 画像のみ、編集ボタンを表示 -->
           <v-row
-            @mouseenter.prevent="(showEditBtn = true), (showDeleteBtn = true)"
+            @mouseenter.prevent="
+              item.img_fileformat.split('/')[0] == 'image'
+                ? (showEditBtn = true)
+                : (showEditBtn = false),
+                (showDeleteBtn = true)
+            "
             @mouseleave.prevent="(showEditBtn = false), (showDeleteBtn = false)"
           >
             <v-col>
-              <img
-                v-if="!edit_img_flg"
-                :src="'data:image/png;base64,' + item.img_path"
-                cover
-                class="gallery-mediaSet-img"
-                :alt="item.img_alt == null ? item.img_filename : item.img_alt"
-              />
-              <img
-                v-if="edit_img_flg"
-                :src="'data:image/png;base64,' + crop_img"
-                cover
-                class="gallery-mediaSet-img"
-                :alt="item.img_alt == null ? item.img_filename : item.img_alt"
-              />
+              <div
+                :class="
+                  item.img_fileformat.split('/')[0] == 'image'
+                    ? ''
+                    : 'gallery-mediaSet-not-img'
+                "
+                :fileExt="showExt(item.img_fileformat)"
+              >
+                <img
+                  v-if="
+                    !edit_img_flg &&
+                    item.img_fileformat.split('/')[0] == 'image'
+                  "
+                  :src="'data:image/png;base64,' + item.img_path"
+                  cover
+                  class="gallery-mediaSet-img"
+                  :alt="item.img_alt == null ? item.img_filename : item.img_alt"
+                />
+                <img
+                  v-if="
+                    edit_img_flg && item.img_fileformat.split('/')[0] == 'image'
+                  "
+                  :src="'data:image/png;base64,' + crop_img"
+                  cover
+                  class="gallery-mediaSet-img"
+                  :alt="item.img_alt == null ? item.img_filename : item.img_alt"
+                />
+              </div>
               <!-- 編集ボタン -->
               <span
                 v-if="showEditBtn && approval_auth_flg"
@@ -54,7 +74,11 @@
               <!-- 編集・削除ボタン　SP版　BEGIN -->
               <!-- 編集ボタンSP -->
               <span
-                v-if="moblieFlg() && approval_auth_flg"
+                v-if="
+                  moblieFlg() &&
+                  approval_auth_flg &&
+                  item.img_fileformat.split('/')[0] == 'image'
+                "
                 class="mdi mdi-pencil gallery-mediaSet-edit-img-btn"
                 @click="editImage"
               >
@@ -113,13 +137,21 @@
                   v-if="!edit_img_flg"
                   class="gallery-mediaSet-infomation-content"
                 >
-                  {{ Math.round(item.img_filesize / 1000) }}KB
+                  {{
+                    Math.round(item.img_filesize / 1000) > 0
+                      ? Math.round(item.img_filesize / 1000)
+                      : (item.img_filesize / 1000).toFixed(2)
+                  }}KB
                 </span>
                 <span
                   v-if="edit_img_flg"
                   class="gallery-mediaSet-infomation-content"
                 >
-                  {{ Math.round(editedFile.size / 1000) }}KB
+                  {{
+                    Math.round(editedFile.size / 1000) > 0
+                      ? Math.round(editedFile.size / 1000)
+                      : (editedFile.size / 1000).toFixed(2)
+                  }}KB
                 </span>
               </v-col>
               <!-- 画像詳細内容（右2）　アップロード日 -->
@@ -136,18 +168,28 @@
             </v-row>
             <v-row class="gallery-mediaSet-infomation-area">
               <!-- 画像詳細内容（左3）　サイズ -->
+              <!-- 画像のみ表示 -->
               <v-col cols="3">
-                <span class="gallery-mediaSet-infomation-name">サイズ</span>
+                <span
+                  v-if="item.img_fileformat.split('/')[0] == 'image'"
+                  class="gallery-mediaSet-infomation-name"
+                  >サイズ</span
+                >
               </v-col>
               <v-col cols="3">
                 <span
-                  v-if="!edit_img_flg"
+                  v-if="
+                    !edit_img_flg &&
+                    item.img_fileformat.split('/')[0] == 'image'
+                  "
                   class="gallery-mediaSet-infomation-content"
                 >
                   {{ item.img_height }}px x {{ item.img_width }}px
                 </span>
                 <span
-                  v-if="edit_img_flg"
+                  v-if="
+                    edit_img_flg && item.img_fileformat.split('/')[0] == 'image'
+                  "
                   class="gallery-mediaSet-infomation-content"
                 >
                   {{ Math.round(date.height) }}px x
@@ -194,30 +236,48 @@
                   v-if="!edit_img_flg"
                   class="gallery-mediaSet-infomation-content"
                 >
-                  {{ Math.round(item.img_filesize / 1000) }}KB
+                  {{
+                    Math.round(item.img_filesize / 1000) > 0
+                      ? Math.round(item.img_filesize / 1000)
+                      : (item.img_filesize / 1000).toFixed(2)
+                  }}KB
                 </span>
                 <span
                   v-if="edit_img_flg"
                   class="gallery-mediaSet-infomation-content"
                 >
-                  {{ Math.round(editedFile.size / 1000) }}KB
+                  {{
+                    Math.round(editedFile.size / 1000) > 0
+                      ? Math.round(editedFile.size / 1000)
+                      : (editedFile.size / 1000).toFixed(2)
+                  }}KB
                 </span>
               </v-col>
             </v-row>
             <v-row class="gallery-mediaSet-infomation-area">
               <!-- 画像詳細内容　サイズ-->
+              <!-- 画像のみ表示 -->
               <v-col cols="6">
-                <span class="gallery-mediaSet-infomation-name">サイズ</span>
+                <span
+                  v-if="item.img_fileformat.split('/')[0] == 'image'"
+                  class="gallery-mediaSet-infomation-name"
+                  >サイズ</span
+                >
               </v-col>
               <v-col cols="6">
                 <span
-                  v-if="!edit_img_flg"
+                  v-if="
+                    !edit_img_flg &&
+                    item.img_fileformat.split('/')[0] == 'image'
+                  "
                   class="gallery-mediaSet-infomation-content"
                 >
                   {{ item.img_height }}px x {{ item.img_width }}px
                 </span>
                 <span
-                  v-if="edit_img_flg"
+                  v-if="
+                    edit_img_flg && item.img_fileformat.split('/')[0] == 'image'
+                  "
                   class="gallery-mediaSet-infomation-content"
                 >
                   {{ Math.round(date.height) }}px x
@@ -660,7 +720,10 @@ export default {
       });
 
       this.edit_img_flg = false;
-      if (this.beforefolderID !== this.afterfolderID && this.afterfolderID !== null) {
+      if (
+        this.beforefolderID !== this.afterfolderID &&
+        this.afterfolderID !== null
+      ) {
         this.$store.dispatch("gallery/setGalleryMove", this.beforefolderID);
         this.$store.dispatch("gallery/setGalleryMove2", this.afterfolderID);
       }
@@ -708,7 +771,10 @@ export default {
 
     // 拡張子の処理
     showExt(fullExt) {
-      const shortExt = fullExt.split("/")[1];
+      let shortExt = fullExt.split("/")[1];
+      if (shortExt == "plain") {
+        shortExt = "txt";
+      }
       return shortExt;
     },
   },
@@ -835,6 +901,32 @@ export default {
   .gallery-mediaSet-img {
     height: 200px;
   }
+}
+
+.gallery-mediaSet-not-img {
+  width: 100%;
+  height: 400px;
+  background-color: #f7f7f7;
+  position: relative;
+}
+@media (max-width: 901px) {
+  .gallery-mediaSet-not-img {
+    height: 300px;
+  }
+}
+@media (max-width: 640px) {
+  .gallery-mediaSet-not-img {
+    height: 200px;
+  }
+}
+.gallery-mediaSet-not-img::after {
+  content: attr(fileExt);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: xx-large;
+  color: #9f9f9f;
 }
 .gallery-mediaSet-edit-img-btn {
   background-color: #626262b8;

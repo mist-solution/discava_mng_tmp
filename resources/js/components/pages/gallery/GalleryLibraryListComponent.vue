@@ -1,4 +1,4 @@
-<template>
+  <template>
   <v-container>
     <!-- タイトル -->
     <div class="gallery-title-library">
@@ -8,14 +8,14 @@
           <div v-if="create_auth_flg">
             <div class="">
               <label
-                for="image"
+                for="uploadFile"
                 class="green-btn_noTransform px-2 py-1 gallery-library-add-btn"
                 >追加</label
               >
               <input
                 type="file"
-                id="image"
-                accept="image/*"
+                id="uploadFile"
+                accept="image/*,video/*,audio/*,text/*"
                 @change="readImage"
                 hidden
               />
@@ -58,7 +58,7 @@
             item-title="text"
             item-value="id"
             hide-details="false"
-            :label="this.data_id === null ? 'すべてのデータ' : ''"
+            :label="this.data_id === null ? '全てのデータ' : ''"
             @update:modelValue="dataidChange"
           />
           <DatePicker
@@ -104,7 +104,7 @@
             item-title="text"
             item-value="id"
             hide-details="false"
-            :label="this.data_id === null ? 'すべてのデータ' : ''"
+            :label="this.data_id === null ? '全てのデータ' : ''"
             @update:modelValue="dataidChange"
           />
           <DatePicker
@@ -157,16 +157,22 @@
         >
           <div class="btn-group" @click="clickMedia(item, item.selected)">
             <v-img
-              :src="'data:image/png;base64,' + item.img_path"
+              :src="
+                item.img_fileformat.split('/')[0] == 'image'
+                  ? 'data:image/png;base64,' + item.img_path
+                  : ''
+              "
               aspect-ratio="1"
               cover
               :class="
-                item.img_path
+                item.img_fileformat.split('/')[0] == 'image'
                   ? 'gallery-library-img bg-grey-lighten-2'
-                  : 'gallery-library-img-sample bg-grey-lighten-2 gallery-library-img'
+                  : 'gallery-library-not-img bg-grey-lighten-2'
               "
+              :fileExt="showExt(item.img_fileformat)"
             >
               <p
+                v-show="item.img_fileformat.split('/')[0] == 'image'"
                 v-if="selectMediaFlg && item.selected"
                 class="gallery-library-img-id"
               >
@@ -214,7 +220,7 @@
   />
 </template>
 
-<script>
+  <script>
 import { mapActions, mapState } from "vuex";
 
 import GalleryMediaSetModalComponent from "../../modals/GalleryMediaSetModalComponent.vue";
@@ -246,7 +252,7 @@ export default {
       selectedfolderid: null,
       GalleryItem: "",
       items: [
-        { id: 0, text: "すべてのデータ" },
+        { id: 0, text: "全てのデータ" },
         { id: 1, text: "画像データ" },
         { id: 2, text: "動画データ" },
         { id: 3, text: "音声データ" },
@@ -454,25 +460,29 @@ export default {
       let name;
       let type;
       let size;
-      const inputImage = document.getElementById("image");
-      if (inputImage.files.length === 0) {
+      const uploadFile = document.getElementById("uploadFile");
+      if (uploadFile.files.length === 0) {
         return;
       }
 
-      this.file = inputImage.files[0];
+      this.file = uploadFile.files[0];
 
       name = this.file.name;
       type = this.file.type;
       size = this.file.size;
 
+      let fileType = type.split("/")[0];
+
+      // 画像ファイルが１MBを超える場合、圧縮する
       const options = {
         maxSizeMB: 1, // 最大ファイルサイズ
       };
-
-      if (this.file.size > 1000000) {
-        // 圧縮画像の生成
-        this.file = await imageCompression(this.file, options);
-        size = 1000000;
+      if (fileType == "image") {
+        if (this.file.size > 1000000) {
+          // 圧縮画像の生成
+          this.file = await imageCompression(this.file, options);
+          size = 1000000;
+        }
       }
 
       let flg = false;
@@ -483,14 +493,49 @@ export default {
         flg = true;
       }
 
-      // 画像情報を取得してDBに保存する
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          // 画像のサイズ
-          const width = img.width;
-          const height = img.height;
+      // 画像ファイルの保存
+      if (fileType == "image") {
+        // 画像情報を取得してDBに保存する
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const img = new Image();
+          img.onload = () => {
+            // 画像のサイズ
+            const width = img.width;
+            const height = img.height;
+
+            let formData = new FormData();
+            const item = {
+              media_folder_id: flg
+                ? 1
+                : this.$store.state.library.selectedFolder,
+              img_filename: name,
+              img_fileformat: type,
+              img_filesize: size,
+              img_width: width,
+              img_height: height,
+            };
+
+            formData.append("mediaAttachment", JSON.stringify(item));
+            formData.append("file", this.file);
+            axios
+              .post("/api/mediaAttachment/register", formData, {
+                headers: { "Content-type": "multipart/form-data" },
+              })
+              .then((res) => {
+                this.getLibraryList();
+                this.$store.dispatch("gallery/setGalleryCreate", "1");
+              });
+          };
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(this.file);
+
+        // 非画像ファイルの保存
+      } else if (fileType !== "image") {
+        const reader = new FileReader();
+        reader.onloadend = (event) => {
+          const textContent = event.target.result;
 
           let formData = new FormData();
           const item = {
@@ -498,12 +543,13 @@ export default {
             img_filename: name,
             img_fileformat: type,
             img_filesize: size,
-            img_width: width,
-            img_height: height,
+            img_width: "0",
+            img_height: "0",
           };
 
           formData.append("mediaAttachment", JSON.stringify(item));
           formData.append("file", this.file);
+
           axios
             .post("/api/mediaAttachment/register", formData, {
               headers: { "Content-type": "multipart/form-data" },
@@ -511,11 +557,15 @@ export default {
             .then((res) => {
               this.getLibraryList();
               this.$store.dispatch("gallery/setGalleryCreate", "1");
+            })
+            .catch((error) => {
+              // 处理错误
+              console.error("Error uploading text file:", error);
             });
         };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(this.file);
+
+        reader.readAsText(this.file);
+      }
 
       // 提示文言が表示された場合、初期化する
       if (this.$store.state.gallery.galleryHintMessagesInLibrary) {
@@ -608,6 +658,9 @@ export default {
 
     //画像クリック
     clickMedia(item, selected) {
+      const fileType = item.img_fileformat.split("/")[0];
+
+      // 画像のみ選択できるという予想（fileType == "image"）
       if (!this.selectMediaFlg) {
         this.folder2 = [];
         axios.get("api/mediafolder").then((res) => {
@@ -643,7 +696,7 @@ export default {
         });
         this.setItem(item);
         this.displayGalleryMediaSet = true;
-      } else if (!selected) {
+      } else if (!selected && fileType == "image") {
         // ギャラリーに選択された画像の順番を取得して表示する
         if (
           this.selectedMedia.some(
@@ -659,7 +712,7 @@ export default {
               }
             }
           }
-        } else {
+        } else if (fileType == "image") {
           // ギャラリーに選択されない画像は新番号をあげる
           item.selected = true;
           item.selectNo = this.selectedMedia.length + 1;
@@ -668,7 +721,7 @@ export default {
 
         // 画像を選択した場合、提示文言を初期化する
         this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", "");
-      } else {
+      } else if (fileType == "image") {
         item.selected = false;
         for (let i = 0; i < this.selectedMedia.length; i++) {
           if (this.selectedMedia[i].id == item.id) {
@@ -712,6 +765,15 @@ export default {
         }
       }
     },
+
+    // 拡張子の処理
+    showExt(fullExt) {
+      let shortExt = fullExt.split("/")[1];
+      if (shortExt == "plain") {
+        shortExt = "txt";
+      }
+      return shortExt;
+    },
   },
   async mounted() {
     this.getLibraryList();
@@ -719,27 +781,28 @@ export default {
     if (authority) {
       this.create_auth_flg = authority.create_auth_flg;
       this.approval_auth_flg = authority.approval_auth_flg;
-    };
-    const reference = this.$refs.scrollarea
-    const self = this
-    reference.onscroll = function() {
-        const element = self.$refs.scrollarea
-        const clientHeight = element.clientHeight;
-        const scrollHeight = element.scrollHeight;
-        if (scrollHeight - (clientHeight + element.scrollTop) < 0.5) {
-          self.count += 15;
-          self.getLibraryList();}
+    }
+    const reference = this.$refs.scrollarea;
+    const self = this;
+    reference.onscroll = function () {
+      const element = self.$refs.scrollarea;
+      const clientHeight = element.clientHeight;
+      const scrollHeight = element.scrollHeight;
+      if (scrollHeight - (clientHeight + element.scrollTop) < 0.5) {
+        self.count += 15;
+        self.getLibraryList();
+      }
     };
   },
 };
 </script>
 
-<!-- 共通CSS -->
-<style src="../css/dropdown.css"></style>
-<style src="../css/common.css"></style>
+  <!-- 共通CSS -->
+  <style src="../css/dropdown.css"></style>
+  <style src="../css/common.css"></style>
 
-<!-- 固有CSS -->
-<style scoped>
+  <!-- 固有CSS -->
+  <style scoped>
 @media (max-width: 900px) {
   .sp_disable {
     display: none;
@@ -906,9 +969,30 @@ export default {
   align-items: center;
 }
 
-/* CRUDを実装したら、このCSSの削除することができます。 */
-.gallery-library-img-sample {
+/* 画像ファイル以外の表示 */
+.gallery-library-not-img {
   background-color: #f7f7f7;
+  position: relative;
+  width: 10vw;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+@media (min-width: 1450px) {
+  .gallery-library-not-img {
+    width: 8.9vw;
+  }
+}
+.gallery-library-not-img:hover {
+  transform: scale(1.1);
+}
+.gallery-library-not-img::after {
+  content: attr(fileExt);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: x-large;
+  color: #9f9f9f;
 }
 
 .disable_btn {

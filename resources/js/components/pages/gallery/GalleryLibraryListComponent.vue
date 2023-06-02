@@ -28,7 +28,7 @@
             :class="[
               selectedfolderid == null ||
               selectedfolderid == -1 ||
-              selectedfolderid == 0
+              selectedfolderid == 1
                 ? 'btn disable-btn'
                 : selectMediaFlg
                 ? 'btn gallery-library-gallery-make-btn'
@@ -38,7 +38,7 @@
             :disabled="
               selectedfolderid == null ||
               selectedfolderid == -1 ||
-              selectedfolderid == 0
+              selectedfolderid == 1
             "
             @click="GalleryToggle()"
           >
@@ -296,7 +296,7 @@ export default {
       this.selectMediaFlg = false;
       this.selectedMedia = [];
       if (
-        this.$store.state.library.selectedFolder != 0 &&
+        this.$store.state.library.selectedFolder != 1 &&
         this.$store.state.library.selectedFolder != -1
       ) {
         if (this.$store.state.library.selectedFolder) {

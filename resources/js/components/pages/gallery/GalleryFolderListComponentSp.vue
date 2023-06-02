@@ -338,7 +338,7 @@ export default {
           fileValue: 0,
         },
         {
-          id: 0,
+          id: 1,
           parent_folder_id: 0,
           name: "未分類",
           kaisou: 1,
@@ -462,7 +462,7 @@ export default {
             total = total + this.folder[i].fileValue;
           }
           folderItem.fileValue = total + this.mibunrui;
-        } else if (folderItem.id === 0) {
+        } else if (folderItem.id === 1) {
           folderItem.isShow = true;
           folderItem.fileValue = this.mibunrui;
         } else if (folderItem.parent_folder_id === 0) {
@@ -694,7 +694,7 @@ export default {
       this.parent_folder_regist_flg = false;
       if (this.$store.state.library.selectedFolder) {
         if (
-          this.$store.state.library.selectedFolder != 0 &&
+          this.$store.state.library.selectedFolder != 1 &&
           this.$store.state.library.selectedFolder != -1
         ) {
           if (this.selected_kaisou == 1) {
@@ -707,7 +707,7 @@ export default {
         }
       } else if (
         !this.$store.state.library.selectedFolder &&
-        this.$store.state.library.selectedFolder !== 0 &&
+        this.$store.state.library.selectedFolder !== 1 &&
         (this.$store.state.library.selectedFolder == "" ||
           this.$store.state.library.selectedFolder == null)
       ) {
@@ -754,7 +754,7 @@ export default {
       this.namechange_flg2 = false;
       if (this.$store.state.library.selectedFolder) {
         if (
-          this.$store.state.library.selectedFolder != 0 &&
+          this.$store.state.library.selectedFolder != 1 &&
           this.$store.state.library.selectedFolder != -1
         ) {
           axios.delete(
@@ -773,12 +773,12 @@ export default {
               }
             }
           }
-        }
-        this.$store.dispatch("library/setSelectedFolder", null);
-        if (this.searchWord == "") {
-          this.getMediaFolder();
-        } else {
-          this.searchFolder2();
+          this.$store.dispatch("library/setSelectedFolder", null);
+          if (this.searchWord == "") {
+            this.getMediaFolder();
+          } else {
+            this.searchFolder2();
+          }
         }
       }
     },

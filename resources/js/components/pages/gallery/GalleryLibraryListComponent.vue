@@ -55,6 +55,7 @@
           <v-select
             class="filter-btn gallery-library-search-select"
             :items="items"
+            v-model="data_id"
             item-title="text"
             item-value="id"
             hide-details="false"
@@ -103,6 +104,7 @@
             :items="items"
             item-title="text"
             item-value="id"
+            v-model="data_id"
             hide-details="false"
             :label="this.data_id === null ? '全てのデータ' : ''"
             @update:modelValue="dataidChange"
@@ -297,6 +299,7 @@ export default {
       this.createdmodel = null;
       this.captionModel = "";
       this.count = 0;
+      this.dataidChange(0);
       this.getLibraryList();
       this.selectedfolderid = this.$store.state.library.selectedFolder;
       this.selectMediaFlg = false;

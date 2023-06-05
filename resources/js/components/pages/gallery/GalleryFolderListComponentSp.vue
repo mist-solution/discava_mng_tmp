@@ -740,10 +740,6 @@ export default {
         });
     },
 
-    //openkeepFolder(id){
-    //  this.folder[id].isOpen = true;
-    //},
-
     //フォルダ削除
     deleteFolder() {
       this.regist_flg = false;

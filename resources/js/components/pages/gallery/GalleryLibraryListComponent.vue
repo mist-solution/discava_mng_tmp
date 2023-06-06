@@ -791,7 +791,10 @@ export default {
       const element = self.$refs.scrollarea;
       const clientHeight = element.clientHeight;
       const scrollHeight = element.scrollHeight;
-      if (scrollHeight - (clientHeight + element.scrollTop) < 0.5) {
+      console.log(element.scrollTop);
+      console.log(clientHeight);
+      console.log(scrollHeight);
+      if (scrollHeight - (clientHeight + element.scrollTop) < 1) {
         self.count += 15;
         self.getLibraryList();
       }

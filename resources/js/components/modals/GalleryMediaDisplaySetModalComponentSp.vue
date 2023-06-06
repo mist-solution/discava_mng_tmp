@@ -29,7 +29,11 @@
               <v-col cols="6" class="d-flex align-center justify-center pb-0">
                 <v-img
                   :key="element.id"
-                  :src="'data:image/png;base64,' + element.img_path"
+                  :src="
+                    element.img_fileformat.split('/')[0] == 'image'
+                      ? 'data:image/png;base64,' + element.img_path
+                      : 'data:image/png;base64,' + element.img_path_text
+                  "
                   aspect-ratio="1"
                   cover
                   class="gallery-mediaDisplay-img"

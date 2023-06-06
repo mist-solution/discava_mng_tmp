@@ -159,22 +159,22 @@
         >
           <div class="btn-group" @click="clickMedia(item, item.selected)">
             <v-img
-              :src="
-                item.img_fileformat.split('/')[0] == 'image'
-                  ? 'data:image/png;base64,' + item.img_path
-                  : ''
-              "
+              :src="getImageSrc(item)"
               aspect-ratio="1"
               cover
               :class="
-                item.img_fileformat.split('/')[0] == 'image'
+                item.img_fileformat.split('/')[0] == 'image' ||
+                item.img_fileformat.split('/')[0] == 'text'
                   ? 'gallery-library-img bg-grey-lighten-2'
                   : 'gallery-library-not-img bg-grey-lighten-2'
               "
-              :fileExt="showExt(item.img_fileformat)"
+              :fileName="item.img_filename"
             >
               <p
-                v-show="item.img_fileformat.split('/')[0] == 'image'"
+                v-show="
+                  item.img_fileformat.split('/')[0] == 'image' ||
+                  item.img_fileformat.split('/')[0] == 'text'
+                "
                 v-if="selectMediaFlg && item.selected"
                 class="gallery-library-img-id"
               >
@@ -289,6 +289,19 @@ export default {
     ...mapState({
       validationHints: (state) => state.gallery.galleryHintMessagesInLibrary,
     }),
+    // ファイル形式による、imgタグのsrcを取得
+    getImageSrc() {
+      return (item) => {
+        let fileExt = item.img_fileformat.split("/")[0];
+        if (fileExt === "image") {
+          return "data:image/png;base64," + item.img_path;
+        } else if (fileExt === "text") {
+          return "data:image/png;base64," + item.img_path_text;
+        } else {
+          return "";
+        }
+      };
+    },
   },
   watch: {
     selectedFolder() {
@@ -539,15 +552,83 @@ export default {
         const reader = new FileReader();
         reader.onloadend = (event) => {
           const textContent = event.target.result;
+          let thumbnailWidth = "";
+          let thumbnailHeight = "";
 
           let formData = new FormData();
+
+          // テキストファイルのサムネイルを作成
+          if (fileType == "text") {
+            const lines = [];
+            const words = textContent.split("\n");
+            let maxLineWidth = 0;
+            let totalHeight = 0;
+            const fontSize = 14;
+            const fontFamily = "Arial";
+
+            // canvas要素を作成
+            const canvas = document.createElement("canvas");
+            // 2Dコンテキストを取得
+            const ctx = canvas.getContext("2d");
+            // フォントスタイルとサイズを設定
+            ctx.font = `${fontSize}px ${fontFamily}`;
+
+            words.forEach((word) => {
+              // テキストの幅を測定
+              const metrics = ctx.measureText(word);
+              const lineWidth = metrics.width;
+
+              if (lineWidth > maxLineWidth) {
+                // 最大行幅を更新
+                maxLineWidth = lineWidth;
+              }
+              // 総高さを更新
+              totalHeight += fontSize + 4;
+            });
+
+            // 解像度の倍率
+            const scaleFactor = 2;
+            // canvasの幅を設定（最大行幅と余白を考慮）
+            canvas.width = (maxLineWidth + 20) * scaleFactor;
+            // canvasの高さを設定（4:3の比率で計算）
+            canvas.height = ((maxLineWidth + 20) / 4) * 3 * scaleFactor;
+            // canvasをスケーリング
+            ctx.scale(scaleFactor, scaleFactor);
+            // サムネイル背景色を白に設定
+            ctx.fillStyle = "#ffffff";
+            // 背景を塗りつぶす
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // フォントスタイルとサイズを再設定
+            ctx.font = `${fontSize}px ${fontFamily}`;
+            // テキストの水平揃えを左に設定
+            ctx.textAlign = "left";
+            // テキストのベースラインを上端に設定
+            ctx.textBaseline = "top";
+            // テキストの色を黒に設定
+            ctx.fillStyle = "#000000";
+
+            let textY = 10;
+            words.forEach((word) => {
+              // テキストを描画
+              ctx.fillText(word, 10, textY);
+              // テキストの垂直位置を更新
+              textY += fontSize + 4;
+            });
+            thumbnailWidth = canvas.width;
+            thumbnailHeight = canvas.height;
+
+            // canvasをBase64エンコードした画像データURLに変換
+            const thumbnailText = canvas.toDataURL("image/png").split(",")[1];
+            // サムネイルデータをフォームデータに追加
+            formData.append("thumbnailText", thumbnailText);
+          }
           const item = {
             media_folder_id: flg ? 1 : this.$store.state.library.selectedFolder,
             img_filename: name,
             img_fileformat: type,
             img_filesize: size,
-            img_width: "0",
-            img_height: "0",
+            img_width: thumbnailWidth ? thumbnailWidth : "0",
+            img_height: thumbnailHeight ? thumbnailHeight : "0",
           };
 
           formData.append("mediaAttachment", JSON.stringify(item));
@@ -663,7 +744,7 @@ export default {
     clickMedia(item, selected) {
       const fileType = item.img_fileformat.split("/")[0];
 
-      // 画像のみ選択できるという予想（fileType == "image"）
+      // 画像のみ選択できるという予想
       if (!this.selectMediaFlg) {
         this.folder2 = [];
         axios.get("api/mediafolder").then((res) => {
@@ -699,7 +780,10 @@ export default {
         });
         this.setItem(item);
         this.displayGalleryMediaSet = true;
-      } else if (!selected && fileType == "image") {
+      } else if (
+        (!selected && fileType == "image") ||
+        (!selected && fileType == "text")
+      ) {
         // ギャラリーに選択された画像の順番を取得して表示する
         if (
           this.selectedMedia.some(
@@ -715,7 +799,7 @@ export default {
               }
             }
           }
-        } else if (fileType == "image") {
+        } else if (fileType == "image" || fileType == "text") {
           // ギャラリーに選択されない画像は新番号をあげる
           item.selected = true;
           item.selectNo = this.selectedMedia.length + 1;
@@ -724,7 +808,7 @@ export default {
 
         // 画像を選択した場合、提示文言を初期化する
         this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", "");
-      } else if (fileType == "image") {
+      } else if (fileType == "image" || fileType == "text") {
         item.selected = false;
         for (let i = 0; i < this.selectedMedia.length; i++) {
           if (this.selectedMedia[i].id == item.id) {
@@ -767,15 +851,6 @@ export default {
           }
         }
       }
-    },
-
-    // 拡張子の処理
-    showExt(fullExt) {
-      let shortExt = fullExt.split("/")[1];
-      if (shortExt == "plain") {
-        shortExt = "txt";
-      }
-      return shortExt;
     },
   },
   async mounted() {
@@ -989,12 +1064,12 @@ export default {
   transform: scale(1.1);
 }
 .gallery-library-not-img::after {
-  content: attr(fileExt);
+  content: attr(fileName);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: x-large;
+  font-size: 14px;
   color: #9f9f9f;
 }
 

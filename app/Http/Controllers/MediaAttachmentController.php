@@ -33,9 +33,22 @@ class MediaAttachmentController extends Controller
 
         foreach ($mediaAttachment["mediaAttachment"] as $key => $value) {
             if ($value["img_path"]) {
+                // 画像ファイルを取得
                 $img_contents = Storage::get($value["img_path"]);
                 $img_base64 = base64_encode($img_contents);
                 $value["img_path"] = $img_base64;
+
+                // テキストサムネイルを取得
+                if (strpos($value['img_fileformat'], "text/") === 0) {
+                    $thumTextFileName = pathinfo($value['img_filename'], PATHINFO_FILENAME);
+                    $thumTextImgPath = 'gallery/' . $value['shop_id'] . '/' . $value['id'] . '/thumText/' . $thumTextFileName . '.png';
+                    // サムネイルがストレージ上存在する場合
+                    if (Storage::exists($thumTextImgPath)) {
+                        $thumTextImg = Storage::get($thumTextImgPath);
+                        $thumTextImg_base64 = base64_encode($thumTextImg);
+                        $value["img_path_text"] = $thumTextImg_base64;
+                    }
+                }
             }
         }
 
@@ -68,8 +81,17 @@ class MediaAttachmentController extends Controller
 
         $regist->save();
 
+        // 画像ファイルを保存する
         $path = Storage::putFile('gallery/' . $regist['shop_id'] . "/" . $regist['id'], $file);
         $regist['img_path'] = $path;
+
+        // テキストファイルのサムネイルを保存する(ストレージのみ)
+        if (strpos($mediaAttachment['img_fileformat'], "text/") === 0) {
+            $fileThumbnailText = $data['thumbnailText'];   // 图像文件的缩略图
+            $thumTextFileName = pathinfo($regist['img_filename'], PATHINFO_FILENAME);
+            $pathThumText = 'gallery/' . $regist['shop_id'] . '/' . $regist['id'] . '/thumText/' . $thumTextFileName . '.png';
+            Storage::put($pathThumText, base64_decode($fileThumbnailText));
+        };
 
         $regist->save();
 

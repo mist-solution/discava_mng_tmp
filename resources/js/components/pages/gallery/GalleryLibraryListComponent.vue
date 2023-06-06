@@ -415,12 +415,16 @@ export default {
               );
             } else if (
               // 該当フォルダ内画像はなしの場合
-              this.library.length == 0 &&
-              searchByFileFormat == null &&
-              searchByDate == null &&
-              searchByCaption == null
+              (this.library.length == 0 &&
+                searchByFileFormat == null &&
+                searchByDate == null &&
+                searchByCaption == null) ||
+              (this.library.length == 0 &&
+                searchByFileFormat == 0 &&
+                searchByDate == null &&
+                searchByCaption == null)
             ) {
-              var hintMsg = [""];
+              var hintMsg = ["画像をアップロードしてください。"];
               this.$store.dispatch(
                 "gallery/setGalleryHintMessagesLibrary",
                 hintMsg

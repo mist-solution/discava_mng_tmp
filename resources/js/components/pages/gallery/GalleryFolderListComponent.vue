@@ -356,6 +356,8 @@ export default {
       searchResult: [],
       searchWord: "",
       nameChange_folder_id: null,
+      selected_parent_folder_id: null,
+      selected_child_folder_id: null,
     };
   },
   computed: {
@@ -465,21 +467,39 @@ export default {
 
     // 親フォルダクリック操作
     toggleFolder(item) {
-      this.$store.dispatch("library/setSelectedFolder", item.id);
       this.namechange_flg = false;
       this.namechange_flg2 = false;
       // 親フォルダを押下
       if (this.parent_namechange_flg && item.isOpen) {
       } else if (this.regist_flg && item.isOpen) {
+      } else if ((this.selected_kaisou == 2 || this.selected_kaisou == 3) && this.selected_parent_folder_id == item.id) {
+        this.$store.dispatch(
+          "library/setSelectedFolder", 
+          item.id
+        );
+        this.selected_kaisou = 1;
+        this.parent_namechange_flg = false;
+        this.regist_flg = false;
       } else {
         item.isOpen = !item.isOpen;
         this.parent_namechange_flg = false;
         this.regist_flg = false;
         if (item.isOpen) {
           this.selected_kaisou = 1;
+          this.selected_parent_folder_id = item.id;
+          this.selected_child_folder_id = null;
+          this.$store.dispatch(
+            "library/setSelectedFolder", 
+            item.id
+          );
         } else {
           this.selected_kaisou = 0;
-          this.$store.dispatch("library/setSelectedFolder", null);
+          this.selected_parent_folder_id = null;
+          this.selected_child_folder_id = null;
+          this.$store.dispatch(
+            "library/setSelectedFolder", 
+            null
+          );
         }
       }
       this.regist_flg2 = false;
@@ -505,6 +525,7 @@ export default {
               subItem.parent_folder_id == item.id
             ) {
               subItem.isShow = true;
+              subItem.isOpen = false;
             }
           });
         } else if (!item.isOpen) {
@@ -514,6 +535,7 @@ export default {
               subItem.parent_folder_id == item.id
             ) {
               subItem.isShow = false;
+              subItem.isOpen = false;
             }
           });
         }
@@ -522,10 +544,16 @@ export default {
 
     // 子フォルダクリック操作
     toggleSubFolder(subitem) {
-      this.$store.dispatch("library/setSelectedFolder", subitem.id);
-      this.selected_kaisou = 2;
       if (this.namechange_flg && subitem.isOpen) {
       } else if (this.regist_flg2 && subitem.isOpen) {
+      } else if (this.selected_kaisou === 3 && subitem.isOpen && subitem.id == this.selected_child_folder_id){
+        this.namechange_flg = false;
+        this.regist_flg2 = false;
+        this.selected_kaisou = 2;
+        this.$store.dispatch(
+          "library/setSelectedFolder", 
+          subitem.id
+        );
       } else {
         // 子フォルダを押下
         subitem.isOpen = !subitem.isOpen;
@@ -533,8 +561,14 @@ export default {
         this.regist_flg2 = false;
         if (subitem.isOpen) {
           this.selected_kaisou = 2;
+          this.selected_child_folder_id = subitem.id;
+          this.$store.dispatch(
+            "library/setSelectedFolder", 
+            subitem.id
+          );
         } else {
           this.selected_kaisou = 1;
+          this.selected_child_folder_id = null;
           this.$store.dispatch(
             "library/setSelectedFolder",
             subitem.parent_folder_id
@@ -565,6 +599,7 @@ export default {
               subItem2.parent_folder_id == subitem.id
             ) {
               subItem2.isShow = true;
+              subItem2.isOpen = false;
             }
           });
         } else if (!subitem.isOpen) {
@@ -574,6 +609,7 @@ export default {
               subItem2.parent_folder_id == subitem.id
             ) {
               subItem2.isShow = false;
+              subItem2.isOpen = false;
             }
           });
         }
@@ -582,13 +618,16 @@ export default {
 
     // 孫フォルダクリック操作
     toggleSubFolder2(subitem2) {
-      this.$store.dispatch("library/setSelectedFolder", subitem2.id);
       if (this.namechange_flg2 && subitem2.isOpen) {
       } else {
         // 孫フォルダを押下
         subitem2.isOpen = !subitem2.isOpen;
         if (subitem2.isOpen) {
           this.selected_kaisou = 3;
+          this.$store.dispatch(
+            "library/setSelectedFolder", 
+            subitem2.id
+          );
         } else {
           this.selected_kaisou = 2;
           this.$store.dispatch(

@@ -956,6 +956,7 @@ export default {
     transform: translate(-50%, -50%);
     font-size: 12px;
     color: #9f9f9f;
+    word-break: break-all;
   }
   .disable_btn {
     border-radius: 5px;

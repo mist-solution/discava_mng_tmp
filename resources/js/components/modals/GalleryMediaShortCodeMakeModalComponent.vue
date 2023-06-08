@@ -12,8 +12,13 @@
 
       <!-- コード表示 -->
       <div class="gallery-mediaCode-code mx-auto" @click="copyTextToClipboard">
-        <p class="mb-0">[gallery id="{{ this.$store.state.library.selectedFolder }}"]</p>
+        <p class="mb-0">
+          [gallery id="{{ this.$store.state.library.selectedFolder }}"]
+        </p>
       </div>
+      <p v-if="!isCopy" class="mb-0 mx-auto gallery-mediaCode-copySuccess">
+        クリックしてコピーできます。
+      </p>
       <p v-if="isCopy" class="mb-0 mx-auto gallery-mediaCode-copySuccess">
         コピーしました！
       </p>
@@ -43,8 +48,13 @@
 
       <!-- コード表示 -->
       <div class="gallery-mediaCode-code mx-auto" @click="copyTextToClipboard">
-        <p class="mb-0"> [gallery id="{{ this.$store.state.library.selectedFolder }}"]</p>
+        <p class="mb-0">
+          [gallery id="{{ this.$store.state.library.selectedFolder }}"]
+        </p>
       </div>
+      <p v-if="!isCopy" class="mb-0 mx-auto gallery-mediaCode-copySuccess">
+        クリックしてコピーできます。
+      </p>
       <p v-if="isCopy" class="mb-0 mx-auto gallery-mediaCode-copySuccess">
         コピーしました！
       </p>
@@ -85,7 +95,9 @@ export default {
     // クリックとコピーする
     copyTextToClipboard() {
       navigator.clipboard
-        .writeText('[gallery id="'+this.$store.state.library.selectedFolder+'"]')
+        .writeText(
+          '[gallery id="' + this.$store.state.library.selectedFolder + '"]'
+        )
         .then(() => {
           this.isCopy = true;
         })

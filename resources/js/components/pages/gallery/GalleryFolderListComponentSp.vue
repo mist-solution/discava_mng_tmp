@@ -1010,7 +1010,6 @@ export default {
                 this.sortfolder[i].parent_folder_id == this.sortfolder[j].id &&
                 this.sortfolder[j].name.indexOf(this.searchWord) != -1
               ) {
-                this.sortfolder[i].isShow = true;
                 this.searchResult = this.searchResult.concat([
                   this.sortfolder[i],
                 ]);
@@ -1033,7 +1032,6 @@ export default {
                 this.sortfolder[i].parent_folder_id == this.sortfolder[j].id
               ) {
                 if (this.sortfolder[j].name.indexOf(this.searchWord) != -1) {
-                  this.sortfolder[i].isShow = true;
                   this.searchResult = this.searchResult.concat([
                     this.sortfolder[i],
                   ]);
@@ -1045,7 +1043,6 @@ export default {
                         this.sortfolder[k].id &&
                       this.sortfolder[k].name.indexOf(this.searchWord) != -1
                     ) {
-                      this.sortfolder[i].isShow = true;
                       this.searchResult = this.searchResult.concat([
                         this.sortfolder[i],
                       ]);

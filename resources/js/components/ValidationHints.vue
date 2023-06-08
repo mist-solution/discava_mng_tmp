@@ -1,5 +1,5 @@
 <template>
-  <div v-if="validationHints" class="hintMsg col-sm-10 col-md-10 col-11">
+  <div v-if="validationHints" class="hintMsg col-sm-10 col-md-10 col-12">
     <ul class="alert alert-danger list-unstyled">
       <li v-for="(value, index) in validationHints" :key="index">
         {{ value }}
@@ -33,5 +33,10 @@ export default {
   color: #c60100;
   font-size: 14px;
   font-weight: bolder;
+}
+@media (max-width: 640px) {
+  .hintMsg > ul {
+    font-size: 13px;
+  }
 }
 </style>

@@ -78,7 +78,7 @@
         type="file"
         id="uploadFile"
         accept="image/*,video/*,audio/*,text/*"
-        @change="readImage"
+        @change="readUploadFile"
       />
     </div>
   </div>
@@ -417,7 +417,7 @@ export default {
     },
 
     //画像追加
-    async readImage() {
+    async readUploadFile() {
       let name;
       let type;
       let size;
@@ -438,13 +438,18 @@ export default {
       const options = {
         maxSizeMB: 1, // 最大ファイルサイズ
       };
-
       if (fileType == "image") {
         if (this.file.size > 1000000) {
           // 圧縮画像の生成
           this.file = await imageCompression(this.file, options);
           size = 1000000;
         }
+
+        // 音声・画像ファイルが２MB以内
+      } else if (fileType == "audio" || fileType == "video") {
+        var hintMsg = ["2MB以内のファイルをアップロードしてください。"];
+        this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", hintMsg);
+        return;
       }
 
       let flg = false;
@@ -455,6 +460,18 @@ export default {
         flg = true;
       }
 
+      let formData = new FormData();
+      const item = {
+        media_folder_id: flg ? 1 : this.$store.state.library.selectedFolder,
+        img_filename: name,
+        img_fileformat: type,
+        img_filesize: size,
+        img_width: "0",
+        img_height: "0",
+      };
+      formData.append("mediaAttachment", JSON.stringify(item));
+      formData.append("file", this.file);
+
       // 画像ファイルの保存
       if (fileType == "image") {
         // 画像情報を取得してDBに保存する
@@ -463,23 +480,9 @@ export default {
           const img = new Image();
           img.onload = () => {
             // 画像のサイズ
-            const width = img.width;
-            const height = img.height;
+            item.img_width = img.width;
+            item.img_height = img.height;
 
-            let formData = new FormData();
-            const item = {
-              media_folder_id: flg
-                ? 1
-                : this.$store.state.library.selectedFolder,
-              img_filename: name,
-              img_fileformat: type,
-              img_filesize: size,
-              img_width: width,
-              img_height: height,
-            };
-
-            formData.append("mediaAttachment", JSON.stringify(item));
-            formData.append("file", this.file);
             axios
               .post("/api/mediaAttachment/register", formData, {
                 headers: { "Content-type": "multipart/form-data" },
@@ -493,91 +496,77 @@ export default {
         };
         reader.readAsDataURL(this.file);
 
-        // 非画像ファイルの保存
-      } else if (fileType !== "image") {
+        // テキストファイルの保存
+      } else if (fileType == "text") {
         const reader = new FileReader();
         reader.onloadend = (event) => {
           const textContent = event.target.result;
           let thumbnailWidth = "";
           let thumbnailHeight = "";
 
-          let formData = new FormData();
           // テキストファイルのサムネイルを作成
-          if (fileType == "text") {
-            const lines = [];
-            const words = textContent.split("\n");
-            let maxLineWidth = 0;
-            let totalHeight = 0;
-            const fontSize = 14;
-            const fontFamily = "Arial";
+          const lines = [];
+          const words = textContent.split("\n");
+          let maxLineWidth = 0;
+          let totalHeight = 0;
+          const fontSize = 14;
+          const fontFamily = "Arial";
 
-            // canvas要素を作成
-            const canvas = document.createElement("canvas");
-            // 2Dコンテキストを取得
-            const ctx = canvas.getContext("2d");
-            // フォントスタイルとサイズを設定
-            ctx.font = `${fontSize}px ${fontFamily}`;
+          // canvas要素を作成
+          const canvas = document.createElement("canvas");
+          // 2Dコンテキストを取得
+          const ctx = canvas.getContext("2d");
+          // フォントスタイルとサイズを設定
+          ctx.font = `${fontSize}px ${fontFamily}`;
 
-            words.forEach((word) => {
-              // テキストの幅を測定
-              const metrics = ctx.measureText(word);
-              const lineWidth = metrics.width;
+          words.forEach((word) => {
+            // テキストの幅を測定
+            const metrics = ctx.measureText(word);
+            const lineWidth = metrics.width;
 
-              if (lineWidth > maxLineWidth) {
-                // 最大行幅を更新
-                maxLineWidth = lineWidth;
-              }
-              // 総高さを更新
-              totalHeight += fontSize + 4;
-            });
+            if (lineWidth > maxLineWidth) {
+              // 最大行幅を更新
+              maxLineWidth = lineWidth;
+            }
+            // 総高さを更新
+            totalHeight += fontSize + 4;
+          });
 
-            // 解像度の倍率
-            const scaleFactor = 2;
-            // canvasの幅を設定（最大行幅と余白を考慮）
-            canvas.width = (maxLineWidth + 20) * scaleFactor;
-            // canvasの高さを設定（4:3の比率で計算）
-            canvas.height = ((maxLineWidth + 20) / 4) * 3 * scaleFactor;
-            // canvasをスケーリング
-            ctx.scale(scaleFactor, scaleFactor);
-            // サムネイル背景色を白に設定
-            ctx.fillStyle = "#ffffff";
-            // 背景を塗りつぶす
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            // フォントスタイルとサイズを再設定
-            ctx.font = `${fontSize}px ${fontFamily}`;
-            // テキストの水平揃えを左に設定
-            ctx.textAlign = "left";
-            // テキストのベースラインを上端に設定
-            ctx.textBaseline = "top";
-            // テキストの色を黒に設定
-            ctx.fillStyle = "#000000";
+          // 解像度の倍率
+          const scaleFactor = 2;
+          // canvasの幅を設定（最大行幅と余白を考慮）
+          canvas.width = (maxLineWidth + 20) * scaleFactor;
+          // canvasの高さを設定（4:3の比率で計算）
+          canvas.height = ((maxLineWidth + 20) / 4) * 3 * scaleFactor;
+          // canvasをスケーリング
+          ctx.scale(scaleFactor, scaleFactor);
+          // サムネイル背景色を白に設定
+          ctx.fillStyle = "#ffffff";
+          // 背景を塗りつぶす
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          // フォントスタイルとサイズを再設定
+          ctx.font = `${fontSize}px ${fontFamily}`;
+          // テキストの水平揃えを左に設定
+          ctx.textAlign = "left";
+          // テキストのベースラインを上端に設定
+          ctx.textBaseline = "top";
+          // テキストの色を黒に設定
+          ctx.fillStyle = "#000000";
 
-            let textY = 10;
-            words.forEach((word) => {
-              // テキストを描画
-              ctx.fillText(word, 10, textY);
-              // テキストの垂直位置を更新
-              textY += fontSize + 4;
-            });
-            thumbnailWidth = canvas.width;
-            thumbnailHeight = canvas.height;
-
-            // canvasをBase64エンコードした画像データURLに変換
-            const thumbnailText = canvas.toDataURL("image/png").split(",")[1];
-            // サムネイルデータをフォームデータに追加
-            formData.append("thumbnailText", thumbnailText);
-          }
-          const item = {
-            media_folder_id: flg ? 1 : this.$store.state.library.selectedFolder,
-            img_filename: name,
-            img_fileformat: type,
-            img_filesize: size,
-            img_width: thumbnailWidth ? thumbnailWidth : "0",
-            img_height: thumbnailHeight ? thumbnailHeight : "0",
-          };
-
-          formData.append("mediaAttachment", JSON.stringify(item));
-          formData.append("file", this.file);
+          let textY = 10;
+          words.forEach((word) => {
+            // テキストを描画
+            ctx.fillText(word, 10, textY);
+            // テキストの垂直位置を更新
+            textY += fontSize + 4;
+          });
+          // canvasをBase64エンコードした画像データURLに変換
+          const thumbnailText = canvas.toDataURL("image/png").split(",")[1];
+          // サムネイルのサイズ
+          item.img_width = canvas.width;
+          item.img_height = canvas.height;
+          // サムネイルデータをフォームデータに追加
+          formData.append("thumbnailText", thumbnailText);
 
           axios
             .post("/api/mediaAttachment/register", formData, {
@@ -594,6 +583,26 @@ export default {
         };
 
         reader.readAsText(this.file);
+
+        // 音声.動画ファイルの保存
+      } else if (fileType == "audio" || fileType == "video") {
+        const reader = new FileReader();
+        reader.onloadend = (event) => {
+          axios
+            .post("/api/mediaAttachment/register", formData, {
+              headers: { "Content-type": "multipart/form-data" },
+            })
+            .then((res) => {
+              this.getLibraryList();
+              this.$store.dispatch("gallery/setGalleryCreate", "1");
+            })
+            .catch((error) => {
+              // 处理错误
+              console.error("Error uploading text file:", error);
+            });
+        };
+
+        reader.readAsDataURL(this.file);
       }
 
       // 提示文言が表示された場合、初期化する

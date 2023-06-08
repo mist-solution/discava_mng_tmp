@@ -93,6 +93,49 @@
               >
               </span>
               <!-- 編集・削除ボタン　SP版　END -->
+
+              <!-- 音声/動画ファイル -->
+              <div
+                v-show="
+                  item.img_fileformat.split('/')[0] == 'audio' ||
+                  item.img_fileformat.split('/')[0] == 'video'
+                "
+                class="gallery-mediaSet-media-container"
+              >
+                <!-- 音声ファイル -->
+                <audio
+                  v-show="item.img_fileformat.split('/')[0] == 'audio'"
+                  controls
+                  controlsList="nodownload"
+                >
+                  <source
+                    :src="'data:audio/mp3;base64,' + item.img_path"
+                    type="audio/mp3"
+                  />
+                </audio>
+                <!-- 動画ファイル -->
+                <video
+                  v-show="item.img_fileformat.split('/')[0] == 'video'"
+                  controls
+                  controlsList="nodownload"
+                >
+                  <source :src="'data:video/mp4;base64,' + item.img_path" />
+                </video>
+                <!-- 削除ボタン -->
+                <span
+                  v-if="showDeleteBtn && approval_auth_flg"
+                  class="mdi mdi-trash-can gallery-mediaSet-delete-img-btn"
+                  @click="deleteImage"
+                >
+                </span>
+                <!-- 削除ボタンSP -->
+                <span
+                  v-if="moblieFlg() && approval_auth_flg"
+                  class="mdi mdi-trash-can gallery-mediaSet-delete-img-btn"
+                  @click="deleteImage"
+                >
+                </span>
+              </div>
             </v-col>
           </v-row>
           <v-row>
@@ -720,7 +763,6 @@ export default {
     deleteImage() {
       // 画像削除モーダル開く
       this.displayGalleryMediaDeleteConfirm = true;
-      console.log("press deleteImage btn");
     },
 
     // 画像編集モーダルを開く
@@ -884,6 +926,35 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.gallery-mediaSet-media-container audio {
+  width: 90%;
+  margin-top: 0.5rem;
+}
+@media (max-width: 901px) {
+  .gallery-mediaSet-media-container audio {
+    width: 90%;
+  }
+}
+@media (max-width: 640px) {
+  .gallery-mediaSet-media-container audio {
+    width: 85%;
+  }
+}
+.gallery-mediaSet-media-container video {
+  width: 90%;
+  margin-top: 0.5rem;
+}
+@media (max-width: 901px) {
+  .gallery-mediaSet-media-container video {
+    width: 90%;
+  }
+}
+@media (max-width: 640px) {
+  .gallery-mediaSet-media-container video {
+    width: 85%;
+  }
 }
 
 .gallery-mediaSet-not-img {

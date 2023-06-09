@@ -1,5 +1,5 @@
 <template>
-  <div v-if="validationHints" class="hintMsg col-sm-10 col-md-10 col-12">
+  <div v-if="validationHints" class="hintMsg col-sm-12 col-md-12 col-12">
     <ul class="alert alert-danger list-unstyled">
       <li v-for="(value, index) in validationHints" :key="index">
         {{ value }}

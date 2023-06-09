@@ -46,13 +46,14 @@
     </button>
   </div>
 
+  <!-- 提示メッセージ -->
+  <validation-hints :hints="validationHints" v-if="validationHints" />
+
   <!-- 仕切り線 -->
   <div class="gallery-horizontal-divider"></div>
 
   <!-- フォルダ一覧表示 -->
   <div class="gallery-folder-show-area">
-    <!-- 提示メッセージ -->
-    <validation-hints :hints="validationHints" v-if="validationHints" />
     <div
       v-for="(item, index) in folder"
       :key="index"
@@ -466,6 +467,10 @@ export default {
 
     // 親フォルダクリック操作
     toggleFolder(item) {
+      // 提示文言を初期化
+      var hintMsg = [""];
+      this.$store.dispatch("gallery/setGalleryHintMessagesFolder", hintMsg);
+
       this.namechange_flg = false;
       this.namechange_flg2 = false;
       // 親フォルダを押下
@@ -537,6 +542,10 @@ export default {
 
     // 子フォルダクリック操作
     toggleSubFolder(subitem) {
+      // 提示文言を初期化
+      var hintMsg = [""];
+      this.$store.dispatch("gallery/setGalleryHintMessagesFolder", hintMsg);
+
       if (this.namechange_flg && subitem.isOpen) {
       } else if (this.regist_flg2 && subitem.isOpen) {
       } else if (
@@ -609,6 +618,10 @@ export default {
 
     // 孫フォルダクリック操作
     toggleSubFolder2(subitem2) {
+      // 提示文言を初期化
+      var hintMsg = [""];
+      this.$store.dispatch("gallery/setGalleryHintMessagesFolder", hintMsg);
+
       if (this.namechange_flg2 && subitem2.isOpen) {
       } else {
         // 孫フォルダを押下
@@ -720,6 +733,13 @@ export default {
             this.regist_flg2 = true;
           } else if (this.selected_kaisou == 0) {
             this.parent_folder_regist_flg = true;
+          } else {
+            // 孫フォルダの下にフォルダを作成することはできない
+            var hintMsg = ["フォルダの作成は３階層までです。"];
+            this.$store.dispatch(
+              "gallery/setGalleryHintMessagesFolder",
+              hintMsg
+            );
           }
         }
       } else if (
@@ -755,19 +775,25 @@ export default {
         await this.searchFolder2();
       }
       this.folder[this.folder.length - 1].isShow = true;
-      if (this.folder[this.folder.length - 1].kaisou == 1){
+      if (this.folder[this.folder.length - 1].kaisou == 1) {
         this.toggleFolder(this.folder[this.folder.length - 1]);
-      } else if (this.folder[this.folder.length - 1].kaisou == 2){
+      } else if (this.folder[this.folder.length - 1].kaisou == 2) {
         this.toggleSubFolder(this.folder[this.folder.length - 1]);
         this.folder.forEach((folderItem) => {
-          if (folderItem.id == this.folder[this.folder.length - 1].parent_folder_id) {
+          if (
+            folderItem.id ==
+            this.folder[this.folder.length - 1].parent_folder_id
+          ) {
             folderItem.isOpen = true;
           }
         });
-      } else if (this.folder[this.folder.length - 1].kaisou == 3){
-        let id
+      } else if (this.folder[this.folder.length - 1].kaisou == 3) {
+        let id;
         this.folder.forEach((folderItem) => {
-          if (folderItem.id == this.folder[this.folder.length - 1].parent_folder_id) {
+          if (
+            folderItem.id ==
+            this.folder[this.folder.length - 1].parent_folder_id
+          ) {
             this.toggleSubFolder(folderItem);
             folderItem.isShow = true;
             id = folderItem.parent_folder_id;

@@ -481,11 +481,11 @@ export default {
       // 親フォルダを押下
       if (this.parent_namechange_flg && item.isOpen) {
       } else if (this.regist_flg && item.isOpen) {
-      } else if ((this.selected_kaisou == 2 || this.selected_kaisou == 3) && this.selected_parent_folder_id == item.id) {
-        this.$store.dispatch(
-          "library/setSelectedFolder", 
-          item.id
-        );
+      } else if (
+        (this.selected_kaisou == 2 || this.selected_kaisou == 3) &&
+        this.selected_parent_folder_id == item.id
+      ) {
+        this.$store.dispatch("library/setSelectedFolder", item.id);
         this.selected_kaisou = 1;
         this.parent_namechange_flg = false;
         this.regist_flg = false;
@@ -495,16 +495,10 @@ export default {
         this.regist_flg = false;
         if (item.isOpen) {
           this.selected_kaisou = 1;
-          this.$store.dispatch(
-            "library/setSelectedFolder", 
-            item.id
-          );
+          this.$store.dispatch("library/setSelectedFolder", item.id);
         } else {
           this.selected_kaisou = 0;
-          this.$store.dispatch(
-            "library/setSelectedFolder", 
-            null
-          );
+          this.$store.dispatch("library/setSelectedFolder", null);
         }
       }
       this.regist_flg2 = false;
@@ -552,14 +546,15 @@ export default {
       this.selected_kaisou = 2;
       if (this.namechange_flg && subitem.isOpen) {
       } else if (this.regist_flg2 && subitem.isOpen) {
-      } else if (this.selected_kaisou === 3 && subitem.isOpen && subitem.id == this.selected_child_folder_id){
+      } else if (
+        this.selected_kaisou === 3 &&
+        subitem.isOpen &&
+        subitem.id == this.selected_child_folder_id
+      ) {
         this.namechange_flg = false;
         this.regist_flg2 = false;
         this.selected_kaisou = 2;
-        this.$store.dispatch(
-          "library/setSelectedFolder", 
-          subitem.id
-        );
+        this.$store.dispatch("library/setSelectedFolder", subitem.id);
       } else {
         // 子フォルダを押下
         subitem.isOpen = !subitem.isOpen;
@@ -567,10 +562,7 @@ export default {
         this.regist_flg2 = false;
         if (subitem.isOpen) {
           this.selected_kaisou = 2;
-          this.$store.dispatch(
-            "library/setSelectedFolder", 
-            subitem.id
-          );
+          this.$store.dispatch("library/setSelectedFolder", subitem.id);
         } else {
           this.selected_kaisou = 1;
           this.selected_child_folder_id = null;
@@ -629,10 +621,7 @@ export default {
         subitem2.isOpen = !subitem2.isOpen;
         if (subitem2.isOpen) {
           this.selected_kaisou = 3;
-          this.$store.dispatch(
-            "library/setSelectedFolder", 
-            subitem2.id
-          );
+          this.$store.dispatch("library/setSelectedFolder", subitem2.id);
         } else {
           this.selected_kaisou = 2;
           this.$store.dispatch(
@@ -750,7 +739,7 @@ export default {
     },
 
     //フォルダ追加
-    createFolder: async function(id) {
+    createFolder: async function (id) {
       let formData = new FormData();
       const item = {
         name: encodeURIComponent(this.folderTitle),
@@ -1179,6 +1168,9 @@ export default {
     padding-left: 5px;
     width: -webkit-fill-available;
     line-height: initial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .gallery-folder-show-sp .number {
     text-align: right;
@@ -1213,6 +1205,9 @@ export default {
     padding-left: 5px;
     width: -webkit-fill-available;
     line-height: initial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .gallery-folder-show-active-sp .number {
     text-align: right;
@@ -1245,6 +1240,9 @@ export default {
     padding-left: 5px;
     width: -webkit-fill-available;
     line-height: initial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .gallery-sub-folder-show-sp .number {
     text-align: right;
@@ -1281,6 +1279,9 @@ export default {
     padding-left: 5px;
     width: -webkit-fill-available;
     line-height: initial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .gallery-sub-folder-show-active-sp .number {
     text-align: right;
@@ -1313,6 +1314,9 @@ export default {
     padding-left: 5px;
     width: -webkit-fill-available;
     line-height: initial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .gallery-sub2-folder-show-sp .number {
     text-align: right;
@@ -1348,6 +1352,9 @@ export default {
     padding-left: 5px;
     width: -webkit-fill-available;
     line-height: initial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .gallery-sub2-folder-show-active-sp .number {
     text-align: right;

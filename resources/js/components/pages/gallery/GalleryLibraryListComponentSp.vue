@@ -93,6 +93,20 @@
   <!-- ライブラリ一覧 -->
   <div class="gallery-library-list-area-sp" ref="scrollarea">
     <v-row>
+      <!-- フォルダ名の表示 -->
+      <v-col
+        v-if="selectedFolder >= 2"
+        cols="12"
+        class="gallery-library-folder-name py-0 d-flex"
+      >
+        <div>
+          <p>【 {{ (getFolderName(selectedFolder), folderName) }} 】</p>
+        </div>
+        <div v-if="hasShortCode" class="d-flex">
+          <p>ショートコード：[gallery id="{{ selectedFolder }}"]</p>
+        </div>
+      </v-col>
+      <!-- 画像一覧の表示 -->
       <v-col
         v-for="(item, index) in library"
         :key="index"
@@ -208,6 +222,8 @@ export default {
       folder2: [],
       folderid: "",
       count: 0,
+      folderName: "",
+      hasShortCode: false,
     };
   },
   computed: {
@@ -582,7 +598,6 @@ export default {
               this.$store.dispatch("gallery/setGalleryCreate", "1");
             })
             .catch((error) => {
-              // 处理错误
               console.error("Error uploading text file:", error);
             });
         };
@@ -602,7 +617,6 @@ export default {
               this.$store.dispatch("gallery/setGalleryCreate", "1");
             })
             .catch((error) => {
-              // 处理错误
               console.error("Error uploading text file:", error);
             });
         };
@@ -648,7 +662,8 @@ export default {
           axios
             .get("api/mediafolder/getGallery/" + folderId)
             .then((res) => {
-              // ギャラリーを作成したことがある
+              // ギャラリーを作成された場合
+              this.hasShortCode = true; // ショートコードの表示を初期化
               this.selectedMedia = res.data;
               let selectedMediaResult = this.selectedMedia;
               for (let i = 0; i < selectedMediaResult.length; i++) {
@@ -811,6 +826,25 @@ export default {
         }
       }
     },
+
+    // フォルダ名を取得
+    getFolderName(folderId) {
+      // フォルダ名を取得して表示する
+      if (folderId && folderId != -1 && folderId != 1) {
+        axios
+          .get("/api/mediafolder/" + folderId)
+          .then((res) => {
+            this.folderName = res.data.name;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+      if (this.selectedMedia.length == 0) {
+        // ショートコード表示を初期化
+        this.hasShortCode = false;
+      }
+    },
   },
   async mounted() {
     this.getLibraryList();
@@ -915,6 +949,36 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* フォルダ名の表示 */
+  .gallery-library-folder-name {
+    color: #69a4af;
+    line-height: 1.7rem;
+    color: #69a4af;
+  }
+  .gallery-library-folder-name p {
+    margin-top: 0.8rem;
+    margin-right: 0.3rem;
+    background-color: #f5f9fa;
+    border-right: 3px solid #f5f9fa;
+    border-left: 3px solid #f5f9fa;
+    border-radius: 5px;
+    color: #69a4af;
+    font-size: 14px;
+    width: max-content;
+    font-weight: 600;
+  }
+  .gallery-library-short-copy {
+    border-radius: 5px;
+    color: #ffffff;
+    background-color: #69a5af;
+    box-shadow: unset;
+    font-weight: 600;
+    font-size: 10px;
+    margin-top: 0.8rem;
+    padding: 0px 5px;
+    cursor: pointer;
   }
 
   /* ライブラリ一覧 */

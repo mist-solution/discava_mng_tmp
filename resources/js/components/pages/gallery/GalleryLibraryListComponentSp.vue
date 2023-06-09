@@ -447,9 +447,14 @@ export default {
 
         // 音声・画像ファイルが２MB以内
       } else if (fileType == "audio" || fileType == "video") {
-        var hintMsg = ["2MB以内のファイルをアップロードしてください。"];
-        this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", hintMsg);
-        return;
+        if (this.file.size > 2000000) {
+          var hintMsg = ["2MB以内のファイルをアップロードしてください。"];
+          this.$store.dispatch(
+            "gallery/setGalleryHintMessagesLibrary",
+            hintMsg
+          );
+          return;
+        }
       }
 
       let flg = false;

@@ -757,7 +757,7 @@ export default {
         kaisou: this.selected_kaisou + 1,
       };
       formData.append("mediaFolder", JSON.stringify(item));
-      axios
+      await axios
         .post("api/mediafolder/register/" + id, formData, {
           headers: { "Content-type": "multipart/form-data" },
         })
@@ -765,13 +765,38 @@ export default {
           this.regist_flg = false;
           this.parent_folder_regist_flg = false;
           this.folderTitle = "";
-          this.$store.dispatch("library/setSelectedFolder", null);
-          if (this.searchWord == "") {
-            this.getMediaFolder();
-          } else {
-            this.searchFolder2();
+        });
+      if (this.searchWord == "") {
+        await this.getMediaFolder();
+      } else {
+        await this.searchFolder2();
+      }
+      this.folder[this.folder.length - 1].isShow = true;
+      if (this.folder[this.folder.length - 1].kaisou == 1){
+        this.toggleFolder(this.folder[this.folder.length - 1]);
+      } else if (this.folder[this.folder.length - 1].kaisou == 2){
+        this.toggleSubFolder(this.folder[this.folder.length - 1]);
+        this.folder.forEach((folderItem) => {
+          if (folderItem.id == this.folder[this.folder.length - 1].parent_folder_id) {
+            folderItem.isOpen = true;
           }
         });
+      } else if (this.folder[this.folder.length - 1].kaisou == 3){
+        let id
+        this.folder.forEach((folderItem) => {
+          if (folderItem.id == this.folder[this.folder.length - 1].parent_folder_id) {
+            this.toggleSubFolder(folderItem);
+            folderItem.isShow = true;
+            id = folderItem.parent_folder_id;
+          }
+        });
+        this.folder.forEach((folderItem) => {
+          if (folderItem.id == id) {
+            folderItem.isOpen = true;
+          }
+        });
+        this.toggleSubFolder2(this.folder[this.folder.length - 1]);
+      }
     },
 
     //フォルダ削除
@@ -811,6 +836,8 @@ export default {
           }
         }
       }
+      this.selected_child_folder_id = null;
+      this.selected_parent_folder_id = null;
     },
 
     //フォルダ名称変更ボタン押下

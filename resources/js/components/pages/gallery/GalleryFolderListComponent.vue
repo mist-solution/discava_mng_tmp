@@ -505,8 +505,11 @@ export default {
 
       // 押下されない場合，isOpen = false
       this.folder.forEach((folderItem) => {
-        if (folderItem !== item) {
+        if (folderItem !== item && folderItem.kaisou == 1) {
           folderItem.isOpen = false;
+        } else if(folderItem !== item && folderItem.kaisou != 1){
+          folderItem.isOpen = false;
+          folderItem.isShow = false;
         } else if (folderItem.parent_folder_id === 0 && !item.isOpen) {
           folderItem.isOpen = false;
         }
@@ -586,6 +589,9 @@ export default {
           subfolderItem.id !== subitem.parent_folder_id
         ) {
           subfolderItem.isOpen = false;
+          if(subfolderItem.kaisou == 3){
+            subfolderItem.isShow = false;
+          }
         }
       });
       // 孫フォルダがある場合

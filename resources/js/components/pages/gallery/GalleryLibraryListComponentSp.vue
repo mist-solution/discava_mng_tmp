@@ -97,13 +97,22 @@
       <v-col
         v-if="selectedFolder >= 2"
         cols="12"
-        class="gallery-library-folder-name py-0 d-flex"
+        class="gallery-library-folder-name py-0"
       >
         <div>
           <p>【 {{ (getFolderName(selectedFolder), folderName) }} 】</p>
         </div>
-        <div v-if="hasShortCode" class="d-flex">
-          <p>ショートコード：[gallery id="{{ selectedFolder }}"]</p>
+        <div v-if="hasShortCode" class="d-flex gallery-library-shortCode">
+          <p>
+            ショートコード：[gallery id="{{ selectedFolder }}"]
+            <span
+              class="mdi mdi-content-copy"
+              @click="copyTextToClipboard"
+            ></span>
+          </p>
+          <p v-if="isCopy" class="mb-0 mx-auto gallery-library-copySuccess">
+            コピーしました！
+          </p>
         </div>
       </v-col>
       <!-- 画像一覧の表示 -->
@@ -137,8 +146,12 @@
               {{ item.selectNo }}
             </p>
           </v-img>
-          <p> データタイプ：{{ item.img_fileformat.split("/")[0] }}　</p>
-          <p> 投稿日：{{ item.created_at.slice(0,10).replace('-','/').replace('-','/') }}　</p>
+          <p>データタイプ：{{ item.img_fileformat.split("/")[0] }}　</p>
+          <p>
+            投稿日：{{
+              item.created_at.slice(0, 10).replace("-", "/").replace("-", "/")
+            }}　
+          </p>
         </div>
       </v-col>
     </v-row>
@@ -226,6 +239,7 @@ export default {
       count: 0,
       folderName: "",
       hasShortCode: false,
+      isCopy: false,
     };
   },
   computed: {
@@ -847,6 +861,19 @@ export default {
         this.hasShortCode = false;
       }
     },
+    // クリックとコピーする
+    copyTextToClipboard() {
+      navigator.clipboard
+        .writeText(
+          '[gallery id="' + this.$store.state.library.selectedFolder + '"]'
+        )
+        .then(() => {
+          this.isCopy = true;
+        })
+        .catch(() => {
+          console.error("Copy Error");
+        });
+    },
   },
   async mounted() {
     this.getLibraryList();
@@ -971,16 +998,12 @@ export default {
     width: max-content;
     font-weight: 600;
   }
-  .gallery-library-short-copy {
-    border-radius: 5px;
-    color: #ffffff;
-    background-color: #69a5af;
-    box-shadow: unset;
-    font-weight: 600;
-    font-size: 10px;
-    margin-top: 0.8rem;
-    padding: 0px 5px;
+  .gallery-library-shortCode {
     cursor: pointer;
+  }
+  .gallery-library-copySuccess {
+    color: #8f8f8f !important;
+    font-size: 10px !important;
   }
 
   /* ライブラリ一覧 */
@@ -1043,6 +1066,5 @@ export default {
     margin-top: 1rem;
     flex-direction: column;
   }
-
 }
 </style>

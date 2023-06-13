@@ -990,7 +990,6 @@ export default {
   .gallery-library-folder-name p {
     margin-top: 0.8rem;
     margin-right: -0.5rem;
-    margin-bottom: -0.3rem;
     background-color: #f5f9fa;
     border-right: 3px solid #f5f9fa;
     border-left: 3px solid #f5f9fa;

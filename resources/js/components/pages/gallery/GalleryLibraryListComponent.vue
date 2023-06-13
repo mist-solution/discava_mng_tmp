@@ -922,6 +922,7 @@ export default {
       if (this.selectedMedia.length == 0) {
         // ショートコード表示を初期化
         this.hasShortCode = false;
+        this.isCopy = false;
       }
     },
     // クリックとコピーする

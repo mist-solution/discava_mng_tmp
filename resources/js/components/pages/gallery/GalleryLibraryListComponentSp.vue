@@ -108,7 +108,7 @@
           @click="copyTextToClipboard"
         >
           <p>
-            ショートコード：[gallery id="{{ selectedFolder }}"]　
+            ショートコード：[gallery id="{{ selectedFolder }}"]
             <span class="mdi mdi-content-copy"></span>
           </p>
           <p v-if="isCopy" class="mb-0 mx-auto gallery-library-copySuccess">

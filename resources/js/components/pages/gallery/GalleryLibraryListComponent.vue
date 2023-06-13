@@ -167,7 +167,7 @@
             @click="copyTextToClipboard"
           >
             <p>
-              ショートコード：[gallery id="{{ selectedFolder }}"]　
+              ショートコード：[gallery id="{{ selectedFolder }}"]
               <span class="mdi mdi-content-copy"></span>
             </p>
             <p v-if="isCopy" class="mb-0 mx-auto gallery-library-copySuccess">
@@ -1098,7 +1098,7 @@ export default {
   border-left: 3px solid #f5f9fa;
   border-radius: 5px;
   color: #69a4af;
-  font-size: 14px;
+  font-size: 12px;
   width: max-content;
   font-weight: 600;
 }

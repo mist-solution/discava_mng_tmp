@@ -195,6 +195,8 @@
                 {{ item.selectNo }}
               </p>
             </v-img>
+            <p> データタイプ：{{ item.img_fileformat.split("/")[0] }}　</p>
+            <p> 投稿日：{{ item.created_at.slice(0,10).replace('-','/').replace('-','/') }}　</p>
           </div>
         </v-col>
       </v-row>
@@ -1160,4 +1162,13 @@ export default {
   color: rgb(172, 171, 171);
   border: solid 0.5px rgb(172, 171, 171);
 }
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  flex-direction: column;
+}
+
 </style>

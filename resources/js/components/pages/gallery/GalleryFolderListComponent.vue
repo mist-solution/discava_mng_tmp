@@ -784,13 +784,13 @@ export default {
       if (this.folder[this.folder.length - 1].kaisou == 1) {
         this.toggleFolder(this.folder[this.folder.length - 1]);
       } else if (this.folder[this.folder.length - 1].kaisou == 2) {
-        this.toggleSubFolder(this.folder[this.folder.length - 1]);
         this.folder.forEach((folderItem) => {
           if (
             folderItem.id ==
             this.folder[this.folder.length - 1].parent_folder_id
           ) {
-            folderItem.isOpen = true;
+            this.toggleFolder(folderItem);
+            this.toggleSubFolder(this.folder[this.folder.length - 1]);
           }
         });
       } else if (this.folder[this.folder.length - 1].kaisou == 3) {
@@ -815,7 +815,8 @@ export default {
     },
 
     //フォルダ削除
-    deleteFolder() {
+    deleteFolder: async function() {
+      console.log("deleted:" + this.$store.state.library.selectedFolder);
       this.regist_flg = false;
       this.parent_folder_regist_flg = false;
       this.namechange_flg = false;
@@ -827,7 +828,7 @@ export default {
           this.$store.state.library.selectedFolder != 1 &&
           this.$store.state.library.selectedFolder != -1
         ) {
-          axios.delete(
+          await axios.delete(
             "/api/mediafolder/" + this.$store.state.library.selectedFolder
           );
           for (let i = 0; i < this.folder.length; i++) {
@@ -835,19 +836,19 @@ export default {
               this.folder[i].parent_folder_id ==
               this.$store.state.library.selectedFolder
             ) {
-              axios.delete("/api/mediafolder/" + this.folder[i].id);
+              await axios.delete("/api/mediafolder/" + this.folder[i].id);
               for (let j = 0; j < this.folder.length; j++) {
                 if (this.folder[j].parent_folder_id == this.folder[i].id) {
-                  axios.delete("/api/mediafolder/" + this.folder[j].id);
+                  await axios.delete("/api/mediafolder/" + this.folder[j].id);
                 }
               }
             }
           }
           this.$store.dispatch("library/setSelectedFolder", null);
           if (this.searchWord == "") {
-            this.getMediaFolder();
+            await this.getMediaFolder();
           } else {
-            this.searchFolder2();
+            await this.searchFolder2();
           }
         }
       }

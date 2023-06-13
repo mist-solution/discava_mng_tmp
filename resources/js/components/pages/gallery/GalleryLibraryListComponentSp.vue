@@ -102,13 +102,14 @@
         <div>
           <p>【 {{ (getFolderName(selectedFolder), folderName) }} 】</p>
         </div>
-        <div v-if="hasShortCode" class="d-flex gallery-library-shortCode">
+        <div
+          v-if="hasShortCode"
+          class="d-flex gallery-library-shortCode"
+          @click="copyTextToClipboard"
+        >
           <p>
-            ショートコード：[gallery id="{{ selectedFolder }}"]
-            <span
-              class="mdi mdi-content-copy"
-              @click="copyTextToClipboard"
-            ></span>
+            ショートコード：[gallery id="{{ selectedFolder }}"]　
+            <span class="mdi mdi-content-copy"></span>
           </p>
           <p v-if="isCopy" class="mb-0 mx-auto gallery-library-copySuccess">
             コピーしました！

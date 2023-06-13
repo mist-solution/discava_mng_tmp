@@ -989,13 +989,14 @@ export default {
   }
   .gallery-library-folder-name p {
     margin-top: 0.8rem;
-    margin-right: 0.3rem;
+    margin-right: -0.5rem;
+    margin-bottom: -0.3rem;
     background-color: #f5f9fa;
     border-right: 3px solid #f5f9fa;
     border-left: 3px solid #f5f9fa;
     border-radius: 5px;
     color: #69a4af;
-    font-size: 14px;
+    font-size: 13px;
     width: max-content;
     font-weight: 600;
   }

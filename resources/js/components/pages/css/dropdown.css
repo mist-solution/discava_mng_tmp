@@ -2,6 +2,7 @@
 
 .v-menu .v-overlay__content>.v-list {
     background-color: #7B7B7B;
+    max-height: 200px;
 }
 
 .v-overlay .v-list-item-title {

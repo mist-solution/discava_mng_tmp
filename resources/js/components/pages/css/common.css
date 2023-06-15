@@ -587,6 +587,7 @@ text-align: center;
 @media (min-width: 1500px){
     .gallery-flex .main-cont:nth-child(1){
         width: 21%;
+        height: auto !important;
     }
 }
 @media (max-width: 1070px){

@@ -460,7 +460,7 @@ export default {
                 searchByDate == null &&
                 searchByCaption == null)
             ) {
-              var hintMsg = ["画像をアップロードしてください。"];
+              var hintMsg = ["ファイルをアップロードしてください。"];
               this.$store.dispatch(
                 "gallery/setGalleryHintMessagesLibrary",
                 hintMsg
@@ -526,8 +526,6 @@ export default {
       name = this.file.name;
       type = this.file.type;
       size = this.file.size;
-      console.log(name);
-      console.log(type);
 
       let fileType = type.split("/")[0];
 
@@ -603,9 +601,6 @@ export default {
         const reader = new FileReader();
         reader.onloadend = (event) => {
           const textContent = event.target.result;
-          let thumbnailWidth = "";
-          let thumbnailHeight = "";
-
           // テキストファイルのサムネイルを作成
           const lines = [];
           const words = textContent.split("\n");
@@ -636,10 +631,9 @@ export default {
 
           // 解像度の倍率
           const scaleFactor = 2;
-          // canvasの幅を設定（最大行幅と余白を考慮）
           canvas.width = (maxLineWidth + 20) * scaleFactor;
           // canvasの高さを設定（4:3の比率で計算）
-          canvas.height = ((maxLineWidth + 20) / 4) * 3 * scaleFactor;
+          canvas.height = (totalHeight + 20) * scaleFactor;
           // canvasをスケーリング
           ctx.scale(scaleFactor, scaleFactor);
           // サムネイル背景色を白に設定
@@ -730,7 +724,7 @@ export default {
     GalleryToggle() {
       // 該当フォルダに画像は0件の場合
       if (this.library.length == 0) {
-        var hintMsg = ["画像をアップロードしてください。"];
+        var hintMsg = ["ファイルをアップロードしてください。"];
         this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", hintMsg);
       } else {
         // 該当フォルダに画像は1件以上ある場合

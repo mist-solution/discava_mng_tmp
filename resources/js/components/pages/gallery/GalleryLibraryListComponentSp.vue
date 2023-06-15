@@ -398,7 +398,7 @@ export default {
                 searchByDate == null &&
                 searchByCaption == null)
             ) {
-              var hintMsg = ["画像をアップロードしてください。"];
+              var hintMsg = ["ファイルをアップロードしてください。"];
               this.$store.dispatch(
                 "gallery/setGalleryHintMessagesLibrary",
                 hintMsg
@@ -666,7 +666,7 @@ export default {
     GalleryToggle() {
       // 該当フォルダに画像は0件の場合
       if (this.library.length == 0) {
-        var hintMsg = ["画像をアップロードしてください。"];
+        var hintMsg = ["ファイルをアップロードしてください。"];
         this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", hintMsg);
       } else {
         // 該当フォルダに画像は1件以上ある場合

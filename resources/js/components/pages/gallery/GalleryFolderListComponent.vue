@@ -507,7 +507,7 @@ export default {
       this.folder.forEach((folderItem) => {
         if (folderItem !== item && folderItem.kaisou == 1) {
           folderItem.isOpen = false;
-        } else if(folderItem !== item && folderItem.kaisou != 1){
+        } else if (folderItem !== item && folderItem.kaisou != 1) {
           folderItem.isOpen = false;
           folderItem.isShow = false;
         } else if (folderItem.parent_folder_id === 0 && !item.isOpen) {
@@ -589,7 +589,7 @@ export default {
           subfolderItem.id !== subitem.parent_folder_id
         ) {
           subfolderItem.isOpen = false;
-          if(subfolderItem.kaisou == 3){
+          if (subfolderItem.kaisou == 3) {
             subfolderItem.isShow = false;
           }
         }
@@ -815,7 +815,7 @@ export default {
     },
 
     //フォルダ削除
-    deleteFolder: async function() {
+    deleteFolder: async function () {
       console.log("deleted:" + this.$store.state.library.selectedFolder);
       this.regist_flg = false;
       this.parent_folder_regist_flg = false;
@@ -1328,7 +1328,7 @@ export default {
   .gallery-sub-folder-show-active {
     margin-left: 1.2rem;
     /* margin-top: -4px; */
-    width: 96.1%;
+    /* width: 96.1%; */
   }
 }
 .gallery-sub-folder-show-active span {

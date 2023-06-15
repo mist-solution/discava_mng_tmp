@@ -526,6 +526,8 @@ export default {
       name = this.file.name;
       type = this.file.type;
       size = this.file.size;
+      console.log(name);
+      console.log(type);
 
       let fileType = type.split("/")[0];
 
@@ -1124,6 +1126,11 @@ export default {
 .gallery-library-img-margin {
   margin: 0;
   max-width: 12vw !important;
+}
+@media (min-width: 1450px) {
+  .gallery-library-img-margin {
+    max-width: 10vw !important;
+  }
 }
 @media (max-width: 901px) {
   .gallery-library-img-margin {

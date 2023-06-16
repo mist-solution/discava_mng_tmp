@@ -65,6 +65,7 @@ Route::middleware(['sessionTimeout'])->group(function () {
     Route::put('/api/enduser/{id}', [UserController::class, 'update']);
     Route::post('/api/enduser/delete', [UserController::class, 'deleteAll']);
     Route::delete('/api/enduser/{id}', [UserController::class, 'deleteAccount']);
+    Route::put('/api/enduser/updateAuthority/{id}/{No}', [UserController::class, 'updateAuthority']);
     // アカウント新規登録のバリデーションAPI
     Route::post('/api/enduser/registValidation', [UserController::class, 'registStore']);
     // アカウント編集のバリデーションAPI

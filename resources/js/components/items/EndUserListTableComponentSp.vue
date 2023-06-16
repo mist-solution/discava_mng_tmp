@@ -284,6 +284,10 @@
         });
       },
 
+      emitSelectedList(){
+        this.$emit("selectedList",this.selected);
+      },
+
       operateidChange: function(id) {
       const postData = {
         id: id,

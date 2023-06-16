@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shop;
 use App\Models\ShopUser;
 use App\Models\User;
 use DateTime;
@@ -256,7 +257,6 @@ class UserController extends Controller
             ->where('name','LIKE',"%{$request->input('suggestname')}%")
             ->where('del_flg', '0')
             ->get();
-        Log::info($users);
         $userArrays = array();
         foreach ($users as $key => $value) {
             $userArray = array();
@@ -271,5 +271,74 @@ class UserController extends Controller
         $response['users'] = $userArrays;
         $response['message'] = 'success';
         return $response;
+    }
+
+    // 権限一括更新
+    public function updateAuthority(Request $request , $id , $No)
+    {
+        $update = [
+            'upd_account' => Auth::user()->id,
+            'updated_at' => new DateTime()
+        ];
+
+        $user = User::find($id);
+        $user->update($update);
+
+        $shopList = Shop::where('customer_id', Auth::user()->customer_id)
+            ->where('del_flg', '0')
+            ->get();
+
+
+        if($No == 2){
+            ShopUser::where('user_id', $id)->delete();
+            for ($i = 0; $i < count($shopList); $i++) {
+                $shops = new ShopUser();
+                $shops['customer_id'] = Auth::user()->customer_id;
+                $shops['shop_id'] = $shopList[$i]['id'];
+                $shops['user_id'] = $id;
+                $shops['authority_set_id'] = 1;
+                $shops['add_account'] = Auth::user()->id;
+                $shops['upd_account'] = Auth::user()->id;
+                $shops['del_flg'] = '0';
+                $shops['created_at'] = new DateTime();
+                $shops['updated_at'] = new DateTime();
+    
+                $shops->save();
+            }
+        } else if ($No == 3){
+            ShopUser::where('user_id', $id)->delete();
+            for ($i = 0; $i < count($shopList); $i++) {
+                $shops = new ShopUser();
+                $shops['customer_id'] = Auth::user()->customer_id;
+                $shops['shop_id'] = $shopList[$i]['id'];
+                $shops['user_id'] = $id;
+                $shops['authority_set_id'] = 2;
+                $shops['add_account'] = Auth::user()->id;
+                $shops['upd_account'] = Auth::user()->id;
+                $shops['del_flg'] = '0';
+                $shops['created_at'] = new DateTime();
+                $shops['updated_at'] = new DateTime();
+    
+                $shops->save();
+            }
+        } else if ($No == 4){
+            ShopUser::where('user_id', $id)->delete();
+            for ($i = 0; $i < count($shopList); $i++) {
+                $shops = new ShopUser();
+                $shops['customer_id'] = Auth::user()->customer_id;
+                $shops['shop_id'] = $shopList[$i]['id'];
+                $shops['user_id'] = $id;
+                $shops['authority_set_id'] = 3;
+                $shops['add_account'] = Auth::user()->id;
+                $shops['upd_account'] = Auth::user()->id;
+                $shops['del_flg'] = '0';
+                $shops['created_at'] = new DateTime();
+                $shops['updated_at'] = new DateTime();
+    
+                $shops->save();
+            }
+        } else if ($No == 5){
+            ShopUser::where('user_id', $id)->delete();
+        }
     }
 }

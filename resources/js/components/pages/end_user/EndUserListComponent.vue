@@ -34,12 +34,18 @@
       <input type="checkbox" class="mr-5">
 -->
       <v-select
-          dense
-          :items="items"
-          label="一括操作"
-          solo
+        dense
+        :items="items"
+        item-title="text"
+        item-value="id"
+        :label="this.operate_id === null ? '一括操作' : ''"
+        @update:modelValue="operateidChange"
+        solo
       ></v-select>
-      <v-btn class="green-btn_noTransform mx-2">
+      <v-btn
+        class="green-btn_noTransform mx-2"
+        @click="allCheckedItemOperate()"
+      >
         実行
       </v-btn>
     </v-col>
@@ -162,11 +168,15 @@
       v-if="!moblieFlg()"
       :searchValue="searchText"
       @LastPageChange="LastPageChange"
+      @selectedList="selectedlist"
+      ref="table_pc"
     />
     <end-user-list-table-sp
       v-if="moblieFlg()"
       :searchValue="searchText"
       @LastPageChange="LastPageChange"
+      @selectedList="selectedlist"
+      ref="table_sp"
     />
   </v-card>
 
@@ -244,7 +254,13 @@ export default {
   data() {
     return {
       searchText: "",
-      items: [ "アカウント一括削除", "権限一括付与", "権限一括削除",],
+      items: [ 
+        {id: 1, text: "アカウント一括削除" },
+        {id: 2, text: "管理者権限を一括付与" },
+        {id: 3, text: "投稿者権限を一括付与" },
+        {id: 4, text: "閲覧者権限を一括付与" },
+        {id: 5, text: "権限一括削除"}
+      ],
       approval_auth_flg: null,
       perRowPage: 10,
       totalcount: null,
@@ -254,10 +270,14 @@ export default {
       lastpage_flg: false,
       reset: true,
       pager_flg: true,
+      operate_id: null,
+      selected: [],
     }
   },
   methods: {
     ...mapActions('authority', ['fetchAllAuthority']),
+    ...mapActions("snackbar", ["openSuccess", "openWarning", "openError", "closeSnackbar"]),
+    
     RowPageChange(){
       this.page = 1;
       if(this.totalcount - this.perRowPage <= 0){
@@ -269,6 +289,7 @@ export default {
       this.$store.dispatch("enduser/setDisplayLimit", this.perRowPage);
       this.$store.dispatch("enduser/setDisplayPage", this.page);
     },
+
     async LastPageChange(value1,value2){
       this.pager_flg = true;
       this.page = 1
@@ -289,12 +310,14 @@ export default {
         this.lastpage_flg = false
       }
     },
+
     pageToFirst(){
       this.page = 1;
       this.lastpage_flg = false;
       this.firstpage_flg = true;
       this.$store.dispatch("enduser/setDisplayPage", this.page);
     },
+
     pageToPrev(){
       this.page = this.page - 1;
       this.lastpage_flg = false;
@@ -303,6 +326,7 @@ export default {
       }
       this.$store.dispatch("enduser/setDisplayPage", this.page);
     },
+
     pageToNext(){
       this.page = this.page + 1;
       this.firstpage_flg = false;
@@ -311,12 +335,14 @@ export default {
       }
       this.$store.dispatch("enduser/setDisplayPage", this.page);
     },
+
     pageToLast(){
       this.page = this.LastPage;
       this.firstpage_flg = false;
       this.lastpage_flg = true;
       this.$store.dispatch("enduser/setDisplayPage", this.page);
     },
+
     PageNoChange(){
       if(this.page == 1){
         if(this.LastPage != 1){
@@ -335,11 +361,68 @@ export default {
       }
       this.$store.dispatch("enduser/setDisplayPage", this.page);
     },
+
     // モバイル判定
     moblieFlg() {
       return window.matchMedia &&
         window.matchMedia('(max-device-width: 640px)').matches ?
         true : false
+    },
+
+    operateidChange: function(id) {
+      const postData = {
+        id: id,
+      };
+      this.operate_id = id;
+    },
+
+    selectedlist(value){
+      this.selected = value;
+    },
+
+    //一括操作 
+    allCheckedItemOperate: async function(){
+      if(!this.moblieFlg()){
+        await this.$refs.table_pc.emitSelectedList();
+      }else if(this.moblieFlg()){
+        await this.$refs.table_sp.emitSelectedList();
+      }
+      if(this.selected.length != 0){
+        if(this.operate_id == '1'){
+          for(var i = 0;i < this.selected.length; i++){
+            axios.delete("/api/enduser/" + this.selected[i].id).then((res) => {});
+          }
+          window.location.reload();
+        }else if(this.operate_id == '2'){
+          for(var i = 0;i < this.selected.length; i++){
+            await axios.put("/api/enduser/updateAuthority/" + this.selected[i].id + "/2").then((res) => {
+              this.openSuccess("権限を一括付与しました。");
+            });
+          }
+          window.location.reload();
+        }else if(this.operate_id == '3'){
+          for(var i = 0;i < this.selected.length; i++){
+            axios.put("/api/enduser/updateAuthority/" + this.selected[i].id + "/3").then((res) => {
+              this.openSuccess("権限を一括付与しました。");
+            });
+          }
+          window.location.reload();
+        }else if(this.operate_id == '4'){
+          for(var i = 0;i < this.selected.length; i++){
+            await axios.put("/api/enduser/updateAuthority/" + this.selected[i].id + "/4").then((res) => {
+              this.openSuccess("権限を一括付与しました。");
+            });
+          }
+          window.location.reload();
+        }else if(this.operate_id == '5'){
+          for(var i = 0;i < this.selected.length; i++){
+            await axios.put("/api/enduser/updateAuthority/" + this.selected[i].id + "/5").then((res) => {
+              this.openSuccess("権限を一括削除しました。");
+            });
+          }
+          window.location.reload();
+        }
+      }
     },
   },
   async mounted() {

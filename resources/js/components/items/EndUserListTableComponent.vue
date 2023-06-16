@@ -253,23 +253,21 @@
         axios.delete("/api/enduser/" + accountId).then((res) => {});
         window.location.reload();
       },
+
       timestampFormat(timestamp) {
         const dayjs = inject("dayjs");
         return dayjs(timestamp).format("YYYY/MM/DD HH:mm:ss");
-				// const date = new Date(timestamp);
-				// return (
-				// date.getFullYear().toString() +
-				// "-" +
-				// (date.getMonth() + 1).toString().padStart(2, "0") +
-				// "-" +
-				// date.getDate().toString().padStart(2, "0")
-				// );
       },
+
       edit(user) {
         this.$router.push({
           name: 'enduser.update',
           params: { userId: user.id }
         });
+      },
+
+      emitSelectedList(){
+        this.$emit("selectedList",this.selected);
       },
     },
     async mounted() {
@@ -286,7 +284,6 @@
       let a = this.$refs.dataTable.clientItemsLength;
       this.PageLastIndex = this.$refs.dataTable.maxPaginationNumber;
       this.$emit("LastPageChange",this.PageLastIndex,a)
-      console.log("Lastpage:" + this.PageLastIndex)
     },
   };
   </script>

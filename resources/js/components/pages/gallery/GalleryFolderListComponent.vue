@@ -816,7 +816,6 @@ export default {
 
     //フォルダ削除
     deleteFolder: async function () {
-      console.log("deleted:" + this.$store.state.library.selectedFolder);
       this.regist_flg = false;
       this.parent_folder_regist_flg = false;
       this.namechange_flg = false;

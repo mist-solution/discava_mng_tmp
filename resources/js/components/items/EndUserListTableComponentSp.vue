@@ -304,7 +304,7 @@
         this.approval_auth_flg = authority.approval_auth_flg;
         this.update_auth_flg = authority.update_auth_flg;
       }
-      let a = this.$refs.dataTable.clientItemsLength;
+      let a = await this.$refs.dataTable.clientItemsLength;
       this.PageLastIndex = this.$refs.dataTable.maxPaginationNumber;
       this.$emit("LastPageChange",this.PageLastIndex,a)
     },

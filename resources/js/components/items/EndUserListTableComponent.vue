@@ -281,9 +281,9 @@
           this.headers[4].text = "";
         }
       }
-      let a = this.$refs.dataTable.clientItemsLength;
+      let a = await this.$refs.dataTable.clientItemsLength;
       this.PageLastIndex = this.$refs.dataTable.maxPaginationNumber;
-      this.$emit("LastPageChange",this.PageLastIndex,a)
+      this.$emit("LastPageChange",this.PageLastIndex,a);
     },
   };
   </script>

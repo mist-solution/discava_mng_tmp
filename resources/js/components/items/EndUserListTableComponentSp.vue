@@ -97,9 +97,6 @@
       :hide-footer="true"
       id="accountlist"
 		>
-
-
-
     
     <template #expand="item">
       <div style="padding: 15px">
@@ -289,10 +286,10 @@
       },
 
       operateidChange: function(id) {
-      const postData = {
-        id: id,
-      };
-      this.operate_id = id;
+        const postData = {
+          id: id,
+        };
+        this.operate_id = id;
       },
 
     },

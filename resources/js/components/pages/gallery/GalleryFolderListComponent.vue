@@ -91,158 +91,161 @@
         <p class="number">{{ item.fileValue }}</p>
       </div>
       <!-- 子フォルダ -->
-      <div
-        v-show="hasChildFolder(item.id)"
-        v-for="(subitem, subindex) in folder"
-        :key="subindex"
-      >
+      <div v-if="hasChildFolder(item.id)">
         <div
-          v-if="
-            subitem.isShow &&
-            item.parent_folder_id == 0 &&
-            item.id >= 1 &&
-            subitem.parent_folder_id == item.id
-          "
-          :class="[
-            subitem.isOpen
-              ? 'gallery-sub-folder-show-active'
-              : 'gallery-sub-folder-show',
-          ]"
-          @click.stop="toggleSubFolder(subitem)"
-        >
-          <span
-            v-if="item.isShow && subitem.parent_folder_id == item.id"
-            :class="[
-              subitem.isShow && subitem.isOpen
-                ? 'mdi mdi-folder-open'
-                : hasChildFolder(subitem.id)
-                ? 'mdi mdi-folder-multiple' // 孫フォルダ有り
-                : 'mdi mdi-folder',
-            ]"
-          ></span>
-          <p
-            v-if="
-              subitem.parent_folder_id == item.id &&
-              (!namechange_flg || !subitem.isOpen)
-            "
-            class="folder-name"
-          >
-            {{ subitem.name }}
-          </p>
-          <input
-            v-if="
-              subitem.parent_folder_id == item.id &&
-              !(!namechange_flg || !subitem.isOpen)
-            "
-            class="gallery-folder-search-input"
-            type="search"
-            maxlength="30"
-            hide-details="false"
-            v-model="folderTitlechange"
-            @click.stop="toggleSubFolder(subitem)"
-            @change="nameChange(subitem.id)"
-          />
-          <p
-            v-if="item.isShow && subitem.parent_folder_id == item.id"
-            class="number"
-          >
-            {{ subitem.fileValue }}
-          </p>
-        </div>
-        <!-- 孫フォルダ -->
-        <div
-          v-show="hasChildFolder(subitem.id)"
-          v-for="(subitem2, subindex2) in folder"
-          :key="subindex2"
+          v-show="hasChildFolder(item.id)"
+          v-for="(subitem, subindex) in folder"
+          :key="subindex"
         >
           <div
             v-if="
-              subitem2.isShow &&
               subitem.isShow &&
+              item.parent_folder_id == 0 &&
               item.id >= 1 &&
-              item.id == subitem.parent_folder_id &&
-              subitem2.parent_folder_id == subitem.id
+              subitem.parent_folder_id == item.id
             "
             :class="[
-              subitem2.isOpen
-                ? 'gallery-sub2-folder-show-active'
-                : 'gallery-sub2-folder-show',
+              subitem.isOpen
+                ? 'gallery-sub-folder-show-active'
+                : 'gallery-sub-folder-show',
             ]"
-            @click.stop="toggleSubFolder2(subitem2)"
+            @click.stop="toggleSubFolder(subitem)"
           >
             <span
-              v-if="
-                subitem.isShow &&
-                subitem2.parent_folder_id == subitem.id &&
-                subitem.parent_folder_id == item.id
-              "
+              v-if="item.isShow && subitem.parent_folder_id == item.id"
               :class="[
-                subitem2.isShow && subitem2.isOpen
+                subitem.isShow && subitem.isOpen
                   ? 'mdi mdi-folder-open'
+                  : hasChildFolder(subitem.id)
+                  ? 'mdi mdi-folder-multiple' // 孫フォルダ有り
                   : 'mdi mdi-folder',
               ]"
             ></span>
             <p
               v-if="
-                subitem2.parent_folder_id == subitem.id &&
-                (!namechange_flg2 || !subitem2.isOpen) &&
-                subitem.parent_folder_id == item.id
+                subitem.parent_folder_id == item.id &&
+                (!namechange_flg || !subitem.isOpen)
               "
               class="folder-name"
             >
-              {{ subitem2.name }}
+              {{ subitem.name }}
             </p>
             <input
               v-if="
-                subitem2.parent_folder_id == subitem.id &&
-                !(!namechange_flg2 || !subitem2.isOpen) &&
-                subitem.parent_folder_id == item.id
+                subitem.parent_folder_id == item.id &&
+                !(!namechange_flg || !subitem.isOpen)
               "
               class="gallery-folder-search-input"
               type="search"
               maxlength="30"
               hide-details="false"
               v-model="folderTitlechange"
-              @click.stop="toggleSubFolder2(subitem2)"
-              @change="nameChange(subitem2.id)"
+              @click.stop="toggleSubFolder(subitem)"
+              @change="nameChange(subitem.id)"
             />
             <p
-              v-if="
-                subitem.isShow &&
-                subitem2.parent_folder_id == subitem.id &&
-                subitem.parent_folder_id == item.id
-              "
+              v-if="item.isShow && subitem.parent_folder_id == item.id"
               class="number"
             >
-              {{ subitem2.fileValue }}
+              {{ subitem.fileValue }}
             </p>
           </div>
-        </div>
-        <!-- 孫フォルダを追加 -->
-        <div
-          v-if="
-            item.isShow &&
-            regist_flg2 &&
-            item.parent_folder_id == 0 &&
-            index !== 1 &&
-            index !== 0 &&
-            item.isOpen &&
-            subitem.isOpen &&
-            subitem.isShow &&
-            item.id == subitem.parent_folder_id
-          "
-          class="gallery-sub2-folder-show"
-          @click.stop="toggleSubFolder(subitem)"
-        >
-          <span class="mdi mdi-folder"></span>
-          <input
-            class="gallery-folder-search-input"
-            type="search"
-            maxlength="30"
-            hide-details="false"
-            v-model="folderTitle"
-            @change="createFolder(subitem.id)"
-          />
+          <!-- 孫フォルダ -->
+          <div v-if="hasChildFolder(subitem.id)">
+            <div
+              v-for="(subitem2, subindex2) in folder"
+              :key="subindex2"
+            >
+              <div
+                v-if="
+                  subitem2.isShow &&
+                  subitem.isShow &&
+                  item.id >= 1 &&
+                  item.id == subitem.parent_folder_id &&
+                  subitem2.parent_folder_id == subitem.id
+                "
+                :class="[
+                  subitem2.isOpen
+                    ? 'gallery-sub2-folder-show-active'
+                    : 'gallery-sub2-folder-show',
+                ]"
+                @click.stop="toggleSubFolder2(subitem2)"
+              >
+                <span
+                  v-if="
+                    subitem.isShow &&
+                    subitem2.parent_folder_id == subitem.id &&
+                    subitem.parent_folder_id == item.id
+                  "
+                  :class="[
+                    subitem2.isShow && subitem2.isOpen
+                      ? 'mdi mdi-folder-open'
+                      : 'mdi mdi-folder',
+                  ]"
+                ></span>
+                <p
+                  v-if="
+                    subitem2.parent_folder_id == subitem.id &&
+                    (!namechange_flg2 || !subitem2.isOpen) &&
+                    subitem.parent_folder_id == item.id
+                  "
+                  class="folder-name"
+                >
+                  {{ subitem2.name }}
+                </p>
+                <input
+                  v-if="
+                    subitem2.parent_folder_id == subitem.id &&
+                    !(!namechange_flg2 || !subitem2.isOpen) &&
+                    subitem.parent_folder_id == item.id
+                  "
+                  class="gallery-folder-search-input"
+                  type="search"
+                  maxlength="30"
+                  hide-details="false"
+                  v-model="folderTitlechange"
+                  @click.stop="toggleSubFolder2(subitem2)"
+                  @change="nameChange(subitem2.id)"
+                />
+                <p
+                  v-if="
+                    subitem.isShow &&
+                    subitem2.parent_folder_id == subitem.id &&
+                    subitem.parent_folder_id == item.id
+                  "
+                  class="number"
+                >
+                  {{ subitem2.fileValue }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- 孫フォルダを追加 -->
+          <div
+            v-if="
+              item.isShow &&
+              regist_flg2 &&
+              item.parent_folder_id == 0 &&
+              index !== 1 &&
+              index !== 0 &&
+              item.isOpen &&
+              subitem.isOpen &&
+              subitem.isShow &&
+              item.id == subitem.parent_folder_id
+            "
+            class="gallery-sub2-folder-show"
+            @click.stop="toggleSubFolder(subitem)"
+          >
+            <span class="mdi mdi-folder"></span>
+            <input
+              class="gallery-folder-search-input"
+              type="search"
+              maxlength="30"
+              hide-details="false"
+              v-model="folderTitle"
+              @change="createFolder(subitem.id)"
+            />
+          </div>
         </div>
       </div>
       <!-- 子フォルダを追加 -->

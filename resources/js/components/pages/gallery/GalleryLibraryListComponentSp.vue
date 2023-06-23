@@ -147,7 +147,7 @@
               {{ item.selectNo }}
             </p>
           </v-img>
-          <p>データタイプ：{{ item.img_fileformat.split("/")[0] }}　</p>
+          <p>データタイプ：{{ datenamed(item.img_fileformat.split("/")[0]) }}　</p>
           <p>
             投稿日：{{
               item.created_at.slice(0, 10).replace("-", "/").replace("-", "/")
@@ -876,10 +876,22 @@ export default {
           console.error("Copy Error");
         });
     },
+
+    datenamed(val){
+      if(val == "image"){
+        return "画像";
+      }else if(val == "video"){
+        return "動画";
+      }else if(val == "text"){
+        return "テキスト";
+      }else if(val == "audio"){
+        return "音声";
+      }
+    },
   },
-  async mounted() {
+  mounted() {
     this.getLibraryList();
-    let authority = await this.fetchAllAuthority();
+    let authority = this.fetchAllAuthority();
     if (authority) {
       this.create_auth_flg = authority.create_auth_flg;
       this.approval_auth_flg = authority.approval_auth_flg;

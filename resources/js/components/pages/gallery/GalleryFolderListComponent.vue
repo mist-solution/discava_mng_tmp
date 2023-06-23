@@ -811,6 +811,8 @@ export default {
         this.folder.forEach((folderItem) => {
           if (folderItem.id == id) {
             folderItem.isOpen = true;
+          } else if (folderItem.parent_folder_id == id){
+            folderItem.isShow = true;
           }
         });
         this.toggleSubFolder2(this.folder[this.folder.length - 1]);

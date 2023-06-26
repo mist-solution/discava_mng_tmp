@@ -340,7 +340,7 @@ export default {
     },
   },
   watch: {
-    selectedFolder() {
+    async selectedFolder() {
       this.$store.dispatch("library/setAddDateBegin", null);
       this.$store.dispatch("library/setAddDateEnd", null);
       this.$store.dispatch("library/setCaption", null);
@@ -358,7 +358,7 @@ export default {
         this.$store.state.library.selectedFolder != -1
       ) {
         if (this.$store.state.library.selectedFolder) {
-          axios
+          await axios
             .get("api/mediafolder/" + this.$store.state.library.selectedFolder)
             .then((res) => {
               this.GalleryItem = res.data;

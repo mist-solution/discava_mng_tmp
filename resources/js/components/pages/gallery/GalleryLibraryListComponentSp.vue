@@ -889,9 +889,9 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     this.getLibraryList();
-    let authority = this.fetchAllAuthority();
+    let authority = await this.fetchAllAuthority();
     if (authority) {
       this.create_auth_flg = authority.create_auth_flg;
       this.approval_auth_flg = authority.approval_auth_flg;

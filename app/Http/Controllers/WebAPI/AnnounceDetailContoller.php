@@ -112,7 +112,7 @@ class AnnounceDetailContoller extends Controller
 
         // 対象のお知らせに添付されている画像を取得する
         $records = AnnounceAttachment::where('announce_id', $announceId)
-            ->where('shop_id', $shopId)
+            // ->where('shop_id', $shopId)
             ->where('del_flg', '0')
             ->orderBy('id')
             ->get();

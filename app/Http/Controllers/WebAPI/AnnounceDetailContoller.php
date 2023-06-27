@@ -44,36 +44,49 @@ class AnnounceDetailContoller extends Controller
         }
 
         // 合致するtokenから店舗を取得
-        $records = Shop::all();
-        $response = array();
-        foreach ($records as $key => $value) {
-            if ($token == $value->webapi_token) {
-                $shopId = $value->id;
-                break;
-            }
-        }
-        if (is_null($shopId)) {
+        $shop = Shop::where('webapi_token', $token)->first();
+        if (is_null($shop)) {
             return response()->json([
-                'message' => 'Internal Server Error(not found shop id by token[' . $token . '])'
+                'message' => 'QInternal Server Error(not found shop id by token[' . $token . '])'
             ], 500);
         }
 
-        // 店舗の指定されたお知らせIDを取得
         $announceId = $id;
-        if (is_null($announceId)) {
+        if (empty($announceId)) {
             return response()->json([
-                'message' => 'Internal Server Error(not found shop\'s announce id)'
+                'message' => '1Internal Server Error(not found shop\'s announce id)'
             ], 500);
         }
+
+        // $records = Shop::all();
+        // $response = array();
+        // foreach ($records as $key => $value) {
+        //     if ($token == $value->webapi_token) {
+        //         $shopId = $value->id;
+        //         break;
+        //     }
+        // }
+        // if (is_null($shopId)) {
+        //     return response()->json([
+        //         'message' => 'Internal Server Error(not found shop id by token[' . $token . '])'
+        //     ], 500);
+        // }
+
+        // // 店舗の指定されたお知らせIDを取得
+        // $announceId = $id;
+        // if (is_null($announceId)) {
+        //     return response()->json([
+        //         'message' => 'Internal Server Error(not found shop\'s announce id)'
+        //     ], 500);
+        // }
 
         // 店舗の指定されたお知らせを取得する
+        $currentDateTime = date('Y-m-d H:i:s');
         $value = Announce::with('announce_categories')
             ->where('id', $announceId)
-            ->where('shop_id', $shopId)
             ->where('approval_status', '2')
             ->where('del_flg', '0')
-            ->where('start_date', '<=', date('Y-m-d H:i:s'))
-            // ->where('end_date', '>=', date('Y-m-d H:i:s'))
+            ->where('start_date', '<=', $currentDateTime)
             ->orderBy('start_date', 'desc')
             ->orderBy('id', 'desc')
             ->first();

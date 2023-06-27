@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Storage;
+use Illuminate\Support\Facades\Cache;
 
 class AnnounceDetailContoller extends Controller
 {
@@ -30,6 +31,12 @@ class AnnounceDetailContoller extends Controller
      */
     public function get(Request $request, String $id)
     {
+        $cacheKey = 'announce_detail_' . $id;
+
+        if (Cache::has($cacheKey)) {
+            return Cache::get($cacheKey);
+        }
+
         $token = null;
         $shopId = null;
         $announceId = null;
@@ -119,6 +126,9 @@ class AnnounceDetailContoller extends Controller
         $response = array();
         $response['announce'] = $announce;
         $response['attachments'] = $announceAttachments;
+
+        Cache::put($cacheKey, $response, 3600); // 假設有效期限為 1 小時
+
         return $response;
     }
 }

@@ -44,49 +44,36 @@ class AnnounceDetailContoller extends Controller
         }
 
         // 合致するtokenから店舗を取得
-        $shop = Shop::where('webapi_token', $token)->first();
-        if (is_null($shop)) {
+        $records = Shop::all();
+        $response = array();
+        foreach ($records as $key => $value) {
+            if ($token == $value->webapi_token) {
+                $shopId = $value->id;
+                break;
+            }
+        }
+        if (is_null($shopId)) {
             return response()->json([
-                'message' => 'QInternal Server Error(not found shop id by token[' . $token . '])'
+                'message' => 'Internal Server Error(not found shop id by token[' . $token . '])'
             ], 500);
         }
 
+        // 店舗の指定されたお知らせIDを取得
         $announceId = $id;
-        if (empty($announceId)) {
+        if (is_null($announceId)) {
             return response()->json([
-                'message' => '1Internal Server Error(not found shop\'s announce id)'
+                'message' => 'Internal Server Error(not found shop\'s announce id)'
             ], 500);
         }
-
-        // $records = Shop::all();
-        // $response = array();
-        // foreach ($records as $key => $value) {
-        //     if ($token == $value->webapi_token) {
-        //         $shopId = $value->id;
-        //         break;
-        //     }
-        // }
-        // if (is_null($shopId)) {
-        //     return response()->json([
-        //         'message' => 'Internal Server Error(not found shop id by token[' . $token . '])'
-        //     ], 500);
-        // }
-
-        // // 店舗の指定されたお知らせIDを取得
-        // $announceId = $id;
-        // if (is_null($announceId)) {
-        //     return response()->json([
-        //         'message' => 'Internal Server Error(not found shop\'s announce id)'
-        //     ], 500);
-        // }
 
         // 店舗の指定されたお知らせを取得する
-        $currentDateTime = date('Y-m-d H:i:s');
         $value = Announce::with('announce_categories')
             ->where('id', $announceId)
+            ->where('shop_id', $shopId)
             ->where('approval_status', '2')
             ->where('del_flg', '0')
-            ->where('start_date', '<=', $currentDateTime)
+            ->where('start_date', '<=', date('Y-m-d H:i:s'))
+            // ->where('end_date', '>=', date('Y-m-d H:i:s'))
             ->orderBy('start_date', 'desc')
             ->orderBy('id', 'desc')
             ->first();
@@ -112,7 +99,7 @@ class AnnounceDetailContoller extends Controller
 
         // 対象のお知らせに添付されている画像を取得する
         $records = AnnounceAttachment::where('announce_id', $announceId)
-            // ->where('shop_id', $shopId)
+            ->where('shop_id', $shopId)
             ->where('del_flg', '0')
             ->orderBy('id')
             ->get();

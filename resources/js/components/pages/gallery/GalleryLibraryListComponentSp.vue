@@ -7,10 +7,10 @@
         selectedfolderid == null ||
         selectedfolderid == -1 ||
         selectedfolderid == 1
-          ? 'btn disable-btn'
+          ? 'btn disable-btn gallery-btn-font-12-sp'
           : selectMediaFlg
-          ? 'btn gallery-library-gallery-make-btn-sp'
-          : 'btn white-btn',
+          ? 'btn gallery-library-gallery-make-btn-sp gallery-btn-font-12-sp'
+          : 'btn white-btn gallery-btn-font-12-sp',
       ]"
       type="button"
       :disabled="
@@ -22,6 +22,25 @@
       v-if="create_auth_flg"
     >
       ギャラリーを作成
+    </button>
+    <button
+      v-if="create_auth_flg"
+      :class="[
+        selectedfolderid == null ||
+        selectedfolderid == -1 ||
+        selectedfolderid == 1
+          ? 'btn disable-btn gallery-btn-font-12-sp'
+          : 'btn white-btn gallery-btn-font-12-sp',
+      ]"
+      type="button"
+      :disabled="
+        selectedfolderid == null ||
+        selectedfolderid == -1 ||
+        selectedfolderid == 1
+      "
+      @click="GalleryToggleCancel()"
+    >
+      キャンセル
     </button>
   </div>
 
@@ -147,7 +166,9 @@
               {{ item.selectNo }}
             </p>
           </v-img>
-          <p>データタイプ：{{ datenamed(item.img_fileformat.split("/")[0]) }}　</p>
+          <p>
+            データタイプ：{{ datenamed(item.img_fileformat.split("/")[0]) }}　
+          </p>
           <p>
             投稿日：{{
               item.created_at.slice(0, 10).replace("-", "/").replace("-", "/")
@@ -731,6 +752,12 @@ export default {
       }
     },
 
+    // ギャラリー作成をキャンセル
+    GalleryToggleCancel() {
+      this.selectMediaFlg = false;
+      this.hasShortCode = false;
+    },
+
     //画像クリック
     clickMedia(item, selected) {
       const fileType = item.img_fileformat.split("/")[0];
@@ -877,14 +904,14 @@ export default {
         });
     },
 
-    datenamed(val){
-      if(val == "image"){
+    datenamed(val) {
+      if (val == "image") {
         return "画像";
-      }else if(val == "video"){
+      } else if (val == "video") {
         return "動画";
-      }else if(val == "text"){
+      } else if (val == "text") {
         return "テキスト";
-      }else if(val == "audio"){
+      } else if (val == "audio") {
         return "音声";
       }
     },
@@ -919,6 +946,9 @@ export default {
 <style scoped>
 @media (max-width: 640px) {
   /* ギャラリー作成ボタン（フォルダが選択した時） */
+  .gallery-btn-font-12-sp {
+    font-size: 12px;
+  }
   .gallery-library-gallery-make-btn-sp {
     background-color: #69a5af;
     border: #69a5af 2px solid !important;

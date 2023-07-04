@@ -44,6 +44,25 @@
           >
             ギャラリーを作成
           </button>
+          <button
+            v-if="create_auth_flg"
+            :class="[
+              selectedfolderid == null ||
+              selectedfolderid == -1 ||
+              selectedfolderid == 1
+                ? 'ml-1 btn disable-btn'
+                : 'ml-1 btn white-btn',
+            ]"
+            type="button"
+            :disabled="
+              selectedfolderid == null ||
+              selectedfolderid == -1 ||
+              selectedfolderid == 1
+            "
+            @click="GalleryToggleCancel()"
+          >
+            キャンセル
+          </button>
         </v-col>
       </v-row>
     </div>
@@ -205,7 +224,9 @@
                 {{ item.selectNo }}
               </p>
             </v-img>
-            <p>データタイプ：{{ datenamed(item.img_fileformat.split("/")[0]) }}　</p>
+            <p>
+              データタイプ：{{ datenamed(item.img_fileformat.split("/")[0]) }}　
+            </p>
             <p>
               投稿日：{{
                 item.created_at
@@ -789,6 +810,12 @@ export default {
       }
     },
 
+    // ギャラリー作成をキャンセル
+    GalleryToggleCancel() {
+      this.selectMediaFlg = false;
+      this.hasShortCode = false;
+    },
+
     //画像クリック
     clickMedia(item, selected) {
       const fileType = item.img_fileformat.split("/")[0];
@@ -934,14 +961,14 @@ export default {
           console.error("Copy Error");
         });
     },
-    datenamed(val){
-      if(val == "image"){
+    datenamed(val) {
+      if (val == "image") {
         return "画像";
-      }else if(val == "video"){
+      } else if (val == "video") {
         return "動画";
-      }else if(val == "text"){
+      } else if (val == "text") {
         return "テキスト";
-      }else if(val == "audio"){
+      } else if (val == "audio") {
         return "音声";
       }
     },
@@ -953,7 +980,7 @@ export default {
       this.create_auth_flg = authority.create_auth_flg;
       this.approval_auth_flg = authority.approval_auth_flg;
     }
-    
+
     const reference = this.$refs.scrollarea;
     const self = this;
     reference.onscroll = function () {

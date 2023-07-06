@@ -723,6 +723,7 @@ export default {
     // 更新処理
     updateMediaAction() {
       let formData = new FormData();
+      let isMoved = [];
       const info = {
         img_caption: this.cap,
         img_memo: this.memo_,
@@ -751,12 +752,15 @@ export default {
       ) {
         this.$store.dispatch("gallery/setGalleryMove", this.beforefolderID);
         this.$store.dispatch("gallery/setGalleryMove2", this.afterfolderID);
+        // ライブリーにメッセージを表示するため、移動したファイルIDを送る
+        isMoved.push({ result: true, id: this.item.id });
       }
 
       this.beforefolderID = null;
       this.afterfolderID = null;
 
-      this.closeDisplayGalleryMediaSetModal();
+      // ライブリーにメッセージを表示するため、isMoveの内容を送る
+      this.closeDisplayGalleryMediaSetModal(isMoved);
     },
 
     // 画像削除処理

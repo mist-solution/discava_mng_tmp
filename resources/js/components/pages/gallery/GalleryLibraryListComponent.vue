@@ -404,10 +404,10 @@ export default {
     ...mapActions("authority", ["fetchAllAuthority"]),
 
     //画面設定モーダルを閉じる
-    closeDisplayGalleryMediaSet() {
+    closeDisplayGalleryMediaSet(isMoved) {
       this.displayGalleryMediaSet = false;
       this.selectedMedia = [];
-      this.getLibraryList();
+      this.getLibraryList(isMoved);
     },
 
     //画面表示設定モーダルを閉じる
@@ -417,7 +417,7 @@ export default {
     },
 
     //画像一覧取得
-    getLibraryList() {
+    getLibraryList(isMoved) {
       axios
         .get("/api/mediaAttachment", {
           params: {
@@ -431,6 +431,43 @@ export default {
         })
         .then((res) => {
           this.library = res.data.mediaAttachment;
+          let folderId = this.$store.state.library.selectedFolder;
+          let item = "";
+
+          // ファイルを移動した場合
+          if (isMoved && isMoved.length != 0) {
+            axios
+              .get("api/mediafolder/getGallery/" + folderId)
+              .then((res) => {
+                // ギャラリーを作成された場合
+                this.selectedMedia = res.data;
+                let getMediaResult = this.selectedMedia;
+                for (let i = 0; i < getMediaResult.length; i++) {
+                  item = getMediaResult[i];
+                  // 画像が存在しない
+                  if (!this.library.some((library) => library.id === item.id)) {
+                    var hintMsg = [
+                      "移動したファイルをギャラリーから削除しました",
+                    ];
+                    this.$store.dispatch(
+                      "gallery/setGalleryHintMessagesLibrary",
+                      hintMsg
+                    );
+                  }
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+                // ギャラリーを作成したことがない場合、APIから404を返却
+                if (error.response.status == 404) {
+                  this.$store.dispatch(
+                    "gallery/setGalleryHintMessagesLibrary",
+                    hintMsg
+                  );
+                }
+              });
+          }
+
           // 検索結果は0件の場合、提示文言を表示
           const searchByFileFormat = this.$store.state.library.FileFormat;
           const searchByDate = this.$store.state.library.AddDateBegin;
@@ -755,11 +792,12 @@ export default {
           // ギャラリー作成したかしないかを確認する
           let folderId = this.$store.state.library.selectedFolder;
           let item = "";
+          // ギャラリー作成Jsonファイルを取得
           axios
             .get("api/mediafolder/getGallery/" + folderId)
             .then((res) => {
               // ギャラリーを作成された場合
-              this.hasShortCode = true; // ショートコードの表示を初期化
+              this.hasShortCode = true; // ショートコードの表示
               this.selectedMedia = res.data;
               let selectedMediaResult = this.selectedMedia;
               for (let i = 0; i < selectedMediaResult.length; i++) {

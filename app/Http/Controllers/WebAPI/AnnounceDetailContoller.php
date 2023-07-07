@@ -36,8 +36,6 @@ class AnnounceDetailContoller extends Controller
         $announceId = null;
         $response = array();
         $currentTime = date('Y-m-d H:i:s');
-        log::info("currentTime 0");
-        log::info($currentTime);
 
         // ヘッダーのX-DiscavaMATE-API-Tokenを取得
         $token = $request->header('X-DiscavaMATE-API-Token');
@@ -46,9 +44,6 @@ class AnnounceDetailContoller extends Controller
                 'message' => 'Internal Server Error(no header \'X-DiscavaMATE-API-Token\')'
             ], 500);
         }
-
-        log::info("currentTime 1");
-        log::info($currentTime);
 
         // 合致するtokenから店舗を取得
         $records = Shop::all();
@@ -65,9 +60,6 @@ class AnnounceDetailContoller extends Controller
             ], 500);
         }
 
-        log::info("currentTime 2");
-        log::info($currentTime);
-
         // 店舗の指定されたお知らせIDを取得
         $announceId = $id;
         if (is_null($announceId)) {
@@ -75,9 +67,6 @@ class AnnounceDetailContoller extends Controller
                 'message' => 'Internal Server Error(not found shop\'s announce id)'
             ], 500);
         }
-
-        log::info("currentTime 3");
-        log::info($currentTime);
 
         // 店舗の指定されたお知らせを取得する
         $value = Announce::with('announce_categories')
@@ -96,9 +85,6 @@ class AnnounceDetailContoller extends Controller
             ], 404);
         }
 
-        log::info("currentTime 4");
-        log::info($currentTime);
-
         // お知らせ
         $announce = array();
         $announce['id'] = $value->id;
@@ -113,18 +99,12 @@ class AnnounceDetailContoller extends Controller
         $announce['contents'] = $value->contents;
         $announce['add_account'] = User::find($value->add_account)->name;
 
-        log::info("currentTime 5");
-        log::info($currentTime);
-
         // 対象のお知らせに添付されている画像を取得する
         $records = AnnounceAttachment::where('announce_id', $announceId)
             ->where('shop_id', $shopId)
             ->where('del_flg', '0')
             ->orderBy('id')
             ->get();
-
-        log::info("currentTime 6");
-        log::info($currentTime);
 
         // お知らせ画像 ID
         $announceAttachments = array();
@@ -137,9 +117,6 @@ class AnnounceDetailContoller extends Controller
             $announceAttachment['img_filename'] = $value->img_filename;
             $announceAttachments[] = $announceAttachment;
         }
-
-        log::info("currentTime 7");
-        log::info($currentTime);
 
         $response = array();
         $response['announce'] = $announce;

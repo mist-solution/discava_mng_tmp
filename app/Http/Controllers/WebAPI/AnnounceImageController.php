@@ -34,10 +34,6 @@ class AnnounceImageController extends Controller
         $announceAttachmentId = null;
         $response = array();
 
-        $currentTime = date('Y-m-d H:i:s');
-        log::info("currentTime 0");
-        log::info($currentTime);
-
         // ヘッダーのX-DiscavaMATE-API-Tokenを取得
         $token = $request->header('X-DiscavaMATE-API-Token');
         if (is_null($token)) {
@@ -45,9 +41,6 @@ class AnnounceImageController extends Controller
                 'message' => 'Internal Server Error'
             ], 500);
         }
-
-        log::info("currentTime Img 1");
-        log::info($currentTime);
 
         // 合致するtokenから店舗を取得
         $records = Shop::all();
@@ -64,9 +57,6 @@ class AnnounceImageController extends Controller
             ], 500);
         }
 
-        log::info("currentTime Img 2");
-        log::info($currentTime);
-
         // 店舗の指定されたお知らせIDを取得
         $announceAttachmentId = $id;
         if (is_null($announceAttachmentId)) {
@@ -74,9 +64,6 @@ class AnnounceImageController extends Controller
                 'message' => 'Internal Server Error'
             ], 500);
         }
-
-        log::info("currentTime Img 3");
-        log::info($currentTime);
 
         // 対象のお知らせに添付されている画像を取得する
         $record = AnnounceAttachment::where('id', $announceAttachmentId)
@@ -88,9 +75,6 @@ class AnnounceImageController extends Controller
                 'message' => 'Internal Server Error'
             ], 500);
         }
-
-        log::info("currentTime Img 4");
-        log::info($currentTime);
 
         // お知らせ画像 ID
         $filePath = $record->img_path;
@@ -105,9 +89,6 @@ class AnnounceImageController extends Controller
                 'mimetype' => $mimeType,
             ], 500);
         }
-
-        log::info("currentTime Img 5");
-        log::info($currentTime);
 
         return response($binary)->header('Content-Type', $mimeType);
     }

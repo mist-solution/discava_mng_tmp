@@ -39,7 +39,7 @@ class AnnounceDetailContoller extends Controller
 
         // ヘッダーのX-DiscavaMATE-API-Tokenを取得
         $token = $request->header('X-DiscavaMATE-API-Token');
-        if (is_null($token)) {
+        if ($token === null) {
             return response()->json([
                 'message' => 'Internal Server Error(no header \'X-DiscavaMATE-API-Token\')'
             ], 500);
@@ -54,7 +54,7 @@ class AnnounceDetailContoller extends Controller
                 break;
             }
         }
-        if (is_null($shopId)) {
+        if ($shopId === null) {
             return response()->json([
                 'message' => 'Internal Server Error(not found shop id by token[' . $token . '])'
             ], 500);
@@ -62,7 +62,7 @@ class AnnounceDetailContoller extends Controller
 
         // 店舗の指定されたお知らせIDを取得
         $announceId = $id;
-        if (is_null($announceId)) {
+        if ($announceId === null) {
             return response()->json([
                 'message' => 'Internal Server Error(not found shop\'s announce id)'
             ], 500);
@@ -79,7 +79,7 @@ class AnnounceDetailContoller extends Controller
             ->orderBy('start_date', 'desc')
             ->orderBy('id', 'desc')
             ->first();
-        if (is_null($value)) {
+        if ($value === null) {
             return response()->json([
                 'message' => 'Internal Server Error(not found shop\'s announce record)'
             ], 404);

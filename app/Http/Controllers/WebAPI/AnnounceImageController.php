@@ -36,7 +36,7 @@ class AnnounceImageController extends Controller
 
         // ヘッダーのX-DiscavaMATE-API-Tokenを取得
         $token = $request->header('X-DiscavaMATE-API-Token');
-        if (is_null($token)) {
+        if ($token === null) {
             return response()->json([
                 'message' => 'Internal Server Error'
             ], 500);
@@ -51,7 +51,7 @@ class AnnounceImageController extends Controller
                 break;
             }
         }
-        if (is_null($shopId)) {
+        if ($shopId === null) {
             return response()->json([
                 'message' => 'Internal Server Error'
             ], 500);
@@ -59,7 +59,7 @@ class AnnounceImageController extends Controller
 
         // 店舗の指定されたお知らせIDを取得
         $announceAttachmentId = $id;
-        if (is_null($announceAttachmentId)) {
+        if ($announceAttachmentId === null) {
             return response()->json([
                 'message' => 'Internal Server Error'
             ], 500);
@@ -70,7 +70,7 @@ class AnnounceImageController extends Controller
             ->where('shop_id', $shopId)
             ->where('del_flg', '0')
             ->first();
-        if (is_null($record)) {
+        if ($record === null) {
             return response()->json([
                 'message' => 'Internal Server Error'
             ], 500);
@@ -81,7 +81,7 @@ class AnnounceImageController extends Controller
         $fileName = $record->img_filename;
         $binary = Storage::disk()->get($filePath);
         $mimeType = Storage::disk()->mimeType($filePath);
-        if (is_null($binary)) {
+        if ($binary === null) {
             return response()->json([
                 'message' => 'Internal Server Error',
                 'filepath' => $filePath,

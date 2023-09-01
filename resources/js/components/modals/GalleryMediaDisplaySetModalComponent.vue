@@ -370,6 +370,12 @@
         >
           作成する
         </v-btn>
+        <v-btn
+          class="gray-btn mx-2 gallery-mediaDisplaySet-make-btn"
+          @click="closeDisplayGalleryMediaDisplaySetModal()"
+        >
+          キャンセル
+        </v-btn>
       </v-card-actions>
     </v-card>
 

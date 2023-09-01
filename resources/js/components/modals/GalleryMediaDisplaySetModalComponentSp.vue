@@ -365,6 +365,12 @@
         >
           作成する
         </v-btn>
+        <v-btn
+          class="gray-btn mx-2 gallery-mediaDisplaySet-make-btn"
+          @click="closeDisplayGalleryMediaDisplaySetSpModal()"
+        >
+          キャンセル
+        </v-btn>
       </v-card-actions>
     </v-card>
 
@@ -921,6 +927,13 @@ export default {
   /* 操作ボタン */
   .gallery-mediaDisplaySet-action-area {
     margin-top: 2rem;
+  }
+  @media (max-width: 640px) {
+    .gallery-mediaDisplaySet-action-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   .gallery-mediaDisplaySet-make-btn {

@@ -44,25 +44,6 @@
           >
             ギャラリーを作成
           </button>
-          <button
-            v-if="create_auth_flg"
-            :class="[
-              selectedfolderid == null ||
-              selectedfolderid == -1 ||
-              selectedfolderid == 1
-                ? 'ml-1 btn disable-btn'
-                : 'ml-1 btn white-btn',
-            ]"
-            type="button"
-            :disabled="
-              selectedfolderid == null ||
-              selectedfolderid == -1 ||
-              selectedfolderid == 1
-            "
-            @click="GalleryToggleCancel()"
-          >
-            キャンセル
-          </button>
         </v-col>
       </v-row>
     </div>
@@ -846,12 +827,6 @@ export default {
           this.$store.dispatch("gallery/setGalleryHintMessagesLibrary", "");
         }
       }
-    },
-
-    // ギャラリー作成をキャンセル
-    GalleryToggleCancel() {
-      this.selectMediaFlg = false;
-      this.hasShortCode = false;
     },
 
     //画像クリック

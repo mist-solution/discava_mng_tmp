@@ -183,7 +183,7 @@
         >
           <div class="btn-group" @click="clickMedia(item, item.selected)">
             <v-img
-              :src="getImageSrc(item)"
+              :src="item.url"
               aspect-ratio="1"
               cover
               :class="

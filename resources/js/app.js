@@ -13,6 +13,7 @@ import 'vue3-easy-data-table/dist/style.css';
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
+import VueLazyLoad from 'vue3-lazyload'
 
 // ロケール設定
 dayjs.locale('ja')
@@ -60,6 +61,7 @@ app.use(router);
 app.use(vuex);
 app.use(vuetify);
 app.use(AxiosPlugin);
+app.use(VueLazyLoad);
 app.provide('dayjs', dayjs);
 app.component('EasyDataTable', Vue3EasyDataTable);
 app.mount('#app');

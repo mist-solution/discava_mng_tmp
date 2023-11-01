@@ -29,7 +29,8 @@
     "vuedraggable": "^4.1.0",
     "vuetify": "^3.0.3",
     "vuex": "^4.0.2",
-    "webfontloader": "^1.0.0"
+    "webfontloader": "^1.0.0",
+    "vue3-lazyload": "0.3.8"
   },
   "devDependencies": {
     "@popperjs/core": "^2.10.2",

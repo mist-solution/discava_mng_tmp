@@ -270,9 +270,9 @@ export default {
       return (item) => {
         let fileExt = item.img_fileformat.split("/")[0];
         if (fileExt === "image") {
-          return "data:image/png;base64," + item.img_path;
+          return item.img_path;
         } else if (fileExt === "text") {
-          return "data:image/png;base64," + item.img_path_text;
+          return item.img_path_text;
         } else {
           return "";
         }

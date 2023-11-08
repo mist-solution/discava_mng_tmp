@@ -37,9 +37,9 @@ class MediaAttachmentController extends Controller
                 $value["url"] = Storage::temporaryUrl($value["img_path"], now()->addMinutes(5));
 
                 // 画像ファイルを取得
-                $img_contents = Storage::get($value["img_path"]);
-                $img_base64 = base64_encode($img_contents);
-                $value["img_path"] = $img_base64;
+                // $img_contents = Storage::get($value["img_path"]);
+                // $img_base64 = base64_encode($img_contents);
+                // $value["img_path"] = $img_base64;
 
                 // テキストサムネイルを取得
                 if (strpos($value['img_fileformat'], "text/") === 0) {

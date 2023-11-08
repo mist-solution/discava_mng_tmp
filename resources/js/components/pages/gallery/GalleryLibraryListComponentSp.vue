@@ -125,7 +125,7 @@
       >
         <div class="btn-group" @click="clickMedia(item, item.selected)">
           <v-img
-            v-lazy="{src:getImageSrc(item)}"
+            :src="item.url"
             aspect-ratio="1"
             cover
             :class="
@@ -270,9 +270,9 @@ export default {
       return (item) => {
         let fileExt = item.img_fileformat.split("/")[0];
         if (fileExt === "image") {
-          return item.url;
+          return "data:image/png;base64," + item.img_path;
         } else if (fileExt === "text") {
-          return item.img_path_text;
+          return "data:image/png;base64," + item.img_path_text;
         } else {
           return "";
         }

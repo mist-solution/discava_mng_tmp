@@ -270,7 +270,7 @@ export default {
       return (item) => {
         let fileExt = item.img_fileformat.split("/")[0];
         if (fileExt === "image") {
-          return item.img_path;
+          return item.url;
         } else if (fileExt === "text") {
           return item.img_path_text;
         } else {

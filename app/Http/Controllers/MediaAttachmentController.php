@@ -14,8 +14,6 @@ class MediaAttachmentController extends Controller
     // 一覧取得
     public function getMediaAttachment(Request $request)
     {
-
-
         $searchFileID = $request->input('searchFileID');
         $searchAddDateBegin = $request->input('searchAddDateBegin');
         $searchAddDateEnd = $request->input('searchAddDateEnd');
@@ -35,11 +33,6 @@ class MediaAttachmentController extends Controller
             if ($value["img_path"]) {
                 // 一時URL
                 $value["url"] = Storage::temporaryUrl($value["img_path"], now()->addMinutes(5));
-
-                // 画像ファイルを取得
-                // $img_contents = Storage::get($value["img_path"]);
-                // $img_base64 = base64_encode($img_contents);
-                // $value["img_path"] = $img_base64;
 
                 // テキストサムネイルを取得
                 if (strpos($value['img_fileformat'], "text/") === 0) {

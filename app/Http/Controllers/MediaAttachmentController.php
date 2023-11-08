@@ -148,11 +148,6 @@ class MediaAttachmentController extends Controller
             ];
 
             $model->update($update);
-
-            // 一時URL
-            $model["url"] = Storage::temporaryUrl($model["img_path"], now()->addMinutes(5));
         };
-
-        return $model;
     }
 }

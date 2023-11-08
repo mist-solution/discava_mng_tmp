@@ -743,9 +743,7 @@ export default {
       }
       axios.post("/api/mediaAttachment/update/" + this.item.id, formData, {
         headers: { "Content-type": "multipart/form-data" },
-      }).then((res) => {
-        this.$emit("update:item", res.data);
-      });
+      })
 
       this.edit_img_flg = false;
       if (

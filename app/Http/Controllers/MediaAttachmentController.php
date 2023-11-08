@@ -58,6 +58,18 @@ class MediaAttachmentController extends Controller
         return $mediaAttachment;
     }
 
+    // 取得
+    public function get(Request $request, $id)
+    {
+        $mediaAttachment =  MediaAttachment::where('id', '=', $id)->firstOrFail();
+        // 画像ファイルを取得
+        $img_contents = Storage::get($mediaAttachment["img_path"]);
+        $img_base64 = base64_encode($img_contents);
+        $mediaAttachment["img_path"] = $img_base64;
+
+        return $mediaAttachment;
+    }
+
     //画像追加
     public function register(Request $request)
     {

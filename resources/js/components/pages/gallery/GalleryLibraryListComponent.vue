@@ -1058,7 +1058,9 @@ export default {
             }
           }
         });
-        this.setItem(item);
+        axios.get("/api/mediaAttachment/" + item.id).then((res) => {
+          this.setItem(res.data);
+        });
         this.displayGalleryMediaSet = true;
       } else if (
         (!selected && fileType == "image") ||

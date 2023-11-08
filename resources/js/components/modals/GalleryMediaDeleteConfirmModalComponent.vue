@@ -70,7 +70,7 @@ export default {
 
     // 削除処理
     deleteImage() {
-      axios.delete("/api/mediaAttachment/" + this.id);
+      axios.delete("/api/mediaAttachment/delete/" + this.id);
       this.closeDisplayGalleryMediaDeleteConfirmModal();
       this.$store.dispatch("gallery/setGalleryDelete", this.folderid);
       this.$emit("close");

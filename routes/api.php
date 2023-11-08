@@ -134,10 +134,12 @@ Route::middleware(['sessionTimeout'])->group(function () {
 
     //画像一覧取得
     Route::get('/api/mediaAttachment', [MediaAttachmentController::class, 'getMediaAttachment']);
+    //画像取得
+    Route::get('/api/mediaAttachment/{id}', [MediaAttachmentController::class, 'get']);
     //画像追加
     Route::post('/api/mediaAttachment/register', [MediaAttachmentController::class, 'register']);
     //画像削除
-    Route::delete('/api/mediaAttachment/{id}', [MediaAttachmentController::class, 'delete']);
+    Route::delete('/api/mediaAttachment/delete/{id}', [MediaAttachmentController::class, 'delete']);
     //画像更新
     Route::post('/api/mediaAttachment/update/{id}', [MediaAttachmentController::class, 'update']);
 });

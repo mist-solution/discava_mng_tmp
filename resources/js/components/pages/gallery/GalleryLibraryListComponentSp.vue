@@ -125,7 +125,7 @@
       >
         <div class="btn-group" @click="clickMedia(item, item.selected)">
           <v-img
-            :v-lazy="getImageSrc(item)"
+            :v-lazy="{src:getImageSrc(item)}"
             aspect-ratio="1"
             cover
             :class="

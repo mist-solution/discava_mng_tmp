@@ -265,19 +265,6 @@ export default {
     ...mapState({
       validationHints: (state) => state.gallery.galleryHintMessagesInLibrary,
     }),
-    // ファイル形式による、imgタグのsrcを取得
-    getImageSrc() {
-      return (item) => {
-        let fileExt = item.img_fileformat.split("/")[0];
-        if (fileExt === "image") {
-          return "data:image/png;base64," + item.img_path;
-        } else if (fileExt === "text") {
-          return "data:image/png;base64," + item.img_path_text;
-        } else {
-          return "";
-        }
-      };
-    },
   },
   watch: {
     async selectedFolder() {

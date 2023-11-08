@@ -182,8 +182,9 @@
           class="d-flex child-flex gallery-library-img-margin"
         >
           <div class="btn-group" @click="clickMedia(item, item.selected)">
+            <!--  v-lazy="{src:item.url}" -->
             <v-img
-              v-lazy="{src:getImageSrc(item)}"
+              :src="item.url"
               aspect-ratio="1"
               cover
               :class="
@@ -328,19 +329,6 @@ export default {
     ...mapState({
       validationHints: (state) => state.gallery.galleryHintMessagesInLibrary,
     }),
-    // ファイル形式による、imgタグのsrcを取得
-    getImageSrc() {
-      return (item) => {
-        let fileExt = item.img_fileformat.split("/")[0];
-        if (fileExt === "image") {
-          return item.url;
-        } else if (fileExt === "text") {
-          return "data:image/png;base64," + item.img_path_text;
-        } else {
-          return "";
-        }
-      };
-    },
   },
   watch: {
     async selectedFolder() {

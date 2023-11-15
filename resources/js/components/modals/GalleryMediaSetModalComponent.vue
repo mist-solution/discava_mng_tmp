@@ -362,6 +362,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
                   v-model="caption"
+                  placeholder="画像下に表示するテキスト"
                 />
               </v-col>
               <!-- 画像設定（右1）　メモ -->
@@ -373,6 +374,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
                   v-model="memo"
+                  placeholder="サイトに表示しないメモ"
                 />
               </v-col>
               <!-- 画像設定　代替テキスト-->
@@ -384,6 +386,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
                   v-model="alt"
+                  placeholder="画像が表示されない時のテキスト"
                 />
               </v-col>
               <!-- 画像設定　フォルダ-->

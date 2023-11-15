@@ -78,18 +78,20 @@ class AnnounceImageController extends Controller
 
         // お知らせ画像 ID
         $filePath = $record->img_path;
+        $tmpUrl = Storage::temporaryUrl($filePath, now()->addMinutes(5));
         $fileName = $record->img_filename;
-        $binary = Storage::disk()->get($filePath);
-        $mimeType = Storage::disk()->mimeType($filePath);
-        if ($binary === null) {
+        //$binary = Storage::disk()->get($filePath);
+        // $mimeType = Storage::disk()->mimeType($filePath);
+        if ($tmpUrl === null) {
             return response()->json([
                 'message' => 'Internal Server Error',
                 'filepath' => $filePath,
                 'filename' => $fileName,
-                'mimetype' => $mimeType,
+                // 'mimetype' => $mimeType,
             ], 500);
         }
 
-        return response($binary)->header('Content-Type', $mimeType);
+        // return response($binary)->header('Content-Type', $mimeType);
+        return $tmpUrl;
     }
 }

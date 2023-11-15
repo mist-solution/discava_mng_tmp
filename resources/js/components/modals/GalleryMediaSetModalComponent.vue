@@ -402,18 +402,6 @@
                   text
                 />
               </v-col>
-              <!-- 画像設定　アップロード先-->
-              <v-col cols="12">
-                <span class="gallery-mediaSet-edit-item"> アップロード先 </span>
-                <input
-                  dense
-                  type="text"
-                  hide-details="false"
-                  disabled
-                  class="gallery-mediaSet-edit-input-disable"
-                  :value="showUpdatePath(item)"
-                />
-              </v-col>
             </v-row>
           </div>
           <!-- 画像設定（修正可能） PC END-->
@@ -430,6 +418,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
                   v-model="caption"
+                  placeholder="画像下に表示するテキスト"
                 />
               </v-col>
               <!-- 画像設定　メモ -->
@@ -441,6 +430,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
                   v-model="memo"
+                  placeholder="サイトに表示しないメモ"
                 />
               </v-col>
               <!-- 画像設定　代替テキスト-->
@@ -452,6 +442,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input"
                   v-model="alt"
+                  placeholder="画像が表示されない時のテキスト"
                 />
               </v-col>
               <!-- 画像設定　フォルダ-->
@@ -465,18 +456,6 @@
                   v-model="folderidModel"
                   hide-details="false"
                   text
-                />
-              </v-col>
-              <!-- 画像設定　アップロード先-->
-              <v-col cols="12">
-                <span class="gallery-mediaSet-edit-item"> アップロード先 </span>
-                <input
-                  dense
-                  type="text"
-                  hide-details="false"
-                  disabled
-                  class="gallery-mediaSet-edit-input-disable"
-                  :value="showUpdatePath(item)"
                 />
               </v-col>
             </v-row>
@@ -495,6 +474,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input-disable"
                   v-model="caption"
+                  placeholder="画像下に表示するテキスト"
                   disabled
                 />
               </v-col>
@@ -507,6 +487,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input-disable"
                   v-model="memo"
+                  placeholder="サイトに表示しないメモ"
                   disabled
                 />
               </v-col>
@@ -519,6 +500,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input-disable"
                   v-model="alt"
+                  placeholder="画像が表示されない時のテキスト"
                   disabled
                 />
               </v-col>
@@ -534,18 +516,6 @@
                   disabled
                   hide-details="false"
                   text
-                />
-              </v-col>
-              <!-- 画像設定　アップロード先-->
-              <v-col cols="12">
-                <span class="gallery-mediaSet-edit-item"> アップロード先 </span>
-                <input
-                  dense
-                  type="text"
-                  hide-details="false"
-                  disabled
-                  class="gallery-mediaSet-edit-input-disable"
-                  :value="showUpdatePath(item)"
                 />
               </v-col>
             </v-row>
@@ -564,6 +534,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input-disable"
                   v-model="caption"
+                  placeholder="画像下に表示するテキスト"
                   disabled
                 />
               </v-col>
@@ -576,6 +547,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input-disable"
                   v-model="memo"
+                  placeholder="サイトに表示しないメモ"
                   disabled
                 />
               </v-col>
@@ -588,6 +560,7 @@
                   hide-details="false"
                   class="gallery-mediaSet-edit-input-disable"
                   v-model="alt"
+                  placeholder="画像が表示されない時のテキスト"
                   disabled
                 />
               </v-col>
@@ -603,18 +576,6 @@
                   disabled
                   hide-details="false"
                   text
-                />
-              </v-col>
-              <!-- 画像設定　アップロード先-->
-              <v-col cols="12">
-                <span class="gallery-mediaSet-edit-item"> アップロード先 </span>
-                <input
-                  dense
-                  type="text"
-                  hide-details="false"
-                  disabled
-                  class="gallery-mediaSet-edit-input-disable"
-                  :value="showUpdatePath(item)"
                 />
               </v-col>
             </v-row>
@@ -789,15 +750,6 @@ export default {
       this.editedFile = value2;
       this.edit_img_flg = true;
       this.date = value3;
-    },
-
-    // 画像 アップロード先取得
-    showUpdatePath(item) {
-      const siteUrl = window.location.href;
-      // アップロード先 = siteUrl/店舗id/画像id/画像名.拡張子
-      let updatePath =
-        siteUrl + "/" + item.shop_id + "/" + item.id + "/" + item.img_filename;
-      return updatePath;
     },
 
     // 拡張子の処理
